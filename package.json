@@ -1,11 +1,11 @@
 {
-  "name": "MERN-boilerplate",
+  "name": "Vielyf",
   "version": "1.0.0",
   "description": "MERN stack project boilerplate",
-  "author": "VieLyf",
+  "author": "Sergio Jimenez",
   "repository": {
     "type": "git",
-    "url": "https://github.com/EmmanuelMrn/VieLyf.git"
+    "url": "git+https://github.com/EmmanuelMrn/VieLyf.git"
   },
   "license": "MIT",
   "private": true,
@@ -36,6 +36,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-hot-loader": "^4.0.0",
+    "react-modal": "^3.4.5",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "sass-loader": "^6.0.7",
