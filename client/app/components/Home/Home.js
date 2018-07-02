@@ -38,6 +38,8 @@ class Home extends Component {
       profLastName:'',
       profMotherLastName:'',
       profTitle:'',
+      profEmail:'',
+      profPassword:'',
       License :''
     };
     this.onTextBoxChangeSignInEmail = this.onTextBoxChangeSignInEmail.bind(this);
@@ -51,8 +53,11 @@ class Home extends Component {
     this.onTextBoxChangeSignUpProfLastName = this.onTextBoxChangeSignUpProfLastName.bind(this);
     this.onTextBoxChangeSignUpProfMotherLastName = this.onTextBoxChangeSignUpProfMotherLastName.bind(this);
     this.onTextBoxChangeSignUpProfTitle = this.onTextBoxChangeSignUpProfTitle.bind(this);
+    this.onTextBoxChangeProfEmail = this.onTextBoxChangeProfEmail.bind(this);
+    this.onTextBoxChangeProfPassword = this.onTextBoxChangeProfPassword.bind(this);
     this.onSignIn = this.onSignIn.bind(this);
     this.onSignUp = this.onSignUp.bind(this);
+    this.onProfSignUp = this.onProfSignUp.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.verify = this.verify.bind(this);
   }
@@ -155,7 +160,18 @@ class Home extends Component {
       profTitle : event.target.value,
     });
   }
-
+  onTextBoxChangeProfEmail(event)
+  {
+    this.setState({
+      profEmail: event.target.value,
+    });
+  }
+  onTextBoxChangeProfPassword(event)
+  {
+    this.setState({
+      profPassword:event.target.value,
+    });
+  }
   onSignIn()
   {
     const{
@@ -263,7 +279,7 @@ class Home extends Component {
     this.setState({
      isLoading:true,
     });
-    console.log({License})
+   
    /*Consuimiedo API  
    Ya es dinamico
    */
@@ -275,15 +291,9 @@ class Home extends Component {
       .then(res => res.json())
       .then(json => {
         
-        if(json.success){
-          console.log(json.response.docs[0].nombre);
-          this.setState({
-            signUpError:json.message,
-            isLoading:false
-          });
-        }
-        else{
-          console.log(json.response.docs[0].nombre);
+        // if(json.success){
+          console.log("success");
+          
           this.setState({
             
             signUpError:json.message,
@@ -293,12 +303,74 @@ class Home extends Component {
             profMotherLastName:json.response.docs[0].materno,
             profTitle: json.response.docs[0].titulo,
           });
+          console.log();
           
-        }
+        //}
+        //else{
+         /* console.log(json.response.docs[0].nombre);
+          this.setState({
+            signUpError:json.message,
+            isLoading:false
+          });
+          
+          
+        }*/
       });}
       else{
         console.log("Hey que show");
       }
+
+  }
+  onProfSignUp()
+  {
+    
+    const{
+      profFirstName,
+      profLastName,
+      profEmail,
+      profPassword
+    } = this.state;
+    console.log(profFirstName,
+      profLastName,
+      profEmail,
+      profPassword);
+    this.setState({
+     isLoading:true
+    });
+
+    fetch('/api/accounts/signup', 
+    { method: 'POST',
+      headers:{
+        'Content-Type': 'application/json'
+      }, 
+      body : JSON.stringify({
+        firstName: profFirstName,
+        lastName: profLastName,
+        email: profEmail,
+        password: profPassword
+      }),
+  })
+      .then(res => res.json())
+      .then(json => {
+        console.log(json);
+        if(json.success){
+          this.setState({
+            signUpError:json.message,
+            isLoading:false,
+            signUpFirstName:'',
+            signUpLastName:'',
+            signUpEmail:'',
+            signUpPassword:''
+          });
+          this.toggleModal()
+        }
+        else{
+          this.setState({
+            signUpError:json.message,
+            isLoading:false
+          });
+        }
+      });
 
   }
   componentWillMount(){
@@ -345,6 +417,8 @@ class Home extends Component {
       profLastName,
       profMotherLastName,
       profTitle,
+      profEmail,
+      profPassword,
       License
     } = this.state;
 
@@ -380,14 +454,17 @@ class Home extends Component {
           <input type="text" placeholder="Last Name" value ={signUpLastName} onChange={this.onTextBoxChangeSignUpLastName}/><br />
           <input type="email"placeholder="email" value = {signUpEmail} onChange={this.onTextBoxChangeSignUpEmail}/><br />
           <input type="password" placeholder="password" value = {signUpPassword}onChange={this.onTextBoxChangeSignUpPassword}/><br />
-          <input type="checkbox" value="Nutriologo" onChange={this.toggleModal}/>Nutriologo<br/>
+          <input type="checkbox" value="Nutriologo" checked={false} onChange={this.toggleModal}/>Nutriologo<br/>
           <Modal isOpen={this.state.isActive} onRequestClose={this.toggleModal}style ={customStyles}>
           <input type="text" placeholder="Cedula Profesional" value ={License} onChange={this.onTextBoxChangeSignUpLicense}/> <button onClick={() => this.verify()}>Verificar</button><br />
           <input type="text" placeholder="Nombre" value ={profFirstName} onChange={this.onTextBoxChangeSignUpProfFirstName}readOnly/><br />
           <input type="text" placeholder="Paterno" value ={profLastName} onChange={this.onTextBoxChangeSignUpProfLastName}readOnly/><br />
           <input type="text" placeholder="Materno" value ={profMotherLastName} onChange={this.onTextBoxChangeSignUpProfMotherLastName}readOnly/><br />
           <input type="text" placeholder="Titulo" value ={profTitle} onChange={this.onTextBoxChangeSignUpProfTitle} readOnly/><br />
-          <button onClick={this.toggleModal}>Close Modal</button>
+          <input type="email"placeholder="email" value = {profEmail} onChange={this.onTextBoxChangeProfEmail}/><br />
+          <input type="password" placeholder="password" value = {profPassword}onChange={this.onTextBoxChangeProfPassword}/><br />
+          <button onClick={this.toggleModal}>Cancel</button>
+          <button onClick={this.onProfSignUp}>Sign me up!</button>
           </Modal>
           <button onClick={this.onSignUp}>Sign Up</button>
           </div>
@@ -397,7 +474,7 @@ class Home extends Component {
 
     return (
       <div>
-       <p>Account</p>
+       <p>Fill the client information</p>
       </div>
     );
   }
