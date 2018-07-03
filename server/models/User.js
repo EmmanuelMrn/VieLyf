@@ -1,33 +1,49 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const UserSchema = new mongoose.Schema({
-  firstName: {
+  FirstName: {
     type: String,
     default: ''
   },
-  lastName: {
+  LastName: {
     type: String,
     default: ''
   },
-  email: {
+  Email: {
     type: String,
     default: ''
   },
-  password: {
+  Role: {
+    type: String,
+    default: 'Cliente'
+  },
+  Phone: {
+    type: Number ,
+    default: ''
+  },
+  Description: {
+    type: String ,
+    default: ''
+  },
+  // Photo: {
+  //   type: Data,
+  //   default: 'Cliente'
+  // },
+  Password: {
     type: String,
     default: ''
   },
   idDeleted: {
     type: Boolean,
     default: false
-  }
+  },
 });
 
-UserSchema.methods.generateHash = function(password) {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+UserSchema.methods.generateHash = function(Password) {
+    return bcrypt.hashSync(Password, bcrypt.genSaltSync(8), null);
   };
   
-  UserSchema.methods.validPassword = function(password) {
-    return bcrypt.compareSync(password, this.password);
+  UserSchema.methods.validPassword = function(Password) {
+    return bcrypt.compareSync(Password, this.Password);
   };
   module.exports = mongoose.model('User', UserSchema);

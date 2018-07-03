@@ -11,6 +11,7 @@ class Home extends Component {
     super(props);
 
     this.state = {
+      isNutriologis: false,
       isLoading: true,
       token: '',
       signUpError: '',
@@ -35,7 +36,55 @@ class Home extends Component {
     this.logout = this.logout.bind(this);
   }
 
+  check() {
+    const obj1 = getFromStorage('the_main_app');
+    if (obj1 && obj1.token) {
+      const { token } = obj1;
+    fetch('/api/account/isnutriologist?token=' + token)
+        .then(res => res.json())
+        .then(json => {
+          if (json.success) {
+            this.setState({
+              token,
+              isNutriologis: true
+            });
+          } else {
+            this.setState({
+              isNutriologis: true,
+            });
+          }
+        });
+    } else {
+      this.setState({
+        isNutriologis: true,
+      });
+    }
+  }
+
   componentDidMount() {
+    const obj1 = getFromStorage('the_main_app');
+    if (obj1 && obj1.token) {
+      const { token } = obj1;
+    fetch('/api/account/isnutriologist?token=' + token)
+        .then(res => res.json())
+        .then(json => {
+          if (json.success) {
+            this.setState({
+              token,
+              isNutriologis: true
+            });
+          } else {
+            this.setState({
+              isNutriologis: false,
+            });
+          }
+        });
+    } else {
+      this.setState({
+        isNutriologis: true,
+      });
+    }
+    
     const obj = getFromStorage('the_main_app');
     if (obj && obj.token) {
       const { token } = obj;
@@ -59,6 +108,8 @@ class Home extends Component {
         isLoading: false,
       });
     }
+    
+    
   }
 
   onTextboxChangeSignInEmail(event) {
@@ -148,10 +199,29 @@ class Home extends Component {
       signInEmail,
       signInPassword,
     } = this.state;
-
+    //check();
     this.setState({
       isLoading: true,
     });
+    // Check if the user is a Nutriologist
+    const obj = getFromStorage('the_main_app');
+    if (obj && obj.token) {
+      const { token } = obj;
+    fetch('/api/account/isnutriologist?token='+signInEmail)
+        .then(res => res.json())
+        .then(json => {
+          if (json.success) {
+            this.setState({
+              token,
+              isNutriologis: true
+            });
+          } else {
+            this.setState({
+              isNutriologis: false,
+            });
+          }
+        });
+      }
 
     // Post request to backend
     fetch('/api/account/signin', {
@@ -185,20 +255,12 @@ class Home extends Component {
       });
   }
 
-  // cedula() {
-  //   const { cedula };
-  //   const ul = document.getElementsByName('nombre')
-  //   fetch('http://search.sep.gob.mx/solr/cedulasCore/select?fl=*%2Cscore&q=3925987&start')
-  //   .then(res => res.json())
-  //   .then(json => {
-
-  //   }
-    
-  // }
-
   logout() {
     this.setState({
       isLoading: true,
+    });
+    this.setState({
+      isNutriologis: false,
     });
     const obj = getFromStorage('the_main_app');
     if (obj && obj.token) {
@@ -227,6 +289,7 @@ class Home extends Component {
 
   render() {
     const {
+      isNutriologis,
       isLoading,
       token,
       signInError,
@@ -242,6 +305,8 @@ class Home extends Component {
     if (isLoading) {
       return (<div><p>Loading...</p></div>);
     }
+
+    
 
     if (!token) {
       return (
@@ -304,17 +369,25 @@ class Home extends Component {
             /><br />
             <button onClick={this.onSignUp}>Sign Up</button>
           </div>
-
         </div>
       );
     }
-
-    return (
-      <div>
-        <p>Account</p>
+    if (isNutriologis) {
+       return (<div><p>Bienvenido</p>
+       
+        <p>Cuenta Nutriólogo</p>
         <button onClick={this.logout}>Logout</button>
       </div>
-    );
+      );
+    } else {
+      return (
+        <div>
+          <p>Cuenta Cliente</p>
+          <button onClick={this.logout}>Logout</button>
+        </div>
+      );
+    }
+    
   }
 }
 
