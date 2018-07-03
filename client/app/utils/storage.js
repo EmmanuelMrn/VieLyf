@@ -5,7 +5,7 @@ export function getFromStorage(key)
         return null;
     }
     try{
-        const valueStr=localStorage.getItem(key);
+        const valueStr = localStorage.getItem(key);
         if(valueStr)
         {
             return JSON.parse(valueStr);
@@ -22,7 +22,7 @@ export function setInStorage(key,obj)
         console.error.length('Error:Key is missing');
     }
     try {
-        localStorage.steInStorage(key,JSON.stringify(obj))
+        localStorage.setItem(key,JSON.stringify(obj))
     }catch(err){
         console.log(err);
     }

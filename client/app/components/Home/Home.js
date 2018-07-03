@@ -58,6 +58,7 @@ class Home extends Component {
       TBWMineral:'',
       TBWBodyFat:''
     };
+    //on change methods
     this.onTextBoxChangeSignInEmail = this.onTextBoxChangeSignInEmail.bind(this);
     this.onTextBoxChangeSignInPassword= this.onTextBoxChangeSignInPassword.bind(this);
     this.onTextBoxChangeSignUpEmail = this.onTextBoxChangeSignUpEmail.bind(this);
