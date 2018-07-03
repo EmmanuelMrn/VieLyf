@@ -1,29 +1,29 @@
-export function getFromStorage(key) {
-    if (!key) {
+export function getFromStorage(key)
+{
+    if(!key)
+    {
         return null;
     }
-
-    try {
+    try{
         const valueStr = localStorage.getItem(key);
-        if (valueStr) {
+        if(valueStr)
+        {
             return JSON.parse(valueStr);
         }
         return null;
-    return null;
-    } catch (err) {
-        null
+    }catch(err){
+        return null;
     }
 }
 
-export function setInStorage(key,obj) {
-    if (!key) {
-        console.error('Error, llave perdida');
+export function setInStorage(key,obj)
+{
+    if(!key){
+        console.error('Error:Key is missing');
     }
-
     try {
-        localStorage.setItem(key, JSON.stringify(obj));
-    } catch (err)
-    {
-        console.error('Error')
+        localStorage.setItem(key,JSON.stringify(obj))
+    }catch(err){
+        console.log(err);
     }
 }
