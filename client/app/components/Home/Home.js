@@ -15,6 +15,7 @@ const customStyles = {
     transform             : 'translate(-50%, -50%)',
     backgroundColor       :'#98fb98'
   }
+
 };
 
 
@@ -40,7 +41,22 @@ class Home extends Component {
       profTitle:'',
       profEmail:'',
       profPassword:'',
-      License :''
+      License :'',
+      corpFirstname:'',
+      corpLastName:'',
+      id:'',
+      height:'',
+      weight:'',
+      Age:'',
+      FatFreeBodyMass:'',
+      LeanSoftTissue:'',
+      TotalBodyWater:'',
+      FFBMBodyFat:'',
+      LSTBodyFat:'',
+      LSTMineral:'',
+      TBWProtein:'',
+      TBWMineral:'',
+      TBWBodyFat:''
     };
     this.onTextBoxChangeSignInEmail = this.onTextBoxChangeSignInEmail.bind(this);
     this.onTextBoxChangeSignInPassword= this.onTextBoxChangeSignInPassword.bind(this);
@@ -55,11 +71,28 @@ class Home extends Component {
     this.onTextBoxChangeSignUpProfTitle = this.onTextBoxChangeSignUpProfTitle.bind(this);
     this.onTextBoxChangeProfEmail = this.onTextBoxChangeProfEmail.bind(this);
     this.onTextBoxChangeProfPassword = this.onTextBoxChangeProfPassword.bind(this);
+    this.onTextBoxChangeCorpAUpFirstName = this.onTextBoxChangeCorpAUpFirstName.bind(this);
+    this.onTextBoxchangeCorpAUpLastName = this.onTextBoxchangeCorpAUpLastName.bind(this);
+    this.onTextBoxChangeFatFreeBodyMassBodyFat = this.onTextBoxChangeFatFreeBodyMassBodyFat.bind(this);
+    this.onTextBoxChangeId = this.onTextBoxChangeId.bind(this);
+    this.onTextBoxChangeHeight = this.onTextBoxChangeHeight.bind(this);
+    this.onTextBoxChangeWeight = this.onTextBoxChangeWeight.bind(this);
+    this.onTextBoxChangeAge = this.onTextBoxChangeAge.bind(this);
+    this.onTextBoxChangeFatFreeBodyMass = this.onTextBoxChangeFatFreeBodyMass.bind(this);
+    this.onTextBoxChangeFatFreeBodyMassBodyFat = this.onTextBoxChangeFatFreeBodyMassBodyFat.bind(this);
+    this.onTextBoxChangeLeanSoftTissue = this.onTextBoxChangeLeanSoftTissue.bind(this);
+    this.onTextBoxChangeLSTMineral = this.onTextBoxChangeLSTMineral.bind(this);
+    this.onTextBoxChangeLSTBodyFat = this.onTextBoxChangeLSTBodyFat.bind(this);
+    this.onTextBoxChangeTotalBodyWater = this.onTextBoxChangeTotalBodyWater.bind(this);
+    this.onTextBoxChangeTBWProtein = this.onTextBoxChangeTBWProtein.bind(this);
+    this.onTextBoxChangeTBWMineral = this.onTextBoxChangeTBWMineral.bind(this);
+    this.onTextBoxChangeTBWBodyFat = this.onTextBoxChangeTBWBodyFat.bind(this);
     this.onSignIn = this.onSignIn.bind(this);
     this.onSignUp = this.onSignUp.bind(this);
     this.onProfSignUp = this.onProfSignUp.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.verify = this.verify.bind(this);
+    this.onUpdateCorpA=this.onUpdateCorpA.bind(this);
   }
 
   componentDidMount() {
@@ -172,6 +205,97 @@ class Home extends Component {
       profPassword:event.target.value,
     });
   }
+  onTextBoxChangeCorpAUpFirstName(event)
+  {
+    this.setState({
+      corpFirstname:event.target.value,
+    });
+  }
+  onTextBoxchangeCorpAUpLastName(event)
+  {
+    this.setState({
+      corpLastName:event.target.value,
+    });
+  }
+  onTextBoxChangeHeight(event)
+  {
+    this.setState({
+      height:event.target.value,
+    });
+  }
+  onTextBoxChangeId(event)
+  {
+    this.setState({
+      id:event.target.value,
+    });
+  }
+  onTextBoxChangeWeight(event)
+  {
+    this.setState({
+      weight:event.target.value,
+    });
+  }
+  onTextBoxChangeAge(event)
+  {
+    this.setState({
+      Age:event.target.value,
+    });
+  }
+  onTextBoxChangeFatFreeBodyMass(event)
+  {
+    this.setState({
+      FatFreeBodyMass:event.target.value,
+    });
+  }
+  onTextBoxChangeFatFreeBodyMassBodyFat(event)
+  {
+    this.setState({
+      FFBMBodyFat:event.target.value,
+    });
+  }
+  onTextBoxChangeLeanSoftTissue(event)
+  { this.setState({
+    LeanSoftTissue:event.target.value,
+  });
+}
+  onTextBoxChangeLSTMineral(event)
+  {
+    this.setState({
+      LSTMineral:event.target.value
+    });
+  }
+  onTextBoxChangeLSTBodyFat(event)
+  {
+   this.setState({
+     LSTBodyFat:event.target.value,
+     
+    });
+  }
+  onTextBoxChangeTotalBodyWater(event)
+  {this.setState({
+    TotalBodyWater:event.target.value,
+  });
+  }
+  onTextBoxChangeTBWProtein(event)
+  {
+    this.setState({
+      TBWProtein:event.target.value,
+    });
+  }
+  onTextBoxChangeTBWMineral(event)
+  {
+    this.setState({
+      TBWMineral:event.target.value
+    });
+  }
+  onTextBoxChangeTBWBodyFat(event)
+  {
+    this.setState({
+      TBWBodyFat:event.target.value
+    });
+  }
+
+  
   onSignIn()
   {
     const{
@@ -275,7 +399,7 @@ class Home extends Component {
       License
 
     } = this.state;
-    
+    console.log("success");
     this.setState({
      isLoading:true,
     });
@@ -283,16 +407,20 @@ class Home extends Component {
    /*Consuimiedo API  
    Ya es dinamico
    */
-    if(License!="" || !License)
-    {fetch('http://search.sep.gob.mx/solr/cedulasCore/select?fl=%2A%2Cscore&q='+License+'&start=0&rows=100&facet=true&indent=on&wt=json', 
-    { method: 'GET',
+  const URL ='http://search.sep.gob.mx/solr/cedulasCore/select?fl=%2A%2Cscore&q='+License+'&start=0&rows=100&facet=true&indent=on&wt=json';
+  if(License!="" || !License)
+    {fetch(URL, { 
+      method: 'GET',
+     crossDomain:true,
+      //headers: { 'Content-Type': 'application/json'}
       
   })
-      .then(res => res.json())
+      
+      .then(res => res.json())  
       .then(json => {
         
         // if(json.success){
-          console.log("success");
+          console.log("algo bien!");
           
           this.setState({
             
@@ -303,11 +431,11 @@ class Home extends Component {
             profMotherLastName:json.response.docs[0].materno,
             profTitle: json.response.docs[0].titulo,
           });
-          console.log();
+        //  console.log();
           
-        //}
-        //else{
-         /* console.log(json.response.docs[0].nombre);
+        /*}
+        else{
+          console.log(json.response.docs[0].nombre);
           this.setState({
             signUpError:json.message,
             isLoading:false
@@ -373,9 +501,89 @@ class Home extends Component {
       });
 
   }
+
+  onUpdateCorpA()
+  {
+    const {
+      firstName,
+      lastName,
+      id,
+      height,
+      weight,
+      Age,
+      FatFreeBodyMass,
+      LeanSoftTissue,
+      TotalBodyWater,
+      FFBMBodyFat,
+      LSTBodyFat,
+      LSTMineral,
+      TBWProtein,
+      TBWMineral,
+      TBWBodyFat
+
+      }=this.state;
+      this.setState({
+        isLoading:true
+       });
+       console.log()
+      fetch('api/accounts/AnalysisFill', 
+    { method: 'POST',
+      headers:{
+        'Content-Type': 'application/json'
+      }, 
+      body : JSON.stringify({
+        
+        id: id,
+        Weight:weight,
+        Height:height,
+        Age:Age,
+        FatFreeBodyMass:FatFreeBodyMass,
+        LeanSoftTissue:LeanSoftTissue,
+        TotalBodyWater:TotalBodyWater,
+        FFBMBodyFat: FFBMBodyFat,
+        LSTBodyFat:LSTBodyFat,
+        LSTMineral:LSTMineral,
+        TBWProtein:TBWProtein,
+        TBWMineral:TBWMineral,
+        TBWBodyFat:TBWBodyFat
+      }),
+  })
+      .then(res => res.json())
+      .then(json => {
+        console.log(json);
+        if(json.success){
+          this.setState({
+            signUpError:json.message,
+            isLoading:false,
+            id:'',
+            height:'',
+            weight:'',
+            Age:'',
+            FatFreeBodyMass:'',
+            LeanSoftTissue:'',
+            TotalBodyWater:'',
+            FFBMBodyFat:'',
+            LSTBodyFat:'',
+            LSTMineral:'',
+            TBWProtein:'',
+            TBWMineral:'',
+            TBWBodyFat:''
+          });
+        
+        }
+        else{
+          this.setState({
+            
+            isLoading:false
+          });
+        }
+      });
+
+
+  }
   componentWillMount(){
     Modal.setAppElement('body');
-    this.verify('');
+    this.verify();
   }
   toggleModal() 
   {
@@ -419,7 +627,22 @@ class Home extends Component {
       profTitle,
       profEmail,
       profPassword,
-      License
+      License,
+      corpFirstname,
+      corpLastName,
+      id,
+        height,
+        weight,
+        Age,
+        FatFreeBodyMass,
+        LeanSoftTissue,
+        TotalBodyWater,
+        FFBMBodyFat,
+        LSTBodyFat,
+        LSTMineral,
+        TBWProtein,
+        TBWMineral,
+        TBWBodyFat
     } = this.state;
 
     if(isLoading)
@@ -474,7 +697,50 @@ class Home extends Component {
 
     return (
       <div>
-       <p>Fill the client information</p>
+       <p>Fill the client information</p><br />
+       
+       <input type="text" placeholder="First Name" value ={corpFirstname} onChange={this.onTextBoxChangeCorpAUpFirstName}/>
+       <input type="text" placeholder="Last  Name" value ={corpLastName}  onChange={this.onTextBoxchangeCorpAUpLastName}/>
+       <input type="text" placeholder={id} value={id} onChange={this.onTextBoxChangeId}/><br />
+       <input type="text" placeholder="Height" value ={height} onChange={this.onTextBoxChangeHeight}/><br />
+       <input type="text" placeholder="Weight" value ={weight} onChange={this.onTextBoxChangeWeight}/>
+       <input type="text" placeholder="Age" value={Age} onChange={this.onTextBoxChangeAge}/>
+        <div className="container">
+        <div className="row">
+         <div className="col-12"> <h3>Composicion Corporal</h3></div>
+          <div className="col-12">
+          <input type="text"  className="p-3 mb-2 bg-success text-white" placeholder="Weight" value ={weight} onChange={this.onTextBoxChangeWeight}/>
+          </div>
+          <div >
+          <input type="text" className="p-3 mb-5 bg-success text-white" placeholder="Fat-Free Body Mass" value ={FatFreeBodyMass} onChange={this.onTextBoxChangeFatFreeBodyMass}/>
+          </div>
+          <div className="col-8">
+          <input  type="text" className="p-3 mb-5 bg-success text-white" placeholder="FFBM Body Fat" value ={FFBMBodyFat} onChange={this.onTextBoxChangeFatFreeBodyMassBodyFat}/>
+            </div>
+            <div>
+          <input type="text" className="p-3 mb-5 bg-success text-white" placeholder="Lean Soft Tissue" value ={LeanSoftTissue} onChange={this.onTextBoxChangeLeanSoftTissue}/>
+            </div>
+            <div>
+          <input type="text" className="p-3 mb-5 bg-success text-white" placeholder="Mineral" value ={LSTMineral} onChange={this.onTextBoxChangeLSTMineral}/>
+            </div>
+            <div className="col-6">
+          <input type="text" className="p-3 mb-5 bg-success text-white" placeholder="Body Fat" value ={LSTBodyFat} onChange={this.onTextBoxChangeLSTBodyFat}/>
+            </div>
+            <div>
+          <input type="text" className="p-3 mb-5 bg-success text-white" placeholder="Total Body Water" value ={TotalBodyWater} onChange={this.onTextBoxChangeTotalBodyWater}/>
+            </div>
+            <div>
+          <input type="text" className="p-3 mb-5 bg-success text-white" placeholder="Protein" value ={TBWProtein} onChange={this.onTextBoxChangeTBWProtein}/>
+            </div>
+            <div>
+          <input type="text" className="p-3 mb-5 bg-success text-white" placeholder="Mineral" value ={TBWMineral} onChange={this.onTextBoxChangeTBWMineral}/>
+            </div>
+            <div>
+          <input type="text" className="p-3 mb-5 bg-success text-white" placeholder="Body Fat" value ={TBWBodyFat} onChange={this.onTextBoxChangeTBWBodyFat}/>
+            </div>
+        </div>
+        <button onClick={this.onUpdateCorpA}>Save</button>
+      </div>
       </div>
     );
   }

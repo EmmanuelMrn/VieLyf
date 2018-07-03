@@ -20,7 +20,7 @@ module.exports = (app) => {
 
     app.post('/api/accounts/signup',(req,res,next) => {
          const {body } = req;
-         console.log('body',body);
+         //console.log('body',body);
          const {firstName,
             lastName,
             password
