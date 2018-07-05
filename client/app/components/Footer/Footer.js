@@ -2,8 +2,10 @@ import React from 'react';
 
 const Footer = () => (
   <footer>
-    <hr />
-    <p>Footer</p>
+    <nav className="navbar=light bg-primary text-white">
+      <hr />
+      <p>Footer</p>
+      </nav>
   </footer>
 );
 

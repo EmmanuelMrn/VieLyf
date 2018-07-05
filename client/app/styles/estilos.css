@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600');
+
+body {
+    background: #212529;
+    font-family: 'Roboto', sans-serif;
+}
+
+.contenedor {
+    background-attachment: #3b5bdb;
+    width: 50%;
+    max-width: 800px;
+    height: 600px;
+}
+
+h1 {
+    text-align: center;
+    color: #fff;
+    line-height: 300px;
+}
