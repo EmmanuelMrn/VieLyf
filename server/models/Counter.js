@@ -1,9 +1,13 @@
 const mongoose = require('mongoose');
 
 const CounterSchema = new mongoose.Schema({
-  count: {
-    type: Number,
-    default: 0
+  Client_id: {
+    type: String,
+    default: '',
+  },
+  Nutriologist_id: {
+    type: String,
+    default: '',
   }
 });
 

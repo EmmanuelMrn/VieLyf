@@ -11,6 +11,7 @@ class Home extends Component {
     super(props);
 
     this.state = {
+      isChecked: false,
       isNutriologis: false,
       isLoading: true,
       token: '',
@@ -22,6 +23,8 @@ class Home extends Component {
       signUpPassword: '',
       signUpFirstName: '',
       signUpLastName: '',
+      signUpRole: 'Client',
+      signUpPhone: '',
     };
 
     this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
@@ -30,35 +33,12 @@ class Home extends Component {
     this.onTextboxChangeSignUpPassword = this.onTextboxChangeSignUpPassword.bind(this);
     this.onTextboxChangeSignUpFirstName = this.onTextboxChangeSignUpFirstName.bind(this);
     this.onTextboxChangeSignUpLastName = this.onTextboxChangeSignUpLastName.bind(this);
+    this.onTextboxChangeSignUpPhone = this.onTextboxChangeSignUpPhone.bind(this);
+    this.onClickSignUpRole = this.onClickSignUpRole.bind(this);
     
     this.onSignIn = this.onSignIn.bind(this);
     this.onSignUp = this.onSignUp.bind(this);
     this.logout = this.logout.bind(this);
-  }
-
-  check() {
-    const obj1 = getFromStorage('the_main_app');
-    if (obj1 && obj1.token) {
-      const { token } = obj1;
-    fetch('/api/account/isnutriologist?token=' + token)
-        .then(res => res.json())
-        .then(json => {
-          if (json.success) {
-            this.setState({
-              token,
-              isNutriologis: true
-            });
-          } else {
-            this.setState({
-              isNutriologis: true,
-            });
-          }
-        });
-    } else {
-      this.setState({
-        isNutriologis: true,
-      });
-    }
   }
 
   componentDidMount() {
@@ -147,6 +127,20 @@ class Home extends Component {
     });
   }
 
+  onTextboxChangeSignUpPhone(event) {
+    this.setState({
+      signUpPhone: event.target.value,
+    });
+  }
+
+  onClickSignUpRole(event){
+    this.setState({
+      isChecked: !this.state.isChecked,
+    });
+    console.log(this.state.signUpRole )
+
+  }
+
   onSignUp() {
     // Grab state
     const {
@@ -154,43 +148,59 @@ class Home extends Component {
       signUpLastName,
       signUpEmail,
       signUpPassword,
+      signUpRole,
+      signUpPhone,
     } = this.state;
 
     this.setState({
       isLoading: true,
     });
 
-    // Post request to backend
-    fetch('/api/account/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName: signUpFirstName,
-        lastName: signUpLastName,
-        email: signUpEmail,
-        password: signUpPassword,
-      }),
-    }).then(res => res.json())
-      .then(json => {
-        console.log('json', json);
-        if (json.success) {
-          this.setState({
-            signUpError: json.message,
-            isLoading: false,
-            signUpFirstName: '',
-            signUpLastName: '',
-            signUpEmail: '',
-            signUpPassword: '',
-          });
-        } else {
-          this.setState({
-            signUpError: json.message,
-            isLoading: false,
-          });
-        }
-      });
+    if (this.state.isChecked){
+      this.setState({
+        signUpRole: "Nutritionist"
+      });  
+    } else {
+      this.setState({
+        signUpRole: "Client"
+      });  
+    }
+
+    // // Post request to backend
+    // fetch('/api/account/signup', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({
+    //     FirstName: signUpFirstName,
+    //     LastName: signUpLastName,
+    //     Email: signUpEmail,
+    //     Password: signUpPassword,
+    //     Role: signUpPhone,
+    //     Phone: signUpPhone
+    //   }),
+    // }).then(res => res.json())
+    //   .then(json => {
+    //     console.log('json', json);
+    //     if (json.success) {
+    //       this.setState({
+    //         signUpError: json.message,
+    //         isLoading: false,
+    //         signUpFirstName: '',
+    //         signUpLastName: '',
+    //         signUpEmail: '',
+    //         signUpPassword: '',
+    //         signUpPhone: '',
+    //         signUpRole: '',
+    //       });
+    //     } else {
+    //       this.setState({
+    //         signUpError: json.message,
+    //         isLoading: false,
+    //       });
+    //     }
+    //   });
   }
 
   onSignIn() {
@@ -299,6 +309,8 @@ class Home extends Component {
       signUpFirstName,
       signUpLastName,
       signUpPassword,
+      signUpRole,
+      signUpPhone,
       signUpError,
     } = this.state;
 
@@ -344,29 +356,42 @@ class Home extends Component {
             }
             <p>Sign Up</p>
             <input
-              type="firstName"
+              type="FirstName"
               placeholder="First Name"
               value={signUpFirstName}
               onChange={this.onTextboxChangeSignUpFirstName}
             /><br />
             <input
-              type="lastName"
+              type="LastName"
               placeholder="Last Name"
               value={signUpLastName}
               onChange={this.onTextboxChangeSignUpLastName}
             /><br />
             <input
-              type="email"
+              type="Email"
               placeholder="Email"
               value={signUpEmail}
               onChange={this.onTextboxChangeSignUpEmail}
             /><br />
             <input
-              type="password"
+              type="Password"
               placeholder="Password"
               value={signUpPassword}
               onChange={this.onTextboxChangeSignUpPassword}
             /><br />
+            <input
+              type="Phone"
+              placeholder="Phone"
+              value={signUpPhone}
+              onChange={this.onTextboxChangeSignUpPhone}
+            /><br />
+            <p>are you a nutriologist? <input
+            name="Role"
+            checked={this.state.isChecked}
+            value="are you a nutriologist?"
+            type="checkbox"
+            onClick={this.onClickSignUpRole} 
+            /><br /></p>
             <button onClick={this.onSignUp}>Sign Up</button>
           </div>
         </div>
