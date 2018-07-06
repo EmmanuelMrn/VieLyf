@@ -27,7 +27,7 @@ const UserSession = require('../../models/UserSchema');
             res.json({status: status});
         });
 
-        app.post("/api/account/signup", (req, res, next) => {
+    app.post("/api/account/signup", (req, res, next) => {
         const {body} = req;
         const {
             firstName,
@@ -68,7 +68,7 @@ const UserSession = require('../../models/UserSchema');
         // Verificar
         // Salcar
 
-        User.find({
+    User.find({
             email: email
         }, (err, previousUser) => {
             if (err) {
@@ -101,7 +101,7 @@ const UserSession = require('../../models/UserSchema');
     }); 
     
 
-        app.post("/api/account/signin", (req, res, next) => {
+    app.post("/api/account/signin", (req, res, next) => {
             const {body} = req;
             const {
                 firstName,

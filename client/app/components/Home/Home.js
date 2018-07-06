@@ -23,23 +23,25 @@ class Home extends Component {
       signUpLastName: ''
     };
 
-    this.onTextboxChangeSignInEmail = this.onTextboxChangeSignInEmail.bind(this);
-    this.onTextboxChangeSignInPassword = this.onTextboxChangeSignInPassword.bind(this);
-    this.onTextboxChangeSignUpEmail = this.onTextboxChangeSignUpEmail.bind(this);
-    this.onTextboxChangeSignUpPassword = this.onTextboxChangeSignUpPassword.bind(this);
-    this.onTextboxChangeSignUpFirstName = this.onTextboxChangeSignUpFirstName.bind(this);
-    this.onTextboxChangeSignUpLastName = this.onTextboxChangeSignUpLastName.bind(this);
-    this.onTextboxChangeEditEmail = this.onTextboxChangeEditEmail.bind(this);
-    this.onTextboxChangeEditPassword = this.onTextboxChangeEditPassword.bind(this);
-    this.onTextboxChangeEditFirstName = this.onTextboxChangeEditFirstName.bind(this);
-    this.onTextboxChangeEditLastName = this.onTextboxChangeEditLastName.bind(this);
-    
     this.onSignIn = this.onSignIn.bind(this);
     this.onSignUp = this.onSignUp.bind(this);
     this.onEditProfile = this.onEditProfile.bind(this);
     this.logout = this.logout.bind(this);
+
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
+  
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+    console.log([name]+": "+value);
+  }
   /* 
   Prototype for use a handleChange generic for every event and dont have to use onTextBox for every module
   handleChange(e){
@@ -73,63 +75,6 @@ class Home extends Component {
         isLoading: false,
       });
     }
-  }
-
-  onTextboxChangeSignInEmail(event) {
-    this.setState({
-      signInEmail: event.target.value,
-    });
-  }
-
-  onTextboxChangeSignInPassword(event) {
-    this.setState({
-      signInPassword: event.target.value,
-    });
-  }
-
-  onTextboxChangeSignUpEmail(event) {
-    this.setState({
-      signUpEmail: event.target.value,
-    });
-  }
-
-  onTextboxChangeSignUpPassword(event) {
-    this.setState({
-      signUpPassword: event.target.value,
-    });
-  }
-
-  onTextboxChangeSignUpFirstName(event) {
-    this.setState({
-      signUpFirstName: event.target.value,
-    });
-  }
-  onTextboxChangeSignUpLastName(event) {
-    this.setState({
-      signUpLastName: event.target.value,
-    });
-  }
-  onTextboxChangeEditEmail(event) {
-    this.setState({
-      signUpEmail: event.target.value,
-    });
-  }
-
-  onTextboxChangeEditPassword(event) {
-    this.setState({
-      signUpPassword: event.target.value,
-    });
-  }
-
-  onTextboxChangeEditFirstName(event) {
-    this.setState({
-      signUpFirstName: event.target.value,
-    });
-  }
-  onTextboxChangeEditLastName(event) {
-    this.setState({
-      signUpLastName: event.target.value,
-    });
   }
 
   onSignUp() {
@@ -179,7 +124,6 @@ class Home extends Component {
   }
 
   onSignIn() {
-    // Grab state
     const {
       signInEmail,
       signInPassword,
@@ -212,25 +156,21 @@ class Home extends Component {
             signInEmail: '',
             token: json.token,
           });
+          
         } else {
           this.setState({
             signInError: json.message,
             isLoading: false,
           });
+          console.log(signInPassword);
         }
       });
+      
   }
 
   onEditProfile() {
     const {signUpEmail, signUpFirstName, signUpLastName, signUpPassword} = this.state;
-      fetch('/api/account/editprofile?token='+signUpEmail+'&token2='+signUpFirstName+'&token3='+signUpLastName+'&token4='+signUpPassword+''
-    //   , {
-    //     method: 'POST',
-    //     headers: {
-    //     'Content-Type': 'application/json'
-    //   }
-    // }
-  )
+      fetch('/api/account/editprofile?token='+signUpEmail+'&token2='+signUpFirstName+'&token3='+signUpLastName+'&token4='+signUpPassword+'')
         .then(res => res.json())
         .then(json => {
           if (json.success) {
@@ -253,9 +193,7 @@ class Home extends Component {
   //   fetch('http://search.sep.gob.mx/solr/cedulasCore/select?fl=*%2Cscore&q=3925987&start')
   //   .then(res => res.json())
   //   .then(json => {
-
   //   }
-    
   // }
 
   logout() {
@@ -316,17 +254,19 @@ class Home extends Component {
             }
             <p>Sign In</p>
             <input
+              name="signInEmail"
               type="text"
               placeholder="Email"
               value={signInEmail}
-              onChange={this.onTextboxChangeSignInEmail}
+              onChange={this.handleInputChange}
             />
             <br />
             <input
               type="password"
+              name="signInPassword"
               placeholder="Password"
               value={signInPassword}
-              onChange={this.onTextboxChangeSignInPassword}
+              onChange={this.handleInputChange}
             />
             <br />
             <button onClick={this.onSignIn}>Sign In</button>
@@ -342,27 +282,31 @@ class Home extends Component {
             <p>Sign Up</p>
             <input
               type="firstName"
+              name="signUpFirstName"
               placeholder="First Name"
               value={signUpFirstName}
-              onChange={this.onTextboxChangeSignUpFirstName}
+              onChange={this.handleInputChange}
             /><br />
             <input
               type="lastName"
+              name="signUpLastName"
               placeholder="Last Name"
               value={signUpLastName}
-              onChange={this.onTextboxChangeSignUpLastName}
+              onChange={this.handleInputChange}
             /><br />
             <input
               type="email"
+              name="signUpEmail"
               placeholder="Email"
               value={signUpEmail}
-              onChange={this.onTextboxChangeSignUpEmail}
+              onChange={this.handleInputChange}
             /><br />
             <input
               type="password"
+              name="signUpPassword"
               placeholder="Password"
               value={signUpPassword}
-              onChange={this.onTextboxChangeSignUpPassword}
+              onChange={this.handleInputChange}
             /><br />
             <button onClick={this.onSignUp}>Sign Up</button>
           </div>
