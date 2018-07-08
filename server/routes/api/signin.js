@@ -8,35 +8,35 @@ const Patients = require('../../models/Patients');
     module.exports = (app) => {
         
         
-        app.get('/api/account/check', (req, res, next) => {
+//         app.get('/api/account/check', (req, res, next) => {
 
-            // Obtener el token
-            const {query} = req;
-            const {token} = query;
+//             // Obtener el token
+//             const {query} = req;
+//             const {token} = query;
     
-            Counters.find({
-                _id: token,
-              }, (err, sessions) => {
-                if (err) {
-                  console.log(err);
-                  return res.send({
-                    success: false,
-                    message: 'Error: Server error'
-                  });
-                }
-                if (sessions.length != 1) {
-                  return res.send({
-                    success: false,
-                    message: 'Error: Invalid'
-                  });
-                } else {
-                  // DO ACTION
-                  return res.json;
-//                  return res.status(200).json;
+//             Counters.find({
+//                 _id: token,
+//               }, (err, sessions) => {
+//                 if (err) {
+//                   console.log(err);
+//                   return res.send({
+//                     success: false,
+//                     message: 'Error: Server error'
+//                   });
+//                 }
+//                 if (sessions.length != 1) {
+//                   return res.send({
+//                     success: false,
+//                     message: 'Error: Invalid'
+//                   });
+//                 } else {
+//                   // DO ACTION
+//                   return res.json;
+// //                  return res.status(200).json;
 
-                }
-              });
-        });
+//                 }
+//               });
+//         });
 
         app.post("/api/account/signin", (req, res, next) => {
             const {body} = req;

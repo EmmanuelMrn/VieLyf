@@ -402,7 +402,13 @@ class Home extends Component {
        
         <p>Cuenta Nutriólogo</p>
         <button onClick={this.logout}>Logout</button>
+
+        <nav>
+      
+    </nav>
       </div>
+      
+      
       );
     } else {
       return (
