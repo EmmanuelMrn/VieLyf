@@ -6,7 +6,7 @@ import {
   setInStorage,
 } from '../../utils/storage';
 
-class Home extends Component {
+class Signin extends Component {
   constructor(props) {
     super(props);
 
@@ -175,8 +175,7 @@ class Home extends Component {
           }
         });
 }
-
-
+  
   logout() {
     this.setState({
       isLoading: true,
@@ -252,46 +251,6 @@ class Home extends Component {
             <br />
             <button onClick={this.onSignIn}>Sign In</button>
           </div>
-          <br />
-          <br />
-          <div>
-            {
-              (signUpError) ? (
-                <p>{signUpError}</p>
-              ) : (null)
-            }
-            <p>Sign Up</p>
-            <input
-              type="firstName"
-              name="signUpFirstName"
-              placeholder="First Name"
-              value={signUpFirstName}
-              onChange={this.handleInputChange}
-            /><br />
-            <input
-              type="lastName"
-              name="signUpLastName"
-              placeholder="Last Name"
-              value={signUpLastName}
-              onChange={this.handleInputChange}
-            /><br />
-            <input
-              type="email"
-              name="signUpEmail"
-              placeholder="Email"
-              value={signUpEmail}
-              onChange={this.handleInputChange}
-            /><br />
-            <input
-              type="password"
-              name="signUpPassword"
-              placeholder="Password"
-              value={signUpPassword}
-              onChange={this.handleInputChange}
-            /><br />
-            <button onClick={this.onSignUp}>Sign Up</button>
-          </div>
-
         </div>
       );
     }
@@ -338,4 +297,4 @@ class Home extends Component {
   }
 }
 
-export default Home;
+export default Signin;

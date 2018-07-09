@@ -4,12 +4,16 @@ import { Link } from 'react-router-dom';
 
 const Header = () => (
   <header>
-    <nav className="navbar bavbar=light bg-primary text-white">
+    <nav className="navbar bg-primary text-white">
       <Link to="/" className="navbar-brand text-white">VieLyf</Link>
       
-      <a className="text-white">Blog nutricional</a>
-      <a className="text-white">Catálogo de nutriólogos</a> 
-      <Link to="/helloworld" className="navbar-brand text-white">Hello World</Link>
+        <Link to="/nutritionalBlog" className="navbar-brand text-white">Blog nutricional</Link>
+        <Link to="/catalogueNutriologist" className="navbar-brand text-white">Catálogo de nutriólogos</Link>
+      
+      <div>
+        <Link to="/signup" className="navbar-brand text-white">Sign up</Link>
+        <Link to="/signin" className="navbar-brand text-white">Sign in</Link>
+      </div>
     </nav>
 
     <hr />

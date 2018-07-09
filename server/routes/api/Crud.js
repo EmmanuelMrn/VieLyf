@@ -7,13 +7,14 @@ const UserSession = require('../../models/UserSchema');
             const {query} = req;
             const { token, token2, token3, token4} = query;
             console.log(token, token2, token3, token4);
+            const newUser = new User();
             User.findOneAndUpdate({
                 email:token
             }, {
                 $set: {
                     firstName:token2,
                     lastName:token3,
-                    password:token4
+                    password:newUser.generateHash(token4)
                 }
             }, (err, sessions) => {
                 if (err) {
