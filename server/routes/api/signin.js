@@ -3,41 +3,9 @@ const UserSession = require('../../models/UserSchema');
 const RolesSchema = require('../../models/Roles');
 const Counters = require('../../models/Counter');
 const Patients = require('../../models/Patients');
-// var ObjectId = require('mongoose').ObjectID;
+const Agenda = require('../../models/Agenda');
 
-    module.exports = (app) => {
-        
-        
-//         app.get('/api/account/check', (req, res, next) => {
-
-//             // Obtener el token
-//             const {query} = req;
-//             const {token} = query;
-    
-//             Counters.find({
-//                 _id: token,
-//               }, (err, sessions) => {
-//                 if (err) {
-//                   console.log(err);
-//                   return res.send({
-//                     success: false,
-//                     message: 'Error: Server error'
-//                   });
-//                 }
-//                 if (sessions.length != 1) {
-//                   return res.send({
-//                     success: false,
-//                     message: 'Error: Invalid'
-//                   });
-//                 } else {
-//                   // DO ACTION
-//                   return res.json;
-// //                  return res.status(200).json;
-
-//                 }
-//               });
-//         });
-
+module.exports = (app) => {
         app.post("/api/account/signin", (req, res, next) => {
             const {body} = req;
             const { FirstName, LastName, Password }   = body;
@@ -224,6 +192,7 @@ const Patients = require('../../models/Patients');
                 // asignamos las constantes para rellenar los campos del documento
                 newCounters.Client_id = token1;
                 newCounters.Nutriologist_id = token2;
+                // newcounters.diet = token3
                 newCounters.save((err, user) => {
                     if (err) {
                         return res.send ({
@@ -237,6 +206,75 @@ const Patients = require('../../models/Patients');
                     });
                 });
             });
+        });
+
+        app.post("/api/account/createdate", (req, res, next) => {
+            const {body} = req;
+            const {
+                name,
+                startDateTime,
+                endDateTime,
+                classes,
+                Nutriologist_id,
+            }   = body;
+            
+            if (!name) {
+                return res.send({
+                    success: false,
+                    message: 'Error en el nombre'
+                });
+            }
+            
+            var now = new Date();
+            
+            const newDate = new Agenda();
+            console.log(now)
+            console.log(newDate._id)
+            newDate.name = name;
+            // newDate.startDateTime.year = currentTime.getFullYear;
+            // newDate.startDateTime.month = currentTime.getMonth;
+            newDate.startDateTime = {
+                year : now.getFullYear(),
+                month : now.getMonth(),
+                Day : now.getDay(),
+                Hour : now.getHours()+1,
+                Minutes : now.getHours(),
+            };
+            console.log( now.getFullYear());
+            console.log(now.getDate());
+            console.log(now.getMonth());
+            console.log(now.getDay());
+            console.log(now.getHours());
+            console.log(now.getMinutes());
+            newDate.endDateTime = {
+                year : now.getFullYear(),
+                month : now.getMonth(),
+                Day : now.getDay(),
+                Hour : now.getHours(),
+                Minutes : now.getHours(),
+            };
+            newDate.classes = 'color-2';
+            newDate.Nutriologist_id = '';
+            newDate.save((err, user) => {
+                if (err) {
+                    return res.send ({
+                        success: false,
+                        message: 'Error'
+                    })
+                }
+                return res.send({
+                    success: true,
+                    message: 'logrado'
+                });
+            });
+
+            // Agenda.find({ Email: Email }, (err, previousUser) => {
+            //     if (err) {
+            //         return res.send('Error');
+            //     } else if ( previousUser.length > 0) {
+            //         return res.send('Error');
+            //     } 
+            // });
         });
 
         app.post("/api/account/signup", (req, res, next) => {
@@ -333,33 +371,3 @@ const Patients = require('../../models/Patients');
          
     });
 };
-
-// app.get("api/account/CreateRole", (req,res, next) => {
-        //     const {body} = req;
-        //     const {token} = body;
-        //     console.log('Mensaje: '+token);
-        //     RolesSchema.find({
-        //         Role: token,
-        //       }, (err, sessions) => {
-        //         if (err) {
-        //           console.log(err);
-        //           return res.send({
-        //             success: false,
-        //             message: 'Error: Server error'
-        //           });
-        //         }
-        //         if (sessions.length != 1) {
-        //           return res.send({
-        //             success: false,
-        //             message: 'Error: Invalid'
-        //           });
-        //         } else {
-        //           // DO ACTION
-        //           return res.send({
-        //             success: true,
-        //             message: 'Good'
-        //           });
-        //         }
-        //     });
-        
-        // });

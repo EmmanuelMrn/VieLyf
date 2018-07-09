@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
+import { Link } from 'react-router-dom';
 
 import {
   getFromStorage,
@@ -241,8 +242,8 @@ class Home extends Component {
       },
       body: JSON.stringify({
         
-        email: signInEmail,
-        password: signInPassword,
+        Email: signInEmail,
+        Password: signInPassword,
       }),
     }).then(res => res.json())
       .then(json => {
@@ -402,10 +403,9 @@ class Home extends Component {
        
         <p>Cuenta Nutriólogo</p>
         <button onClick={this.logout}>Logout</button>
-
         <nav>
-      
-    </nav>
+        <Link to="/Agenda">Agenda</Link>
+        </nav>
       </div>
       
       
@@ -415,6 +415,7 @@ class Home extends Component {
         <div>
           <p>Cuenta Cliente</p>
           <button onClick={this.logout}>Logout</button>
+          
         </div>
       );
     }

@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
+import 'moment/locale/es';
 
 import {
   BrowserRouter as Router,
@@ -15,6 +16,8 @@ import Home from './components/Home/Home';
 
 import HelloWorld from './components/HelloWorld/HelloWorld';
 
+import Agenda from './components/Agenda/Agenda';
+
 import './styles/styles.scss';
 
 render((
@@ -23,6 +26,7 @@ render((
       <Switch>
         <Route exact path="/" component={Home}/>
         <Route path="/helloworld" component={HelloWorld}/>
+        <Route path="/Agenda" component={Agenda}/>
         <Route component={NotFound}/>
       </Switch>
     </App>

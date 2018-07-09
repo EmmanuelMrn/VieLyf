@@ -1,3 +1,7 @@
 @charset "UTF-8";
 
 @import 'vendor/normalize';
+
+// Estilos para la agenda
+@import '~react-agenda/build/styles.css';
+@import '~react-datetime/css/react-datetime.css';
