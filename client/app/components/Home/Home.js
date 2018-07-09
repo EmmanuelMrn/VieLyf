@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
+import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
+import CorporalAnalysis from '../CorporalAnalysis/CorporalAnalysis';
 import {
   getFromStorage,
   setInStorage,
@@ -59,6 +61,7 @@ class Home extends Component {
       TBWBodyFat:''
     };
     //on change methods
+    this.onTextBoxChange = this.onTextBoxChange.bind(this);
     this.onTextBoxChangeSignInEmail = this.onTextBoxChangeSignInEmail.bind(this);
     this.onTextBoxChangeSignInPassword= this.onTextBoxChangeSignInPassword.bind(this);
     this.onTextBoxChangeSignUpEmail = this.onTextBoxChangeSignUpEmail.bind(this);
@@ -93,12 +96,13 @@ class Home extends Component {
     this.onProfSignUp = this.onProfSignUp.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
     this.verify = this.verify.bind(this);
-    this.onUpdateCorpA=this.onUpdateCorpA.bind(this);
+   // this.onUpdateCorpA=this.onUpdateCorpA.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   componentDidMount() {
     const obj=getFromStorage('the_main_app'); 
-
+      console.log(obj.token);
     if(obj && obj.token )
     {    const {token} = obj;
        fetch('/api/accounts/verify?token='+token)
@@ -126,7 +130,14 @@ class Home extends Component {
 
     }
   }
-
+  onTextBoxChange(event)
+  {
+    const {name, value} = event.target;
+    this.setState({
+        [name]: value
+    });
+    console.log(name,value);
+  }
   onTextBoxChangeSignInEmail(event)
   {
     this.setState({
@@ -421,9 +432,10 @@ class Home extends Component {
       .then(json => {
         
         // if(json.success){
-          console.log("algo bien!");
-          
-          this.setState({
+          console.log("algo bien!", json.response.numFound);
+
+          if(json.response.numFound)
+          {this.setState({
             
             signUpError:json.message,
             isLoading:false,
@@ -431,7 +443,16 @@ class Home extends Component {
             profLastName: json.response.docs[0].paterno,
             profMotherLastName:json.response.docs[0].materno,
             profTitle: json.response.docs[0].titulo,
-          });
+          });}
+          else{
+            //console.log(json.response.docs[0].nombre);
+            this.setState({
+              //signUpError:json.message,
+              isLoading:false
+            });
+            
+            
+          }
         //  console.log();
           
         /*}
@@ -486,10 +507,10 @@ class Home extends Component {
           this.setState({
             signUpError:json.message,
             isLoading:false,
-            signUpFirstName:'',
-            signUpLastName:'',
-            signUpEmail:'',
-            signUpPassword:''
+            profFirstName:'',
+            profLastName:'',
+            profEmail:'',
+            profPassword:''
           });
           this.toggleModal()
         }
@@ -503,85 +524,7 @@ class Home extends Component {
 
   }
 
-  onUpdateCorpA()
-  {
-    const {
-      firstName,
-      lastName,
-      id,
-      height,
-      weight,
-      Age,
-      FatFreeBodyMass,
-      LeanSoftTissue,
-      TotalBodyWater,
-      FFBMBodyFat,
-      LSTBodyFat,
-      LSTMineral,
-      TBWProtein,
-      TBWMineral,
-      TBWBodyFat
-
-      }=this.state;
-      this.setState({
-        isLoading:true
-       });
-       console.log()
-      fetch('api/accounts/AnalysisFill', 
-    { method: 'POST',
-      headers:{
-        'Content-Type': 'application/json'
-      }, 
-      body : JSON.stringify({
-        
-        id: id,
-        Weight:weight,
-        Height:height,
-        Age:Age,
-        FatFreeBodyMass:FatFreeBodyMass,
-        LeanSoftTissue:LeanSoftTissue,
-        TotalBodyWater:TotalBodyWater,
-        FFBMBodyFat: FFBMBodyFat,
-        LSTBodyFat:LSTBodyFat,
-        LSTMineral:LSTMineral,
-        TBWProtein:TBWProtein,
-        TBWMineral:TBWMineral,
-        TBWBodyFat:TBWBodyFat
-      }),
-  })
-      .then(res => res.json())
-      .then(json => {
-        console.log(json);
-        if(json.success){
-          this.setState({
-            signUpError:json.message,
-            isLoading:false,
-            id:'',
-            height:'',
-            weight:'',
-            Age:'',
-            FatFreeBodyMass:'',
-            LeanSoftTissue:'',
-            TotalBodyWater:'',
-            FFBMBodyFat:'',
-            LSTBodyFat:'',
-            LSTMineral:'',
-            TBWProtein:'',
-            TBWMineral:'',
-            TBWBodyFat:''
-          });
-        
-        }
-        else{
-          this.setState({
-            
-            isLoading:false
-          });
-        }
-      });
-
-
-  }
+ 
   componentWillMount(){
     Modal.setAppElement('body');
     this.verify();
@@ -589,7 +532,14 @@ class Home extends Component {
   toggleModal() 
   {
     this.setState({
-      isActive:!this.state.isActive
+      isActive:!this.state.isActive,
+      profFirstName:'',
+      profEmail:'',
+      profLastName:'',
+      profMotherLastName:'',
+      profPassword:'',
+      profTitle:'',
+      License:''
     })
   }
     // fetch('/api/counters')
@@ -610,6 +560,35 @@ class Home extends Component {
     //       counters: data
     //     });
     //   });
+    logout() {
+      this.setState({
+        isLoading: true,
+      });
+      const obj = getFromStorage('the_main_app');
+      if (obj && obj.token) {
+        const { token } = obj;
+        // Verify token
+        console.log(obj);
+        fetch('/api/accounts/logout?token=' + token)
+          .then(res => res.json())
+          .then(json => {
+            if (json.success) {
+              this.setState({
+                token: '',
+                isLoading: false
+              });
+            } else {
+              this.setState({
+                isLoading: false,
+              });
+            }
+          });
+      } else {
+        this.setState({
+          isLoading: false,
+        });
+      }
+    }
   render() {
     const {
       isLoading,
@@ -661,8 +640,8 @@ class Home extends Component {
               ) :(null)
             }
           <p>Sign In</p>
-          <input type="email"placeholder="email" value ={signInEmail} onChange={this.onTextBoxChangeSignInEmail}/><br />
-          <input type="password" placeholder="password" value ={signInPassword} onChange={this.onTextBoxChangeSignInPassword}/><br />
+          <input type="email" name ="signInEmail" placeholder="email" value ={signInEmail} onChange={this.onTextBoxChange}/><br />
+          <input type="password" name="signInPassword"placeholder="password" value ={signInPassword} onChange={this.onTextBoxChange}/><br />
             <button onClick={this.onSignIn}>Sign in</button>
           </div>
           <br/>
@@ -674,19 +653,19 @@ class Home extends Component {
               ) :(null)
             }
           <p>Sign Up</p>
-          <input type="text"placeholder="First Name" value ={signUpFirstName} onChange={this.onTextBoxChangeSignUpFirstName}/><br />
-          <input type="text" placeholder="Last Name" value ={signUpLastName} onChange={this.onTextBoxChangeSignUpLastName}/><br />
-          <input type="email"placeholder="email" value = {signUpEmail} onChange={this.onTextBoxChangeSignUpEmail}/><br />
-          <input type="password" placeholder="password" value = {signUpPassword}onChange={this.onTextBoxChangeSignUpPassword}/><br />
+          <input type="text" name ="signUpFirstName"placeholder="First Name" value ={signUpFirstName} onChange={this.onTextBoxChange}/><br />
+          <input type="text" name ="signUpLastName"placeholder="Last Name" value ={signUpLastName} onChange={this.onTextBoxChange}/><br />
+          <input type="email"name = "signUpEmail" placeholder="email" value = {signUpEmail} onChange={this.onTextBoxChange}/><br />
+          <input type="password" name = "signUpPassword" placeholder="password" value = {signUpPassword}onChange={this.onTextBoxChange}/><br />
           <input type="checkbox" value="Nutriologo" checked={false} onChange={this.toggleModal}/>Nutriologo<br/>
           <Modal isOpen={this.state.isActive} onRequestClose={this.toggleModal}style ={customStyles}>
-          <input type="text" placeholder="Cedula Profesional" value ={License} onChange={this.onTextBoxChangeSignUpLicense}/> <button onClick={() => this.verify()}>Verificar</button><br />
-          <input type="text" placeholder="Nombre" value ={profFirstName} onChange={this.onTextBoxChangeSignUpProfFirstName}readOnly/><br />
-          <input type="text" placeholder="Paterno" value ={profLastName} onChange={this.onTextBoxChangeSignUpProfLastName}readOnly/><br />
-          <input type="text" placeholder="Materno" value ={profMotherLastName} onChange={this.onTextBoxChangeSignUpProfMotherLastName}readOnly/><br />
-          <input type="text" placeholder="Titulo" value ={profTitle} onChange={this.onTextBoxChangeSignUpProfTitle} readOnly/><br />
-          <input type="email"placeholder="email" value = {profEmail} onChange={this.onTextBoxChangeProfEmail}/><br />
-          <input type="password" placeholder="password" value = {profPassword}onChange={this.onTextBoxChangeProfPassword}/><br />
+          <input type="text" name ="License" placeholder="Cedula Profesional" value ={License} onChange={this.onTextBoxChange}/> <button onClick={() => this.verify()}>Verificar</button><br />
+          <input type="text" name = "profFirstName"placeholder="Nombre" value ={profFirstName} onChange={this.onTextBoxChange}readOnly/><br />
+          <input type="text" name ="profLastName" placeholder="Paterno" value ={profLastName} onChange={this.onTextBoxChange}readOnly/><br />
+          <input type="text" name = "profMotherLastName" placeholder="Materno" value ={profMotherLastName} onChange={this.onTextBoxChange}readOnly/><br />
+          <input type="text" name = "profTitle" placeholder="Titulo" value ={profTitle} onChange={this.onTextBoxChange} readOnly/><br />
+          <input type="email" name = "profEmail" placeholder="email" value = {profEmail} onChange={this.onTextBoxChange}/><br />
+          <input type="password" name= "profPassword" placeholder="password" value = {profPassword}onChange={this.onTextBoxChange}/><br />
           <button onClick={this.toggleModal}>Cancel</button>
           <button onClick={this.onProfSignUp}>Sign me up!</button>
           </Modal>
@@ -698,50 +677,53 @@ class Home extends Component {
 
     return (
       <div>
-       <p>Fill the client information</p><br />
+      {/* <CorporalAnalysis /> */}
+{/* <Link to="/CorporalAnalysis"> <CorporalAnalysis /> </Link> */}
+       {/* <p>Fill the client information</p><br />
        
-       <input type="text" placeholder="First Name" value ={corpFirstname} onChange={this.onTextBoxChangeCorpAUpFirstName}/>
-       <input type="text" placeholder="Last  Name" value ={corpLastName}  onChange={this.onTextBoxchangeCorpAUpLastName}/>
-       <input type="text" placeholder={id} value={id} onChange={this.onTextBoxChangeId}/><br />
-       <input type="text" placeholder="Height" value ={height} onChange={this.onTextBoxChangeHeight}/><br />
-       <input type="text" placeholder="Weight" value ={weight} onChange={this.onTextBoxChangeWeight}/>
-       <input type="text" placeholder="Age" value={Age} onChange={this.onTextBoxChangeAge}/>
+       <input type="text" name="corpFirstname" placeholder="First Name" value ={corpFirstname} onChange={this.onTextBoxChange}/>
+       <input type="text" name ="corpLastName" placeholder="Last  Name" value ={corpLastName}  onChange={this.onTextBoxChange}/>
+       <input type="text" name="id" placeholder={id} value={id} onChange={this.onTextBoxChangeId}/><br />
+       <input type="text" name="height" placeholder="Height" value ={height} onChange={this.onTextBoxChange}/><br />
+       <input type="text" name ="weight" placeholder="Weight" value ={weight} onChange={this.onTextBoxChange}/>
+       <input type="text" name="Age" placeholder="Age" value={Age} onChange={this.onTextBoxChange}/>
         <div className="container">
         <div className="row">
          <div className="col-12"> <h3>Composicion Corporal</h3></div>
           <div className="col-12">
-          <input type="text"  className="p-3 mb-2 bg-success text-white" placeholder="Weight" value ={weight} onChange={this.onTextBoxChangeWeight}/>
+          <input type="text"  className="p-3 mb-2 bg-success text-white" name =" weight" placeholder="Weight" value ={weight} onChange={this.onTextBoxChange}/>
           </div>
           <div >
-          <input type="text" className="p-3 mb-5 bg-success text-white" placeholder="Fat-Free Body Mass" value ={FatFreeBodyMass} onChange={this.onTextBoxChangeFatFreeBodyMass}/>
+          <input type="text" className="p-3 mb-5 bg-success text-white" name ="FatFreeBodyMass" placeholder="Fat-Free Body Mass" value ={FatFreeBodyMass} onChange={this.onTextBoxChange}/>
           </div>
           <div className="col-8">
-          <input  type="text" className="p-3 mb-5 bg-success text-white" placeholder="FFBM Body Fat" value ={FFBMBodyFat} onChange={this.onTextBoxChangeFatFreeBodyMassBodyFat}/>
+          <input  type="text" className="p-3 mb-5 bg-success text-white" name="FFBMBodyFat" placeholder="FFBM Body Fat" value ={FFBMBodyFat} onChange={this.onTextBoxChange}/>
             </div>
             <div>
-          <input type="text" className="p-3 mb-5 bg-success text-white" placeholder="Lean Soft Tissue" value ={LeanSoftTissue} onChange={this.onTextBoxChangeLeanSoftTissue}/>
+          <input type="text" className="p-3 mb-5 bg-success text-white" name="LeanSoftTissue" placeholder="Lean Soft Tissue" value ={LeanSoftTissue} onChange={this.onTextBoxChange}/>
             </div>
             <div>
-          <input type="text" className="p-3 mb-5 bg-success text-white" placeholder="Mineral" value ={LSTMineral} onChange={this.onTextBoxChangeLSTMineral}/>
+          <input type="text" className="p-3 mb-5 bg-success text-white" name ="LSTMineral" placeholder="Mineral" value ={LSTMineral} onChange={this.onTextBoxChange}/>
             </div>
             <div className="col-6">
-          <input type="text" className="p-3 mb-5 bg-success text-white" placeholder="Body Fat" value ={LSTBodyFat} onChange={this.onTextBoxChangeLSTBodyFat}/>
+          <input type="text" className="p-3 mb-5 bg-success text-white" name ="LSTBodyFat" placeholder="Body Fat" value ={LSTBodyFat} onChange={this.onTextBoxChange}/>
             </div>
             <div>
-          <input type="text" className="p-3 mb-5 bg-success text-white" placeholder="Total Body Water" value ={TotalBodyWater} onChange={this.onTextBoxChangeTotalBodyWater}/>
+          <input type="text" className="p-3 mb-5 bg-success text-white" name="TotalBodyWater" placeholder="Total Body Water" value ={TotalBodyWater} onChange={this.onTextBoxChange}/>
             </div>
             <div>
-          <input type="text" className="p-3 mb-5 bg-success text-white" placeholder="Protein" value ={TBWProtein} onChange={this.onTextBoxChangeTBWProtein}/>
+          <input type="text" className="p-3 mb-5 bg-success text-white" name="TBWProtein" placeholder="Protein" value ={TBWProtein} onChange={this.onTextBoxChange}/>
             </div>
             <div>
-          <input type="text" className="p-3 mb-5 bg-success text-white" placeholder="Mineral" value ={TBWMineral} onChange={this.onTextBoxChangeTBWMineral}/>
+          <input type="text" className="p-3 mb-5 bg-success text-white" name ="TBWMineral" placeholder="Mineral" value ={TBWMineral} onChange={this.onTextBoxChange}/>
             </div>
             <div>
-          <input type="text" className="p-3 mb-5 bg-success text-white" placeholder="Body Fat" value ={TBWBodyFat} onChange={this.onTextBoxChangeTBWBodyFat}/>
+          <input type="text" className="p-3 mb-5 bg-success text-white" name="TBWBodyFat" placeholder="Body Fat" value ={TBWBodyFat} onChange={this.onTextBoxChange}/>
             </div>
         </div>
         <button onClick={this.onUpdateCorpA}>Save</button>
-      </div>
+        <button onClick={this.logout}>logout</button>
+      </div> */}
       </div>
     );
   }
