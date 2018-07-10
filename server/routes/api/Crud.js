@@ -2,7 +2,33 @@ const User = require('../../models/User');
 const UserSession = require('../../models/UserSchema');
     module.exports = (app) => {
         
-        app.post("/api/account/signup", (req, res, next) => {
+    app.get("/api/account/editprofile", (req, res, next) => {
+            var status = "success";
+            const {query} = req;
+            const { token, token2, token3, token4} = query;
+            console.log(token, token2, token3, token4);
+            const newUser = new User();
+            User.findOneAndUpdate({
+                email:token
+            }, {
+                $set: {
+                    firstName:token2,
+                    lastName:token3,
+                    password:newUser.generateHash(token4)
+                }
+            }, (err, sessions) => {
+                if (err) {
+                    status =  'Error: server error';
+                }
+                else{
+                    status =  'success';
+                }
+            });
+        
+            res.json({status: status});
+        });
+
+    app.post("/api/account/signup", (req, res, next) => {
         const {body} = req;
         const {
             firstName,
@@ -23,7 +49,7 @@ const UserSession = require('../../models/UserSchema');
         if (!lastName) {
             return res.send({
                 success: false,
-                message: 'Error en el apeido'
+                message: 'Error en el apellido'
             });
         }
         if (!email) {
@@ -43,7 +69,7 @@ const UserSession = require('../../models/UserSchema');
         // Verificar
         // Salcar
 
-        User.find({
+    User.find({
             email: email
         }, (err, previousUser) => {
             if (err) {
@@ -68,17 +94,17 @@ const UserSession = require('../../models/UserSchema');
                 }
                 return res.send({
                     success: true,
-                    message: 'logrado'
+                    message: 'Successful registration'
+                    
                 });
             });
         });
+    }); 
+    
 
-
-        app.post("/api/account/signin", (req, res, next) => {
+    app.post("/api/account/login", (req, res, next) => {
             const {body} = req;
             const {
-                firstName,
-                lastName, 
                 password
             }   = body;
             let {
@@ -140,7 +166,8 @@ const UserSession = require('../../models/UserSchema');
                         });
                 });
             });
-        }); 
+       
+        
     });
 
     app.get('/api/account/verify', (req, res, next) => {
