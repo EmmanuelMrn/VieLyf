@@ -72,4 +72,45 @@ module.exports=(app) => {
                  }
                 });
 })    
+app.post('/api/accounts/ModifyDiet',(req,res,next) =>
+    {
+       var EditDiet = {breakfastMilk:req.body.breakfastMilk,
+            breakfastVeg:req.body.breakfastVeg,
+            breakfastFruit:req.body.breakfastFruit,
+            breakfastCereal:req.body.breakfastCereal,
+            breakfastMeat:req.body.breakfastMeat,
+            breakfastFat:req.body.breakfastFat,
+            breakfastSugar:req.body.breakfastSugar,
+            lunchMilk:req.body.lunchMilk,
+            lunchVeg:req.body.lunchVeg,
+            lunchFruit:req.body.lunchFruit,
+            lunchCereal:req.body.lunchCereal,
+            lunchMeat:req.body.lunchMeat,
+            lunchFat:req.body.lunchFat,
+            lunchSugar:req.body.lunchSugar,
+            dinnerMilk:req.body.dinnerMilk,
+            dinnerVeg:req.body.dinnerVeg,
+            dinnerFruit:req.body.dinnerFruit,
+            dinnerCereal:req.body.dinnerCereal,
+            dinnerMeat:req.body.dinnerMeat,
+            dinnerFat:req.body.dinnerFat,
+            dinnerSugar:req.body.dinnerSugar,
+            collationMilk:req.body.collationMilk,
+            collationVeg:req.body.collationVeg,
+            collationFruit:req.body.collationFruit,
+            collationCereal:req.body.collationCereal,
+            collationMeat:req.body.collationMeat,
+            collationFat:req.body.collationFat,
+            collationSugar:req.body.collationSugar}
+         
+        //verify the token is one of a kind and is not deleted
+        Diet.updateOne( {"_id": req.body.token},{ $set:EditDiet},function(err, result){
+            console.log("modified");
+            return  res.send({
+                success:true,
+                message:'Modified'
+            });
+        });
+        
+    });
 }
