@@ -15,13 +15,14 @@ require('moment/locale/es.js');
       "color-5":"rgba(170, 59, 123, 1)"
     }
 
+    // var items = []
 
 var items = [
   {
    _id            :"111",
     name          : 'Meeting , dev staff!',
-    startDateTime : new Date(2018, 6, 9, 9, 30),
-    endDateTime   : new Date(2018, 6, 9, 12, 0),
+    startDateTime : new Date(2018, 6, 10, 9, 30),
+    endDateTime   : new Date(2018, 6, 10, 12, 0),
     classes       : 'color-1 color-5'
   },
   {
