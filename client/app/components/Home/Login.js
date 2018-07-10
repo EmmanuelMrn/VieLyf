@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
+import { Link } from 'react-router-dom';
 
 import {
   getFromStorage,
@@ -68,8 +69,8 @@ class Login extends Component {
 
   onLogin() {
     const {
-      signInEmail,
-      signInPassword,
+      loginEmail,
+      loginPassword,
     } = this.state;
 
     this.setState({
@@ -197,7 +198,7 @@ class Login extends Component {
               onChange={this.handleInputChange}
             />
             <br />
-            <button onClick={this.onLogin}>Log In</button>
+            <button type="button" className="btn btn-dark" onClick={this.onLogin}>Log In</button>
           </div>
         </div>
       );
@@ -206,40 +207,55 @@ class Login extends Component {
     return (
       <div>
         <h1>Client Account</h1>
-        <div>
-            <p>Edit profile</p>
-            <input
-              type="firstName"
-              name="signUpFirstName"
-              placeholder="First Name"
-              value={this.state.signUpFirstName}
-              onChange={this.handleInputChange}
-            /><br />
-            <input
-              type="lastName"
-              name="signUpLastName"
-              placeholder="Last Name"
-              value={this.state.signUpLastName}
-              onChange={this.handleInputChange}
-            /><br />
-            <input
-              type="email"
-              name="signUpEmail"
-              placeholder="Email"
-              value={this.state.signUpEmail}
-              onChange={this.handleInputChange}
-            /><br />
-            <input
-              type="password"
-              name="signUpPassword"
-              placeholder="Password"
-              value={this.state.signUpPassword}
-              onChange={this.handleInputChange}
-            /><br />
-            <button type="submit" onClick={this.onEditProfile}>Save changes</button>
-          </div>
+        <div className="row">
+            <div className="col-md-3">
+                <div className="btn-group-vertical">
+                    <button type="button" className="btn btn-dark">Página principal</button>
+                    <button type="button" className="btn btn-dark">Análisis Corporal</button>
+                    <button type="button" className="btn btn-dark">Calendario de dieta</button>
+                    <button type="button" className="btn btn-dark">Progreso</button>
+                </div>
+            </div>
 
-          <button type="submit" onClick={this.logout}>Logout</button>
+            <div className="col-md-6">
+                <p>Perfil</p>
+                <Link to="/disponibilitySchedule" className="btn btn-dark">Disponibilidad de Horario</Link>
+            </div>
+
+            <div className="col-md-3">
+                <p>Edit profile</p>
+                <input
+                  type="firstName"
+                  name="signUpFirstName"
+                  placeholder="First Name"
+                  value={this.state.signUpFirstName}
+                  onChange={this.handleInputChange}
+                /><br />
+                <input
+                  type="lastName"
+                  name="signUpLastName"
+                  placeholder="Last Name"
+                  value={this.state.signUpLastName}
+                  onChange={this.handleInputChange}
+                /><br />
+                <input
+                  type="email"
+                  name="signUpEmail"
+                  placeholder="Email"
+                  value={this.state.signUpEmail}
+                  onChange={this.handleInputChange}
+                /><br />
+                <input
+                  type="password"
+                  name="signUpPassword"
+                  placeholder="Password"
+                  value={this.state.signUpPassword}
+                  onChange={this.handleInputChange}
+                /><br />
+                <button type="button" className="btn btn-dark" onClick={this.onEditProfile}>Save changes</button>
+            </div>
+          </div>
+          <button type="button" className="btn btn-dark" onClick={this.logout}>Logout</button>
       </div>
     );
   }

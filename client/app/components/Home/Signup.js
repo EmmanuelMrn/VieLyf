@@ -159,7 +159,7 @@ class Signup extends Component {
               value={signUpPassword}
               onChange={this.handleInputChange}
             /><br />
-            <button onClick={this.onSignUp}>Sign Up</button>
+            <button type="button" className="btn btn-dark" onClick={this.onSignUp}>Sign Up</button>
           </div>
       );
     }

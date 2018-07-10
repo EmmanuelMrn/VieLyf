@@ -16,6 +16,7 @@ import Login from './components/Home/Login';
 import Signup from './components/Home/Signup';
 import CatalogueNutriologist from './components/Home/CatalogueNutriologist';
 import NutritionalBlog from './components/Home/NutritionalBlog';
+import DisponibilitySchedule from './components/Home/DisponibilitySchedule';
 
 import './styles/styles.scss';
 
@@ -28,6 +29,7 @@ render((
         <Route path="/signup" component={Signup}/>
         <Route path="/catalogueNutriologist" component={CatalogueNutriologist}/>
         <Route path="/nutritionalBlog" component={NutritionalBlog}/>
+        <Route path="/disponibilitySchedule" component={DisponibilitySchedule}/>
         <Route component={NotFound}/>
       </Switch>
     </App>

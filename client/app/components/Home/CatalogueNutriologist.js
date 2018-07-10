@@ -14,7 +14,7 @@ class CatalogueNutriologist extends Component {
 
     } = this.state;
 
-    return (<div><p>In this place will be the Catalogue of Nutriologist, but theres nothing here yet, come back later bro</p></div>);
+    return (<div className="container"><p>In this place will be the Catalogue of Nutriologist, but theres nothing here yet, come back later bro</p></div>);
   }
 }
 

@@ -15,7 +15,7 @@ class NutritionalBlog extends Component {
 
     } = this.state;
 
-    return (<div><p>In this place will be the Nutriotional Blog, but theres nothing here yet, come back later bro</p></div>);
+    return (<div className="container"><p>In this place will be the Nutriotional Blog, but theres nothing here yet, come back later bro</p></div>);
   }
 }
 

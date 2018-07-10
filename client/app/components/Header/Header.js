@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Header = () => (
   <header>
-    <nav className="navbar bg-primary text-white">
+    <nav className="navbar bg-dark text-white">
       <Link to="/" className="navbar-brand text-white">VieLyf</Link>
       
         <Link to="/nutritionalBlog" className="text-white">Blog nutricional</Link>

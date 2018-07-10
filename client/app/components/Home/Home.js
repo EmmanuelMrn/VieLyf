@@ -14,8 +14,10 @@ class Home extends Component {
     const {
 
     } = this.state;
-
-    return (<div><p>Welcome to VieLyf!</p></div>);
+    return(
+    <div className="container">
+      <p>Welcome to VieLyf!</p>
+    </div>);
   }
 }
 
