@@ -12,7 +12,7 @@ import App from './components/App/App';
 import NotFound from './components/App/NotFound';
 
 import Home from './components/Home/Home';
-import Signin from './components/Home/Signin';
+import Login from './components/Home/Login';
 import Signup from './components/Home/Signup';
 import CatalogueNutriologist from './components/Home/CatalogueNutriologist';
 import NutritionalBlog from './components/Home/NutritionalBlog';
@@ -24,7 +24,7 @@ render((
     <App>
       <Switch>
         <Route exact path="/" component={Home}/>
-        <Route path="/signin" component={Signin}/>
+        <Route path="/login" component={Login}/>
         <Route path="/signup" component={Signup}/>
         <Route path="/catalogueNutriologist" component={CatalogueNutriologist}/>
         <Route path="/nutritionalBlog" component={NutritionalBlog}/>

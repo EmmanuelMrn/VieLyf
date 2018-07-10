@@ -102,11 +102,9 @@ const UserSession = require('../../models/UserSchema');
     }); 
     
 
-    app.post("/api/account/signin", (req, res, next) => {
+    app.post("/api/account/login", (req, res, next) => {
             const {body} = req;
             const {
-                firstName,
-                lastName, 
                 password
             }   = body;
             let {

@@ -6,7 +6,7 @@ import {
   setInStorage,
 } from '../../utils/storage';
 
-class Signin extends Component {
+class Login extends Component {
   constructor(props) {
     super(props);
 
@@ -14,17 +14,16 @@ class Signin extends Component {
       isLoading: true,
       token: '',
       signUpError: '',
-      signInError: '',
-      signInEmail: '',
-      signInPassword: '',
+      loginError: '',
+      loginEmail: '',
+      loginPassword: '',
       signUpEmail: '',
       signUpPassword: '',
       signUpFirstName: '',
       signUpLastName: ''
     };
 
-    this.onSignIn = this.onSignIn.bind(this);
-    this.onSignUp = this.onSignUp.bind(this);
+    this.onLogin = this.onLogin.bind(this);
     this.onEditProfile = this.onEditProfile.bind(this);
     this.logout = this.logout.bind(this);
 
@@ -67,53 +66,7 @@ class Signin extends Component {
     }
   }
 
-  onSignUp() {
-    // Grab state
-    const {
-      signUpFirstName,
-      signUpLastName,
-      signUpEmail,
-      signUpPassword,
-    } = this.state;
-
-    this.setState({
-      isLoading: true,
-    });
-
-    // Post request to backend
-    fetch('/api/account/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        firstName: signUpFirstName,
-        lastName: signUpLastName,
-        email: signUpEmail,
-        password: signUpPassword,
-      }),
-    }).then(res => res.json())
-      .then(json => {
-        console.log('json', json);
-        if (json.success) {
-          this.setState({
-            signUpError: json.message,
-            isLoading: false,
-            signUpFirstName: '',
-            signUpLastName: '',
-            signUpEmail: '',
-            signUpPassword: '',
-          });
-        } else {
-          this.setState({
-            signUpError: json.message,
-            isLoading: false,
-          });
-        }
-      });
-  }
-
-  onSignIn() {
+  onLogin() {
     const {
       signInEmail,
       signInPassword,
@@ -124,15 +77,15 @@ class Signin extends Component {
     });
 
     // Post request to backend
-    fetch('/api/account/signin', {
+    fetch('/api/account/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         
-        email: signInEmail,
-        password: signInPassword,
+        email: loginEmail,
+        password: loginPassword,
       }),
     }).then(res => res.json())
       .then(json => {
@@ -140,19 +93,19 @@ class Signin extends Component {
         if (json.success) {
           setInStorage('the_main_app', { token: json.token });
           this.setState({
-            signInError: json.message,
+            loginError: json.message,
             isLoading: false,
-            signInPassword: '',
-            signInEmail: '',
+            loginPassword: '',
+            loginEmail: '',
             token: json.token,
           });
           
         } else {
           this.setState({
-            signInError: json.message,
+            loginError: json.message,
             isLoading: false,
           });
-          console.log(signInPassword);
+          console.log(loginPassword);
         }
       });
       
@@ -209,14 +162,9 @@ class Signin extends Component {
     const {
       isLoading,
       token,
-      signInError,
-      signInEmail,
-      signInPassword,
-      signUpEmail,
-      signUpFirstName,
-      signUpLastName,
-      signUpPassword,
-      signUpError
+      loginError,
+      loginEmail,
+      loginPassword
     } = this.state;
 
     if (isLoading) {
@@ -228,28 +176,28 @@ class Signin extends Component {
         <div>
           <div>
             {
-              (signInError) ? (
-                <p>{signInError}</p>
+              (loginError) ? (
+                <p>{loginError}</p>
               ) : (null)
             }
-            <p>Sign In</p>
+            <p>Log In</p>
             <input
-              name="signInEmail"
+              name="loginEmail"
               type="text"
               placeholder="Email"
-              value={signInEmail}
+              value={loginEmail}
               onChange={this.handleInputChange}
             />
             <br />
             <input
               type="password"
-              name="signInPassword"
+              name="loginPassword"
               placeholder="Password"
-              value={signInPassword}
+              value={loginPassword}
               onChange={this.handleInputChange}
             />
             <br />
-            <button onClick={this.onSignIn}>Sign In</button>
+            <button onClick={this.onLogin}>Log In</button>
           </div>
         </div>
       );
@@ -297,4 +245,4 @@ class Signin extends Component {
   }
 }
 
-export default Signin;
+export default Login;
