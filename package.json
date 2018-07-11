@@ -1,17 +1,16 @@
 {
-  "name": "MERN-boilerplate",
+  "name": "VieLyf",
   "version": "1.0.0",
-  "description": "MERN stack project boilerplate",
+  "description": "",
   "author": "VieLyf",
   "repository": {
     "type": "git",
-    "url": "https://github.com/EmmanuelMrn/VieLyf.git"
+    "url": "git remote add origin https://github.com/carlohgameros/vielyf.git"
   },
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "webpack -p --progress --profile --colors && node server",
-    "dev": "node server"
+    "start": "node server"
   },
   "engines": {
     "node": ">=6"
