@@ -5,15 +5,80 @@ const Counters = require('../../models/Counter');
 const Patients = require('../../models/Patients');
 const Agenda = require('../../models/Agenda');
 
+
 module.exports = (app) => {
-        app.post("/api/account/signin", (req, res, next) => {
-            const {body} = req;
-            const { FirstName, LastName, Password }   = body;
-            let { Email } = body;
-            if (!Email) {
-                return res.send({
-                    success: false,
-                    message: 'Error en su correo'
+    app.post('/api/accounts/signup',(req,res,next) => {
+         const {body } = req;
+         //console.log('body',body);
+         const {
+            firstName,
+            lastName,
+            password
+            }=body;
+         let {email
+        }=body;
+         if(!firstName)
+         {
+             
+            return  res.send({
+                 success:false,
+                 message:'Error: First Name not found'
+             });
+         }
+         if(!lastName)
+         {console.log(lastName)
+             return res.send({
+                 success:false,
+                 message:'Error: Lastini Name not found'
+             });
+         }
+         if(!email)
+         {
+             return res.send({
+                 success:false,
+                 message:'Error: Email  not found'
+             });
+         }
+         if(!password)
+         {
+            return  res.send({
+                 success:false,
+                 message:'Error: Password  not found'
+             });
+         }
+
+         email = email.toLowerCase();
+         //Steps
+         //1 verify email doesn't exists
+         //2 save
+         User.find({
+             email:email
+         },(err,previousUsers)=>{
+             if(err)
+             {
+                return  res.send('Error:Server error');
+             }
+             else if (previousUsers.length>0)
+             {
+                return  res.send('Error: Account already exists.');
+             }
+             //save new user
+             const newUser = new User();
+             newUser.email=email;
+             newUser.firstName=firstName;
+             newUser.lastName=lastName;
+             newUser.password=newUser.generateHash(password);
+             newUser.save((err,user)=>{
+                 if(err)
+                 {
+                   return  res.send({
+                        success:false,
+                        message:'Error: First Name not found'
+                    });
+                 }
+                return  res.send({
+                    success:true,
+                    message:'Signed up'
                 });
             }   
             if (!Password) {

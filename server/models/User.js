@@ -37,6 +37,12 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+   Role:{
+    type:String,
+    default:'Client'
+}
+
+
 });
 
 UserSchema.methods.generateHash = function(Password) {
