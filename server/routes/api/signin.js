@@ -5,23 +5,91 @@ const Counters = require('../../models/Counter');
 const Patients = require('../../models/Patients');
 const Agenda = require('../../models/Agenda');
 
+
 module.exports = (app) => {
-        app.post("/api/account/signin", (req, res, next) => {
-            const {body} = req;
-            const { FirstName, LastName, Password }   = body;
-            let { Email } = body;
-            if (!Email) {
+    app.post('/api/accounts/signup',(req,res,next) => {
+         const {body } = req;
+         //console.log('body',body);
+         const {
+            firstName,
+            lastName,
+            password
+            }=body;
+         let {email
+        }=body;
+         if(!firstName)
+         {
+             
+            return  res.send({
+                 success:false,
+                 message:'Error: First Name not found'
+             });
+         }
+         if(!lastName)
+         {console.log(lastName)
+             return res.send({
+                 success:false,
+                 message:'Error: Lastini Name not found'
+             });
+         }
+         if(!email)
+         {
+             return res.send({
+                 success:false,
+                 message:'Error: Email  not found'
+             });
+         }
+         if(!password)
+         {
+            return  res.send({
+                 success:false,
+                 message:'Error: Password  not found'
+             });
+         }
+
+         email = email.toLowerCase();
+         //Steps
+         //1 verify email doesn't exists
+         //2 save
+         User.find({
+             email:email
+         },(err,previousUsers)=>{
+             if(err)
+             {
+                return  res.send('Error:Server error');
+             }
+             else if (previousUsers.length>0)
+             {
+                return  res.send('Error: Account already exists.');
+             }
+             //save new user
+             const newUser = new User();
+             newUser.email=email;
+             newUser.firstName=firstName;
+             newUser.lastName=lastName;
+             newUser.password=newUser.generateHash(password);
+             newUser.save((err,user)=>{
+                 if(err)
+                 {
+                   return  res.send({
+                        success:false,
+                        message:'Error: First Name not found'
+                    });
+                 }
+                return  res.send({
+                    success:true,
+                    message:'Signed up'
+                });
+            })
+            if(!Password) {
                 return res.send({
-                    success: false,
-                    message: 'Error en su correo'
-                });
-            }   
-            if (!Password) {
-                    return res.send({
-                    success: false,
-                    message: 'Error en la contraseña'
-                });
-            } 
+                success: false,
+                message: 'Error en la contraseña'
+            });
+            }
+            
+
+             
                 
             Email = Email.toLowerCase();
             
@@ -278,96 +346,101 @@ module.exports = (app) => {
         });
 
         app.post("/api/account/signup", (req, res, next) => {
-        const {body} = req;
-        const {
-            FirstName,
-            LastName, 
-            Password,
-            isDeleted,
-            Role,
-            nutri_Id,
-            Phone,
-            Description
-        }   = body;
-        let {
-            Email
+            const {body} = req;
+            const {
+                FirstName,
+                LastName, 
+                Password,
+                isDeleted,
+                Role,
+                nutri_Id,
+                Phone,
+                Description
+            }   = body;
+            let {
+                Email
             } = body;
-        
-        if (!FirstName) {
-            return res.send({
-                success: false,
-                message: 'Error en el nombre'
-            });
-        }
-        if (!LastName) {
-            return res.send({
-                success: false,
-                message: 'Error en el apeido'
-            });
-        }
-        if (!Email) {
-            return res.send({
-                success: false,
-                message: 'Error en su correo'
-            });
-        }
-        if (!Password) {
+            
+            if (!FirstName) {
                 return res.send({
-                success: false,
-                message: 'Error en la contraseña'
-            });
-        }
-        if (!Phone) {
-            return res.send({
-            success: false,
-            message: 'Error en el número de teléfono'
-        });
-        }
-        if (Role == 'Client' || Role == 'Nutritionist') {
-            User.find({ Email: Email }, (err, previousUser) => {
-                if (err) {
-                    return res.send('Error');
-                } else if ( previousUser.length > 0) {
-                    return res.send('Error');
-                }
-                
-                const newUser = new User();
-    
-                newUser.FirstName = FirstName;
-                newUser.LastName = LastName;
-                newUser.Email = Email;
-                newUser.Password = newUser.generateHash(Password);
-                newUser.isDeleted = false,
-                newUser.Role= Role,
-                newUser.Phone = Phone,
-                newUser.Description = '',
-                newUser.save((err, user) => {
-                    if (err) {
-                        return res.send ({
-                            success: false,
-                            message: 'Error'
-                        })
-                    }
-                    return res.send({
-                        success: true,
-                        message: 'logrado'
-                    });
+                    success: false,
+                    message: 'Error en el nombre'
                 });
-            });
-        } else if (Role == "") 
-        {
-            return res.send({
-                success: false,
-                message: 'Campo vacio'
-            });
-        } else {
-            return res.send({
-                success: false,
-                message: 'Error en su opcion'
-            });
-        }
-    
+            }
+            if (!LastName) {
+                return res.send({
+                    success: false,
+                    message: 'Error en el apeido'
+                });
+            }
+            if (!Email) {
+                return res.send({
+                    success: false,
+                    message: 'Error en su correo'
+                });
+            }
+            if (!Password) {
+                    return res.send({
+                    success: false,
+                    message: 'Error en la contraseña'
+                });
+            }
+            if (!Phone) {
+                    return res.send({
+                    success: false,
+                    message: 'Error en el número de teléfono'
+                });
+            }
+            if (Role == 'Client' || Role == 'Nutritionist') {
+                    User.find({Email: Email}, (err, previousUsers) =>{
+                        if (err) {
+                            return res.send('Error');
+                        } else if ( previousUser.length > 0) {
+                            return res.send('Error');
+                        }
+                                    const newUser = new User();
 
-         
+                        newUser.FirstName = FirstName;
+                        newUser.LastName = LastName;
+                        newUser.Email = Email;
+                        newUser.Password = newUser.generateHash(Password);
+                        newUser.isDeleted = false,
+                        newUser.Role= Role,
+                        newUser.Phone = Phone,
+                        newUser.Description = '',
+                        newUser.save((err, user) => {
+                            if (err) {
+                                return res.send ({
+                                    success: false,
+                                    message: 'Error'
+                                })
+                            }
+                            return res.send({
+                                success: true,
+                                message: 'logrado'
+                            });
+                        });
+
+                    });
+            }
+            else {
+                return res.send({
+                    success: false,
+                    message: 'Error, '
+                })
+            }     
+        });
+
     });
 };
+
+//     if (Role == 'Client' || Role == 'Nutritionist') {
+//         User.find({ Email: Email }, (err, previousUser) => {
+//             if (err) {
+//                 return res.send('Error');
+//             } else if ( previousUser.length > 0) {
+//                 return res.send('Error');
+//             }
+            
+//         });
+//     };
