@@ -4,6 +4,12 @@ import moment from 'moment';
 import { ReactAgenda , ReactAgendaCtrl, guid , getUnique , getLast , getFirst , Modal } from 'react-agenda';
 import 'moment/locale/es';
 
+import {
+  getFromStorage,
+  setInStorage,
+} from '../../utils/storage';
+import { METHODS } from 'http';
+
 var now = new Date();
 
 require('moment/locale/es.js');
@@ -15,24 +21,7 @@ require('moment/locale/es.js');
       "color-5":"rgba(170, 59, 123, 1)"
     }
 
-    // var items = []
-
-var items = [
-  {
-   _id            :"111",
-    name          : 'Meeting , dev staff!',
-    startDateTime : new Date(2018, 6, 10, 9, 30),
-    endDateTime   : new Date(2018, 6, 10, 12, 0),
-    classes       : 'color-1 color-5'
-  },
-  {
-   _id            :guid(),
-    name          : 'Working lunch , Holly',
-    startDateTime : new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, 11, 0),
-    endDateTime   : new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, 13, 0),
-    classes       : 'color-2'
-  },
-];
+    var items;
 
 export default class Agenda extends Component {
   constructor(props){
@@ -59,10 +48,27 @@ export default class Agenda extends Component {
   this.editEvent = this.editEvent.bind(this)
   this.changeView = this.changeView.bind(this)
   this.handleCellSelection = this.handleCellSelection.bind(this)
+
   }
 
   componentDidMount(){
-    this.setState({items:items})
+    const obj = getFromStorage('the_main_app');
+    if (obj && obj.token) {
+    const { token } = obj;
+    fetch('/api/account/agendaarray?token=' + token, {method:'GET'})
+        .then(res => res.json())
+        .then(json1 => {
+          this.setState({
+            items : json1
+          });
+          console.log(json1)
+        });
+        console.log("item"+items);
+        console.log("json" + JSON);
+    console.log(token)
+    
+    
+    }
   }
 
 
@@ -155,15 +161,15 @@ render() {
   return (
 
     <div className="content-expanded ">
-      <div className="control-buttons">
-        <button  className="button-control" onClick={this.zoomIn}> <i className="zoom-plus-icon"></i> zoomIn</button>
-        <button  className="button-control" onClick={this.zoomOut}> <i className="zoom-minus-icon"></i> zoomOut</button>
-        <button  className="button-control" onClick={this._openModal}> <i className="schedule-icon"></i> Nuevo </button>
-        <button  className="button-control" onClick={this.changeView.bind(null , 7)}> {moment.duration(7, "days").humanize()}  </button>
-        <button  className="button-control" onClick={this.changeView.bind(null , 4)}> {moment.duration(4, "days").humanize()}  </button>
-        <button  className="button-control" onClick={this.changeView.bind(null , 3)}> {moment.duration(3, "days").humanize()}  </button>
-        <button  className="button-control" onClick={this.changeView.bind(null , 1)}> {moment.duration(1, "day").humanize()} </button>
-      </div>
+      <div className="">
+        <button className="btn btn-secondary" onClick={this.zoomIn}> <i className="zoom-plus-icon"></i> zoomIn</button>
+        <button className="btn btn-secondary" onClick={this.zoomOut}> <i className="zoom-minus-icon"></i> zoomOut</button>
+        <button className="btn btn-secondary" onClick={this._openModal}> <i className="schedule-icon"></i> Nuevo </button>
+        <button className="btn btn-secondary" onClick={this.changeView.bind(null , 7)}> {moment.duration(7, "days").humanize()}  </button>
+        <button className="btn btn-secondary" onClick={this.changeView.bind(null , 4)}> {moment.duration(4, "days").humanize()}  </button>
+        <button className="btn btn-secondary" onClick={this.changeView.bind(null , 3)}> {moment.duration(3, "days").humanize()}  </button>
+        <button className="btn btn-secondary" onClick={this.changeView.bind(null , 1)}> {moment.duration(1, "day").humanize()} </button>
+     </div>
 
       <ReactAgenda
         minDate={new Date(now.getFullYear(), now.getMonth()-3)}

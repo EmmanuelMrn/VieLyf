@@ -13,10 +13,12 @@ import App from './components/App/App';
 import NotFound from './components/App/NotFound';
 
 import Home from './components/Home/Home';
-
-import HelloWorld from './components/HelloWorld/HelloWorld';
-
+import Login from './components/Home/Login';
+import Signup from './components/Home/Signup';
 import Agenda from './components/Agenda/Agenda';
+import CatalogueNutriologist from './components/Home/CatalogueNutriologist';
+import NutritionalBlog from './components/Home/NutritionalBlog';
+import DisponibilitySchedule from './components/Home/DisponibilitySchedule';
 
 import './styles/styles.scss';
 
@@ -25,10 +27,15 @@ render((
     <App>
       <Switch>
         <Route exact path="/" component={Home}/>
-        <Route path="/helloworld" component={HelloWorld}/>
-        <Route path="/Agenda" component={Agenda}/>
+        <Route path="/login" component={Login}/>
+        <Route path="/signup" component={Signup}/>
+        <Route path="/agenda" component={Agenda}/>
+        <Route path="/catalogueNutriologist" component={CatalogueNutriologist}/>
+        <Route path="/nutritionalBlog" component={NutritionalBlog}/>
+        <Route path="/disponibilitySchedule" component={DisponibilitySchedule}/>
         <Route component={NotFound}/>
       </Switch>
     </App>
   </Router>
 ), document.getElementById('app'));
+
