@@ -81,10 +81,10 @@ class Signup extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        firstName: signUpFirstName,
-        lastName: signUpLastName,
-        email: signUpEmail,
-        password: signUpPassword,
+        FirstName: signUpFirstName,
+        LastName: signUpLastName,
+        Email: signUpEmail,
+        Password: signUpPassword,
       }),
     }).then(res => res.json())
       .then(json => {

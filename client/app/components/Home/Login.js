@@ -85,8 +85,8 @@ class Login extends Component {
       },
       body: JSON.stringify({
         
-        email: loginEmail,
-        password: loginPassword,
+        Email: loginEmail,
+        Password: loginPassword,
       }),
     }).then(res => res.json())
       .then(json => {
