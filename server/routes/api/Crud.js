@@ -1,7 +1,7 @@
 const User = require('../../models/User');
 const UserSession = require('../../models/UserSchema');
 const RolesSchema = require('../../models/Roles');
-const Patients = require('../../models/Patients');
+const Patients = require('../../models/Patient');
 const Agenda = require('../../models/Agenda');
     module.exports = (app) => {
        
