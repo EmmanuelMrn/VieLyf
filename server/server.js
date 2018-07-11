@@ -1,4 +1,5 @@
 const express = require('express');
+const morgan = require('morgan');
 const fs = require('fs');
 const historyApiFallback = require('connect-history-api-fallback');
 const mongoose = require('mongoose');
@@ -24,6 +25,7 @@ mongoose.Promise = global.Promise;
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(morgan('dev'));
 
 // API routes
 require('./routes')(app);

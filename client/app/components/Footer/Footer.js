@@ -1,9 +1,10 @@
 import React from 'react';
 
 const Footer = () => (
-  <footer>
-    <hr />
-    <p>Footer</p>
+  <footer className="footer">
+      <nav className="navbar bg-dark text-white">
+        <p>About VieLyf</p>
+      </nav>
   </footer>
 );
 

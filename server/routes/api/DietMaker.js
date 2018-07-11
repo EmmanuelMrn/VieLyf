@@ -1,5 +1,5 @@
 const User = require('../../models/User');
-const UserSession = require('../../models/UserSession');
+const UserSession = require('../../models/UserSchema');
 const Diet = require('../../models/Diet');
 const Patient = require('../../models/Patient');
 module.exports=(app) => {
