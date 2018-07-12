@@ -158,4 +158,17 @@ module.exports=(app) => {
          
 
  })   
+ app.get('/api/accounts/graphs',(req,res,next)=>{
+     //get the chart Id
+     const {query}=req;
+     const {chart}=query;
+   //  return res.send
+   
+    BodyAnalysis.findOne({ _id:chart }, (err, doc)  => {
+     //console.log(doc); 
+     return res.send(doc);
+    });
+ 
+ });
+ 
 }

@@ -138,174 +138,7 @@ class Home extends Component {
     });
     console.log(name,value);
   }
-  onTextBoxChangeSignInEmail(event)
-  {
-    this.setState({
-      signInEmail : event.target.value,
-    });
-  }
-  onTextBoxChangeSignInPassword(event)
-  {
-    this.setState({
-      signInPassword : event.target.value,
-    });
-  }
-  onTextBoxChangeSignUpEmail(event)
-  {
-    this.setState({
-      signUpEmail : event.target.value,
-    });
-  }
-
-  onTextBoxChangeSignUpFirstName(event)
-  {
-    this.setState({
-      signUpFirstName : event.target.value,
-    });
-  }
-  onTextBoxChangeSignUpLastName(event)
-  {
-    this.setState({
-      signUpLastName : event.target.value,
-    });
-  }
-  onTextBoxChangeSignUpPassword(event)
-  {
-    this.setState({
-      signUpPassword : event.target.value,
-    });
-  }
-  onTextBoxChangeSignUpLicense(event)
-  {
-    this.setState({
-      License : event.target.value,
-    });
-  }
-  onTextBoxChangeSignUpProfFirstName(event)
-  {
-    this.setState({
-      profFirstName : event.target.value,
-    });
-  }
-  onTextBoxChangeSignUpProfLastName(event)
-  {
-    this.setState({
-      profLastName : event.target.value,
-    });
-  }
-  onTextBoxChangeSignUpProfMotherLastName(event)
-  {
-    this.setState({
-      profMotherLastName : event.target.value,
-    });
-  }
-  onTextBoxChangeSignUpProfTitle(event)
-  {
-    this.setState({
-      profTitle : event.target.value,
-    });
-  }
-  onTextBoxChangeProfEmail(event)
-  {
-    this.setState({
-      profEmail: event.target.value,
-    });
-  }
-  onTextBoxChangeProfPassword(event)
-  {
-    this.setState({
-      profPassword:event.target.value,
-    });
-  }
-  onTextBoxChangeCorpAUpFirstName(event)
-  {
-    this.setState({
-      corpFirstname:event.target.value,
-    });
-  }
-  onTextBoxchangeCorpAUpLastName(event)
-  {
-    this.setState({
-      corpLastName:event.target.value,
-    });
-  }
-  onTextBoxChangeHeight(event)
-  {
-    this.setState({
-      height:event.target.value,
-    });
-  }
-  onTextBoxChangeId(event)
-  {
-    this.setState({
-      id:event.target.value,
-    });
-  }
-  onTextBoxChangeWeight(event)
-  {
-    this.setState({
-      weight:event.target.value,
-    });
-  }
-  onTextBoxChangeAge(event)
-  {
-    this.setState({
-      Age:event.target.value,
-    });
-  }
-  onTextBoxChangeFatFreeBodyMass(event)
-  {
-    this.setState({
-      FatFreeBodyMass:event.target.value,
-    });
-  }
-  onTextBoxChangeFatFreeBodyMassBodyFat(event)
-  {
-    this.setState({
-      FFBMBodyFat:event.target.value,
-    });
-  }
-  onTextBoxChangeLeanSoftTissue(event)
-  { this.setState({
-    LeanSoftTissue:event.target.value,
-  });
-}
-  onTextBoxChangeLSTMineral(event)
-  {
-    this.setState({
-      LSTMineral:event.target.value
-    });
-  }
-  onTextBoxChangeLSTBodyFat(event)
-  {
-   this.setState({
-     LSTBodyFat:event.target.value,
-     
-    });
-  }
-  onTextBoxChangeTotalBodyWater(event)
-  {this.setState({
-    TotalBodyWater:event.target.value,
-  });
-  }
-  onTextBoxChangeTBWProtein(event)
-  {
-    this.setState({
-      TBWProtein:event.target.value,
-    });
-  }
-  onTextBoxChangeTBWMineral(event)
-  {
-    this.setState({
-      TBWMineral:event.target.value
-    });
-  }
-  onTextBoxChangeTBWBodyFat(event)
-  {
-    this.setState({
-      TBWBodyFat:event.target.value
-    });
-  }
+ 
 
   
   onSignIn()
@@ -670,6 +503,7 @@ class Home extends Component {
           <button onClick={this.onProfSignUp}>Sign me up!</button>
           </Modal>
           <button onClick={this.onSignUp}>Sign Up</button>
+          
           </div>
         </div>
       )
@@ -677,53 +511,7 @@ class Home extends Component {
 
     return (
       <div>
-      {/* <CorporalAnalysis /> */}
-{/* <Link to="/CorporalAnalysis"> <CorporalAnalysis /> </Link> */}
-       {/* <p>Fill the client information</p><br />
-       
-       <input type="text" name="corpFirstname" placeholder="First Name" value ={corpFirstname} onChange={this.onTextBoxChange}/>
-       <input type="text" name ="corpLastName" placeholder="Last  Name" value ={corpLastName}  onChange={this.onTextBoxChange}/>
-       <input type="text" name="id" placeholder={id} value={id} onChange={this.onTextBoxChangeId}/><br />
-       <input type="text" name="height" placeholder="Height" value ={height} onChange={this.onTextBoxChange}/><br />
-       <input type="text" name ="weight" placeholder="Weight" value ={weight} onChange={this.onTextBoxChange}/>
-       <input type="text" name="Age" placeholder="Age" value={Age} onChange={this.onTextBoxChange}/>
-        <div className="container">
-        <div className="row">
-         <div className="col-12"> <h3>Composicion Corporal</h3></div>
-          <div className="col-12">
-          <input type="text"  className="p-3 mb-2 bg-success text-white" name =" weight" placeholder="Weight" value ={weight} onChange={this.onTextBoxChange}/>
-          </div>
-          <div >
-          <input type="text" className="p-3 mb-5 bg-success text-white" name ="FatFreeBodyMass" placeholder="Fat-Free Body Mass" value ={FatFreeBodyMass} onChange={this.onTextBoxChange}/>
-          </div>
-          <div className="col-8">
-          <input  type="text" className="p-3 mb-5 bg-success text-white" name="FFBMBodyFat" placeholder="FFBM Body Fat" value ={FFBMBodyFat} onChange={this.onTextBoxChange}/>
-            </div>
-            <div>
-          <input type="text" className="p-3 mb-5 bg-success text-white" name="LeanSoftTissue" placeholder="Lean Soft Tissue" value ={LeanSoftTissue} onChange={this.onTextBoxChange}/>
-            </div>
-            <div>
-          <input type="text" className="p-3 mb-5 bg-success text-white" name ="LSTMineral" placeholder="Mineral" value ={LSTMineral} onChange={this.onTextBoxChange}/>
-            </div>
-            <div className="col-6">
-          <input type="text" className="p-3 mb-5 bg-success text-white" name ="LSTBodyFat" placeholder="Body Fat" value ={LSTBodyFat} onChange={this.onTextBoxChange}/>
-            </div>
-            <div>
-          <input type="text" className="p-3 mb-5 bg-success text-white" name="TotalBodyWater" placeholder="Total Body Water" value ={TotalBodyWater} onChange={this.onTextBoxChange}/>
-            </div>
-            <div>
-          <input type="text" className="p-3 mb-5 bg-success text-white" name="TBWProtein" placeholder="Protein" value ={TBWProtein} onChange={this.onTextBoxChange}/>
-            </div>
-            <div>
-          <input type="text" className="p-3 mb-5 bg-success text-white" name ="TBWMineral" placeholder="Mineral" value ={TBWMineral} onChange={this.onTextBoxChange}/>
-            </div>
-            <div>
-          <input type="text" className="p-3 mb-5 bg-success text-white" name="TBWBodyFat" placeholder="Body Fat" value ={TBWBodyFat} onChange={this.onTextBoxChange}/>
-            </div>
-        </div>
-        <button onClick={this.onUpdateCorpA}>Save</button>
-        <button onClick={this.logout}>logout</button>
-      </div> */}
+       <CorporalAnalysis /> 
       </div>
     );
   }

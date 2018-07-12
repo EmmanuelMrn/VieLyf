@@ -36,6 +36,7 @@ onTextBoxChange(event)
   });
   console.log(name,value);
 }
+
 onUpdateCorpA()
 {
   const {
@@ -133,10 +134,12 @@ onUpdateCorpA()
           LSTMineral,
           TBWProtein,
           TBWMineral,
-          TBWBodyFat
+          TBWBodyFat,
+          isLoading
       } = this.state;
-  
-   return(   
+ // if(isLoading)
+   //{
+     return(   
   <div>
        <p>Fill the client information</p><br />
        
@@ -184,7 +187,14 @@ onUpdateCorpA()
         {/*<button onClick={this.logout}>logout</button> */}
       </div>
       </div>
-         );   }
+         );
+       // }   
+        
+        
+        //  return(
+        //   <p>Que pex</p>
+        // );
+        }
         }
     
 export default CorporalAnalysis;
