@@ -10,16 +10,16 @@ import {
 } from 'react-router-dom'
 
 import App from './components/App/App';
-import NotFound from './components/App/NotFound';
-
 import Home from './components/Home/Home';
 import Login from './components/Home/Login';
 import Signup from './components/Home/Signup';
 import Agenda from './components/Agenda/Agenda';
-import CatalogueNutriologist from './components/Home/CatalogueNutriologist';
+import NotFound from './components/App/NotFound';
 import NutritionalBlog from './components/Home/NutritionalBlog';
+import VistaCliente from './components/VistaCliente/VistaCliente';
+import VistaNutriologo from './components/VistaNutriologo/VistaNutriologo';
+import CatalogueNutriologist from './components/Home/CatalogueNutriologist';
 import DisponibilitySchedule from './components/Home/DisponibilitySchedule';
-
 import './styles/styles.scss';
 
 render((
@@ -30,8 +30,10 @@ render((
         <Route path="/login" component={Login}/>
         <Route path="/signup" component={Signup}/>
         <Route path="/agenda" component={Agenda}/>
-        <Route path="/catalogueNutriologist" component={CatalogueNutriologist}/>
+        <Route path="/vistacliente" component={VistaCliente}/>
         <Route path="/nutritionalBlog" component={NutritionalBlog}/>
+        <Route path="/vistanutriologo" component={VistaNutriologo}/>
+        <Route path="/catalogueNutriologist" component={CatalogueNutriologist}/>
         <Route path="/disponibilitySchedule" component={DisponibilitySchedule}/>
         <Route component={NotFound}/>
       </Switch>
