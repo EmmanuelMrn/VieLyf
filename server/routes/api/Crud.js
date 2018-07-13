@@ -193,7 +193,8 @@ const Agenda = require('../../models/Agenda');
                         return res.send({
                         success: true,
                         message: 'Valid sign in',
-                        token: doc._id
+                        token: doc._id,
+                        Email: body.Email
                         });
                 });
             });
@@ -408,7 +409,7 @@ const Agenda = require('../../models/Agenda');
                     console.log(now.getMinutes());
                     newDate.endDateTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 14, 0),
                     newDate.classes = 'color-2';
-                    newDate.Nutriologist_id = '';
+                    newDate.Nutriologist_id = Nutriologist_id;
                     newDate.save((err, user) => {
                         if (err) {
                             return res.send ({
