@@ -11,6 +11,7 @@ import {
 
 import App from './components/App/App';
 import Home from './components/Home/Home';
+<<<<<<< HEAD
 import Login from './components/Home/Login';
 import Signup from './components/Home/Signup';
 import Agenda from './components/Agenda/Agenda';
@@ -20,13 +21,21 @@ import VistaCliente from './components/VistaCliente/VistaCliente';
 import VistaNutriologo from './components/VistaNutriologo/VistaNutriologo';
 import CatalogueNutriologist from './components/Home/CatalogueNutriologist';
 import DisponibilitySchedule from './components/Home/DisponibilitySchedule';
+=======
+
+import HelloWorld from './components/HelloWorld/HelloWorld';
+import CorporalAnalysis from './components/CorporalAnalysis/CorporalAnalysis';
+
+>>>>>>> Sergio
 import './styles/styles.scss';
+import ChartsPage from './components/App/ChartsPage/ChartsPage';
 
 render((
   <Router>
     <App>
       <Switch>
         <Route exact path="/" component={Home}/>
+<<<<<<< HEAD
         <Route path="/login" component={Login}/>
         <Route path="/signup" component={Signup}/>
         <Route path="/agenda" component={Agenda}/>
@@ -35,6 +44,11 @@ render((
         <Route path="/vistanutriologo" component={VistaNutriologo}/>
         <Route path="/catalogueNutriologist" component={CatalogueNutriologist}/>
         <Route path="/disponibilitySchedule" component={DisponibilitySchedule}/>
+=======
+        <Route path="/helloworld" component={HelloWorld}/>
+        <Route path ="/corporalanalysis" component={CorporalAnalysis}/>
+        <Route path="/charts" component={ChartsPage}/>
+>>>>>>> Sergio
         <Route component={NotFound}/>
       </Switch>
     </App>

@@ -9,9 +9,14 @@ export function getFromStorage(key) {
             return JSON.parse(valueStr);
         }
         return null;
+<<<<<<< HEAD
     return null;
     } catch (err) {
         null
+=======
+    }catch(err){
+        null;
+>>>>>>> Sergio
     }
 }
 
@@ -21,12 +26,18 @@ export function setInStorage(key,Email) {
     }
 
     try {
+<<<<<<< HEAD
         localStorage.setItem(key, JSON.stringify(Email));
         console.log(JSON.stringify(Email));
 
     } catch (err)
     {
         console.error('Error')
+=======
+        localStorage.setItem(key,JSON.stringify(obj))
+    }catch(err){
+        console.log('Error');
+>>>>>>> Sergio
     }
 }
 
