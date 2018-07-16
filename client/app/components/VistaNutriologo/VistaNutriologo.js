@@ -7,11 +7,12 @@ import {
   setInStorage,
 } from '../../utils/storage';
 
-class Login extends Component {
+class VistaNutriologo extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      isNutriologist: false,
       isLoading: true,
       token: '',
       signUpError: '',
@@ -24,7 +25,6 @@ class Login extends Component {
       signUpLastName: ''
     };
 
-    this.onLogin = this.onLogin.bind(this);
     this.onEditProfile = this.onEditProfile.bind(this);
     this.logout = this.logout.bind(this);
 
@@ -45,10 +45,11 @@ class Login extends Component {
     const obj = getFromStorage('the_main_app');
     if (obj && obj.token) {
       const { token } = obj;
-      // Verify token
+      console.log(token);
+    //   Verify token
       fetch('/api/account/verify?token=' + token)
         .then(res => res.json())
-        .then(json => {
+        .then(json  => {
           if (json.success) {
             this.setState({
               token,
@@ -65,65 +66,9 @@ class Login extends Component {
         isLoading: false,
       });
     }
+    // console.log(token);
   }
 
-  onLogin() {
-    const {
-      loginEmail,
-      loginPassword,
-    } = this.state;
-
-    this.setState({
-      isLoading: true,
-    });
-
-    // Post request to backend
-    fetch('/api/account/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        
-        Email: loginEmail,
-        Password: loginPassword,
-      }),
-    }).then(res => res.json())
-      .then(json => {
-        console.log('json', json);
-        if (json.success) {
-          setInStorage('the_main_app', { token: json.token });
-          setInStorage('email', { token1: json.Email });
-          this.setState({
-            loginError: json.message,
-            isLoading: false,
-            loginPassword: '',
-            loginEmail: '',
-            token: json.token,
-          });
-        } else {
-          this.setState({
-            loginError: json.message,
-            isLoading: false,
-          });
-          console.log(loginPassword);
-        }
-      });
-
-      fetch('/api/account/isnutriologist?token='+loginEmail)
-        .then(res => res.json())
-        .then(json1 => {
-          console.log(json1.success)
-          if(json1.success){
-            window.location=('/vistanutriologo');
-          } else {
-            window.location=('/vistacliente');
-          }
-          
-          console.log(json1)
-        });
-      
-  }
 
   onEditProfile() {
     const {signUpEmail, signUpFirstName, signUpLastName, signUpPassword} = this.state;
@@ -141,7 +86,7 @@ class Login extends Component {
             });
           }
         });
-}
+  }
   
   logout() {
     this.setState({
@@ -170,6 +115,7 @@ class Login extends Component {
         isLoading: false,
       });
     }
+    window.location('/login')
   }
 
   render() {
@@ -181,45 +127,10 @@ class Login extends Component {
       loginPassword
     } = this.state;
 
-    if (isLoading) {
-      return (<div><p>Loading...</p></div>);
-    }
-
-    if (!token) {
-      return (
-        <div>
-          <div>
-            {
-              (loginError) ? (
-                <p>{loginError}</p>
-              ) : (null)
-            }
-            <p>Log In</p>
-            <input
-              name="loginEmail"
-              type="text"
-              placeholder="Email"
-              value={loginEmail}
-              onChange={this.handleInputChange}
-            />
-            <br />
-            <input
-              type="password"
-              name="loginPassword"
-              placeholder="Password"
-              value={loginPassword}
-              onChange={this.handleInputChange}
-            />
-            <br />
-            <button type="button" className="btn btn-dark" onClick={this.onLogin}>Log In</button>
-          </div>
-        </div>
-      );
-    }
-
+    
     return (
       <div>
-        <h1>Client Account</h1>
+        <h1>Cuenta Nutriólogo</h1>
         <div className="row">
             <div className="col-md-3">
                 <div className="btn-group-vertical">
@@ -227,6 +138,7 @@ class Login extends Component {
                     <button type="button" className="btn btn-dark">Análisis Corporal</button>
                     <button type="button" className="btn btn-dark">Calendario de dieta</button>
                     <button type="button" className="btn btn-dark">Progreso</button>
+                    <Link to="/agenda" className="btn btn-dark">Agenda</Link>
                 </div>
             </div>
 
@@ -274,4 +186,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default VistaNutriologo;

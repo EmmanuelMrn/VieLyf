@@ -1,6 +1,11 @@
 @charset "UTF-8";
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600');
 @import 'vendor/normalize';
+
+// Estilos para la agenda
+@import '~react-agenda/build/styles.css';
+@import '~react-datetime/css/react-datetime.css';
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600');
 
 body {
     background: #fafbfc;
@@ -26,3 +31,4 @@ footer {
     width: 100%;
 }
 
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600');

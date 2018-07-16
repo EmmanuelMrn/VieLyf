@@ -1,17 +1,16 @@
 {
-  "name": "MERN-boilerplate",
+  "name": "VieLyf",
   "version": "1.0.0",
-  "description": "MERN stack project boilerplate",
+  "description": "",
   "author": "VieLyf",
   "repository": {
     "type": "git",
-    "url": "https://github.com/EmmanuelMrn/VieLyf.git"
+    "url": "https://github.com/EmmanuelMrn/VieLyf"
   },
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "webpack -p --progress --profile --colors && node server",
-    "dev": "node server"
+    "start": "node server"
   },
   "engines": {
     "node": ">=6"
@@ -19,10 +18,13 @@
   "dependencies": {
     "@babel/core": "^7.0.0-beta.42",
     "@babel/preset-env": "^7.0.0-beta.42",
-    "@babel/preset-react": "^7.0.0-beta.42",
+    "@babel/preset-react": "^7.0.0-beta.53",
+    "@chart.js": "^2.7.2",
     "autoprefixer": "^8.2.0",
+    "babel": "^6.23.0",
     "babel-loader": "^8.0.0-beta.2",
     "bcrypt": "^2.0.1",
+    "chart.js": "^2.7.2",
     "connect-history-api-fallback": "^1.5.0",
     "copy-webpack-plugin": "^4.5.1",
     "css-loader": "^0.28.11",
@@ -31,12 +33,15 @@
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "html-webpack-plugin": "^3.1.0",
     "moment": "^2.22.2",
+    "mdbootstrap": "^4.5.6",
+    "mdbreact": "^4.5.1",
     "mongoose": "^5.0.11",
     "node-sass": "^4.7.2",
     "nodemon": "^1.17.2",
     "postcss-loader": "^2.1.3",
     "react": "^16.2.0",
     "react-agenda": "0.0.7",
+    "react-chartjs-2": "^2.7.2",
     "react-dom": "^16.2.0",
     "react-hot-loader": "^4.0.0",
     "react-router": "^4.2.0",
