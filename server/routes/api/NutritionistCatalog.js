@@ -10,9 +10,9 @@ app.get('/api/accounts/nutritionistcatalog',(req,res,next)=>{
   
    User.find({ }, (err, doc)  => {
     //console.log(doc); 
-    if(err)
-    return res.send(err);
-    else
+    // if(err)
+    // return res.send(err);
+   
     return res.send(doc);
    });
 

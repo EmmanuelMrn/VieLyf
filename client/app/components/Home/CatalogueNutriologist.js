@@ -5,33 +5,31 @@ class CatalogueNutriologist extends Component {
     super();
 
     this.state = {
-      items:[]
+      Nutitionists:[]
     };
 
   }
   componentDidMount(){
-    fetch('/api/accounts/nutritionistcatalog')
+    fetch('/api/accounts/nutritionistcatalog', {method:'GET'})
     .then(res => res.json())
     .then (json=> {
-      if(json.success)
-      {
+     
         this.setState({
-          items:json
+          Nutitionists:json
         });
-        console.log(items);
-      }
-      else
-      {
-        console.log(json);
-      }
+        console.log(this.state.Nutitionists);
+      
     });
   }
+  
   render() {
     const {
-
+      
     } = this.state;
 
-    return (<div className="container"><p>In this place will be the Catalogue of Nutriologist, but theres nothing here yet, come back later bro</p></div>);
+    return (<div className="container"><p>In this place will be the Catalogue of Nutriologist, but theres nothing here yet, come back later bro</p><br />
+    <input type="text" name= "profPassword" placeholder="password" value ={this.Nutitionists[0].FirstName} readOnly/><br />
+    </div>);
   }
 }
 
