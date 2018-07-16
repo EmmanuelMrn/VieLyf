@@ -82,12 +82,12 @@ const Agenda = require('../../models/Agenda');
                     message: 'Error en la contraseña'
                 });
             }
-            if (!Phone) {
+            /*if (!Phone) {
                 return res.send({
                 success: false,
                 message: 'Error en el número de teléfono'
             });
-            }
+            }*/
             if (Role == 'Client' || Role == 'Nutritionist') {
                 User.find({ Email: Email }, (err, previousUser) => {
                     if (err) {
