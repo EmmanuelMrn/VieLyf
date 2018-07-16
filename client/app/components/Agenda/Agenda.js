@@ -6,8 +6,6 @@ import 'moment/locale/es';
 
 import {
   
-  getEmailFromStorage,
-  setEmailInStorage,
   getFromStorage,
 } from '../../utils/storage';
 import { METHODS } from 'http';

@@ -101,6 +101,18 @@ class Login extends Component {
             loginEmail: '',
             token: json.token,
           });
+          fetch('/api/account/isnutriologist?token='+loginEmail)
+            .then(res => res.json())
+            .then(json1 => {
+              console.log(json1.success)
+              if(json1.success){
+                window.location=('/vistanutriologo');
+              } else {
+                window.location=('/vistacliente');
+              }
+              
+              console.log(json1)
+            });    
         } else {
           this.setState({
             loginError: json.message,
@@ -109,19 +121,7 @@ class Login extends Component {
           console.log(loginPassword);
         }
       });
-
-      fetch('/api/account/isnutriologist?token='+loginEmail)
-        .then(res => res.json())
-        .then(json1 => {
-          console.log(json1.success)
-          if(json1.success){
-            window.location=('/vistanutriologo');
-          } else {
-            window.location=('/vistacliente');
-          }
-          
-          console.log(json1)
-        });
+      
       
   }
 
