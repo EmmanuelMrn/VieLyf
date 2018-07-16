@@ -67,7 +67,7 @@ const Agenda = require('../../models/Agenda');
             if (!LastName) {
                 return res.send({
                     success: false,
-                    message: 'Error en el apeido'
+                    message: 'Error en el apellido'
                 });
             }
             if (!Email) {
@@ -115,7 +115,7 @@ const Agenda = require('../../models/Agenda');
                         }
                         return res.send({
                             success: true,
-                            message: 'logrado'
+                            message: 'Logrado'
                         });
                     });
                 });
