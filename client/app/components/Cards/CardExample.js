@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Card, CardBody, CardImage, CardTitle, CardText } from 'react-cards';
+import Button from 'react-buttons';
+import  { Card, CardBody, CardImage, CardTitle, CardText } from 'react-cards';
 
 class CardExample extends React.Component {
   render() {

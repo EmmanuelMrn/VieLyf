@@ -12,7 +12,7 @@ import {
 import App from './components/App/App';
 import Charts from './components/Charts/Charts';
 import Home from './components/Home/Home';
-// import Cards from './components/Cards/CardExample';
+//import Cards from './components/Cards/CardExample';
 import Login from './components/Home/Login';
 import Signup from './components/Home/Signup';
 import Agenda from './components/Agenda/Agenda';
