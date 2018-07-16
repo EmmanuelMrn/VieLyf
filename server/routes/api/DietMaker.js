@@ -103,8 +103,8 @@ app.post('/api/accounts/ModifyDiet',(req,res,next) =>
             collationFat:req.body.collationFat,
             collationSugar:req.body.collationSugar}
          
-        //verify the token is one of a kind and is not deleted
-        Diet.updateOne( {"_id": req.body.token},{ $set:EditDiet},function(err, result){
+       
+        Diet.updateOne( {"_id": req.body.tokendiet},{ $set:EditDiet},function(err, result){
             console.log("modified");
             return  res.send({
                 success:true,

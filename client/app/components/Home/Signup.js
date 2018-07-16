@@ -17,7 +17,8 @@ class Signup extends Component {
       signUpEmail: '',
       signUpPassword: '',
       signUpFirstName: '',
-      signUpLastName: ''
+      signUpLastName: '',
+      
     };
 
     this.onSignUp = this.onSignUp.bind(this);

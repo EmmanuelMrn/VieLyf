@@ -19,6 +19,7 @@ import Agenda from './components/Agenda/Agenda';
 import CatalogueNutriologist from './components/Home/CatalogueNutriologist';
 import NutritionalBlog from './components/Home/NutritionalBlog';
 import DisponibilitySchedule from './components/Home/DisponibilitySchedule';
+import Diet from './components/Diet/Diet';
 
 import './styles/styles.scss';
 
@@ -33,6 +34,7 @@ render((
         <Route path="/catalogueNutriologist" component={CatalogueNutriologist}/>
         <Route path="/nutritionalBlog" component={NutritionalBlog}/>
         <Route path="/disponibilitySchedule" component={DisponibilitySchedule}/>
+        <Route path="/diet" component={Diet}/>
         <Route component={NotFound}/>
       </Switch>
     </App>
