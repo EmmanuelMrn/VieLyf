@@ -1,12 +1,14 @@
-import React, { Component } from 'react';
+  import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { ReactAgenda , ReactAgendaCtrl, guid , getUnique , getLast , getFirst , Modal } from 'react-agenda';
 import 'moment/locale/es';
 
 import {
+  
+  getEmailFromStorage,
+  setEmailInStorage,
   getFromStorage,
-  setInStorage,
 } from '../../utils/storage';
 import { METHODS } from 'http';
 
@@ -29,6 +31,7 @@ export default class Agenda extends Component {
   
   this.state = {
     items:[],
+    token: '',
     selected:[],
     cellHeight:(60 / 4),
     showModal:false,
@@ -52,10 +55,13 @@ export default class Agenda extends Component {
   }
 
   componentDidMount(){
-    const obj = getFromStorage('the_main_app');
-    if (obj && obj.token) {
-    const { token } = obj;
-    fetch('/api/account/agendaarray?token=' + token, {method:'GET'})
+    const obj = getFromStorage('email');
+    if (obj && obj.token1) {
+    
+    const { token1 } = obj;
+
+    console.log("token: "+token1);
+    fetch('/api/account/agendaarray?token='+token1, {method:'GET'})
         .then(res => res.json())
         .then(json1 => {
           this.setState({
@@ -65,10 +71,7 @@ export default class Agenda extends Component {
         });
         console.log("item"+items);
         console.log("json" + JSON);
-    console.log(token)
-    
-    
-    }
+      }
   }
 
 
