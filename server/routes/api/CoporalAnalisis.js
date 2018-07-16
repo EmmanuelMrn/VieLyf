@@ -1,5 +1,5 @@
 const User = require('../../models/User');
-const UserSession = require('../../models/UserSession');
+//const UserSession = require('../../models/UserSession');
 const BodyAnalysis = require('../../models/BodyAnalysis');
 module.exports=(app) => {
 
