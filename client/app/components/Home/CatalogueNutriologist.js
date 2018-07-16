@@ -5,10 +5,27 @@ class CatalogueNutriologist extends Component {
     super();
 
     this.state = {
+      items:[]
     };
 
   }
-  
+  componentDidMount(){
+    fetch('/api/accounts/nutritionistcatalog')
+    .then(res => res.json())
+    .then (json=> {
+      if(json.success)
+      {
+        this.setState({
+          items:json
+        });
+        console.log(items);
+      }
+      else
+      {
+        console.log(json);
+      }
+    });
+  }
   render() {
     const {
 

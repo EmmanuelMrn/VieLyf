@@ -8,7 +8,7 @@ app.get('/api/accounts/nutritionistcatalog',(req,res,next)=>{
     const {chart}=query;
   //  return res.send
   
-   User.findOne({ }, (err, doc)  => {
+   User.find({ }, (err, doc)  => {
     //console.log(doc); 
     if(err)
     return res.send(err);
