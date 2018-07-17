@@ -112,6 +112,89 @@ app.post('/api/accounts/ModifyDiet',(req,res,next) =>
         });
         
     });
+  
+    app.get("/api/account/getUserId", (req, res, next) => {
+    // Obtener el token
+    const { query } = req;
+    const { token } = query;
+    console.log(token);
+    UserSession.findOne(
+      {
+        //  _id: req.query.token
+        _id: req.query.token
+      },
+
+      (err, doc) => {
+        if (err) {
+          console.log(err);
+          return res.send({
+            success: false,
+            message: "Error: Server error"
+          });
+        } else {
+          return res.send({
+            success: true,
+            token
+            // token: doc.userId
+          });
+        }
+      }
+    );
+  });
+  
+    app.get("/api/account/verifyPatients", (req, res, next) => {
+    // Obtener el token
+    const { query } = req;
+    const { useridtoken } = query;
+    Patients.findOne(
+      {
+        Client_id: req.query.useridtoken
+      },
+
+      (err, doc) => {
+        if (err) {
+          console.log(err);
+          return res.send({
+            success: false,
+            message: "Error: Server error"
+          });
+        } else {
+          //return res.send(doc.userId);
+          return res.send({
+            success: true,
+            useridtoken: doc._id
+          });
+        }
+      }
+    );
+  });
+
+  app.get("/api/account/verifyDiets", (req, res, next) => {
+    // Obtener el token
+    const { query } = req;
+    const { patientsidtoken } = query;
+    console.log("finding diet");
+    Diet.findOne(
+      {
+        patient: req.query.patientsidtoken
+      },
+      (err, doc) => {
+        if (err) {
+          console.log(err);
+          return res.send({
+            success: false,
+            message: "Error: Server error"
+          });
+        } else {
+          //return res.send(doc.userId);
+          return res.send({
+            success: true,
+            patientsidtoken: doc._id
+          });
+        }
+      }
+    );
+  });
     
     app.get('/api/accounts/GetDiet',(req,res,next)=>{
 
