@@ -10,7 +10,7 @@ import {
 var currentPatientId="";
 var currentDietId="";
 var currentUserId="";
-var Patient_ID="5b4d66192a47970a586d14aa";
+var Patient_ID="5b4d66192a47970a586d14a9";
 
 class Diet extends Component {
   constructor() {
@@ -22,7 +22,9 @@ class Diet extends Component {
         Nutritionist_id:"",
         tokendiet: "",
         userstoken: "",
-        patient: '',
+        prueba:"",
+        patients:"",
+        NutritionistAccount: false,
         
   
         breakfastMilk:'',
@@ -93,26 +95,32 @@ class Diet extends Component {
               
               if(json.success){
                 this.GetMyPatient(Patient_ID);
+                
               } else {
+                //this.GetMyPatient(Patient_ID);
                 this.GetMyUser(currentUserId);
               }   
-              
+              this.setState({
+                NutritionistAccount:json.success,
+              });
               
             });
         });
     }
+
   GetMyUser(currentUserId){
 //Check for an existing relationship on Patient
 fetch('/api/accounts/GetUser?token='+currentUserId)
 .then(res => res.json())
 .then(json => {
     this.setState({
-      patient:json._id,
+      patients:json._id,
     }); 
     currentPatientId = json._id ;
     this.GetMyPatient(currentPatientId);
    });
   }
+
   GetMyPatient(currentPatientId){
  //Check for the diet 
         fetch('/api/accounts/GetPatient?token='+currentPatientId)
@@ -126,6 +134,7 @@ fetch('/api/accounts/GetUser?token='+currentUserId)
           });
         
   }
+
   GetMyDiets(currentDietId){
 //Get the especific diet for that client
 fetch('/api/accounts/GetDiet?token='+currentDietId)
@@ -260,6 +269,27 @@ fetch('/api/accounts/GetDiet?token='+currentDietId)
         }
       });
   }
+  renderTitle() {
+    if(this.state.NutritionistAccount) {
+      return (
+        <p>Edit Diet</p>
+      );
+    } else {
+      return (
+        <p>View Diet</p>
+      );
+    }
+  }
+  renderButtom() {
+    if(this.state.NutritionistAccount) {
+      return (
+        <button type="button" className="btn btn-dark" onClick={this.onEditDiet}>Edit Diet</button>
+      );
+    }
+  }
+ 
+    
+  
   render() {
     const {
         isLoadingue,
@@ -304,10 +334,11 @@ fetch('/api/accounts/GetDiet?token='+currentDietId)
         collationSugar
     } = this.state;
     
-    
+
     return (
     <div>
-    <p>Edit Diet</p>
+    {this.renderTitle()}
+    <br/>
     <br/>
     <b>Break Fast|   </b>
     <b>Lunch |  </b>
@@ -540,7 +571,7 @@ fetch('/api/accounts/GetDiet?token='+currentDietId)
       value={collationSugar}
       onChange={this.handleInputChange}
     /><b>Sugar</b><br /><br />
-    <button type="button" className="btn btn-dark" onClick={this.onEditDiet}>Edit Diet</button>
+    {this.renderButtom()}
   </div>
   
     );

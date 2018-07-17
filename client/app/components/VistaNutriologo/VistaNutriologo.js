@@ -136,7 +136,7 @@ class VistaNutriologo extends Component {
                 <div className="btn-group-vertical">
                     <button type="button" className="btn btn-dark">Página principal</button>
                     <button type="button" className="btn btn-dark">Análisis Corporal</button>
-                    <button type="button" className="btn btn-dark">Calendario de dieta</button>
+                    <Link to="/diet" className="btn btn-dark">Calendario de Dieta</Link>
                     <button type="button" className="btn btn-dark">Progreso</button>
                     <Link to="/agenda" className="btn btn-dark">Agenda</Link>
                 </div>
