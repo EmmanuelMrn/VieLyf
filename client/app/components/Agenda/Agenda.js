@@ -5,7 +5,6 @@ import { ReactAgenda , ReactAgendaCtrl, guid , getUnique , getLast , getFirst , 
 import 'moment/locale/es';
 
 import {
-  
   getFromStorage,
 } from '../../utils/storage';
 import { METHODS } from 'http';
@@ -36,6 +35,7 @@ export default class Agenda extends Component {
     locale:"fr",
     rowsPerHour:4,
     numberOfDays:4,
+    Relation:'',
     startDate: new Date()
   }
   this.handleRangeSelection = this.handleRangeSelection.bind(this)
@@ -55,20 +55,23 @@ export default class Agenda extends Component {
   componentDidMount(){
     const obj = getFromStorage('email');
     if (obj && obj.token1) {
-    
     const { token1 } = obj;
-
-    console.log("token: "+token1);
+    // this.setState ({
+    //   Relation:'ábc'
+    // })
+    localStorage.setItem('Auth', token1)
+    console.log('This: ' + sessionStorage.getItem('Auth'));
+    // console.log(this.state.Relation)
+    // console.log("token: "+token1);
     fetch('/api/account/agendaarray?token='+token1, {method:'GET'})
         .then(res => res.json())
         .then(json1 => {
           this.setState({
-            items : json1
-          });
-          console.log(json1)
+            items : json1,
+            Relation : token1,
+          })
+          console.log("2: "+json1)
         });
-        console.log("item"+items);
-        console.log("json" + JSON);
       }
   }
 
@@ -120,11 +123,12 @@ _closeModal(e){
     e.stopPropagation();
     e.preventDefault();
   }
+  console.log('test');
     this.setState({showModal:false})
 }
 
 handleItemChange(items , item){
-
+console.log('testfqefqefq');
 this.setState({items:items})
 }
 
@@ -140,7 +144,10 @@ removeEvent(items , item){
 }
 
 addNewEvent (items , newItems){
-
+  console.log('===================');
+  console.log('Agenda.js');
+  console.log(this.state.name);
+  console.log('===================');
   this.setState({showModal:false ,selected:[] , items:items});
   this._closeModal();
 }
