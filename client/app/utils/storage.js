@@ -29,35 +29,3 @@ export function setInStorage(key,Email) {
         console.error('Error')
     }
 }
-
-// export function getEmailFromStorage(keyEmail) {
-//     if (!keyEmail) {
-//         return null;
-//     }
-
-//     try {
-//         const valueStr = localStorage.getItem(keyEmail);
-//         if (valueStr) {
-//             return JSON.parse(valueStr);
-//         }
-//         return null;
-//     return null;
-//     } catch (err) {
-//         null
-//     }
-// }
-
-// export function setEmailInStorage(keyEmail,Email) {
-//     if (!keyEmail) {
-//         console.error('Error, Email perdido');
-//     }
-
-//     try {
-//         localStorage.setItem(keyEmail, JSON.stringify(Email));
-//         console.log(JSON.stringify(Email));
-
-//     } catch (err)
-//     {
-//         console.error('Error')
-//     }
-// }
