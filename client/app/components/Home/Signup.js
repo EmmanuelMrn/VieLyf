@@ -29,13 +29,11 @@ class Signup extends Component {
       signUpPhone:'',
       signUpError: '',
       signUpEmail: '',
-      checkRole:'Client',
       signUpPhone:'',
       signUpPassword: '',
       signUpFirstName: '',
       isActive: false,
       signUpLastName: '',
-      checkRole:'',
       profFirstName:'',
       profLastName:'',
       profMotherLastName:'',
@@ -225,10 +223,8 @@ class Signup extends Component {
       signUpFirstName,
       signUpLastName,
       signUpEmail,
-      checkRole,
       signUpPhone,
       signUpPassword,
-      checkRole,
     } = this.state;
 
     this.setState({
@@ -259,8 +255,7 @@ class Signup extends Component {
             signUpFirstName: '',
             signUpLastName: '',
             signUpEmail: '',
-            signUpPassword: '',    
-            checkRole: 'Client',
+            signUpPassword: '', 
             signUpPhone: ''
           });
         } else {
@@ -282,7 +277,6 @@ class Signup extends Component {
       signUpPassword,
       signUpError,
       signUpPhone,
-      checkRole,
       profFirstName,
       profLastName,
       profMotherLastName,
@@ -348,7 +342,7 @@ class Signup extends Component {
               value={signUpPassword}
               onChange={this.handleInputChange}
             /><br />
-             <input type="checkbox" value="Nutriologo" checked={false} onChange={this.toggleModal}/>Nutriologo<br/>
+             <input type="checkbox" value="Nutriologo" checked={false} onChange={this.toggleModal}/>Nutritionist<br/>
              <Modal isOpen={this.state.isActive} onRequestClose={this.toggleModal}style ={customStyles}>
           <input type="text" name ="License" placeholder="Cedula Profesional" value ={License} onChange={this.handleInputChange}/> <button onClick={() => this.verify()}>Verificar</button><br />
           <input type="text" name = "profFirstName"placeholder="Nombre" value ={profFirstName} onChange={this.handleInputChange}readOnly/><br />
@@ -362,7 +356,6 @@ class Signup extends Component {
           <button onClick={this.toggleModal}>Cancel</button>
           <button onClick={this.onProfSignUp}>Sign me up!</button>
           </Modal>
-            <input type="checkbox" name="checkRole" value={checkRole} /> Nutritionist <br/><br/>
             <button type="button" className="btn btn-dark" onClick={this.onSignUp}>Sign Up</button>
           </div>
       );
