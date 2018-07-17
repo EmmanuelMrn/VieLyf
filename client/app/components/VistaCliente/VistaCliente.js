@@ -145,7 +145,15 @@ class VistaCliente extends Component {
                 <p>Perfil</p>
                 <Link to="/disponibilitySchedule" className="btn btn-dark">Disponibilidad de Horario</Link>
             </div>
-
+      
+            <div className="col-md-6">
+              <p>Dieta</p>
+             <Link to="/Dieta" className="btn btn-dark">
+              Calendario de dieta
+             </Link>
+           </div>
+      
+      
             <div className="col-md-3">
                 <p>Edit profile</p>
                 <input
