@@ -200,6 +200,7 @@ const Agenda = require('../../models/Agenda');
        
         
     });
+    
 
     app.get('/api/account/verify', (req, res, next) => {
         // Obtener el token
@@ -320,7 +321,8 @@ const Agenda = require('../../models/Agenda');
                     }
                   });
                 });
-
+            
+    
                 app.post('/api/account/assign', (req, res, next) => {
                     // Crearmos la petición
                     const {body} = req;
@@ -430,4 +432,42 @@ const Agenda = require('../../models/Agenda');
                     //     } 
                     // });
                 });
+                app.get('/api/accounts/GetUserFromUserSession',(req,res,next)=>{
+
+                    UserSession.findOne({_id:req.query.token }, (err, doc)  => {
+                    if(err)
+                    return res.send(err);
+                    else
+                    return res.send(doc);
+                    });
+                });
+                app.get('/api/accounts/IsNutritionist', (req, res, next) => {
+                    const {query} = req;
+                    const {token} = query;
+            
+                    User.find({
+                        _id: token,
+                        Role: 'Nutritionist'
+                      }, (err, sessions) => {
+                        if (err) {
+                          console.log(err);
+                          return res.send({
+                            success: false,
+                            message: 'Error: Server error'
+                          });
+                        }
+                        if (sessions.length != 1) {
+                          return res.send({
+                            success: false,
+                            message: 'Error: Invalid'
+                          });
+                        } else {
+                          // DO ACTION
+                          return res.send({
+                            success: true,
+                            message: 'Good'
+                          });
+                        }
+                      });
+                    });
 };

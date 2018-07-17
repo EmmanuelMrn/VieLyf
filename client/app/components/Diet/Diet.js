@@ -1,52 +1,61 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
-
 import {
-    getFromStorage,
-    setInStorage,
-  } from '../../utils/storage';
+  
+  getEmailFromStorage,
+  setEmailInStorage,
+  getFromStorage,
+} from '../../utils/storage';
+
+var currentPatientId="";
+var currentDietId="";
+var currentUserId="";
+var Patient_ID="5b4d66192a47970a586d14aa";
+
 class Diet extends Component {
   constructor() {
     super();
 
     this.state = {
         isLoading: true,
+        Client_id:"",
+        Nutritionist_id:"",
         tokendiet: "",
         userstoken: "",
-        patientstoken: "",
-        diettoken: "",
+        patient: '',
+        
   
-        breakfastMilk: 0,
-        breakfastVeg: 0,
-        breakfastFruit: 0,
-        breakfastCereal: 0,
-        breakfastMeat: 0,
-        breakfastFat: 0,
-        breakfastSugar: 0,
+        breakfastMilk:'',
+        breakfastVeg:'',
+        breakfastFruit:'',
+        breakfastCereal:'',
+        breakfastMeat:'',
+        breakfastFat:'',
+        breakfastSugar:'',
         
-        lunchMilk: 0,
-        lunchVeg: 0,
-        lunchFruit: 0,
-        lunchCereal: 0,
-        lunchMeat: 0,
-        lunchFat: 0,
-        lunchSugar: 0,
+        lunchMilk:'',
+        lunchVeg:'',
+        lunchFruit:'',
+        lunchCereal:'',
+        lunchMeat:'',
+        lunchFat:'',
+        lunchSugar:'',
         
-        dinnerMilk: 0,
-        dinnerVeg: 0,
-        dinnerFruit: 0,
-        dinnerCereal: 0,
-        dinnerMeat: 0,
-        dinnerFat: 0,
-        dinnerSugar: 0,
+        dinnerMilk:'',
+        dinnerVeg:'',
+        dinnerFruit:'',
+        dinnerCereal:'',
+        dinnerMeat:'',
+        dinnerFat:'',
+        dinnerSugar:'',
         
-        collationMilk: 0,
-        collationVeg: 0,
-        collationFruit: 0,
-        collationCereal: 0,
-        collationMeat: 0,
-        collationFat: 0,
-        collationSugar: 0
+        collationMilk:'',
+        collationVeg:'',
+        collationFruit:'',
+        collationCereal:'',
+        collationMeat:'',
+        collationFat:'',
+        collationSugar:''
 
     };
 
@@ -65,37 +74,108 @@ class Diet extends Component {
     });
   }
   componentDidMount() {
+    //Get the current UserID on session
     const obj = getFromStorage('the_main_app');
-    if (obj && obj.token) {
-      const { token } = obj;
-      // Verify token
-      fetch('/api/account/verify?token=' + token)
+    const {token} = obj;
+      
+      fetch('/api/accounts/GetUserFromUserSession?token='+token)
         .then(res => res.json())
         .then(json => {
-          if (json.success) {
-            this.setState({
-              token,
-              isLoading: false
+          this.setState({
+            userstoken:json.userId,
+          });
+            currentUserId = json.userId;
+            
+            //Check for the role
+            fetch('/api/accounts/IsNutritionist?token='+currentUserId)
+            .then(res => res.json())
+            .then(json => {
+              
+              if(json.success){
+                this.GetMyPatient(Patient_ID);
+              } else {
+                this.GetMyUser(currentUserId);
+              }   
+              
+              
             });
-          } else {
-            this.setState({
-              isLoading: false,
-            });
-          }
         });
-    } else {
-      this.setState({
-        isLoading: false,
-      });
     }
+  GetMyUser(currentUserId){
+//Check for an existing relationship on Patient
+fetch('/api/accounts/GetUser?token='+currentUserId)
+.then(res => res.json())
+.then(json => {
+    this.setState({
+      patient:json._id,
+    }); 
+    currentPatientId = json._id ;
+    this.GetMyPatient(currentPatientId);
+   });
+  }
+  GetMyPatient(currentPatientId){
+ //Check for the diet 
+        fetch('/api/accounts/GetPatient?token='+currentPatientId)
+        .then(res => res.json())
+        .then(json => {
+            this.setState({
+              tokendiet:json._id
+            });
+            currentDietId = json._id ;
+            this.GetMyDiets(currentDietId);
+          });
+        
+  }
+  GetMyDiets(currentDietId){
+//Get the especific diet for that client
+fetch('/api/accounts/GetDiet?token='+currentDietId)
+.then(res => res.json())
+.then(json => {
+
+    this.setState({
+      breakfastMilk:json.breakfastMilk,
+      breakfastVeg:json.breakfastVeg ,
+      breakfastFruit:json.breakfastFruit ,
+      breakfastCereal:json.breakfastCereal ,
+      breakfastMeat:json.breakfastMeat ,
+      breakfastFat:json.breakfastFat ,
+      breakfastSugar:json.breakfastSugar ,
+      
+      lunchMilk:json.lunchMilk ,
+      lunchVeg:json.lunchVeg ,
+      lunchFruit:json.lunchFruit ,
+      lunchCereal:json.lunchCereal ,
+      lunchMeat:json.lunchMeat ,
+      lunchFat:json.lunchFat ,
+      lunchSugar:json.lunchSugar ,
+      
+      dinnerMilk:json.dinnerMilk ,
+      dinnerVeg:json.dinnerVeg ,
+      dinnerFruit:json.dinnerFruit ,
+      dinnerCereal:json.dinnerCereal ,
+      dinnerMeat:json.dinnerMeat ,
+      dinnerFat:json.dinnerFat ,
+      dinnerSugar:json.dinnerSugar ,
+      
+      collationMilk:json.collationMilk ,
+      collationVeg:json.collationVeg ,
+      collationFruit:json.collationFruit ,
+      collationCereal:json.collationCereal ,
+      collationMeat:json.collationMeat ,
+      collationFat:json.collationFat ,
+      collationSugar:json.collationSugar 
+    });
+  
+});
   }
   onEditDiet(){
     const {
         isLoading,
+        Client_id,
+        Nutritionist_id,
         tokendiet,
         userstoken,
-        patientstoken,
-        diettoken,
+        patient,
   
         breakfastMilk,
         breakfastVeg,
@@ -171,7 +251,6 @@ class Diet extends Component {
       }),
     }).then(res => res.json())
       .then(json => {
-        console.log('json', json);
         if (json.success) {
             //console.log("cool");
         } else {
@@ -181,16 +260,16 @@ class Diet extends Component {
         }
       });
   }
-  VerifyThereIsAPatient(){
-
-  }
   render() {
     const {
-        isLoading,
+        isLoadingue,
+        Client_id,
+        Nutritionist_id,
         tokendiet,
         userstoken,
-        patientstoken,
-        diettoken,
+        patient,
+        Nutritionist,
+        Flag,
   
         breakfastMilk,
         breakfastVeg,
@@ -224,18 +303,12 @@ class Diet extends Component {
         collationFat,
         collationSugar
     } = this.state;
-
+    
+    
     return (
     <div>
     <p>Edit Diet</p>
-    
-    <input
-      type="tokendiet"
-      name = "tokendiet"
-      placeholder="tokendiet"
-      value={tokendiet}
-      onChange={this.handleInputChange}
-    /><br/>
+    <br/>
     <b>Break Fast|   </b>
     <b>Lunch |  </b>
     <b>Dinner  | </b>
@@ -467,9 +540,9 @@ class Diet extends Component {
       value={collationSugar}
       onChange={this.handleInputChange}
     /><b>Sugar</b><br /><br />
-    <button type="button" className="btn btn-dark" onClick={this.onEditDiet}>Save changes</button>
+    <button type="button" className="btn btn-dark" onClick={this.onEditDiet}>Edit Diet</button>
   </div>
-
+  
     );
   }
 }
