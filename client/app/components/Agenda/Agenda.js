@@ -60,7 +60,7 @@ export default class Agenda extends Component {
     //   Relation:'ábc'
     // })
     localStorage.setItem('Auth', token1)
-    console.log('This: ' + sessionStorage.getItem('Auth'));
+    console.log('This: ' + localStorage.getItem('Auth'));
     // console.log(this.state.Relation)
     // console.log("token: "+token1);
     fetch('/api/account/agendaarray?token='+token1, {method:'GET'})

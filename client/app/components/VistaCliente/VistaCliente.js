@@ -135,24 +135,23 @@ class VistaCliente extends Component {
             <div className="col-md-3">
                 <div className="btn-group-vertical">
                     <button type="button" className="btn btn-dark">Página principal</button>
-                    <button type="button" className="btn btn-dark">Análisis Corporal</button>
+                    <Link to="/charts" className="btn btn-dark">Análisis Corporal</Link>
                     <Link to="/diet" className="btn btn-dark">Calendario de Dieta</Link>
                     <button type="button" className="btn btn-dark">Progreso</button>
                 </div>
             </div>
 
-            <div className="col-md-6">
-                <p>Perfil</p>
-                <Link to="/disponibilitySchedule" className="btn btn-dark">Disponibilidad de Horario</Link>
+            <div className="col-md-6 img1">
+                <div className="col-md-3">
+                  <img height='120px' src='https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg' alt='Imagen1' />
+                </div>
+                <div className="col-md-3">
+                  <p>Nombre: </p>
+                  <p>Edad: </p>
+                  <p>Estatura: </p>
+                  <p>Peso: </p>
+                </div>
             </div>
-      
-            <div className="col-md-6">
-              <p>Dieta</p>
-             <Link to="/Dieta" className="btn btn-dark">
-              Calendario de dieta
-             </Link>
-           </div>
-      
       
             <div className="col-md-3">
                 <p>Edit profile</p>

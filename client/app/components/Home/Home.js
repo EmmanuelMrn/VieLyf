@@ -22,7 +22,10 @@ class Home extends Component {
     } = this.state;
     return(
     <div className="container">
-      <p>Welcome to VieLyf!</p>
+      <h1>Welcome to VieLyf!</h1>
+      <div align="center" className="col-md-12">
+        <img height='300px' width='100%' src='/assets/img/imagen2.png' alt='Imagen2'/>
+      </div>
     </div>);
   }
 }

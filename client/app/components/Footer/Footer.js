@@ -3,7 +3,8 @@ import React from 'react';
 const Footer = () => (
   <footer className="footer">
       <nav className="navbar bg-dark text-white">
-        <p>About VieLyf</p>
+      
+        <p>Abput VieLyf</p>
       </nav>
   </footer>
 );

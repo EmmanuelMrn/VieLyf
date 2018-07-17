@@ -134,17 +134,23 @@ class VistaNutriologo extends Component {
         <div className="row">
             <div className="col-md-3">
                 <div className="btn-group-vertical">
-                    <button type="button" className="btn btn-dark">Página principal</button>
-                    <button type="button" className="btn btn-dark">Análisis Corporal</button>
-                    <Link to="/diet" className="btn btn-dark">Calendario de Dieta</Link>
-                    <button type="button" className="btn btn-dark">Progreso</button>
+                    <Link to="/vistanutriologo" className="btn btn-dark">Página principal</Link>
+                    <button type="button" className="btn btn-dark">Calendario</button>
+                    <Link to="/diet" className="btn btn-dark">Crear Dieta</Link>
                     <Link to="/agenda" className="btn btn-dark">Agenda</Link>
                 </div>
             </div>
 
-            <div className="col-md-6">
-                <p>Perfil</p>
-                <Link to="/disponibilitySchedule" className="btn btn-dark">Disponibilidad de Horario</Link>
+            <div className="col-md-6 img1">
+                <div className="col-md-3">
+                  <img height='120px' src='https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg' alt='Imagen1' />
+                </div>
+                <div className="col-md-3">
+                  <p>Nombre: </p>
+                  <p>Título: </p>
+                  <p>Telefóno: </p>
+                  <p>Correo: </p>
+                </div>
             </div>
 
             <div className="col-md-3">

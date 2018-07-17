@@ -54,6 +54,22 @@ class Login extends Component {
               token,
               isLoading: false
             });
+            const obj1 = getFromStorage('email')
+            const {token1} = obj1;
+            fetch('/api/account/isnutriologist?token='+token1)
+            .then(res => res.json())
+            .then(json1 => {
+              console.log(json1.success)
+              if(json1.success){
+                window.location=('/vistanutriologo');
+              } else {
+                window.location=('/vistacliente');
+              }
+              
+              console.log(json1);
+            });    
+            // Just for test.
+            // window.location=('/vistacliente')
           } else {
             this.setState({
               isLoading: false,
@@ -231,57 +247,8 @@ class Login extends Component {
 
     return (
       <div>
-        <h1>{vista}</h1>
-        <div className="row">
-            <div className="col-md-3">
-                <div className="btn-group-vertical">
-                    <button type="button" className="btn btn-dark">Página principal</button>
-                    <button type="button" className="btn btn-dark">Análisis Corporal</button>
-                    <Link to ="/diet" className="btn btn-dark">Calendario de dieta</Link>
-                    <button type="button" className="btn btn-dark">Progreso</button>
-                </div>
-            </div>
-
-            <div className="col-md-6">
-                <p>Perfil</p>
-                <Link to="/disponibilitySchedule" className="btn btn-dark">Disponibilidad de Horario</Link>
-            </div>
-
-            <div className="col-md-3">
-                <p>Edit profile</p>
-                <input
-                  type="firstName"
-                  name="signUpFirstName"
-                  placeholder="First Name"
-                  value={this.state.signUpFirstName}
-                  onChange={this.handleInputChange}
-                /><br />
-                <input
-                  type="lastName"
-                  name="signUpLastName"
-                  placeholder="Last Name"
-                  value={this.state.signUpLastName}
-                  onChange={this.handleInputChange}
-                /><br />
-                <input
-                  type="email"
-                  name="signUpEmail"
-                  placeholder="Email"
-                  value={this.state.signUpEmail}
-                  onChange={this.handleInputChange}
-                /><br />
-                <input
-                  type="password"
-                  name="signUpPassword"
-                  placeholder="Password"
-                  value={this.state.signUpPassword}
-                  onChange={this.handleInputChange}
-                /><br />
-                <button type="button" className="btn btn-dark" onClick={this.onEditProfile}>Save changes</button>
-            </div>
-          </div>
-          <button type="button" className="btn btn-dark" onClick={this.logout}>Logout</button>
       </div>
+        
     );
   }
 }

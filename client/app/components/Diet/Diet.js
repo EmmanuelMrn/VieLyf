@@ -10,7 +10,7 @@ import {
 var currentPatientId="";
 var currentDietId="";
 var currentUserId="";
-var Patient_ID="5b4d66192a47970a586d14a9";
+var Patient_ID="5b4e1dccf1934719d4c95656";
 
 class Diet extends Component {
   constructor() {
@@ -337,6 +337,7 @@ fetch('/api/accounts/GetDiet?token='+currentDietId)
 
     return (
     <div>
+    <div className="col-md-4">
     {this.renderTitle()}
     <br/>
     <br/>
@@ -572,6 +573,10 @@ fetch('/api/accounts/GetDiet?token='+currentDietId)
       onChange={this.handleInputChange}
     /><b>Sugar</b><br /><br />
     {this.renderButtom()}
+  </div>
+  <div className="col-md-4">
+    <img height='200px' src='/assets/img/imagen3.jpg' alt='Imagen3'/>
+  </div>
   </div>
   
     );
