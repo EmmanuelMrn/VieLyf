@@ -19,6 +19,7 @@ import Signup from './components/Home/Signup';
 import Agenda from './components/Agenda/Agenda';
 import NotFound from './components/App/NotFound';
 import NutritionalBlog from './components/Home/NutritionalBlog';
+import Dieta from "./components/VistaCliente/Dieta";
 import VistaCliente from './components/VistaCliente/VistaCliente';
 import VistaNutriologo from './components/VistaNutriologo/VistaNutriologo';
 import CatalogueNutriologist from './components/Home/CatalogueNutriologist';
@@ -41,6 +42,11 @@ render((
         <Route path="/vistanutriologo" component={VistaNutriologo}/>
         <Route path="/catalogueNutriologist" component={CatalogueNutriologist}/>
         <Route path="/disponibilitySchedule" component={DisponibilitySchedule}/>
+        <Route path="/diet" component={Diet}/>
+        <Route path="/Dieta" component={Dieta} />
+        <Route path ="/corporalanalysis" component={CorporalAnalysis}/>
+        <Route path="/charts" component={ChartsPage}/>
+
         <Route component={NotFound}/>
       </Switch>
     </App>
