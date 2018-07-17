@@ -13,7 +13,6 @@ node_modules
 logs
 *.log
 npm-debug.log*
-package-lock.json
 
 # OS stuff
 Desktop.ini
@@ -24,3 +23,4 @@ $RECYCLE.BIN/
 .DS_Store
 .Spotlight-V100
 .Trashes
+package-lock.json
