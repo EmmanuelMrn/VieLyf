@@ -1,5 +1,4 @@
 const User = require('../../models/User');
-//const UserSession = require('../../models/UserSession');
 const BodyAnalysis = require('../../models/BodyAnalysis');
 module.exports=(app) => {
 app.get('/api/accounts/nutritionistcatalog',(req,res,next)=>{
@@ -11,7 +10,7 @@ app.get('/api/accounts/nutritionistcatalog',(req,res,next)=>{
    User.findOne({ }, (err, doc)  => {
     //console.log(doc); 
     // if(err)
-    // return res.send(err);
+    //  return res.send(err);
    
     return res.json(doc);
    });

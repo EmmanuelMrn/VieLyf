@@ -29,6 +29,8 @@ class Signup extends Component {
       signUpPhone:'',
       signUpError: '',
       signUpEmail: '',
+      checkRole:'Client',
+      signUpPhone:'',
       signUpPassword: '',
       signUpFirstName: '',
       isActive: false,
@@ -40,7 +42,7 @@ class Signup extends Component {
       profTitle:'',
       profEmail:'',
       profPassword:'',
-      License :''
+      License :'',
     };
 
     this.onSignUp = this.onSignUp.bind(this);
@@ -223,6 +225,7 @@ class Signup extends Component {
       signUpFirstName,
       signUpLastName,
       signUpEmail,
+      checkRole,
       signUpPhone,
       signUpPassword,
       checkRole,
@@ -256,7 +259,9 @@ class Signup extends Component {
             signUpFirstName: '',
             signUpLastName: '',
             signUpEmail: '',
-            signUpPassword: '',
+            signUpPassword: '',    
+            checkRole: 'Client',
+            signUpPhone: ''
           });
         } else {
           this.setState({
@@ -286,7 +291,6 @@ class Signup extends Component {
       profPassword,
       profPhone,
       License ,
- 
     } = this.state;
 
     if (isLoading) {
@@ -324,6 +328,13 @@ class Signup extends Component {
               onChange={this.handleInputChange}
             /><br />
             <input
+              type="text"
+              name="signUpPhone"
+              placeholder="Phone"
+              value={signUpPhone}
+              onChange={this.handleInputChange}
+            /><br />
+            <input
               type="email"
               name="signUpEmail"
               placeholder="Email"
@@ -351,6 +362,7 @@ class Signup extends Component {
           <button onClick={this.toggleModal}>Cancel</button>
           <button onClick={this.onProfSignUp}>Sign me up!</button>
           </Modal>
+            <input type="checkbox" name="checkRole" value={checkRole} /> Nutritionist <br/><br/>
             <button type="button" className="btn btn-dark" onClick={this.onSignUp}>Sign Up</button>
           </div>
       );
