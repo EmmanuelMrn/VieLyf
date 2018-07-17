@@ -44,16 +44,18 @@ class CatalogueNutriologist extends Component {
 var arr3 = Object.values(this.state.Nutitionists);
     //var arr3 = Object.values(Algo);
     console.log(this.props,"Hello");
-    return (<div className="container"><p>In this place will be the Catalogue of Nutriologist, but theres nothing here yet, come back later bro</p><br />
-    {/* <input type="text" name= "profPassword" placeholder="password" value ={arr3} readOnly/><br /> */}
-    <ul>
-      {
-        arr3.map((arr3,i)=>{
-          return <li key={i}> {arr3} </li>
-        })
-      }
-    </ul>
-    {/* {labels} */}
+    return (
+    <div className="container">
+      <h1>Catalogue of Nutriologist</h1><br />
+      {/* <input type="text" name= "profPassword" placeholder="password" value ={arr3} readOnly/><br /> */}
+      <ul>
+        {
+          arr3.map((arr3,i)=>{
+            return <li key={i}> {arr3} </li>
+          })
+        }
+      </ul>
+      {/* {labels} */}
     </div>);
   }
 }

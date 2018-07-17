@@ -299,7 +299,7 @@ class Signup extends Component {
                 <p>{signUpError}</p>
               ) : (null)
             }
-            <p>Sign Up</p>
+            <h1>Sign Up</h1>
             <input
               type="firstName"
               name="signUpFirstName"

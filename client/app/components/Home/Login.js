@@ -194,7 +194,7 @@ class Login extends Component {
                 <p>{loginError}</p>
               ) : (null)
             }
-            <p>Log In</p>
+            <h1>Log In</h1>
             <input
               name="loginEmail"
               type="text"
