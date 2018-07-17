@@ -8,12 +8,12 @@ app.get('/api/accounts/nutritionistcatalog',(req,res,next)=>{
     const {chart}=query;
   //  return res.send
   
-   User.find({ }, (err, doc)  => {
+   User.findOne({ }, (err, doc)  => {
     //console.log(doc); 
     // if(err)
     // return res.send(err);
    
-    return res.send(doc);
+    return res.json(doc);
    });
 
 });
