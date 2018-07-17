@@ -144,10 +144,6 @@ removeEvent(items , item){
 }
 
 addNewEvent (items , newItems){
-  console.log('===================');
-  console.log('Agenda.js');
-  console.log(this.state.name);
-  console.log('===================');
   this.setState({showModal:false ,selected:[] , items:items});
   this._closeModal();
 }

@@ -391,8 +391,6 @@ const Agenda = require('../../models/Agenda');
                         });
                     }
                     
-                    var now = new Date();
-                    var naw = now.getDate()
                     const newDate = new Agenda();
                     
                     newDate.name = name;
@@ -412,13 +410,13 @@ const Agenda = require('../../models/Agenda');
                             message: 'logrado'
                         });
                     });
-        
-                    // Agenda.find({ Email: Email }, (err, previousUser) => {
-                    //     if (err) {
-                    //         return res.send('Error');
-                    //     } else if ( previousUser.length > 0) {
-                    //         return res.send('Error');
-                    //     } 
-                    // });
+                });
+
+                app.get("/api/account/removedate", (req, res, next) => {
+                    Agenda.findOneAndDelete({_id: req.query.token}, function(err) {
+                        if (err)
+                            res.send({success: false, message: 'Error: '+err});
+                        res.json({ success: true, message: 'Date deleted!' })
+                    });
                 });
 };
