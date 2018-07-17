@@ -91,7 +91,7 @@ const Agenda = require('../../models/Agenda');
             if (Role == 'Client' || Role == 'Nutritionist') {
                 User.find({ Email: Email }, (err, previousUser) => {
                     if (err) {
-                        return res.send('Error');
+                        return res.send('Error'+ err);
                     } else if ( previousUser.length > 0) {
                         return res.send('Error');
                     }
@@ -393,24 +393,12 @@ const Agenda = require('../../models/Agenda');
                         });
                     }
                     
-                    var now = new Date();
-                    var naw = now.getDate()
                     const newDate = new Agenda();
-                    console.log(now)
                     
                     newDate.name = name;
-                    // newDate.startDateTime.year = currentTime.getFullYear;
-                    // newDate.startDateTime.month = currentTime.getMonth;
-                    newDate.startDateTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 13, 0),
-                    console.log(now)
-                    console.log(now.getFullYear());
-                    console.log(now.getDate());
-                    console.log(now.getMonth());
-                    console.log(now.getDay());
-                    console.log(now.getHours());
-                    console.log(now.getMinutes());
-                    newDate.endDateTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 14, 0),
-                    newDate.classes = 'color-2';
+                    newDate.startDateTime = startDateTime,
+                    newDate.endDateTime = endDateTime,
+                    newDate.classes = classes;
                     newDate.Nutriologist_id = Nutriologist_id;
                     newDate.save((err, user) => {
                         if (err) {
@@ -424,14 +412,14 @@ const Agenda = require('../../models/Agenda');
                             message: 'logrado'
                         });
                     });
-        
-                    // Agenda.find({ Email: Email }, (err, previousUser) => {
-                    //     if (err) {
-                    //         return res.send('Error');
-                    //     } else if ( previousUser.length > 0) {
-                    //         return res.send('Error');
-                    //     } 
-                    // });
+                });
+
+                app.get("/api/account/removedate", (req, res, next) => {
+                    Agenda.findOneAndDelete({_id: req.query.token}, function(err) {
+                        if (err)
+                            res.send({success: false, message: 'Error: '+err});
+                        res.json({ success: true, message: 'Date deleted!' })
+                    });
                 });
                 app.get('/api/accounts/GetUserFromUserSession',(req,res,next)=>{
 

@@ -115,7 +115,7 @@ class VistaNutriologo extends Component {
         isLoading: false,
       });
     }
-    window.location('/login')
+    window.location=  ('/login')
   }
 
   render() {

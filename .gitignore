@@ -5,6 +5,7 @@ dist/
 config/config.js
 
 # Node stuff
+package-lock.json
 node_modules
 .npm
 .node_repl_history
@@ -12,6 +13,7 @@ node_modules
 logs
 *.log
 npm-debug.log*
+package-lock.json
 
 # OS stuff
 Desktop.ini

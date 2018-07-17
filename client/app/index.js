@@ -11,7 +11,9 @@ import {
 
 import App from './components/App/App';
 import Diet from './components/Diet/Diet';
+import Charts from './components/Charts/Charts';
 import Home from './components/Home/Home';
+//import Cards from './components/Cards/CardExample';
 import Login from './components/Home/Login';
 import Signup from './components/Home/Signup';
 import Agenda from './components/Agenda/Agenda';
@@ -32,6 +34,8 @@ render((
         <Route path="/diet" component={Diet}/>
         <Route path="/signup" component={Signup}/>
         <Route path="/agenda" component={Agenda}/>
+        <Route path="/charts" component={Charts}/>
+        {/* <Route path="/cards" component={Cards}/> */}
         <Route path="/vistacliente" component={VistaCliente}/>
         <Route path="/nutritionalBlog" component={NutritionalBlog}/>
         <Route path="/vistanutriologo" component={VistaNutriologo}/>
