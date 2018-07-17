@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 import { Link } from 'react-router-dom';
-
+var vista = ('');
 import {
   getFromStorage,
   setInStorage,
@@ -68,6 +68,7 @@ class Login extends Component {
   }
 
   onLogin() {
+
     const {
       loginEmail,
       loginPassword,
@@ -121,8 +122,19 @@ class Login extends Component {
           console.log(loginPassword);
         }
       });
-      
-      
+
+      fetch('/api/account/isnutriologist?token='+loginEmail)
+        .then(res => res.json())
+        .then(json1 => {
+          console.log(json1.success)
+          if(json1.success){
+            window.location=('/vistanutriologo');
+          } else {
+            window.location=('/vistacliente');
+          }
+          
+          console.log(json1)
+        });
   }
 
   onEditProfile() {
@@ -194,7 +206,7 @@ class Login extends Component {
                 <p>{loginError}</p>
               ) : (null)
             }
-            <p>Log In</p>
+            <h1>Log In</h1>
             <input
               name="loginEmail"
               type="text"
@@ -219,13 +231,13 @@ class Login extends Component {
 
     return (
       <div>
-        <h1>Client Account</h1>
+        <h1>{vista}</h1>
         <div className="row">
             <div className="col-md-3">
                 <div className="btn-group-vertical">
                     <button type="button" className="btn btn-dark">Página principal</button>
                     <button type="button" className="btn btn-dark">Análisis Corporal</button>
-                    <button type="button" className="btn btn-dark">Calendario de dieta</button>
+                    <Link to ="/diet" className="btn btn-dark">Calendario de dieta</Link>
                     <button type="button" className="btn btn-dark">Progreso</button>
                 </div>
             </div>

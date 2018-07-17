@@ -10,7 +10,9 @@ import {
 } from 'react-router-dom'
 
 import App from './components/App/App';
+import Charts from './components/Charts/Charts';
 import Home from './components/Home/Home';
+//import Cards from './components/Cards/CardExample';
 import Login from './components/Home/Login';
 import Signup from './components/Home/Signup';
 import Agenda from './components/Agenda/Agenda';
@@ -20,7 +22,10 @@ import VistaCliente from './components/VistaCliente/VistaCliente';
 import VistaNutriologo from './components/VistaNutriologo/VistaNutriologo';
 import CatalogueNutriologist from './components/Home/CatalogueNutriologist';
 import DisponibilitySchedule from './components/Home/DisponibilitySchedule';
+import Diet from './components/Diet/Diet';
+import CorporalAnalysis from './components/CorporalAnalysis/CorporalAnalysis';
 import './styles/styles.scss';
+import ChartsPage from './components/App/ChartsPage/ChartsPage';
 
 render((
   <Router>
@@ -30,11 +35,16 @@ render((
         <Route path="/login" component={Login}/>
         <Route path="/signup" component={Signup}/>
         <Route path="/agenda" component={Agenda}/>
+        <Route path="/charts" component={Charts}/>
+        {/* <Route path="/cards" component={Cards}/> */}
         <Route path="/vistacliente" component={VistaCliente}/>
         <Route path="/nutritionalBlog" component={NutritionalBlog}/>
         <Route path="/vistanutriologo" component={VistaNutriologo}/>
         <Route path="/catalogueNutriologist" component={CatalogueNutriologist}/>
         <Route path="/disponibilitySchedule" component={DisponibilitySchedule}/>
+        <Route path="/diet" component={Diet}/>
+        <Route path ="/corporalanalysis" component={CorporalAnalysis}/>
+        <Route path="/charts" component={ChartsPage}/>
         <Route component={NotFound}/>
       </Switch>
     </App>

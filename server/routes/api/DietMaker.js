@@ -4,7 +4,6 @@ const Diet = require('../../models/Diet');
 const Patient = require('../../models/Patient');
 module.exports=(app) => {
 
-
  app.post('/api/accounts/newPatient', (req,res,next) =>{
     const {body } = req;
     const {
@@ -103,8 +102,8 @@ app.post('/api/accounts/ModifyDiet',(req,res,next) =>
             collationFat:req.body.collationFat,
             collationSugar:req.body.collationSugar}
          
-        //verify the token is one of a kind and is not deleted
-        Diet.updateOne( {"_id": req.body.token},{ $set:EditDiet},function(err, result){
+       
+        Diet.updateOne( {"_id": req.body.tokendiet},{ $set:EditDiet},function(err, result){
             console.log("modified");
             return  res.send({
                 success:true,
@@ -113,4 +112,35 @@ app.post('/api/accounts/ModifyDiet',(req,res,next) =>
         });
         
     });
+    
+    app.get('/api/accounts/GetDiet',(req,res,next)=>{
+
+        Diet.findOne({_id:req.query.token }, (err, doc)  => {
+        if(err)
+        return res.send(err);
+        else
+        return res.send(doc);
+        });
+    });
+    //search patient into diet
+    app.get('/api/accounts/GetPatient',(req,res,next)=>{
+
+        Diet.findOne({patient:req.query.token }, (err, doc)  => {
+        if(err)
+        return res.send(err);
+        else
+        return res.send(doc);
+        });
+    });
+    //search clinet into patients
+    app.get('/api/accounts/GetUser',(req,res,next)=>{
+
+        Patient.findOne({Client_id:req.query.token }, (err, doc)  => {
+        if(err)
+        return res.send(err);
+        else
+        return res.send(doc);
+        });
+    });
+    
 }
