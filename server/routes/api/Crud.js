@@ -90,9 +90,10 @@ const Agenda = require('../../models/Agenda');
             }*/
             if (Role == 'Client' || Role == 'Nutritionist') {
                 User.find({ Email: Email }, (err, previousUser) => {
-                    if (err) {
-                        return res.send('Error');
-                    } else if ( previousUser.length > 0) {
+                    // if (err) {
+                    //     return res.send('Error');
+                    // } else 
+                    if ( previousUser.length > 0) {
                         return res.send('Error');
                     }
                     

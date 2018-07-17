@@ -1,10 +1,23 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
+import Modal from 'react-modal';
+
 
 import {
   getFromStorage,
   setInStorage,
 } from '../../utils/storage';
+const customStyles = {
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)',
+    backgroundColor       :'#98fb98'
+  }
+};
 
 class Signup extends Component {
   constructor(props) {
@@ -13,17 +26,29 @@ class Signup extends Component {
     this.state = {
       isLoading: true,
       token: '',
+      signUpPhone:'',
       signUpError: '',
       signUpEmail: '',
       checkRole:'Client',
       signUpPhone:'',
       signUpPassword: '',
       signUpFirstName: '',
+      isActive: false,
       signUpLastName: '',
-      
+      checkRole:'',
+      profFirstName:'',
+      profLastName:'',
+      profMotherLastName:'',
+      profTitle:'',
+      profEmail:'',
+      profPassword:'',
+      License :'',
     };
 
     this.onSignUp = this.onSignUp.bind(this);
+    this.onProfSignUp = this.onProfSignUp.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
+    this.verify = this.verify.bind(this);
 
     this.handleInputChange = this.handleInputChange.bind(this);
   }
@@ -64,6 +89,136 @@ class Signup extends Component {
     }
   }
 
+  verify()
+  {
+
+    const{
+      profFirstName,
+      profLastName,
+      profMotherLastName,
+      profTitle,
+      License
+
+    } = this.state;
+    console.log("success");
+    this.setState({
+     isLoading:true,
+    });
+   
+   /*Consuimiedo API  
+   Ya es dinamico
+   */
+  const URL ='http://search.sep.gob.mx/solr/cedulasCore/select?fl=%2A%2Cscore&q='+License+'&start=0&rows=100&facet=true&indent=on&wt=json';
+  if(License!="" || !License)
+    {fetch(URL, { 
+      method: 'GET',
+     crossDomain:true,
+      //headers: { 'Content-Type': 'application/json'}
+      
+  })
+      
+      .then(res => res.json())  
+      .then(json => {
+        
+        // if(json.success){
+          console.log("algo bien!", json.response.numFound);
+
+          if(json.response.numFound)
+          {this.setState({
+            
+            signUpError:json.message,
+            isLoading:false,
+            profFirstName : json.response.docs[0].nombre,
+            profLastName: json.response.docs[0].paterno,
+            profMotherLastName:json.response.docs[0].materno,
+            profTitle: json.response.docs[0].titulo,
+          });}
+          else{
+            //console.log(json.response.docs[0].nombre);
+            this.setState({
+              //signUpError:json.message,
+              isLoading:false
+            });
+            
+            
+          }
+   
+      });}
+      else{
+        console.log("Hey que show");
+      }
+
+    }
+    onProfSignUp()
+  {
+    
+    const{
+      profFirstName,
+      profLastName,
+      profEmail,
+      profPassword,
+      profPhone,
+    } = this.state;
+    console.log(profFirstName,
+      profLastName,
+      profEmail,
+      profPassword);
+    this.setState({
+     isLoading:true
+    });
+
+    fetch('/api/account/signup', 
+    { method: 'POST',
+      headers:{
+        'Content-Type': 'application/json'
+      }, 
+      body : JSON.stringify({
+        FirstName: profFirstName,
+        LastName: profLastName,
+        Email: profEmail,
+        Password: profPassword,
+        Phone:profPhone,
+        Role:'Nutritionist'
+      }),
+  })
+      .then(res => res.json())
+      .then(json => {
+        console.log(json);
+        if(json.success){
+          this.setState({
+            signUpError:json.message,
+            isLoading:false,
+            profFirstName:'',
+            profLastName:'',
+            profEmail:'',
+            profPassword:'',
+            profPhone:''
+          });
+          this.toggleModal()
+        }
+        else{
+          this.setState({
+            signUpError:json.message,
+            isLoading:false
+          });
+        }
+      });
+
+  }
+  toggleModal() 
+  {
+    this.setState({
+      isActive:!this.state.isActive,
+      profFirstName:'',
+      profEmail:'',
+      profLastName:'',
+      profMotherLastName:'',
+      profPassword:'',
+      profTitle:'',
+      profPhone:'',
+      License:''
+    })
+  }
   onSignUp() {
     // Grab state
     const {
@@ -73,6 +228,7 @@ class Signup extends Component {
       checkRole,
       signUpPhone,
       signUpPassword,
+      checkRole,
     } = this.state;
 
     this.setState({
@@ -89,9 +245,9 @@ class Signup extends Component {
         FirstName: signUpFirstName,
         LastName: signUpLastName,
         Email: signUpEmail,
-        Password: signUpPassword,   
-        Role: checkRole,
-        Phone: signUpPhone
+        Password: signUpPassword,
+        Phone: signUpPhone,
+        Role:'Client'
       }),
     }).then(res => res.json())
       .then(json => {
@@ -124,9 +280,17 @@ class Signup extends Component {
       signUpFirstName,
       signUpLastName,
       signUpPassword,
-      checkRole,
+      signUpError,
       signUpPhone,
-      signUpError
+      checkRole,
+      profFirstName,
+      profLastName,
+      profMotherLastName,
+      profTitle,
+      profEmail,
+      profPassword,
+      profPhone,
+      License ,
     } = this.state;
 
     if (isLoading) {
@@ -147,6 +311,13 @@ class Signup extends Component {
               name="signUpFirstName"
               placeholder="First Name"
               value={signUpFirstName}
+              onChange={this.handleInputChange}
+            /><br />
+             <input
+              type="text"
+              name="signUpPhone"
+              placeholder="Phone"
+              value={signUpPhone}
               onChange={this.handleInputChange}
             /><br />
             <input
@@ -177,6 +348,20 @@ class Signup extends Component {
               value={signUpPassword}
               onChange={this.handleInputChange}
             /><br />
+             <input type="checkbox" value="Nutriologo" checked={false} onChange={this.toggleModal}/>Nutriologo<br/>
+             <Modal isOpen={this.state.isActive} onRequestClose={this.toggleModal}style ={customStyles}>
+          <input type="text" name ="License" placeholder="Cedula Profesional" value ={License} onChange={this.handleInputChange}/> <button onClick={() => this.verify()}>Verificar</button><br />
+          <input type="text" name = "profFirstName"placeholder="Nombre" value ={profFirstName} onChange={this.handleInputChange}readOnly/><br />
+          <input type="text" name ="profLastName" placeholder="Paterno" value ={profLastName} onChange={this.handleInputChange}readOnly/><br />
+          <input type="text" name = "profMotherLastName" placeholder="Materno" value ={profMotherLastName} onChange={this.handleInputChange}readOnly/><br />
+          <input type="text" name = "profTitle" placeholder="Titulo" value ={profTitle} onChange={this.handleInputChange} readOnly/><br />
+          <input type="text" name = "profPhone" placeholder="Phone" value = {profPhone} onChange={this.handleInputChange}/><br />
+          <input type="email" name = "profEmail" placeholder="email" value = {profEmail} onChange={this.handleInputChange}/><br />
+          <input type="password" name= "profPassword" placeholder="password" value = {profPassword}onChange={this.handleInputChange}/><br />
+         
+          <button onClick={this.toggleModal}>Cancel</button>
+          <button onClick={this.onProfSignUp}>Sign me up!</button>
+          </Modal>
             <input type="checkbox" name="checkRole" value={checkRole} /> Nutritionist <br/><br/>
             <button type="button" className="btn btn-dark" onClick={this.onSignUp}>Sign Up</button>
           </div>
