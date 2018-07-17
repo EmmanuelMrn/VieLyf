@@ -15,6 +15,8 @@ class Signup extends Component {
       token: '',
       signUpError: '',
       signUpEmail: '',
+      checkRole:'Client',
+      signUpPhone:'',
       signUpPassword: '',
       signUpFirstName: '',
       signUpLastName: '',
@@ -68,6 +70,8 @@ class Signup extends Component {
       signUpFirstName,
       signUpLastName,
       signUpEmail,
+      checkRole,
+      signUpPhone,
       signUpPassword,
     } = this.state;
 
@@ -85,7 +89,9 @@ class Signup extends Component {
         FirstName: signUpFirstName,
         LastName: signUpLastName,
         Email: signUpEmail,
-        Password: signUpPassword,
+        Password: signUpPassword,   
+        Role: checkRole,
+        Phone: signUpPhone
       }),
     }).then(res => res.json())
       .then(json => {
@@ -97,7 +103,9 @@ class Signup extends Component {
             signUpFirstName: '',
             signUpLastName: '',
             signUpEmail: '',
-            signUpPassword: '',
+            signUpPassword: '',    
+            checkRole: 'Client',
+            signUpPhone: ''
           });
         } else {
           this.setState({
@@ -116,6 +124,8 @@ class Signup extends Component {
       signUpFirstName,
       signUpLastName,
       signUpPassword,
+      checkRole,
+      signUpPhone,
       signUpError
     } = this.state;
 
@@ -147,6 +157,13 @@ class Signup extends Component {
               onChange={this.handleInputChange}
             /><br />
             <input
+              type="text"
+              name="signUpPhone"
+              placeholder="Phone"
+              value={signUpPhone}
+              onChange={this.handleInputChange}
+            /><br />
+            <input
               type="email"
               name="signUpEmail"
               placeholder="Email"
@@ -160,6 +177,7 @@ class Signup extends Component {
               value={signUpPassword}
               onChange={this.handleInputChange}
             /><br />
+            <input type="checkbox" name="checkRole" value={checkRole} /> Nutritionist <br/><br/>
             <button type="button" className="btn btn-dark" onClick={this.onSignUp}>Sign Up</button>
           </div>
       );

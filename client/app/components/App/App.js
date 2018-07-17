@@ -5,6 +5,7 @@ import Footer from '../Footer/Footer';
 import Agenda from '../Agenda/Agenda';
 import 'moment/locale/es';
 
+
 const App = ({ children }) => (
   <>
     <Header />
@@ -15,7 +16,6 @@ const App = ({ children }) => (
 
     <Footer />
 
-    {/* <Agenda /> */}
   </>
 );
 
