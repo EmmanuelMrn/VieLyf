@@ -10,7 +10,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "nodemon server && node server"
+    "start": "node server"
   },
   "engines": {
     "node": ">=6"

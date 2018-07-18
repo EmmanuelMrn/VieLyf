@@ -43,6 +43,7 @@ class VistaNutriologo extends Component {
 
   componentDidMount() {
     const obj = getFromStorage('the_main_app');
+    console.log(obj)
     if (obj && obj.token) {
       const { token } = obj;
       console.log(token);
@@ -115,6 +116,9 @@ class VistaNutriologo extends Component {
         isLoading: false,
       });
     }
+    localStorage.removeItem('the_main_app');
+    localStorage.removeItem('email');
+    localStorage.removeItem('Auth');
     window.location=  ('/login')
   }
 

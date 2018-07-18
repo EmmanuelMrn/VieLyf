@@ -46,7 +46,6 @@ class VistaCliente extends Component {
     if (obj && obj.token) {
       const { token } = obj;
       console.log(token);
-    //   Verify token
       fetch('/api/account/verify?token=' + token)
         .then(res => res.json())
         .then(json  => {
@@ -66,7 +65,6 @@ class VistaCliente extends Component {
         isLoading: false,
       });
     }
-    // console.log(token);
   }
 
 
@@ -115,6 +113,9 @@ class VistaCliente extends Component {
         isLoading: false,
       });
     }
+    localStorage.removeItem('the_main_app');
+    localStorage.removeItem('email');
+    localStorage.removeItem('Auth');
     window.location=('/login');
   }
 

@@ -45,7 +45,7 @@ class Login extends Component {
     const obj = getFromStorage('the_main_app');
     if (obj && obj.token) {
       const { token } = obj;
-      // Verify token
+      console.log(token)
       fetch('/api/account/verify?token=' + token)
         .then(res => res.json())
         .then(json => {
@@ -67,9 +67,7 @@ class Login extends Component {
               }
               
               console.log(json1);
-            });    
-            // Just for test.
-            // window.location=('/vistacliente')
+            });
           } else {
             this.setState({
               isLoading: false,
@@ -94,14 +92,12 @@ class Login extends Component {
       isLoading: true,
     });
 
-    // Post request to backend
     fetch('/api/account/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        
+      body: JSON.stringify({        
         Email: loginEmail,
         Password: loginPassword,
       }),
@@ -138,19 +134,6 @@ class Login extends Component {
           console.log(loginPassword);
         }
       });
-
-      fetch('/api/account/isnutriologist?token='+loginEmail)
-        .then(res => res.json())
-        .then(json1 => {
-          console.log(json1.success)
-          if(json1.success){
-            window.location=('/vistanutriologo');
-          } else {
-            window.location=('/vistacliente');
-          }
-          
-          console.log(json1)
-        });
   }
 
   onEditProfile() {
