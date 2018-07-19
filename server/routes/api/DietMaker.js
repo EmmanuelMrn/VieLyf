@@ -1,21 +1,21 @@
 const User = require('../../models/User');
 const UserSession = require('../../models/UserSchema');
 const Diet = require('../../models/Diet');
-const Patient = require('../../models/Patient');
+const PatientRequest = require('../../models/PatientRequest');
 module.exports=(app) => {
 
- app.post('/api/accounts/newPatient', (req,res,next) =>{
+ app.post('/api/accounts/newPatientRequest', (req,res,next) =>{
     const {body } = req;
     const {
         Nutritionist_id,
         Client_id
     } = body;
          
-                const newPatient = new Patient();
-                newPatient.Nutritionist_id=Nutritionist_id;
-                newPatient.Client_id=Client_id;
+                const newPatientRequest = new PatientRequest();
+                newPatientRequest.Nutritionist_id=Nutritionist_id;
+                newPatientRequest.Client_id=Client_id;
                 
-                newPatient.save((err,nPatient)=>{
+                newPatientRequest.save((err,nPatient)=>{
                     if(err)
                  {
                    return  res.send({
@@ -26,13 +26,30 @@ module.exports=(app) => {
     
                 return  res.send({
                     success:true,
-                    message:'Information Patient captured',
+                    message:'Information PatientRequest captured',
                     
                 });
                 });
+});
 
-                const newDiet = new Diet();
-                newDiet.patient= newPatient._id;
+app.put('/api/accounts/ModifyStatus',(req,res,next) =>
+    {
+       var EditStatus = {Status:req.body.status}
+       
+        PatientRequest.updateOne( {"_id": req.body.PatientRequest_id},{ $set:EditStatus},function(err, result){
+            console.log("modified");
+            return  res.send({
+                success:true,
+                message:'Modified'
+            });
+        });
+        
+    });
+
+app.post('/api/accounts/newDiet',(req,res,next) =>
+    {
+      const newDiet = new Diet();
+                newDiet.patient= req.body.patient;
                 newDiet.breakfastMilk=0;
                 newDiet.breakfastVeg=0;
                 newDiet.breakfastFruit=0;
@@ -70,8 +87,10 @@ module.exports=(app) => {
                     });
                  }
                 });
-})    
-app.post('/api/accounts/ModifyDiet',(req,res,next) =>
+    });
+    
+
+app.put('/api/accounts/ModifyDiet',(req,res,next) =>
     {
        var EditDiet = {breakfastMilk:req.body.breakfastMilk,
             breakfastVeg:req.body.breakfastVeg,
@@ -196,25 +215,6 @@ app.post('/api/accounts/ModifyDiet',(req,res,next) =>
     );
   });
     
-    app.get('/api/accounts/GetDiet',(req,res,next)=>{
-
-        Diet.findOne({_id:req.query.token }, (err, doc)  => {
-        if(err)
-        return res.send(err);
-        else
-        return res.send(doc);
-        });
-    });
-    //search patient into diet
-    app.get('/api/accounts/GetPatient',(req,res,next)=>{
-
-        Diet.findOne({patient:req.query.token }, (err, doc)  => {
-        if(err)
-        return res.send(err);
-        else
-        return res.send(doc);
-        });
-    });
     //search clinet into patients
     app.get('/api/accounts/GetUser',(req,res,next)=>{
 
@@ -225,5 +225,15 @@ app.post('/api/accounts/ModifyDiet',(req,res,next) =>
         return res.send(doc);
         });
     });
+        //search patient into diet
+        app.get('/api/accounts/GetPatient',(req,res,next)=>{
+
+          Diet.findOne({patient:req.query.token }, (err, doc)  => {
+          if(err)
+          return res.send(err);
+          else
+          return res.send(doc);
+          });
+      });
     
 }

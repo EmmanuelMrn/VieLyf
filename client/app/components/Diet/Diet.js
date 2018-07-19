@@ -1,3 +1,6 @@
+
+//\/\/\/\/IN MAINTENANCE/\/\/\/\/\/\/
+
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 import {
@@ -10,7 +13,7 @@ import {
 var currentPatientId="";
 var currentDietId="";
 var currentUserId="";
-var Patient_ID="5b4e1dccf1934719d4c95656";
+var Patient_ID="5b4c5636a74fc20b34477658";
 
 class Diet extends Component {
   constructor() {
@@ -84,20 +87,21 @@ class Diet extends Component {
         .then(res => res.json())
         .then(json => {
           this.setState({
-            userstoken:json.userId,
+            userstoken:json.userId,//CHECK THIS
           });
-            currentUserId = json.userId;
+            currentUserId = json.userId;//Actually using this vvvv
             
-            //Check for the role
+            //Check for the role usign the currentUserID on session
             fetch('/api/accounts/IsNutritionist?token='+currentUserId)
             .then(res => res.json())
             .then(json => {
-              
+              //if (is a nutritionist)
               if(json.success){
+                //Go directly to a especific patient whit a dummy patient
+                //Here has to be the option to select an especifict client 
                 this.GetMyPatient(Patient_ID);
-                
               } else {
-                //this.GetMyPatient(Patient_ID);
+                //check for my own diet if exist
                 this.GetMyUser(currentUserId);
               }   
               this.setState({
@@ -108,7 +112,7 @@ class Diet extends Component {
         });
     }
 
-  GetMyUser(currentUserId){
+GetMyUser(currentUserId){
 //Check for an existing relationship on Patient
 fetch('/api/accounts/GetUser?token='+currentUserId)
 .then(res => res.json())
@@ -121,7 +125,7 @@ fetch('/api/accounts/GetUser?token='+currentUserId)
    });
   }
 
-  GetMyPatient(currentPatientId){
+GetMyPatient(currentPatientId){
  //Check for the diet 
         fetch('/api/accounts/GetPatient?token='+currentPatientId)
         .then(res => res.json())
@@ -135,7 +139,7 @@ fetch('/api/accounts/GetUser?token='+currentUserId)
         
   }
 
-  GetMyDiets(currentDietId){
+GetMyDiets(currentDietId){
 //Get the especific diet for that client
 fetch('/api/accounts/GetDiet?token='+currentDietId)
 .then(res => res.json())
@@ -179,13 +183,8 @@ fetch('/api/accounts/GetDiet?token='+currentDietId)
   }
   onEditDiet(){
     const {
-        isLoading,
-        Client_id,
-        Nutritionist_id,
         tokendiet,
-        userstoken,
-        patient,
-  
+
         breakfastMilk,
         breakfastVeg,
         breakfastFruit,
@@ -219,7 +218,7 @@ fetch('/api/accounts/GetDiet?token='+currentDietId)
         collationSugar
     } = this.state;
     fetch('/api/accounts/ModifyDiet', {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -260,13 +259,11 @@ fetch('/api/accounts/GetDiet?token='+currentDietId)
       }),
     }).then(res => res.json())
       .then(json => {
-        if (json.success) {
-            //console.log("cool");
-        } else {
+        if (json.success == false) {
           this.setState({
             isLoading: false,
           });
-        }
+        } 
       });
   }
   renderTitle() {
@@ -287,9 +284,6 @@ fetch('/api/accounts/GetDiet?token='+currentDietId)
       );
     }
   }
- 
-    
-  
   render() {
     const {
         isLoadingue,
@@ -336,7 +330,6 @@ fetch('/api/accounts/GetDiet?token='+currentDietId)
     
 
     return (
-    <div>
     <div className="col-md-4">
     {this.renderTitle()}
     <br/>
@@ -573,10 +566,6 @@ fetch('/api/accounts/GetDiet?token='+currentDietId)
       onChange={this.handleInputChange}
     /><b>Sugar</b><br /><br />
     {this.renderButtom()}
-  </div>
-  <div className="col-md-4">
-    <img height='200px' src='/assets/img/imagen3.jpg' alt='Imagen3'/>
-  </div>
   </div>
   
     );
