@@ -17,13 +17,12 @@ module.exports=(app) => {
                 
                 newPatient.save((err,nPatient)=>{
                     if(err)
-                 {
-                   return  res.send({
-                        success:false,
-                        message:'Error'
-                    });
-                 }
-    
+                {
+                  return  res.send({
+                      success:false,
+                      message:'Error'
+                  });
+                }
                 return  res.send({
                     success:true,
                     message:'Information Patient captured',
@@ -225,5 +224,15 @@ app.post('/api/accounts/ModifyDiet',(req,res,next) =>
         return res.send(doc);
         });
     });
+    // Search for the email of the user
+    app.get('/api/account/getuseremail',(req,res,next)=>{
+      console.log(req.query.token);
+      User.find({_id:req.query.token }, (err, doc)  => {
+      if(err)
+      return res.send(err);
+      else
+      return res.send(doc);
+      });
+  });
     
 }

@@ -1,12 +1,3 @@
-// import React from 'react';
-// import { Link } from 'react-router-dom';
-
-// const Header = () => (
-//   
-// );
-
-// export default Header;
-
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 import { Link } from 'react-router-dom';
@@ -20,16 +11,37 @@ class Header extends Component {
     super();
 
     this.state = {
+      isActive: false,
     };
 
   }
 
+  componentDidMount() {
+    console.log(localStorage.hasOwnProperty('the_main_app'));
+    if (localStorage.hasOwnProperty('the_main_app')) {
+      this.setState({isActive: true}, function() {
+        console.log('test0: '+this.state.isActive)
+      })
+    }
+  }
 
   render() {
     const {
-
+      isActive,
     } = this.state;
+    if (isActive) {
+      return (
+        <nav className="navbar bg-dark text-white">
+          <Link to="/login" className="navbar-brand text-white">VieLyf</Link>      
+          <Link to="/nutritionalBlog" className="text-white">Blog nutricional</Link>
+          <Link to="/catalogueNutriologist" className="text-white">Catálogo de nutriólogos</Link>
+        </nav>
+      )
+    } else {
+
     return(
+
+      
     
       <header>
            <nav className="navbar bg-dark text-white">
@@ -44,6 +56,7 @@ class Header extends Component {
          </header>
     );
   }
+}
 }
 
 export default Header;

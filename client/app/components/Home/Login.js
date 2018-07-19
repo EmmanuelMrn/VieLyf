@@ -120,8 +120,10 @@ class Login extends Component {
               console.log(json1.success)
               if(json1.success){
                 window.location=('/vistanutriologo');
+                localStorage.setItem('Rol', 'Nutriologo');
               } else {
                 window.location=('/vistacliente');
+                localStorage.setItem('Rol', 'Cliente');
               }
               
               console.log(json1)
