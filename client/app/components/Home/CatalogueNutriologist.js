@@ -7,51 +7,56 @@ class CatalogueNutriologist extends Component {
     super();
 
     this.state = {
-      Nutitionists:[],
+      Nutritionists:[],
     
     };
 
   }
 
   componentDidMount(){
-    fetch('/api/accounts/nutritionistcatalog', {method:'GET'})
+  fetch('/api/accounts/nutritionistcatalog', {method:'GET'})
     .then(res => res.json())
     .then (json=> {
-     
+        // you set the value of the Nutritionist Contant to that of the JSON you receive
         this.setState({
-          Nutitionists:json
+          Nutritionists:json
         });
         
-        //console.log(items);
+        
       
     });
   }
+ 
+render()
+{
+  //This is used to convert the Nutritionist constant from a JSON to an Array
+  var Nutritionists = Array.from(this.state.Nutritionists);
+  console.log(this.state.Nutritionists);
+ 
+  return(
+    <div>
+      <h1>Nutriologos</h1>
+      { //using the variable Nutritionist we map the values
+        Nutritionists.map(function(nutritionist){
+        return(
+            // the values are now in nutritionis and the names of the fields
+            //  are the same ast the ones in the JSON
+          <div key={nutritionist._id} className="nutritionist">
+            <a href={nutritionist._id}>
+                    {nutritionist.FirstName}
+                    is looking for a 
+                    {nutritionist.LastName}
+                    {nutritionist.Role}
+            </a>
+            </div>
+            )
+            })}
+          </div>
+  )
 
-  render() {
-    const {
-      Nutitionists=[],
-      Nutitionists1=JSON.stringify(Nutitionists),
-      Algo={}
-    } = this.state;
-
-
-var arr3 = Object.values(this.state.Nutitionists);
-    //var arr3 = Object.values(Algo);
-    console.log(this.props,"Hello");
-    return (
-    <div className="container">
-      <h1>Catalogue of Nutriologist</h1><br />
-      {/* <input type="text" name= "profPassword" placeholder="password" value ={arr3} readOnly/><br /> */}
-      <ul>
-        {
-          arr3.map((arr3,i)=>{
-            return <li key={i}> {arr3} </li>
-          })
-        }
-      </ul>
-      {/* {labels} */}
-    </div>);
   }
 }
+
+  
 
 export default CatalogueNutriologist;
