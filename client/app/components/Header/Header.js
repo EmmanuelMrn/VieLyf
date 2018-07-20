@@ -17,10 +17,8 @@ class Header extends Component {
   }
 
   componentDidMount() {
-    console.log(localStorage.hasOwnProperty('the_main_app'));
     if (localStorage.hasOwnProperty('the_main_app')) {
       this.setState({isActive: true}, function() {
-        console.log('test0: '+this.state.isActive)
       })
     }
   }

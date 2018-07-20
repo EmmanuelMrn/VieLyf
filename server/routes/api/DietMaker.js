@@ -227,12 +227,21 @@ app.post('/api/accounts/ModifyDiet',(req,res,next) =>
     // Search for the email of the user
     app.get('/api/account/getuseremail',(req,res,next)=>{
       console.log(req.query.token);
-      User.find({_id:req.query.token }, (err, doc)  => {
+      User.find({Email:req.query.token }, (err, doc)  => {
       if(err)
       return res.send(err);
       else
       return res.send(doc);
       });
+  });
+  app.get('/api/account/getuserbyid',(req,res,next)=>{
+    console.log(req.query.token);
+    User.find({_id:req.query.token }, (err, doc)  => {
+    if(err)
+    return res.send(err);
+    else
+    return res.send(doc);
+    });
   });
     
 }

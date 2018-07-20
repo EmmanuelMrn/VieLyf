@@ -12,7 +12,7 @@ class Login extends Component {
     super(props);
 
     this.state = {
-      isLoading: true,
+      isLoading: false,
       token: '',
       signUpError: '',
       loginError: '',
@@ -42,43 +42,43 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    const obj = getFromStorage('the_main_app');
-    if (obj && obj.token) {
-      const { token } = obj;
-      console.log(token)
-      fetch('/api/account/verify?token=' + token)
-        .then(res => res.json())
-        .then(json => {
-          if (json.success) {
-            this.setState({
-              token,
-              isLoading: false
-            });
-            const obj1 = getFromStorage('email')
-            const {token1} = obj1;
-            fetch('/api/account/isnutriologist?token='+token1)
-            .then(res => res.json())
-            .then(json1 => {
-              console.log(json1.success)
-              if(json1.success){
-                window.location=('/vistanutriologo');
-              } else {
-                window.location=('/vistacliente');
-              }
+    // const obj = getFromStorage('the_main_app');
+    // if (obj && obj.token) {
+    //   const { token } = obj;
+    //   console.log(token)
+    //   fetch('/api/account/verify?token=' + token)
+    //     .then(res => res.json())
+    //     .then(json => {
+    //       if (json.success) {
+    //         this.setState({
+    //           token,
+    //           isLoading: false
+    //         });
+    //         const obj1 = getFromStorage('email')
+    //         const {token1} = obj1;
+    //         fetch('/api/account/isnutriologist?token='+token1)
+    //         .then(res => res.json())
+    //         .then(json1 => {
+    //           console.log(json1.success)
+    //           if(json1.success){
+    //             window.location=('/vistanutriologo');
+    //           } else {
+    //             window.location=('/vistacliente');
+    //           }
               
-              console.log(json1);
-            });
-          } else {
-            this.setState({
-              isLoading: false,
-            });
-          }
-        });
-    } else {
-      this.setState({
-        isLoading: false,
-      });
-    }
+    //           console.log(json1);
+    //         });
+    //       } else {
+    //         this.setState({
+    //           isLoading: false,
+    //         });
+    //       }
+    //     });
+    // } else {
+    //   this.setState({
+    //     isLoading: false,
+    //   });
+    // }
   }
 
   onLogin() {
@@ -111,18 +111,38 @@ class Login extends Component {
             loginError: json.message,
             isLoading: false,
             loginPassword: '',
-            loginEmail: '',
             token: json.token,
           });
-          fetch('/api/account/isnutriologist?token='+loginEmail)
+          fetch('/api/account/isnutriologist?token=1')
             .then(res => res.json())
             .then(json1 => {
-              console.log(json1.success)
               if(json1.success){
-                window.location=('/vistanutriologo');
+                console.log('vista nutriologo')
+                // window.location=('/vistanutriologo');
                 localStorage.setItem('Rol', 'Nutriologo');
               } else {
-                window.location=('/vistacliente');
+                var getuser;
+                fetch('/api/account/getuseremail?token=1')
+                .then(res => res.json())
+                .then(json2 => {
+                  
+                  getuser = json2._id;
+                })
+                fetch('/api/accounts/getuser?token=5b522ad5e47d1b38ec1fcaeb')
+                  .then(res => res.json())
+                  .then(json3 => {
+                  })
+                  fetch('/api/account/getuserbyid?token=5b522b16e226861f9cd992a7')
+                  .then(res => res.json())
+                  .then(json4 => {
+                    console.log("json4: "+json4)
+                    console.log(json4)
+                    console.log('yei!')
+                    localStorage.setItem('AssignedNutriologist', json4[0].Email)
+                    console.log(localStorage.getItem('AssignedNutriologist'))
+                })  
+                console.log('vista cliente')
+                // window.location=('/vistacliente');
                 localStorage.setItem('Rol', 'Cliente');
               }
               
@@ -135,6 +155,9 @@ class Login extends Component {
           });
           console.log(loginPassword);
         }
+      });
+      this.setState({
+        loginEmail: '',
       });
   }
 

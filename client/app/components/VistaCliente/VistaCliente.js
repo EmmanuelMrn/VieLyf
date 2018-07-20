@@ -138,6 +138,8 @@ var num = this.state.cellHeight - 15
   }
 
   componentDidMount() {
+    console.log(localStorage.getItem('AssignedNutriologist'))
+    console.log('=============')
     console.log(localStorage.getItem('Rol'));
     const obj = getFromStorage('the_main_app');
     if (obj && obj.token) {
