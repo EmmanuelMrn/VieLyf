@@ -135,11 +135,18 @@ app.put('/api/accounts/ModifyDiet',(req,res,next) =>
          
        
         Diet.updateOne( {"_id": req.body.tokendiet},{ $set:EditDiet},function(err, result){
-            console.log("modified");
+          if(err)
+          {
             return  res.send({
-                success:true,
-                message:'Modified'
-            });
+                 success:false,
+                 message:'Error'
+             });
+          }else{
+           return  res.send({
+             success:true,
+             message:'Added'
+         });
+          }
         });
         
     });
@@ -154,7 +161,7 @@ app.get('/api/accounts/GetUser',(req,res,next)=>{
         });
     });
     //search patient into diet ???????
-app.get('/api/accounts/GetPatient',(req,res,next)=>{
+app.get('/api/accounts/GetDiet',(req,res,next)=>{
 
         Diet.findOne({patient:req.query.token }, (err, doc)  => {
         if(err)

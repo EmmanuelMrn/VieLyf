@@ -15,7 +15,7 @@ var currentDietId="";
 var currentUserId="";
 var Patient_ID="5b4c5636a74fc20b34477658";
 
-class Diet extends Component {
+class Transition extends Component {
   constructor() {
     super();
 
@@ -102,7 +102,7 @@ class Diet extends Component {
                 this.SelectClient();
               } else {
                 //check for my own diet if exist
-                this.GoToMyDiet(currentUserId);
+                this.GoToMyDiet();
               }   
               this.setState({
                 NutritionistAccount:json.success,
@@ -116,12 +116,9 @@ SelectClient()
 
 }
 GoToMyDiet(currentUserId){
-
+  window.location=('/diet');
 }
 
-
-
-//\\/\/\/\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\/\/\/\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
 GetMyUser(currentUserId){
 //Check for an existing relationship on Patient
 fetch('/api/accounts/GetUser?token='+currentUserId)
@@ -131,27 +128,13 @@ fetch('/api/accounts/GetUser?token='+currentUserId)
       patients:json._id,
     }); 
     currentPatientId = json._id ;
-    this.GetMyPatient(currentPatientId);
+    this.GetDiets(currentPatientId);
    });
   }
 
-GetMyPatient(currentPatientId){
- //Check for the diet 
-        fetch('/api/accounts/GetPatient?token='+currentPatientId)
-        .then(res => res.json())
-        .then(json => {
-            this.setState({
-              tokendiet:json._id
-            });
-            currentDietId = json._id ;
-            this.GetMyDiets(currentDietId);
-          });
-        
-  }
-
-GetMyDiets(currentDietId){
+GetDiets(currentDietId){
 //Get the especific diet for that client
-fetch('/api/accounts/GetDiet?token='+currentDietId)
+fetch('/api/accounts/GetDiet?token='+currentPatientId)
 .then(res => res.json())
 .then(json => {
 
@@ -190,6 +173,7 @@ fetch('/api/accounts/GetDiet?token='+currentDietId)
     });
   
 });
+//\\/\/\/\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\\/\/\/\\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
   }
   onEditDiet(){
     const {
@@ -582,4 +566,4 @@ fetch('/api/accounts/GetDiet?token='+currentDietId)
   }
 }
 
-export default Diet;
+export default Transition;
