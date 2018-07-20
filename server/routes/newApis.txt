@@ -5,3 +5,7 @@ Api: /api/accounts/newPatientRequest
 Description: Update status of the stand by requests
 At: DietMaker
 Api: /api/accounts/ModifyStatus
+
+Description: search a client acepted into patients
+At: DietMaker
+Api: /api/accounts/GetUser
