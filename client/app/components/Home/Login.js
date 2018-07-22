@@ -12,7 +12,7 @@ class Login extends Component {
     super(props);
 
     this.state = {
-      isLoading: true,
+      isLoading: false,
       token: '',
       signUpError: '',
       loginError: '',
@@ -42,43 +42,43 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    const obj = getFromStorage('the_main_app');
-    if (obj && obj.token) {
-      const { token } = obj;
-      console.log(token)
-      fetch('/api/account/verify?token=' + token)
-        .then(res => res.json())
-        .then(json => {
-          if (json.success) {
-            this.setState({
-              token,
-              isLoading: false
-            });
-            const obj1 = getFromStorage('email')
-            const {token1} = obj1;
-            fetch('/api/account/isnutriologist?token='+token1)
-            .then(res => res.json())
-            .then(json1 => {
-              console.log(json1.success)
-              if(json1.success){
-                window.location=('/vistanutriologo');
-              } else {
-                window.location=('/vistacliente');
-              }
+    // const obj = getFromStorage('the_main_app');
+    // if (obj && obj.token) {
+    //   const { token } = obj;
+    //   console.log(token)
+    //   fetch('/api/account/verify?token=' + token)
+    //     .then(res => res.json())
+    //     .then(json => {
+    //       if (json.success) {
+    //         this.setState({
+    //           token,
+    //           isLoading: false
+    //         });
+    //         const obj1 = getFromStorage('email')
+    //         const {token1} = obj1;
+    //         fetch('/api/account/isnutriologist?token='+token1)
+    //         .then(res => res.json())
+    //         .then(json1 => {
+    //           console.log(json1.success)
+    //           if(json1.success){
+    //             window.location=('/vistanutriologo');
+    //           } else {
+    //             window.location=('/vistacliente');
+    //           }
               
-              console.log(json1);
-            });
-          } else {
-            this.setState({
-              isLoading: false,
-            });
-          }
-        });
-    } else {
-      this.setState({
-        isLoading: false,
-      });
-    }
+    //           console.log(json1);
+    //         });
+    //       } else {
+    //         this.setState({
+    //           isLoading: false,
+    //         });
+    //       }
+    //     });
+    // } else {
+    //   this.setState({
+    //     isLoading: false,
+    //   });
+    // }
   }
 
   onLogin() {
@@ -103,10 +103,9 @@ class Login extends Component {
       }),
     }).then(res => res.json())
       .then(json => {
-        console.log('json', json);
+        console.log('json: ', json);
         if (json.success) {
           setInStorage('the_main_app', { token: json.token });
-          setInStorage('email', { token1: json.Email });
           this.setState({
             loginError: json.message,
             isLoading: false,
@@ -117,13 +116,28 @@ class Login extends Component {
           fetch('/api/account/isnutriologist?token='+loginEmail)
             .then(res => res.json())
             .then(json1 => {
+              console.log('json1: '+json1)
               console.log(json1.success)
               if(json1.success){
                 window.location=('/vistanutriologo');
+                setInStorage('email', { token1: json.Email });
                 localStorage.setItem('Rol', 'Nutriologo');
               } else {
-                window.location=('/vistacliente');
-                localStorage.setItem('Rol', 'Cliente');
+                fetch('/api/account/getuseremail?token='+loginEmail)
+                  .then(res => res.json())
+                  .then(json2 => {
+                    // window.location=('/vistacliente');
+                    localStorage.setItem('_id', json2[0]._id
+                  )
+                  })
+                  fetch('/api/accounts/GetUser?token='+json2[0]._id)
+                  .then(res => res.json())
+                  .then(json3 =>{
+                    console.log(json3)
+                  })
+                  localStorage.setItem('Rol', 'Cliente');   
+                
+                // fetch('localhost:8080/api/accounts/getUser?token=')
               }
               
               console.log(json1)

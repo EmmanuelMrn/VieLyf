@@ -1,4 +1,4 @@
-  import React, { Component } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { ReactAgenda , ReactAgendaCtrl, guid , getUnique , getLast , getFirst , Modal } from 'react-agenda';
@@ -134,7 +134,7 @@ this.setState({items:items})
 
 handleItemSize(items , item){
 
-  this.setState({items:items})
+    this.setState({items:items})
 
 }
 

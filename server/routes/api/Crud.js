@@ -384,6 +384,7 @@ const Agenda = require('../../models/Agenda');
                         endDateTime,
                         classes,
                         Nutriologist_id,
+                        pending,
                     }   = body;
                     
                     if (!name) {
@@ -400,6 +401,7 @@ const Agenda = require('../../models/Agenda');
                     newDate.endDateTime = endDateTime,
                     newDate.classes = classes;
                     newDate.Nutriologist_id = Nutriologist_id;
+                    newDate.pending=pending;
                     newDate.save((err, user) => {
                         if (err) {
                             return res.send ({

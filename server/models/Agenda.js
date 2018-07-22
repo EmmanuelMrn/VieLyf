@@ -17,7 +17,12 @@ const AgendaSchema = new mongoose.Schema({
     Nutriologist_id: {
       type: String,
       default: '',
+  },
+  pending: {
+    type: Boolean,
+    default: true,
   }
+  
 });
 
 module.exports = mongoose.model('Agenda', AgendaSchema);

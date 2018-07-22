@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 
 const PatientSchema = new mongoose.Schema({
-    
-    
     Nutritionist_id:{
          type:String,
          default:''
