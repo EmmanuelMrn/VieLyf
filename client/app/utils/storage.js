@@ -22,7 +22,7 @@ export function setInStorage(key,Email) {
 
     try {
         localStorage.setItem(key, JSON.stringify(Email));
-        console.log(JSON.stringify(Email));
+        // console.log(JSON.stringify(Email));
 
     } catch (err)
     {

@@ -159,6 +159,9 @@ class VistaNutriologo extends Component {
                 </div>
             </div>
 
+            
+
+
             <div className="col-md-3">
                 <p>Edit profile</p>
                 <input
@@ -191,9 +194,36 @@ class VistaNutriologo extends Component {
                 /><br />
                 <button type="button" className="btn btn-dark" onClick={this.onEditProfile}>Save changes</button>
             </div>
+            
+            <div class="right_sidebar_area">
+              <aside class="right_widget r_news_widget">
+                  <div class="r_w_title">
+                      <h3>Recent News</h3>
+                  </div>
+                  <div class="news_inner">
+                      <div class="news_item">
+                          <a href="#"><h4>In order to succeed, we must first believe that we can.</h4></a>
+                          <a href="#"><h6>October 7, 2017</h6></a>
+                      </div>
+                      <div class="news_item">
+                          <a href="#"><h4>The way to get started is to quit talking and begin doing.</h4></a>
+                          <a href="#"><h6>October 7, 2017</h6></a>
+                      </div>
+                      <div class="news_item">
+                          <a href="#"><h4>In order to succeed, we must first believe that we can.</h4></a>
+                          <a href="#"><h6>October 7, 2017</h6></a>
+                      </div>
+                      <div class="news_item">
+                          <a href="#"><h4>The way to get started is to quit talking and begin doing.</h4></a>
+                          <a href="#"><h6>October 7, 2017</h6></a>
+                      </div>
+                  </div>
+              </aside>
+            </div>
           </div>
-          <button type="button" className="btn btn-dark" onClick={this.logout}>Logout</button>
+          <button type="button" className="btn btn-dark" onClick={this.logout}>Logout</button>    
       </div>
+      
     );
   }
 }

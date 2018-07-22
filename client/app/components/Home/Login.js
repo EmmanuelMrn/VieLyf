@@ -12,7 +12,7 @@ class Login extends Component {
     super(props);
 
     this.state = {
-      isLoading: false,
+      isLoading: true,
       token: '',
       signUpError: '',
       loginError: '',
@@ -42,43 +42,39 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    // const obj = getFromStorage('the_main_app');
-    // if (obj && obj.token) {
-    //   const { token } = obj;
-    //   console.log(token)
-    //   fetch('/api/account/verify?token=' + token)
-    //     .then(res => res.json())
-    //     .then(json => {
-    //       if (json.success) {
-    //         this.setState({
-    //           token,
-    //           isLoading: false
-    //         });
-    //         const obj1 = getFromStorage('email')
-    //         const {token1} = obj1;
-    //         fetch('/api/account/isnutriologist?token='+token1)
-    //         .then(res => res.json())
-    //         .then(json1 => {
-    //           console.log(json1.success)
-    //           if(json1.success){
-    //             window.location=('/vistanutriologo');
-    //           } else {
-    //             window.location=('/vistacliente');
-    //           }
-              
-    //           console.log(json1);
-    //         });
-    //       } else {
-    //         this.setState({
-    //           isLoading: false,
-    //         });
-    //       }
-    //     });
-    // } else {
-    //   this.setState({
-    //     isLoading: false,
-    //   });
-    // }
+    const obj = getFromStorage('the_main_app');
+    if (obj && obj.token) {
+      const { token } = obj;
+      fetch('/api/account/verify?token=' + token)
+        .then(res => res.json())
+        .then(json => {
+          if (json.success) {
+            this.setState({
+              token,
+              isLoading: false
+            });
+            if (localStorage.hasOwnProperty('email')) {
+              fetch('/api/account/isnutriologist?token='+localStorage.getItem('email'))
+              .then(res => res.json())
+              .then(isnutriologit => {
+                if(isnutriologit.success){
+                  window.location=('/vistanutriologo');
+                } else {
+                  window.location=('/vistacliente');
+                }
+              });
+            } else {
+              this.setState({
+                isLoading: false,
+              });
+            }  
+          }
+      });
+    } else {
+      this.setState({
+        isLoading: false,
+      });
+    }
   }
 
   onLogin() {
@@ -91,7 +87,7 @@ class Login extends Component {
     this.setState({
       isLoading: true,
     });
-
+    
     fetch('/api/account/login', {
       method: 'POST',
       headers: {
@@ -103,52 +99,50 @@ class Login extends Component {
       }),
     }).then(res => res.json())
       .then(json => {
-        console.log('json: ', json);
+        localStorage.setItem('email', json.Email)
         if (json.success) {
           setInStorage('the_main_app', { token: json.token });
           this.setState({
             loginError: json.message,
             isLoading: false,
             loginPassword: '',
-            loginEmail: '',
             token: json.token,
           });
-          fetch('/api/account/isnutriologist?token='+loginEmail)
+          fetch('/api/account/isnutriologist?token='+ loginEmail)
             .then(res => res.json())
             .then(json1 => {
-              console.log('json1: '+json1)
-              console.log(json1.success)
               if(json1.success){
+                localStorage.setItem('Auth', loginEmail)
                 window.location=('/vistanutriologo');
-                setInStorage('email', { token1: json.Email });
-                localStorage.setItem('Rol', 'Nutriologo');
+                localStorage.setItem('Rol', 'Nutriologo'); 
               } else {
+                var getuser;
                 fetch('/api/account/getuseremail?token='+loginEmail)
+                .then(res => res.json())
+                .then(json2 => {
+                  fetch('/api/accounts/getuser?token='+json2[0]._id)
                   .then(res => res.json())
-                  .then(json2 => {
-                    // window.location=('/vistacliente');
-                    localStorage.setItem('_id', json2[0]._id
-                  )
-                  })
-                  fetch('/api/accounts/GetUser?token='+json2[0]._id)
-                  .then(res => res.json())
-                  .then(json3 =>{
-                    console.log(json3)
-                  })
-                  localStorage.setItem('Rol', 'Cliente');   
-                
-                // fetch('localhost:8080/api/accounts/getUser?token=')
+                  .then(json3 => {
+                    fetch('/api/account/getuserbyid?token='+json3.Nutritionist_id)
+                    .then(res => res.json())
+                    .then(json4 => {
+                      localStorage.setItem('AssignedNutriologist', json4[0].Email)
+                    })
+                  })       
+                })
+                localStorage.setItem('Rol', 'Cliente');  
+                window.location=('/vistacliente');
               }
-              
-              console.log(json1)
             });    
         } else {
           this.setState({
             loginError: json.message,
             isLoading: false,
           });
-          console.log(loginPassword);
         }
+      });
+      this.setState({
+        loginEmail: '',
       });
   }
 
@@ -156,8 +150,8 @@ class Login extends Component {
     const {signUpEmail, signUpFirstName, signUpLastName, signUpPassword} = this.state;
       fetch('/api/account/editprofile?token='+signUpEmail+'&token2='+signUpFirstName+'&token3='+signUpLastName+'&token4='+signUpPassword+'')
         .then(res => res.json())
-        .then(json => {
-          if (json.success) {
+        .then(json6 => {
+          if (json6.success) {
             this.setState({
               token,
               isLoading: false
@@ -167,7 +161,7 @@ class Login extends Component {
               isLoading: false,
             });
           }
-        });
+        }); 
 }
   
   logout() {

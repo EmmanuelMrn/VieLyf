@@ -53,26 +53,25 @@ export default class Agenda extends Component {
   }
 
   componentDidMount(){
-    const obj = getFromStorage('email');
-    if (obj && obj.token1) {
-    const { token1 } = obj;
-    // this.setState ({
-    //   Relation:'ábc'
-    // })
-    localStorage.setItem('Auth', token1)
+    // const obj = getFromStorage('email');
+    // if (obj && obj.token1) {
+    // const { token1 } = obj;
+    // // this.setState ({
+    // //   Relation:'ábc'
+    // // })
+
     console.log('This: ' + localStorage.getItem('Auth'));
     // console.log(this.state.Relation)
     // console.log("token: "+token1);
-    fetch('/api/account/agendaarray?token='+token1, {method:'GET'})
+    fetch('/api/account/agendaarray?token='+localStorage.getItem('Auth'), {method:'GET'})
         .then(res => res.json())
         .then(json1 => {
           this.setState({
             items : json1,
-            Relation : token1,
           })
           console.log("2: "+json1)
         });
-      }
+      
   }
 
 

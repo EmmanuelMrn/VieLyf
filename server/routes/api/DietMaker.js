@@ -234,5 +234,14 @@ app.post('/api/accounts/ModifyDiet',(req,res,next) =>
       return res.send(doc);
       });
   });
+  app.get('/api/account/getuserbyid',(req,res,next)=>{
+    console.log(req.query.token);
+    User.find({_id:req.query.token }, (err, doc)  => {
+    if(err)
+    return res.send(err);
+    else
+    return res.send(doc);
+    });
+  });
     
 }

@@ -1,9 +1,6 @@
 # Compiled files
 dist/
 
-# Config file
-config/config.js
-
 # Node stuff
 package-lock.json
 node_modules
