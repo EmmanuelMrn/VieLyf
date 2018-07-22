@@ -134,7 +134,7 @@ app.put('/api/accounts/ModifyDiet',(req,res,next) =>
             collationSugar:req.body.collationSugar}
          
        
-        Diet.updateOne( {"_id": req.body.tokendiet},{ $set:EditDiet},function(err, result){
+        Diet.updateOne( {"patient": req.body.tokendiet},{ $set:EditDiet},function(err, result){
           if(err)
           {
             return  res.send({
