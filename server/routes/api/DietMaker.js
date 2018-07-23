@@ -134,7 +134,7 @@ app.put('/api/accounts/ModifyDiet',(req,res,next) =>
             collationSugar:req.body.collationSugar}
          
        
-        Diet.updateOne( {"_id": req.body.tokendiet},{ $set:EditDiet},function(err, result){
+        Diet.updateOne( {"patient": req.body.tokendiet},{ $set:EditDiet},function(err, result){
           if(err)
           {
             return  res.send({
@@ -154,16 +154,48 @@ app.put('/api/accounts/ModifyDiet',(req,res,next) =>
 app.get('/api/accounts/GetUser',(req,res,next)=>{
 
         PatientRequest.findOne({Client_id:req.query.token,Status:"acepted"}, (err, doc)  => {
+            if(err)
+            {
+              return  res.send({
+                   err,
+                   success:false,
+                   message:'Error'
+               });
+            }else{
+             return  res.send({
+               doc,
+               success:true,
+               message:'Added'
+           });
+            }
+        });
+    });
+    
+app.get('/api/accounts/GetDiet',(req,res,next)=>{
+
+        Diet.findOne({patient:req.query.token }, (err, doc)  => {
         if(err)
         return res.send(err);
         else
         return res.send(doc);
         });
     });
-    //search patient into diet ???????
-app.get('/api/accounts/GetDiet',(req,res,next)=>{
+app.get('/api/accounts/GetMyClients',(req,res,next)=>{
 
-        Diet.findOne({patient:req.query.token }, (err, doc)  => {
+        PatientRequest.find({Nutritionist_id:req.query.Nutritionist,Status:"acepted" },{Client_id:1}, (err, doc)  => {
+        if(err)
+        return res.send(err);
+        else
+        return res.send(doc);
+        });
+    });
+
+    app.get('/api/accounts/GetMyClientsUser',(req,res,next)=>{
+
+        var ArrClients = req.query.Clients.split(',');
+
+        User.find({"$or":[{"_id":ArrClients}] }, (err, doc)  => {
+
         if(err)
         return res.send(err);
         else
