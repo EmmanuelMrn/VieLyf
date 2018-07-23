@@ -9,7 +9,7 @@ const Agenda = require('../../models/Agenda');
             const {query} = req;
             const {token} = query;
 
-            Agenda.find({ Nutriologist_id:token}, (err, doc)  => {
+            Agenda.find({ Nutriologist_id:token, pending:false}, (err, doc)  => {
                 console.log(doc);
                 return res.send(doc);
                });
