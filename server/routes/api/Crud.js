@@ -15,6 +15,16 @@ const Agenda = require('../../models/Agenda');
                });
         });
 
+        app.get("/api/account/agendaarrayaproved", (req, res, next)=> {
+            const {query} = req;
+            const {token} = query;
+
+            Agenda.find({ Nutriologist_id:token, pending:true}, (err, doc)  => {
+                console.log(doc);
+                return res.send(doc);
+               });
+        });
+
 
         app.get("/api/account/editprofile", (req, res, next) => {
             var status = "success";

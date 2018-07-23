@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 import {
   getFromStorage,
@@ -12,6 +13,7 @@ class VistaNutriologo extends Component {
     super(props);
 
     this.state = {
+      items:[],
       isNutriologist: false,
       isLoading: true,
       token: '',
@@ -22,12 +24,13 @@ class VistaNutriologo extends Component {
       signUpEmail: '',
       signUpPassword: '',
       signUpFirstName: '',
-      signUpLastName: ''
+      signUpLastName: '',
+      isToggleOn: true
     };
 
     this.onEditProfile = this.onEditProfile.bind(this);
     this.logout = this.logout.bind(this);
-
+    this.handleClick = this.handleClick.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
   
@@ -42,12 +45,19 @@ class VistaNutriologo extends Component {
   }
 
   componentDidMount() {
-    console.log(localStorage.getItem('Rol'));
+    fetch('/api/account/agendaarrayaproved?token='+localStorage.getItem('Auth'), {method:'GET'})
+      .then(res => res.json())
+      .then(json1 => {
+        this.setState({
+          items : json1,
+        });
+      });
+    // console.log(localStorage.getItem('Rol'));
     const obj = getFromStorage('the_main_app');
-    console.log(obj)
+    // console.log(obj)
     if (obj && obj.token) {
       const { token } = obj;
-      console.log(token);
+      // console.log(token);
     //   Verify token
       fetch('/api/account/verify?token=' + token)
         .then(res => res.json())
@@ -124,15 +134,38 @@ class VistaNutriologo extends Component {
     window.location=('/login')
   }
 
+  aceptar() { 
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+    console.log(name)
+  }
+
+  handleClick() {
+    this.setState(prevState => ({
+      isToggleOn: !prevState.isToggleOn
+    }));
+    console.log(isToggleOn)
+  }
+
+  negar() { 
+  }
+
   render() {
     const {
       isLoading,
       token,
       loginError,
       loginEmail,
-      loginPassword
+      loginPassword,
+      items
     } = this.state;
 
+    var ClientsData = Array.from(this.state.items);
     
     return (
       <div>
@@ -144,6 +177,8 @@ class VistaNutriologo extends Component {
                     <button type="button" className="btn btn-dark">Calendario</button>
                     <Link to="/diet" className="btn btn-dark">Crear Dieta</Link>
                     <Link to="/agenda" className="btn btn-dark">Agenda</Link>
+                    {/* <br/> */}
+                    <button type="button" className="btn btn-dark" onClick={this.logout}>Cerrar sesion</button>            
                 </div>
             </div>
 
@@ -159,31 +194,39 @@ class VistaNutriologo extends Component {
                 </div>
             </div> 
 
-            <div class="col-md-3 right_sidebar_area">
-              <aside class="right_widget r_news_widget">
-                  <div class="r_w_title">
+
+     
+        <div className="col-md-3 right_sidebar_area">
+              <aside className="right_widget r_news_widget">
+                  <div className="r_w_title">
                       <h3>Noticias recientes</h3>
                   </div>
-                  <div class="news_inner">
-                      <div class="news_item">
-                          <a href="#"><h4>In order to succeed, we must first believe that we can.</h4></a>
-                          <a href="#"><h6>October 7, 2017</h6></a>
-                      </div>
-                      <div class="news_item">
-                          <a href="#"><h4>The way to get started is to quit talking and begin doing.</h4></a>
-                          <a href="#"><h6>October 7, 2017</h6></a>
-                      </div>
-                      <div class="news_item">
-                          <a href="#"><h4>In order to succeed, we must first believe that we can.</h4></a>
-                          <a href="#"><h6>October 7, 2017</h6></a>
-                      </div>
-                      <div class="news_item">
-                          <a href="#"><h4>The way to get started is to quit talking and begin doing.</h4></a>
-                          <a href="#"><h6>October 7, 2017</h6></a>
-                      </div>
-                  </div>
-              </aside>
-            </div>
+                  <div className="news_inner">
+                  { ClientsData.map(function(client, aceptar, negar, handleClick, isToggleOn){
+                    var dia = new Date(client.startDateTime).getDay();
+                    var anio = new Date(client.startDateTime).getFullYear();
+                    var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
+                    var diferencia = new Date(client.startDateTime).getHours() - new Date(client.endDateTime).getHours();
+                    console.log(moment.duration(diferencia, "hours").humanize())
+                      return( 
+                        <div key={client._id} className="news_item">
+                            <a><h4>{client.name}</h4></a>
+                            <a><h6>{"Para: "+dia+ " de " + monthMinusOneName + " del " + anio}</h6></a>
+                            <a><h6>{"Con una duracion de "+moment.duration(diferencia, "hours").humanize()}</h6></a>
+                            {/* <button type="button" name="qfefqf" className="btn btn-dark" onClick={aceptar}>Aceptar</button>
+                            <button type="button" name="qfefqf" className="btn btn-dark" onClick={negar}>Negar</button> */}
+                             <button onClick={handleClick}>
+                            test
+                            </button> 
+                        </div>
+                        
+                        )
+                    })}
+                    </div>
+                    </aside>
+                          </div>
+
+           
 
             {/* <div className="col-md-3">
                 <p>Edit profile</p>
@@ -217,12 +260,8 @@ class VistaNutriologo extends Component {
                 /><br />
                 <button type="button" className="btn btn-dark" onClick={this.onEditProfile}>Save changes</button>
             </div> */}
-            
-            
-          </div>
-          <button type="button" className="btn btn-dark" onClick={this.logout}>Logout</button>    
+          </div>  
       </div>
-      
     );
   }
 }
