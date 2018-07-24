@@ -2,7 +2,11 @@ import React, { Component } from "react";
 import "whatwg-fetch";
 import { Link } from "react-router-dom";
 
-import { getFromStorage, setInStorage } from "../../utils/storage";
+
+import {
+  getFromStorage,
+  setClientInStorage
+} from '../../utils/storage';
 
 class VistaCliente extends Component {
   constructor(props) {
@@ -96,11 +100,20 @@ class VistaCliente extends Component {
               token,
               isLoading: false
             });
+            //get user
+            fetch('/api/accounts/GetUserFromUserSession?token='+token)
+            .then(res => res.json())
+            .then(json => {
+              console.log(json)
+              this.GetMyClientsUser(json.userId)
+            });
           } else {
             this.setState({
               isLoading: false
             });
           }
+          console.log(json)
+          
         });
     } else {
       this.setState({
@@ -108,6 +121,17 @@ class VistaCliente extends Component {
       });
     }
     // console.log(token);
+  }
+
+
+  GetMyClientsUser(ClientsId){
+    fetch('/api/accounts/GetMyClientsUser?Clients='+ClientsId, {method:'GET'})
+    .then(res => res.json())
+    .then (json=> {
+        json.map(function(client,index){
+        setClientInStorage('myClient', client);
+        });
+    });
   }
 
   onEditProfile() {

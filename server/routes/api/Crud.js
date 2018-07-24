@@ -1,12 +1,18 @@
-const User = require("../../models/User");
-const UserSession = require("../../models/UserSchema");
-const RolesSchema = require("../../models/Roles");
-const Patients = require("../../models/Patient");
-const Agenda = require("../../models/Agenda");
-module.exports = app => {
-  app.get("/api/account/agendaarray", (req, res, next) => {
-    const { query } = req;
-    const { token } = query;
+const User = require('../../models/User');
+const UserSession = require('../../models/UserSchema');
+const RolesSchema = require('../../models/Roles');
+const Agenda = require('../../models/Agenda');
+    module.exports = (app) => {
+       
+        app.get("/api/account/agendaarray", (req, res, next)=> {
+            const {query} = req;
+            const {token} = query;
+
+            Agenda.find({ Nutriologist_id:token}, (err, doc)  => {
+                console.log(doc);
+                return res.send(doc);
+               });
+        });
 
     Agenda.find({ Nutriologist_id: token }, (err, doc) => {
       console.log(doc);
