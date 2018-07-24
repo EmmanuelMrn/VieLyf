@@ -6,6 +6,7 @@ import {
 
 
 
+
 class Diet extends Component {
   constructor() {
     super();
@@ -335,204 +336,176 @@ class Diet extends Component {
           onChange={this.handleInputChange}
         /><b>Milk</b><br />
     
-        <input
-          type="breakfastVeg"
-          size="4"
-          name = "breakfastVeg"
-          placeholder="breakfastVeg"
-          value={breakfastVeg}
-          onChange={this.handleInputChange}
-        />
-        <input
-          type="lunchVeg"
-          size="4"
-          name = "lunchVeg"
-          placeholder="lunchVeg"
-          value={lunchVeg}
-          onChange={this.handleInputChange}
-        />
-        <input
-          type="dinnerVeg"
-          size="4"
-          name = "dinnerVeg"
-          placeholder="dinnerName"
-          value={dinnerVeg}
-          onChange={this.handleInputChange}
-        />
-        <input
-          type="collationVeg"
-          size="4"
-          name = "collationVeg"
-          placeholder="collationVeg"
-          value={collationVeg}
-          onChange={this.handleInputChange}
-        /><b>Vegetable</b><br />
-        
-        <input
-          type="breakfastFruit"
-          size="4"
-          name = "breakfastFruit"
-          placeholder="breakfastFruit"
-          value={breakfastFruit}
-          onChange={this.handleInputChange}
-        />
-        <input
-          type="lunchFruit"
-          size="4"
-          name = "lunchFruit"
-          placeholder="lunchFruit"
-          value={lunchFruit}
-          onChange={this.handleInputChange}
-        />
-        <input
-          type="dinnerFruit"
-          size="4"
-          name = "dinnerFruit"
-          placeholder="dinnerName"
-          value={dinnerFruit}
-          onChange={this.handleInputChange}
-        />
-        <input
-          type="collationFruit"
-          size="4"
-          name = "collationFruit"
-          placeholder="collationFruit"
-          value={collationFruit}
-          onChange={this.handleInputChange}
-        /><b>Fruit</b><br />
-        <input
-          type="breakfastCereal"
-          size="4"
-          name = "breakfastCereal"
-          placeholder="breakfastCereal"
-          value={breakfastCereal}
-          onChange={this.handleInputChange}
-        />
-        <input
-          type="lunchCereal"
-          size="4"
-          name = "lunchCereal"
-          placeholder="lunchCereal"
-          value={lunchCereal}
-          onChange={this.handleInputChange}
-        />
-        <input
-          type="dinnerCereal"
-          size="4"
-          name = "dinnerCereal"
-          placeholder="dinnerName"
-          value={dinnerCereal}
-          onChange={this.handleInputChange}
-        />
-        <input
-          type="collationCereal"
-          size="4"
-          name = "collationCereal"
-          placeholder="collationCereal"
-          value={collationCereal}
-          onChange={this.handleInputChange}
-        /><b>Cereal</b><br />
-        <input
-          type="breakfastMeat"
-          size="4"
-          name = "breakfastMeat"
-          placeholder="breakfastMeat"
-          value={breakfastMeat}
-          onChange={this.handleInputChange}
-        />
-        <input
-          type="lunchMeat"
-          size="4"
-          name = "lunchMeat"
-          placeholder="lunchMeat"
-          value={lunchMeat}
-          onChange={this.handleInputChange}
-        />
-        <input
-          type="dinnerMeat"
-          size="4"
-          name = "dinnerMeat"
-          placeholder="dinnerName"
-          value={dinnerMeat}
-          onChange={this.handleInputChange}
-        />
-        <input
-          type="collationMeat"
-          size="4"
-          name = "collationMeat"
-          placeholder="collationMeat"
-          value={collationMeat}
-          onChange={this.handleInputChange}
-        /><b>Meat</b><br />
-        <input
-          type="breakfastFat"
-          size="4"
-          name = "breakfastFat"
-          placeholder="breakfastFat"
-          value={breakfastFat}
-          onChange={this.handleInputChange}
-        />
-        <input
-          type="lunchFat"
-          size="4"
-          name = "lunchFat"
-          placeholder="lunchFat"
-          value={lunchFat}
-          onChange={this.handleInputChange}
-        />
-        <input
-          type="dinnerFat"
-          size="4"
-          name = "dinnerFat"
-          placeholder="dinnerName"
-          value={dinnerFat}
-          onChange={this.handleInputChange}
-        />
-        <input
-          type="collationFat"
-          size="4"
-          name = "collationFat"
-          placeholder="collationFat"
-          value={collationFat}
-          onChange={this.handleInputChange}
-        /><b>Fat</b><br />
-        <input
-          type="breakfastSugar"
-          size="4"
-          name = "breakfastSugar"
-          placeholder="breakfastSugar"
-          value={breakfastSugar}
-          onChange={this.handleInputChange}
-        />
-        <input
-          type="lunchSugar"
-          size="4"
-          name = "lunchSugar"
-          placeholder="lunchSugar"
-          value={lunchSugar}
-          onChange={this.handleInputChange}
-        />
-        <input
-          type="dinnerSugar"
-          size="4"
-          name = "dinnerSugar"
-          placeholder="dinnerName"
-          value={dinnerSugar}
-          onChange={this.handleInputChange}
-        />
-        <input
-          type="collationSugar"
-          size="4"
-          name = "collationSugar"
-          placeholder="collationSugar"
-          value={collationSugar}
-          onChange={this.handleInputChange}
-        /><b>Sugar</b><br /><br />
-        {this.renderButtom()}
-      </div>
-      
-        );
-      }
-    }
+
+    <input
+      type="breakfastFruit"
+      size="4"
+      name = "breakfastFruit"
+      placeholder="breakfastFruit"
+      value={breakfastFruit}
+      onChange={this.handleInputChange}
+    />
+    <input
+      type="lunchFruit"
+      size="4"
+      name = "lunchFruit"
+      placeholder="lunchFruit"
+      value={lunchFruit}
+      onChange={this.handleInputChange}
+    />
+    <input
+      type="dinnerFruit"
+      size="4"
+      name = "dinnerFruit"
+      placeholder="dinnerName"
+      value={dinnerFruit}
+      onChange={this.handleInputChange}
+    />
+    <input
+      type="collationFruit"
+      size="4"
+      name = "collationFruit"
+      placeholder="collationFruit"
+      value={collationFruit}
+      onChange={this.handleInputChange}
+    /><b>Fruit</b><br />
+    <input
+      type="breakfastCereal"
+      size="4"
+      name = "breakfastCereal"
+      placeholder="breakfastCereal"
+      value={breakfastCereal}
+      onChange={this.handleInputChange}
+    />
+    <input
+      type="lunchCereal"
+      size="4"
+      name = "lunchCereal"
+      placeholder="lunchCereal"
+      value={lunchCereal}
+      onChange={this.handleInputChange}
+    />
+    <input
+      type="dinnerCereal"
+      size="4"
+      name = "dinnerCereal"
+      placeholder="dinnerName"
+      value={dinnerCereal}
+      onChange={this.handleInputChange}
+    />
+    <input
+      type="collationCereal"
+      size="4"
+      name = "collationCereal"
+      placeholder="collationCereal"
+      value={collationCereal}
+      onChange={this.handleInputChange}
+    /><b>Cereal</b><br />
+    <input
+      type="breakfastMeat"
+      size="4"
+      name = "breakfastMeat"
+      placeholder="breakfastMeat"
+      value={breakfastMeat}
+      onChange={this.handleInputChange}
+    />
+    <input
+      type="lunchMeat"
+      size="4"
+      name = "lunchMeat"
+      placeholder="lunchMeat"
+      value={lunchMeat}
+      onChange={this.handleInputChange}
+    />
+    <input
+      type="dinnerMeat"
+      size="4"
+      name = "dinnerMeat"
+      placeholder="dinnerName"
+      value={dinnerMeat}
+      onChange={this.handleInputChange}
+    />
+    <input
+      type="collationMeat"
+      size="4"
+      name = "collationMeat"
+      placeholder="collationMeat"
+      value={collationMeat}
+      onChange={this.handleInputChange}
+    /><b>Meat</b><br />
+    <input
+      type="breakfastFat"
+      size="4"
+      name = "breakfastFat"
+      placeholder="breakfastFat"
+      value={breakfastFat}
+      onChange={this.handleInputChange}
+    />
+    <input
+      type="lunchFat"
+      size="4"
+      name = "lunchFat"
+      placeholder="lunchFat"
+      value={lunchFat}
+      onChange={this.handleInputChange}
+    />
+    <input
+      type="dinnerFat"
+      size="4"
+      name = "dinnerFat"
+      placeholder="dinnerName"
+      value={dinnerFat}
+      onChange={this.handleInputChange}
+    />
+    <input
+      type="collationFat"
+      size="4"
+      name = "collationFat"
+      placeholder="collationFat"
+      value={collationFat}
+      onChange={this.handleInputChange}
+    /><b>Fat</b><br />
+    <input
+      type="breakfastSugar"
+      size="4"
+      name = "breakfastSugar"
+      placeholder="breakfastSugar"
+      value={breakfastSugar}
+      onChange={this.handleInputChange}
+    />
+    <input
+      type="lunchSugar"
+      size="4"
+      name = "lunchSugar"
+      placeholder="lunchSugar"
+      value={lunchSugar}
+      onChange={this.handleInputChange}
+    />
+    <input
+      type="dinnerSugar"
+      size="4"
+      name = "dinnerSugar"
+      placeholder="dinnerName"
+      value={dinnerSugar}
+      onChange={this.handleInputChange}
+    />
+    <input
+      type="collationSugar"
+      size="4"
+      name = "collationSugar"
+      placeholder="collationSugar"
+      value={collationSugar}
+      onChange={this.handleInputChange}
+    /><b>Sugar</b><br /><br />
+    {this.renderButtom()}
+  </div>
+  <div className="col-md-4">
+    <img height='500px' width="500px" src='/assets/img/imagen3.jpg' className="rotate270" alt='Imagen3'/>
+  </div>
+  </div>
+  
+    );
+  }
+}
 
     export default Diet;
