@@ -136,7 +136,7 @@ module.exports = app => {
 
     User.find(
       {
-        Role: "Client",
+        // Role: "Client",
         //  FirstName: { $regex: ".*" + token + ".*" }
         FirstName: { $regex: ".*" + token + ".*", $options: "i" }
       },
