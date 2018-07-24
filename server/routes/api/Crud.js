@@ -144,7 +144,6 @@ const Agenda = require('../../models/Agenda');
 
     User.find(
       {
-        Role: "Client",
         FirstName: { $regex: ".*" + token + ".*", $options: "i" }
       },
       (err, doc) => {
