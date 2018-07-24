@@ -8,7 +8,7 @@ const customStyles = {
     bottom                : 'auto',
     marginRight           : '-50%',
     transform             : 'translate(-50%, -50%)',
-    backgroundColor       :'#98fb98'
+    backgroundColor       :'#b9cb33'
   }
 }
 class CatalogueNutriologist extends Component {
@@ -73,23 +73,22 @@ render()
             // the values are now in nutritionis and the names of the fields
             //  are the same ast the ones in the JSON
           <div key={nutritionist._id} className="nutritionist">
-            <a >  
-            <button  id={nutritionist} onClick={e => that.clickHandler(e,index)}>abrir</button>
-                    {nutritionist.FirstName}
+            <div className="card" id="cardstyle" >  
+              <div className="card-body">
+           
+                   <h5 className="card-title"> {nutritionist.FirstName}</h5>
                     <Modal id= {nutritionist} isOpen={that.state.activeModal == index} onRequestClose={that.hideModal} style={customStyles}>
                     
                     {nutritionist.LastName}<br />
                     {nutritionist.Role}<br />
-                    {nutritionist.LastName}<br />
-                    {nutritionist.Role}<br />
-                    {nutritionist.LastName}<br />
-                    {nutritionist.Role}<br />
-                    {nutritionist.LastName}<br />
-                    {nutritionist.Role}<br />
+                    {nutritionist.Email}<br />
+                    {nutritionist.Phone}<br />
                     </Modal>
+                    <button  id={nutritionist} onClick={e => that.clickHandler(e,index)}>abrir</button>
                     {/* <button  onClick={that.toggleModal}>abrir</button> */}
 
-            </a>
+            </div>
+            </div>
             </div>
             )
             })}
