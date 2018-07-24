@@ -12,6 +12,7 @@ var currentDietId="";
 var currentUserId="";
 var Patient_ID="5b4e1dccf1934719d4c95656";
 
+
 class Diet extends Component {
   constructor() {
     super();
@@ -575,7 +576,7 @@ fetch('/api/accounts/GetDiet?token='+currentDietId)
     {this.renderButtom()}
   </div>
   <div className="col-md-4">
-    <img height='200px' src='/assets/img/imagen3.jpg' alt='Imagen3'/>
+    <img height='500px' width="500px" src='/assets/img/imagen3.jpg' className="rotate270" alt='Imagen3'/>
   </div>
   </div>
   
