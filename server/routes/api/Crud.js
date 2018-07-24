@@ -165,7 +165,8 @@ module.exports = app => {
     User.find(
       {
         Role: "Nutritionist",
-        FirstName: { $regex: ".*" + token + ".*" }
+        //FirstName: { $regex: ".*" + token + ".*" }
+        FirstName: { $regex: ".*" + token + ".*", $options: "i" }
       },
       (err, doc) => {
         if (err) {
