@@ -36,6 +36,7 @@ hideModal() {
   this.setState({ activeModal: null })
 }
 
+
   componentDidMount(){
   fetch('/api/accounts/nutritionistcatalog', {method:'GET'})
     .then(res => res.json())
@@ -85,7 +86,7 @@ render()
                     {nutritionist.Phone}<br />
                     </Modal>
                     <button  id={nutritionist} onClick={e => that.clickHandler(e,index)}>abrir</button>
-                    {/* <button  onClick={that.toggleModal}>abrir</button> */}
+                   
 
             </div>
             </div>
