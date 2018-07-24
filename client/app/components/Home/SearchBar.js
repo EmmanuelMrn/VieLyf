@@ -38,7 +38,7 @@ class SearchBar extends Component {
 
   inputsearch() {
     console.log("search name " + this.state.Name);
-    fetch("/api/account/searchNutritionist?token=" + this.state.Name)
+    fetch("/api/account/searchuser?token=" + this.state.Name)
       .then(res => res.json())
       .then(json => {
         if (json.success) {
