@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 const Header = () => (
   <header>
     <nav className="navbar bg-dark text-white">
-      <Link to="/" className="navbar-brand text-white">VieLyf</Link>
-      
+        <Link to="/" className="navbar-brand text-white">VieLyf</Link>
+        <Link to="/SearchBar" className="navbar-brand text-white">SearchBar</Link>
         <Link to="/nutritionalBlog" className="text-white">Nutritional Blog</Link>
         <Link to="/catalogueNutriologist" className="text-white">Catalogue of Nutriologist</Link>
       <div>

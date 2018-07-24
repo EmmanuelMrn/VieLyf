@@ -20,6 +20,7 @@ import VistaNutriologo from './components/VistaNutriologo/VistaNutriologo';
 import CatalogueNutriologist from './components/Home/CatalogueNutriologist';
 import DisponibilitySchedule from './components/Home/DisponibilitySchedule';
 import ResultadoBusqueda from './components/Home/ResultadoBusqueda';
+import SearchBar from './components/Home/SearchBar';
 import './styles/styles.scss';
 
 render(
@@ -39,7 +40,7 @@ render(
         <Route path="/catalogueNutriologist" component={CatalogueNutriologist}/>
         <Route path="/disponibilitySchedule" component={DisponibilitySchedule}/>
         <Route path="/ResultadoBusqueda" component={ResultadoBusqueda} />
-
+        <Route path="/SearchBar" component={SearchBar} />
         <Route component={NotFound} />
       </Switch>
     </App>

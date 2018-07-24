@@ -4,20 +4,21 @@ const RolesSchema = require('../../models/Roles');
 const Agenda = require('../../models/Agenda');
     module.exports = (app) => {
        
-        app.get("/api/account/agendaarray", (req, res, next)=> {
-            const {query} = req;
-            const {token} = query;
+    app.get("/api/account/agendaarray", (req, res, next)=> {
+        const {query} = req;
+        const {token} = query;
 
-            Agenda.find({ Nutriologist_id:token}, (err, doc)  => {
-                console.log(doc);
-                return res.send(doc);
-               });
-        });
-
-    Agenda.find({ Nutriologist_id: token }, (err, doc) => {
-      console.log(doc);
-      return res.send(doc);
+        Agenda.find({ Nutriologist_id:token}, (err, doc)  => {
+            console.log(doc);
+            return res.send(doc);
+            });
     });
+  
+  app.delete("/api/account/deleteaccount", (req, res) => {
+      const {query} = req;
+      const { token } = query;;
+      User.findByIdAndRemove(token);
+      res.json({status: 'Task deleted'});
   });
 
   app.get("/api/account/editprofile", (req, res, next) => {
@@ -136,6 +137,7 @@ const Agenda = require('../../models/Agenda');
       });
     }
   });
+
   app.get("/api/account/searchuser", (req, res, next) => {
     const { query } = req;
     const { token } = query;
@@ -143,7 +145,6 @@ const Agenda = require('../../models/Agenda');
     User.find(
       {
         Role: "Client",
-        //  FirstName: { $regex: ".*" + token + ".*" }
         FirstName: { $regex: ".*" + token + ".*", $options: "i" }
       },
       (err, doc) => {
@@ -158,7 +159,6 @@ const Agenda = require('../../models/Agenda');
             success: true,
             doc
           });
-          //return res.json(doc);
         }
       }
     );

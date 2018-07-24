@@ -1,12 +1,24 @@
 import React, { Component } from "react";
 import "whatwg-fetch";
 import { Link } from "react-router-dom";
-
+import Modal from 'react-modal';
 
 import {
   getFromStorage,
   setClientInStorage
 } from '../../utils/storage';
+
+const customStyles = {
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)',
+    backgroundColor       :'#98fb98'
+  }
+};
 
 class VistaCliente extends Component {
   constructor(props) {
@@ -17,6 +29,7 @@ class VistaCliente extends Component {
       isLoading: true,
       token: "",
       Name: "",
+      isActive: false,
       signUpError: "",
       loginError: "",
       loginEmail: "",
@@ -24,58 +37,31 @@ class VistaCliente extends Component {
       signUpEmail: "",
       signUpPassword: "",
       signUpFirstName: "",
-      signUpLastName: "",
-      Customers: []
+      signUpLastName: ""
     };
     this.onEditProfile = this.onEditProfile.bind(this);
     this.logout = this.logout.bind(this);
-    this.inputsearch = this.inputsearch.bind(this);
+    this.onDelete = this.onDelete.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
-  handleClick(e) {
-    e.preventDefault();
-    this.inputsearch();
-
-    // setClientInStorage('myClient', client);
-    // window.location=('/diet');
-  }
-  ActionLink() {
-    return (
-      //  <a  className="btn btn-success"   onClick={handleClick} >Abrir</a>
-
-      <button type="button" onClick={this.handleClick}>
-        search
-      </button>
-    );
+  onDelete(){
+    const {signUpEmail} = this.state;
+    fetch('/api/account/deleteaccount?token='+signUpEmail+'')
   }
 
-  inputsearch() {
-    // const { Name, Customers } = this.state;
-    console.log("search name " + this.state.Name);
-    fetch("/api/account/searchNutritionist?token=" + this.state.Name)
-      .then(res => res.json())
-      .then(json => {
-        if (json.success) {
-          this.setState({
-            Customers: json.doc.map(function(item) {
-              return item;
-            }),
-            isLoading: false
-          });
-        } else {
-          this.setState({
-            isLoading: false
-          });
-        }
-        //console.log(json);
-        console.log(this.state.Customers);
-        console.log(this.state.Customers.length);
-        setInStorage("searchresults", { token: json.doc });
-        window.location = "/ResultadoBusqueda";
-      });
+  toggleModal() 
+  {
+    this.setState({
+      isActive:!this.state.isActive,
+      signUpEmail:'',
+      signUpFirstName:'',
+      signUpLastName:'',
+      signUpPassword:''
+    })
   }
+
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
@@ -198,8 +184,6 @@ class VistaCliente extends Component {
   }
 
   render() {
-    var Customers = Array.from(this.state.Customers);
-    var that = this;
 
     const {
       isLoading,
@@ -209,7 +193,6 @@ class VistaCliente extends Component {
       loginPassword,
       Name
     } = this.state;
-    //  Customers.map(function(Customers,index){
 
     return (
       <div>
@@ -217,20 +200,6 @@ class VistaCliente extends Component {
         <div className="row">
           <div className="col-md-3">
             <div className="btn-group-vertical">
-              <input
-                type="text"
-                //id="myInput"
-                //  onkeyup="myFunction()"
-                // placeholder="Search for names.."
-
-                //   type="text"
-                name="Name"
-                placeholder="Name"
-                value={this.state.Name}
-                onChange={this.handleInputChange}
-              />
-              {this.ActionLink()}
-
               <button type="button" className="btn btn-dark">
                 Página principal
               </button>
@@ -263,48 +232,52 @@ class VistaCliente extends Component {
           </div>
 
           <div className="col-md-3">
-            <p>Edit profile</p>
-            <input
-              type="firstName"
-              name="signUpFirstName"
-              placeholder="First Name"
-              value={this.state.signUpFirstName}
-              onChange={this.handleInputChange}
-            />
-            <br />
-            <input
-              type="lastName"
-              name="signUpLastName"
-              placeholder="Last Name"
-              value={this.state.signUpLastName}
-              onChange={this.handleInputChange}
-            />
-            <br />
-            <input
-              type="email"
-              name="signUpEmail"
-              placeholder="Email"
-              value={this.state.signUpEmail}
-              onChange={this.handleInputChange}
-            />
-            <br />
+            <button type="button" className="btn btn-dark" onClick={this.toggleModal}>Account Settings</button><br/>
+            <Modal isOpen={this.state.isActive} onRequestClose={this.toggleModal}style ={customStyles}>
+              <p>Edit profile</p>
+              <input
+                type="firstName"
+                name="signUpFirstName"
+                placeholder="First Name"
+                value={this.state.signUpFirstName}
+                onChange={this.handleInputChange}
+              />
+              <br />
+              <input
+                type="lastName"
+                name="signUpLastName"
+                placeholder="Last Name"
+                value={this.state.signUpLastName}
+                onChange={this.handleInputChange}
+              />
+              <br />
+              <input
+                type="email"
+                name="signUpEmail"
+                placeholder="Email"
+                value={this.state.signUpEmail}
+                onChange={this.handleInputChange}
+              />
+              <br />
 
-            <input
-              type="password"
-              name="signUpPassword"
-              placeholder="Password"
-              value={this.state.signUpPassword}
-              onChange={this.handleInputChange}
-            />
+              <input
+                type="password"
+                name="signUpPassword"
+                placeholder="Password"
+                value={this.state.signUpPassword}
+                onChange={this.handleInputChange}
+              />
 
-            <br />
-            <button
-              type="button"
-              className="btn btn-dark"
-              onClick={this.onEditProfile}
-            >
-              Save changes
-            </button>
+              <br />
+              <button
+                type="button"
+                className="btn btn-dark"
+                onClick={this.onEditProfile}>
+                Save changes
+              </button>
+              <button type="button" className="btn btn-dark" onClick={this.onDelete}>Delete account</button>
+              <button onClick={this.toggleModal}>Cancel</button>
+            </Modal>
           </div>
         </div>
         <button type="button" className="btn btn-dark" onClick={this.logout}>
