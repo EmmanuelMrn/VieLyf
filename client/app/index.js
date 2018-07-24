@@ -17,8 +17,8 @@ import Login from './components/Home/Login';
 import Signup from './components/Home/Signup';
 import Agenda from './components/Agenda/Agenda';
 import NotFound from './components/App/NotFound';
+import Transition from './components/Diet/Transition';
 import NutritionalBlog from './components/Home/NutritionalBlog';
-import Dieta from "./components/VistaCliente/Dieta";
 import VistaCliente from './components/VistaCliente/VistaCliente';
 import VistaNutriologo from './components/VistaNutriologo/VistaNutriologo';
 import CatalogueNutriologist from './components/Home/CatalogueNutriologist';
@@ -35,12 +35,13 @@ render((
         <Route path="/signup" component={Signup}/>
         <Route path="/agenda" component={Agenda}/>
         <Route path="/charts" component={Charts}/>
+        <Route path="/transition" component={Transition}/>
         <Route path="/vistacliente" component={VistaCliente}/>
         <Route path="/nutritionalBlog" component={NutritionalBlog}/>
         <Route path="/vistanutriologo" component={VistaNutriologo}/>
         <Route path="/catalogueNutriologist" component={CatalogueNutriologist}/>
         <Route path="/disponibilitySchedule" component={DisponibilitySchedule}/>
-        <Route path="/Dieta" component={Dieta} />
+
 
         <Route component={NotFound}/>
       </Switch>

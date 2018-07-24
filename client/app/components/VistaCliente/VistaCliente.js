@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import {
   getFromStorage,
-  setInStorage,
+  setClientInStorage
 } from '../../utils/storage';
 
 class VistaCliente extends Component {
@@ -55,11 +55,20 @@ class VistaCliente extends Component {
               token,
               isLoading: false
             });
+            //get user
+            fetch('/api/accounts/GetUserFromUserSession?token='+token)
+            .then(res => res.json())
+            .then(json => {
+              console.log(json)
+              this.GetMyClientsUser(json.userId)
+            });
           } else {
             this.setState({
               isLoading: false,
             });
           }
+          console.log(json)
+          
         });
     } else {
       this.setState({
@@ -69,7 +78,15 @@ class VistaCliente extends Component {
     // console.log(token);
   }
 
-
+  GetMyClientsUser(ClientsId){
+    fetch('/api/accounts/GetMyClientsUser?Clients='+ClientsId, {method:'GET'})
+    .then(res => res.json())
+    .then (json=> {
+        json.map(function(client,index){
+        setClientInStorage('myClient', client);
+        });
+    });
+  }
   onEditProfile() {
     const {signUpEmail, signUpFirstName, signUpLastName, signUpPassword} = this.state;
       fetch('/api/account/editprofile?token='+signUpEmail+'&token2='+signUpFirstName+'&token3='+signUpLastName+'&token4='+signUpPassword+'')

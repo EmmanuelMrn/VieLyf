@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 import {
-  
-  getEmailFromStorage,
-  setEmailInStorage,
   getFromStorage,
 } from '../../utils/storage';
 
-var currentPatientId="";
-var currentDietId="";
-var currentUserId="";
-var Patient_ID="5b4e1dccf1934719d4c95656";
+
 
 
 class Diet extends Component {
@@ -19,12 +13,8 @@ class Diet extends Component {
 
     this.state = {
         isLoading: true,
-        Client_id:"",
-        Nutritionist_id:"",
-        tokendiet: "",
-        userstoken: "",
-        prueba:"",
-        patients:"",
+        tokendiet:'',
+        currentPatientId: '',
         NutritionistAccount: false,
         
   
@@ -59,9 +49,7 @@ class Diet extends Component {
         collationMeat:'',
         collationFat:'',
         collationSugar:''
-
     };
-
     this.onEditDiet = this.onEditDiet.bind(this);
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -77,342 +65,278 @@ class Diet extends Component {
     });
   }
   componentDidMount() {
+    var ClientSendFromTransition="";
+    var usertoken='';
+    const clientSelectedObj = getFromStorage('myClient');
+    ClientSendFromTransition = clientSelectedObj._id;
+    
     //Get the current UserID on session
     const obj = getFromStorage('the_main_app');
     const {token} = obj;
-      
-      fetch('/api/accounts/GetUserFromUserSession?token='+token)
-        .then(res => res.json())
-        .then(json => {
+
+    fetch('/api/accounts/GetUserFromUserSession?token='+token)
+    .then(res => res.json())
+    .then(json => {
+        usertoken=json.userId
+
+        if (usertoken == ClientSendFromTransition){
+          console.log("es cliente")
           this.setState({
-            userstoken:json.userId,
+            NutritionistAccount:false,
           });
-            currentUserId = json.userId;
-            
-            //Check for the role
-            fetch('/api/accounts/IsNutritionist?token='+currentUserId)
-            .then(res => res.json())
-            .then(json => {
-              
-              if(json.success){
-                this.GetMyPatient(Patient_ID);
-                
-              } else {
-                //this.GetMyPatient(Patient_ID);
-                this.GetMyUser(currentUserId);
-              }   
-              this.setState({
-                NutritionistAccount:json.success,
-              });
-              
-            });
-        });
-    }
-
-  GetMyUser(currentUserId){
-//Check for an existing relationship on Patient
-fetch('/api/accounts/GetUser?token='+currentUserId)
-.then(res => res.json())
-.then(json => {
-    this.setState({
-      patients:json._id,
-    }); 
-    currentPatientId = json._id ;
-    this.GetMyPatient(currentPatientId);
-   });
-  }
-
-  GetMyPatient(currentPatientId){
- //Check for the diet 
-        fetch('/api/accounts/GetPatient?token='+currentPatientId)
-        .then(res => res.json())
-        .then(json => {
-            this.setState({
-              tokendiet:json._id
-            });
-            currentDietId = json._id ;
-            this.GetMyDiets(currentDietId);
-          });
-        
-  }
-
-  GetMyDiets(currentDietId){
-//Get the especific diet for that client
-fetch('/api/accounts/GetDiet?token='+currentDietId)
-.then(res => res.json())
-.then(json => {
-
-    this.setState({
-      breakfastMilk:json.breakfastMilk,
-      breakfastVeg:json.breakfastVeg ,
-      breakfastFruit:json.breakfastFruit ,
-      breakfastCereal:json.breakfastCereal ,
-      breakfastMeat:json.breakfastMeat ,
-      breakfastFat:json.breakfastFat ,
-      breakfastSugar:json.breakfastSugar ,
-      
-      lunchMilk:json.lunchMilk ,
-      lunchVeg:json.lunchVeg ,
-      lunchFruit:json.lunchFruit ,
-      lunchCereal:json.lunchCereal ,
-      lunchMeat:json.lunchMeat ,
-      lunchFat:json.lunchFat ,
-      lunchSugar:json.lunchSugar ,
-      
-      dinnerMilk:json.dinnerMilk ,
-      dinnerVeg:json.dinnerVeg ,
-      dinnerFruit:json.dinnerFruit ,
-      dinnerCereal:json.dinnerCereal ,
-      dinnerMeat:json.dinnerMeat ,
-      dinnerFat:json.dinnerFat ,
-      dinnerSugar:json.dinnerSugar ,
-      
-      collationMilk:json.collationMilk ,
-      collationVeg:json.collationVeg ,
-      collationFruit:json.collationFruit ,
-      collationCereal:json.collationCereal ,
-      collationMeat:json.collationMeat ,
-      collationFat:json.collationFat ,
-      collationSugar:json.collationSugar 
-    });
-  
-});
-  }
-  onEditDiet(){
-    const {
-        isLoading,
-        Client_id,
-        Nutritionist_id,
-        tokendiet,
-        userstoken,
-        patient,
-  
-        breakfastMilk,
-        breakfastVeg,
-        breakfastFruit,
-        breakfastCereal,
-        breakfastMeat,
-        breakfastFat,
-        breakfastSugar,
-        
-        lunchMilk,
-        lunchVeg,
-        lunchFruit,
-        lunchCereal,
-        lunchMeat,
-        lunchFat,
-        lunchSugar,
-        
-        dinnerMilk,
-        dinnerVeg,
-        dinnerFruit,
-        dinnerCereal,
-        dinnerMeat,
-        dinnerFat,
-        dinnerSugar,
-        
-        collationMilk,
-        collationVeg,
-        collationFruit,
-        collationCereal,
-        collationMeat,
-        collationFat,
-        collationSugar
-    } = this.state;
-    fetch('/api/accounts/ModifyDiet', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        
-        tokendiet:tokendiet,
-        breakfastMilk:breakfastMilk,
-        breakfastVeg:breakfastVeg,
-        breakfastFruit:breakfastFruit,
-        breakfastCereal:breakfastCereal,
-        breakfastMeat:breakfastMeat,
-        breakfastFat:breakfastFat,
-        breakfastSugar:breakfastSugar,
-        
-        lunchMilk:lunchMilk,
-        lunchVeg:lunchVeg,
-        lunchFruit:lunchFruit,
-        lunchCereal:lunchCereal,
-        lunchMeat:lunchMeat,
-        lunchFat:lunchFat,
-        lunchSugar:lunchSugar,
-        
-        dinnerMilk:dinnerMilk,
-        dinnerVeg:dinnerVeg,
-        dinnerFruit:dinnerFruit,
-        dinnerCereal:dinnerCereal,
-        dinnerMeat:dinnerMeat,
-        dinnerFat:dinnerFat,
-        dinnerSugar:dinnerSugar,
-        
-        collationMilk:collationMilk,
-        collationVeg:collationVeg,
-        collationFruit:collationFruit,
-        collationCereal:collationCereal,
-        collationMeat:collationMeat,
-        collationFat:collationFat,
-        collationSugar:collationSugar,
-      }),
-    }).then(res => res.json())
-      .then(json => {
-        if (json.success) {
-            //console.log("cool");
-        } else {
+          this.CheckIfImAPatient(usertoken)
+        }else{
+          console.log("es nutriologo")
           this.setState({
-            isLoading: false,
+            NutritionistAccount:true, 
           });
+          this.CheckIfImAPatient(ClientSendFromTransition) 
         }
-      });
+    });
   }
-  renderTitle() {
-    if(this.state.NutritionistAccount) {
-      return (
-        <p>Edit Diet</p>
-      );
-    } else {
-      return (
-        <p>View Diet</p>
-      );
-    }
-  }
-  renderButtom() {
-    if(this.state.NutritionistAccount) {
-      return (
-        <button type="button" className="btn btn-dark" onClick={this.onEditDiet}>Edit Diet</button>
-      );
-    }
-  }
- 
+      CheckIfImAPatient(currentUserId){
+      //Check for an existing relationship on Patient
+      fetch('/api/accounts/GetUser?token='+currentUserId)
+      .then(res => res.json())
+      .then(json => {
+        if(json.success){
+          console.log(json.doc._id)
+            this.setState({
+                currentPatientId:json.doc._id
+              }); 
+              this.GetDiets(this.state.currentPatientId);
+        }else{
+            console.log(json.success)
+        }
+       });
+      }
+      GetDiets(currentPatientId){
+        
+        fetch('/api/accounts/GetDiet?token='+currentPatientId)
+        .then(res => res.json())
+        .then(json => {
+        
+            this.setState({
+              tokendiet:currentPatientId,
+              breakfastMilk:json.breakfastMilk,
+              breakfastVeg:json.breakfastVeg ,
+              breakfastFruit:json.breakfastFruit ,
+              breakfastCereal:json.breakfastCereal ,
+              breakfastMeat:json.breakfastMeat ,
+              breakfastFat:json.breakfastFat ,
+              breakfastSugar:json.breakfastSugar ,
+              
+              lunchMilk:json.lunchMilk ,
+              lunchVeg:json.lunchVeg ,
+              lunchFruit:json.lunchFruit ,
+              lunchCereal:json.lunchCereal ,
+              lunchMeat:json.lunchMeat ,
+              lunchFat:json.lunchFat ,
+              lunchSugar:json.lunchSugar ,
+              
+              dinnerMilk:json.dinnerMilk ,
+              dinnerVeg:json.dinnerVeg ,
+              dinnerFruit:json.dinnerFruit ,
+              dinnerCereal:json.dinnerCereal ,
+              dinnerMeat:json.dinnerMeat ,
+              dinnerFat:json.dinnerFat ,
+              dinnerSugar:json.dinnerSugar ,
+              
+              collationMilk:json.collationMilk ,
+              collationVeg:json.collationVeg ,
+              collationFruit:json.collationFruit ,
+              collationCereal:json.collationCereal ,
+              collationMeat:json.collationMeat ,
+              collationFat:json.collationFat ,
+              collationSugar:json.collationSugar 
+            });
+          
+        });
+      }
+      onEditDiet(){
+        const {
+            tokendiet,
     
-  
-  render() {
-    const {
-        isLoadingue,
-        Client_id,
-        Nutritionist_id,
-        tokendiet,
-        userstoken,
-        patient,
-        Nutritionist,
-        Flag,
-  
-        breakfastMilk,
-        breakfastVeg,
-        breakfastFruit,
-        breakfastCereal,
-        breakfastMeat,
-        breakfastFat,
-        breakfastSugar,
+            breakfastMilk,
+            breakfastVeg,
+            breakfastFruit,
+            breakfastCereal,
+            breakfastMeat,
+            breakfastFat,
+            breakfastSugar,
+            
+            lunchMilk,
+            lunchVeg,
+            lunchFruit,
+            lunchCereal,
+            lunchMeat,
+            lunchFat,
+            lunchSugar,
+            
+            dinnerMilk,
+            dinnerVeg,
+            dinnerFruit,
+            dinnerCereal,
+            dinnerMeat,
+            dinnerFat,
+            dinnerSugar,
+            
+            collationMilk,
+            collationVeg,
+            collationFruit,
+            collationCereal,
+            collationMeat,
+            collationFat,
+            collationSugar
+        } = this.state;
+        fetch('/api/accounts/ModifyDiet', {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            
+            tokendiet:tokendiet,
+            breakfastMilk:breakfastMilk,
+            breakfastVeg:breakfastVeg,
+            breakfastFruit:breakfastFruit,
+            breakfastCereal:breakfastCereal,
+            breakfastMeat:breakfastMeat,
+            breakfastFat:breakfastFat,
+            breakfastSugar:breakfastSugar,
+            
+            lunchMilk:lunchMilk,
+            lunchVeg:lunchVeg,
+            lunchFruit:lunchFruit,
+            lunchCereal:lunchCereal,
+            lunchMeat:lunchMeat,
+            lunchFat:lunchFat,
+            lunchSugar:lunchSugar,
+            
+            dinnerMilk:dinnerMilk,
+            dinnerVeg:dinnerVeg,
+            dinnerFruit:dinnerFruit,
+            dinnerCereal:dinnerCereal,
+            dinnerMeat:dinnerMeat,
+            dinnerFat:dinnerFat,
+            dinnerSugar:dinnerSugar,
+            
+            collationMilk:collationMilk,
+            collationVeg:collationVeg,
+            collationFruit:collationFruit,
+            collationCereal:collationCereal,
+            collationMeat:collationMeat,
+            collationFat:collationFat,
+            collationSugar:collationSugar,
+          }),
+        }).then(res => res.json())
+          .then(json => {
+            if (json.success == false) {
+              this.setState({
+                isLoading: false,
+              });
+            } 
+          });
+      }
+      renderTitle() {
+        if(this.state.NutritionistAccount) {
+          return (
+            <p>Edit Diet</p>
+          );
+        } else {
+          return (
+            <p>View Diet</p>
+          );
+        }
+      }
+      renderButtom() {
+        if(this.state.NutritionistAccount) {
+          return (
+            <button type="button" className="btn btn-dark" onClick={this.onEditDiet}>Edit Diet</button>
+          );
+        }
+      }
+      render() {
+        const {
+      
+            breakfastMilk,
+            breakfastVeg,
+            breakfastFruit,
+            breakfastCereal,
+            breakfastMeat,
+            breakfastFat,
+            breakfastSugar,
+            
+            lunchMilk,
+            lunchVeg,
+            lunchFruit,
+            lunchCereal,
+            lunchMeat,
+            lunchFat,
+            lunchSugar,
+            
+            dinnerMilk,
+            dinnerVeg,
+            dinnerFruit,
+            dinnerCereal,
+            dinnerMeat,
+            dinnerFat,
+            dinnerSugar,
+            
+            collationMilk,
+            collationVeg,
+            collationFruit,
+            collationCereal,
+            collationMeat,
+            collationFat,
+            collationSugar
+        } = this.state;
         
-        lunchMilk,
-        lunchVeg,
-        lunchFruit,
-        lunchCereal,
-        lunchMeat,
-        lunchFat,
-        lunchSugar,
-        
-        dinnerMilk,
-        dinnerVeg,
-        dinnerFruit,
-        dinnerCereal,
-        dinnerMeat,
-        dinnerFat,
-        dinnerSugar,
-        
-        collationMilk,
-        collationVeg,
-        collationFruit,
-        collationCereal,
-        collationMeat,
-        collationFat,
-        collationSugar
-    } = this.state;
+    
+        return (
+        <div className="col-md-4">
+        {this.renderTitle()}
+        <br/>
+        <br/>
+        <b>Break Fast|   </b>
+        <b>Lunch |  </b>
+        <b>Dinner  | </b>
+        <b>Collation</b>
+        <br/>
+        <input
+          type="breakfastMilk"
+          size="4"
+          name = "breakfastMilk"
+          placeholder="breakfastMilk"
+          value={breakfastMilk}
+          onChange={this.handleInputChange}
+        />
+        <input
+          type="lunchMilk"
+          size="4"
+          name = "lunchMilk"
+          placeholder="lunchMilk"
+          value={lunchMilk}
+          onChange={this.handleInputChange}
+        />
+        <input
+          type="dinnerMilk"
+          size="4"
+          name = "dinnerMilk"
+          placeholder="dinnerName"
+          value={dinnerMilk}
+          onChange={this.handleInputChange}
+        />
+        <input
+          type="collationMilk"
+          size="4"
+          name = "collationMilk"
+          placeholder="collationMilk"
+          value={collationMilk}
+          onChange={this.handleInputChange}
+        /><b>Milk</b><br />
     
 
-    return (
-    <div>
-    <div className="col-md-4">
-    {this.renderTitle()}
-    <br/>
-    <br/>
-    <b>Break Fast|   </b>
-    <b>Lunch |  </b>
-    <b>Dinner  | </b>
-    <b>Collation</b>
-    <br/>
-    <input
-      type="breakfastMilk"
-      size="4"
-      name = "breakfastMilk"
-      placeholder="breakfastMilk"
-      value={breakfastMilk}
-      onChange={this.handleInputChange}
-    />
-    <input
-      type="lunchMilk"
-      size="4"
-      name = "lunchMilk"
-      placeholder="lunchMilk"
-      value={lunchMilk}
-      onChange={this.handleInputChange}
-    />
-    <input
-      type="dinnerMilk"
-      size="4"
-      name = "dinnerMilk"
-      placeholder="dinnerName"
-      value={dinnerMilk}
-      onChange={this.handleInputChange}
-    />
-    <input
-      type="collationMilk"
-      size="4"
-      name = "collationMilk"
-      placeholder="collationMilk"
-      value={collationMilk}
-      onChange={this.handleInputChange}
-    /><b>Milk</b><br />
-
-    <input
-      type="breakfastVeg"
-      size="4"
-      name = "breakfastVeg"
-      placeholder="breakfastVeg"
-      value={breakfastVeg}
-      onChange={this.handleInputChange}
-    />
-    <input
-      type="lunchVeg"
-      size="4"
-      name = "lunchVeg"
-      placeholder="lunchVeg"
-      value={lunchVeg}
-      onChange={this.handleInputChange}
-    />
-    <input
-      type="dinnerVeg"
-      size="4"
-      name = "dinnerVeg"
-      placeholder="dinnerName"
-      value={dinnerVeg}
-      onChange={this.handleInputChange}
-    />
-    <input
-      type="collationVeg"
-      size="4"
-      name = "collationVeg"
-      placeholder="collationVeg"
-      value={collationVeg}
-      onChange={this.handleInputChange}
-    /><b>Vegetable</b><br />
-    
     <input
       type="breakfastFruit"
       size="4"
@@ -584,4 +508,4 @@ fetch('/api/accounts/GetDiet?token='+currentDietId)
   }
 }
 
-export default Diet;
+    export default Diet;
