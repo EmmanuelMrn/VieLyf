@@ -38,7 +38,7 @@ app.put('/api/accounts/ModifyStatus',(req,res,next) =>
        var EditStatus = {Status:req.body.status}
        
         PatientRequest.updateOne( {"_id": req.body.PatientRequest_id},{ $set:EditStatus},function(err, result){
-            if(req.body.status == "acepted"){
+            if(req.body.status == "accepted"){
                 const newDiet = new Diet();
                 newDiet.patient= req.body.PatientRequest_id;
                 newDiet.breakfastMilk=0;
@@ -84,7 +84,7 @@ app.put('/api/accounts/ModifyStatus',(req,res,next) =>
                  }
                 });
             }else{
-              console.log("you've not been acepted")
+              console.log("you've not been accepted")
             }
             if(err)
                  {
@@ -153,7 +153,7 @@ app.put('/api/accounts/ModifyDiet',(req,res,next) =>
     
 app.get('/api/accounts/GetUser',(req,res,next)=>{
 
-        PatientRequest.findOne({Client_id:req.query.token,Status:"acepted"}, (err, doc)  => {
+        PatientRequest.findOne({Client_id:req.query.token,Status:"accepted"}, (err, doc)  => {
             if(err)
             {
               return  res.send({
@@ -182,7 +182,7 @@ app.get('/api/accounts/GetDiet',(req,res,next)=>{
     });
 app.get('/api/accounts/GetMyClients',(req,res,next)=>{
 
-        PatientRequest.find({Nutritionist_id:req.query.Nutritionist,Status:"acepted" },{Client_id:1}, (err, doc)  => {
+        PatientRequest.find({Nutritionist_id:req.query.Nutritionist,Status:"accepted" },{Client_id:1}, (err, doc)  => {
         if(err)
         return res.send(err);
         else

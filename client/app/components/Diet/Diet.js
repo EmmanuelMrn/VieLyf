@@ -498,11 +498,11 @@ class Diet extends Component {
       onChange={this.handleInputChange}
     /><b>Sugar</b><br /><br />
     {this.renderButtom()}
-  </div>
-  <div className="col-md-4">
+    <div className="col-md-4">
     <img height='500px' width="500px" src='/assets/img/imagen3.jpg' className="rotate270" alt='Imagen3'/>
+    </div>
   </div>
-  </div>
+  
   
     );
   }
