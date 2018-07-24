@@ -62,3 +62,43 @@ footer {
 #myUL li a:hover:not(.header) {
   background-color: #eee; /* Add a hover effect to all links, except for headers */
 }
+
+#cardstyle {
+    width: 18rem;
+   margin-left: 20px;
+}
+
+#boton{
+    width: 50px;
+}
+
+.rotate270 {
+    -webkit-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+    transform: rotate(270deg);
+}
+.nutritionist a {
+    display: block;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin: 0 0 10px 0;
+    text-decoration: none;
+    color: black;
+  }
+  .nutritionist a:hover {
+    background: #eee;
+  }
+  .nutritionist a span {
+    margin: 0 2px;
+  }
+  .nutritionist a span:first-child {
+    font-weight: 900;
+  }
+
+  #cardstyle {
+    width: 18rem;
+   margin-left: 20px;
+}
+

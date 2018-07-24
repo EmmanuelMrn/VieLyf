@@ -1,17 +1,24 @@
-const User = require("../../models/User");
-const UserSession = require("../../models/UserSchema");
-const RolesSchema = require("../../models/Roles");
-const Patients = require("../../models/Patient");
-const Agenda = require("../../models/Agenda");
-module.exports = app => {
-  app.get("/api/account/agendaarray", (req, res, next) => {
-    const { query } = req;
-    const { token } = query;
+const User = require('../../models/User');
+const UserSession = require('../../models/UserSchema');
+const RolesSchema = require('../../models/Roles');
+const Agenda = require('../../models/Agenda');
+    module.exports = (app) => {
+       
+    app.get("/api/account/agendaarray", (req, res, next)=> {
+        const {query} = req;
+        const {token} = query;
 
-    Agenda.find({ Nutriologist_id: token }, (err, doc) => {
-      console.log(doc);
-      return res.send(doc);
+        Agenda.find({ Nutriologist_id:token}, (err, doc)  => {
+            console.log(doc);
+            return res.send(doc);
+            });
     });
+  
+  app.delete("/api/account/deleteaccount", (req, res) => {
+      const {query} = req;
+      const { token } = query;;
+      User.findByIdAndRemove(token);
+      res.json({status: 'Task deleted'});
   });
 
   app.get("/api/account/editprofile", (req, res, next) => {
@@ -130,14 +137,13 @@ module.exports = app => {
       });
     }
   });
+
   app.get("/api/account/searchuser", (req, res, next) => {
     const { query } = req;
     const { token } = query;
 
     User.find(
       {
-        // Role: "Client",
-        //  FirstName: { $regex: ".*" + token + ".*" }
         FirstName: { $regex: ".*" + token + ".*", $options: "i" }
       },
       (err, doc) => {
@@ -152,7 +158,6 @@ module.exports = app => {
             success: true,
             doc
           });
-          //return res.json(doc);
         }
       }
     );

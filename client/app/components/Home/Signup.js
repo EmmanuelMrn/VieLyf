@@ -342,8 +342,8 @@ class Signup extends Component {
               value={signUpPassword}
               onChange={this.handleInputChange}
             /><br />
-             <input type="checkbox" value="Nutriologo" checked={false} onChange={this.toggleModal}/>Nutritionist<br/>
-             <Modal isOpen={this.state.isActive} onRequestClose={this.toggleModal}style ={customStyles}>
+          <input type="checkbox" value="Nutriologo" checked={false} onChange={this.toggleModal}/>Nutritionist<br/>
+          <Modal isOpen={this.state.isActive} onRequestClose={this.toggleModal}style ={customStyles}>
           <input type="text" name ="License" placeholder="Cedula Profesional" value ={License} onChange={this.handleInputChange}/> <button onClick={() => this.verify()}>Verificar</button><br />
           <input type="text" name = "profFirstName"placeholder="Nombre" value ={profFirstName} onChange={this.handleInputChange}readOnly/><br />
           <input type="text" name ="profLastName" placeholder="Paterno" value ={profLastName} onChange={this.handleInputChange}readOnly/><br />
