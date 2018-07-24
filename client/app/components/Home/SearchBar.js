@@ -81,7 +81,7 @@ class SearchBar extends Component {
 
     return (
       <div>
-        <h1>Cuenta Cliente</h1>
+        <h1>Search Bar</h1>
         <div className="row">
           <div className="col-md-3">
             <div className="btn-group-vertical">
