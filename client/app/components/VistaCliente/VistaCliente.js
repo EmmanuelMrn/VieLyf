@@ -1,12 +1,25 @@
-import React, { Component } from "react";
-import "whatwg-fetch";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import 'whatwg-fetch';
+import { Link } from 'react-router-dom';
+import moment from 'moment';
+import { ReactAgenda , ReactAgendaCtrl, guid , getUnique , getLast , getFirst } from 'react-agenda';
 import Modal from 'react-modal';
 
 import {
   getFromStorage,
   setClientInStorage
 } from '../../utils/storage';
+
+var now = new Date();
+
+require('moment/locale/es.js');
+    var colors= {
+      'color-1':"rgba(102, 195, 131 , 1)" ,
+      "color-2":"rgba(242, 177, 52, 1)" ,
+      "color-3":"rgba(235, 85, 59, 1)" ,
+      "color-4":"rgba(70, 159, 213, 1)",
+      "color-5":"rgba(170, 59, 123, 1)"
+    }
 
 const customStyles = {
   content : {
@@ -27,32 +40,115 @@ class VistaCliente extends Component {
     this.state = {
       isNutriologist: false,
       isLoading: true,
-      token: "",
+      token: '',
       Name: "",
       isActive: false,
-      signUpError: "",
-      loginError: "",
-      loginEmail: "",
-      loginPassword: "",
-      signUpEmail: "",
-      signUpPassword: "",
-      signUpFirstName: "",
-      signUpLastName: ""
-    };
+      signUpError: '',
+      loginError: '',
+      loginEmail: '',
+      loginPassword: '',
+      signUpEmail: '',
+      signUpPassword: '',
+      signUpFirstName: '',
+      signUpLastName: '',
+      items:[],
+      token: '',
+      selected:[],
+      cellHeight:(60 / 4),
+      showModal:false,
+      locale:"fr",
+      rowsPerHour:4,
+      numberOfDays:4,
+      Relation:'',
+      startDate: new Date()
+    }
+    this.handleRangeSelection = this.handleRangeSelection.bind(this)
+    this.handleItemEdit = this.handleItemEdit.bind(this)
+    this.zoomIn = this.zoomIn.bind(this)
+    this.zoomOut = this.zoomOut.bind(this)
+    this._openModal = this._openModal.bind(this)
+    this._closeModal = this._closeModal.bind(this)
+    this.addNewEvent = this.addNewEvent.bind(this)
+    this.removeEvent = this.removeEvent.bind(this)
+    this.editEvent = this.editEvent.bind(this)
+    this.changeView = this.changeView.bind(this)
+    this.handleCellSelection = this.handleCellSelection.bind(this)
     this.onEditProfile = this.onEditProfile.bind(this);
     this.logout = this.logout.bind(this);
-    this.onDelete = this.onDelete.bind(this);
+    this.agendaModal = this.agendaModal.bind(this);
+
     this.handleInputChange = this.handleInputChange.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
   }
 
-  onDelete(){
+onDelete(){
     const {signUpEmail} = this.state;
     fetch('/api/account/deleteaccount?token='+signUpEmail+'')
   }
 
-  toggleModal() 
-  {
+removeEvent(items , item){
+
+    this.setState({ items:items});
+}
+
+addNewEvent (items , newItems){
+  this.setState({showModal:false ,selected:[] , items:items});
+  this._closeModal();
+}
+
+editEvent (items , item){
+  this.setState({showModal:false ,selected:[] , items:items});
+  this._closeModal();
+}
+
+changeView (days , event ){
+this.setState({numberOfDays:days})
+}
+
+_openModal(){
+    this.setState({showModal:true})
+  }
+
+_closeModal(e){
+    if(e){
+      e.stopPropagation();
+      e.preventDefault();
+    }
+    console.log('test');
+      this.setState({showModal:false})
+  }
+
+handleRangeSelection (selected) {
+    this.setState({selected:selected , showCtrl:true})
+    this._openModal();
+    
+  }
+
+handleItemEdit(item, openModal) {
+    if(item && openModal === true){
+      this.setState({selected:[item] })
+      return this._openModal();
+    }
+  }
+
+  handleCellSelection(item, openModal) {
+    if(this.state.selected && this.state.selected[0] === item){
+      return  this._openModal();
+    }
+       this.setState({selected:[item] })
+  }
+
+zoomIn(){
+var num = this.state.cellHeight + 15
+    this.setState({cellHeight:num})
+}
+
+zoomOut(){
+    var num = this.state.cellHeight - 15
+    this.setState({cellHeight:num})
+} 
+
+toggleModal() {
     this.setState({
       isActive:!this.state.isActive,
       signUpEmail:'',
@@ -73,12 +169,14 @@ class VistaCliente extends Component {
   }
 
   componentDidMount() {
-    const obj = getFromStorage("the_main_app");
+    console.log(localStorage.getItem('AssignedNutriologist'))
+    console.log('=============')
+    console.log(localStorage.getItem('Rol'));
+    const obj = getFromStorage('the_main_app');
     if (obj && obj.token) {
       const { token } = obj;
       console.log(token);
-      //   Verify token
-      fetch("/api/account/verify?token=" + token)
+      fetch('/api/account/verify?token=' + token)
         .then(res => res.json())
         .then(json => {
           if (json.success) {
@@ -106,11 +204,15 @@ class VistaCliente extends Component {
         isLoading: false
       });
     }
-    // console.log(token);
   }
 
+  handleDateRangeChange (startDate, endDate) {
+    this.setState({startDate:startDate })
 
-  GetMyClientsUser(ClientsId){
+}
+
+
+GetMyClientsUser(ClientsId){
     fetch('/api/accounts/GetMyClientsUser?Clients='+ClientsId, {method:'GET'})
     .then(res => res.json())
     .then (json=> {
@@ -120,7 +222,7 @@ class VistaCliente extends Component {
     });
   }
 
-  onEditProfile() {
+onEditProfile() {
     const {
       signUpEmail,
       signUpFirstName,
@@ -180,7 +282,28 @@ class VistaCliente extends Component {
         isLoading: false
       });
     }
-    window.location = "/login";
+    localStorage.removeItem('the_main_app');
+    localStorage.removeItem('email');
+    localStorage.removeItem('Auth');
+    localStorage.removeItem('Rol');
+    window.location=('/login');
+  }
+
+  agendaModal() {
+    console.log("============");
+    console.log("Abrir modal");
+    console.log("============");
+    this.setState({showModal:true})
+    console.log()
+  }
+
+  handleItemSize(items , item){
+    this.setState({items:items})
+  }
+
+  handleItemChange(items , item){
+    console.log('testfqefqefq');
+    this.setState({items:items})
   }
 
   render() {
@@ -193,25 +316,19 @@ class VistaCliente extends Component {
       loginPassword,
       Name
     } = this.state;
-
+    
     return (
       <div>
         <h1>Cuenta Cliente</h1>
         <div className="row">
-          <div className="col-md-3">
-            <div className="btn-group-vertical">
-              <button type="button" className="btn btn-dark">
-                Página principal
-              </button>
-              <Link to="/charts" className="btn btn-dark">
-                Análisis Corporal
-              </Link>
-              <Link to="/diet" className="btn btn-dark">
-                Calendario de Dieta
-              </Link>
-              <button type="button" className="btn btn-dark">
-                Progreso
-              </button>
+            <div className="col-md-3">
+                <div className="btn-group-vertical">
+                    <button type="button" className="btn btn-dark">Página principal</button>
+                    <Link to="/charts" className="btn btn-dark">Análisis Corporal</Link>
+                    <Link to="/diet" className="btn btn-dark">Calendario de Dieta</Link>
+                    <button type="button" className="btn btn-dark">Progreso</button>
+                    <button type="button" className="btn btn-dark" onClick={this.agendaModal}>Agendar Cita</button>
+                </div>
             </div>
           </div>
 
@@ -279,11 +396,13 @@ class VistaCliente extends Component {
               <button onClick={this.toggleModal}>Cancel</button>
             </Modal>
           </div>
-        </div>
+        
         <button type="button" className="btn btn-dark" onClick={this.logout}>
           Logout
         </button>
       </div>
+
+      
     );
   }
 }
