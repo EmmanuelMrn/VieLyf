@@ -38,9 +38,6 @@ class Header extends Component {
     } else {
 
     return(
-
-      
-    
       <header>
            <nav className="navbar bg-dark text-white">
              <Link to="/" className="navbar-brand text-white">VieLyf</Link>      

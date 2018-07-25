@@ -1,37 +1,43 @@
 const User = require('../../models/User');
 const UserSession = require('../../models/UserSchema');
 const Diet = require('../../models/Diet');
-const Patient = require('../../models/Patient');
+const PatientRequest = require('../../models/PatientRequest');
 module.exports=(app) => {
 
- app.post('/api/accounts/newPatient', (req,res,next) =>{
+ app.post('/api/accounts/newPatientRequest', (req,res,next) =>{
     const {body } = req;
     const {
         Nutritionist_id,
         Client_id
     } = body;
          
-                const newPatient = new Patient();
-                newPatient.Nutritionist_id=Nutritionist_id;
-                newPatient.Client_id=Client_id;
+         const newPatientRequest = new PatientRequest();
+        newPatientRequest.Nutritionist_id=Nutritionist_id;
+         newPatientRequest.Client_id=Client_id;
                 
-                newPatient.save((err,nPatient)=>{
-                    if(err)
-                {
-                  return  res.send({
-                      success:false,
-                      message:'Error'
-                  });
-                }
+        newPatientRequest.save((err,nPatient)=>{
+            if(err){
                 return  res.send({
-                    success:true,
-                    message:'Information Patient captured',
-                    
+                success:false,
+                message:'Error',
                 });
+            }else{
+                return  res.send({
+                success:true,
+                message:'Information PatientRequest captured',
                 });
+        }
+    });
+});
 
+app.put('/api/accounts/ModifyStatus',(req,res,next) =>
+    {
+       var EditStatus = {Status:req.body.status}
+       
+        PatientRequest.updateOne( {"_id": req.body.PatientRequest_id},{ $set:EditStatus},function(err, result){
+            if(req.body.status == "accepted"){
                 const newDiet = new Diet();
-                newDiet.patient= newPatient._id;
+                newDiet.patient= req.body.PatientRequest_id;
                 newDiet.breakfastMilk=0;
                 newDiet.breakfastVeg=0;
                 newDiet.breakfastFruit=0;
@@ -67,10 +73,33 @@ module.exports=(app) => {
                         success:false,
                         message:'Error'
                     });
+                 }else{
+                  return  res.send({
+                    success:true,
+                    message:'Added'
+                });
                  }
                 });
-})    
-app.post('/api/accounts/ModifyDiet',(req,res,next) =>
+            }else{
+              console.log("you've not been accepted")
+            }
+            if(err)
+                 {
+                   return  res.send({
+                        success:false,
+                        message:'Error'
+                    });
+                 }else{
+                  return  res.send({
+                    success:true,
+                    message:'Added'
+                });
+                 }
+        });
+    });
+
+
+app.put('/api/accounts/ModifyDiet',(req,res,next) =>
     {
        var EditDiet = {breakfastMilk:req.body.breakfastMilk,
             breakfastVeg:req.body.breakfastVeg,
@@ -102,110 +131,44 @@ app.post('/api/accounts/ModifyDiet',(req,res,next) =>
             collationSugar:req.body.collationSugar}
          
        
-        Diet.updateOne( {"_id": req.body.tokendiet},{ $set:EditDiet},function(err, result){
-            console.log("modified");
+        Diet.updateOne( {"patient": req.body.tokendiet},{ $set:EditDiet},function(err, result){
+          if(err)
+          {
             return  res.send({
-                success:true,
-                message:'Modified'
-            });
+                 success:false,
+                 message:'Error'
+             });
+          }else{
+           return  res.send({
+             success:true,
+             message:'Added'
+         });
+          }
         });
         
     });
-  
-    app.get("/api/account/getUserId", (req, res, next) => {
-    // Obtener el token
-    const { query } = req;
-    const { token } = query;
-    console.log(token);
-    UserSession.findOne(
-      {
-        //  _id: req.query.token
-        _id: req.query.token
-      },
-
-      (err, doc) => {
-        if (err) {
-          console.log(err);
-          return res.send({
-            success: false,
-            message: "Error: Server error"
-          });
-        } else {
-          return res.send({
-            success: true,
-            token
-            // token: doc.userId
-          });
-        }
-      }
-    );
-  });
-  
-    app.get("/api/account/verifyPatients", (req, res, next) => {
-    // Obtener el token
-    const { query } = req;
-    const { useridtoken } = query;
-    Patients.findOne(
-      {
-        Client_id: req.query.useridtoken
-      },
-
-      (err, doc) => {
-        if (err) {
-          console.log(err);
-          return res.send({
-            success: false,
-            message: "Error: Server error"
-          });
-        } else {
-          //return res.send(doc.userId);
-          return res.send({
-            success: true,
-            useridtoken: doc._id
-          });
-        }
-      }
-    );
-  });
-
-  app.get("/api/account/verifyDiets", (req, res, next) => {
-    // Obtener el token
-    const { query } = req;
-    const { patientsidtoken } = query;
-    console.log("finding diet");
-    Diet.findOne(
-      {
-        patient: req.query.patientsidtoken
-      },
-      (err, doc) => {
-        if (err) {
-          console.log(err);
-          return res.send({
-            success: false,
-            message: "Error: Server error"
-          });
-        } else {
-          //return res.send(doc.userId);
-          return res.send({
-            success: true,
-            patientsidtoken: doc._id
-          });
-        }
-      }
-    );
-  });
     
-    app.get('/api/accounts/GetDiet',(req,res,next)=>{
+app.get('/api/accounts/GetUser',(req,res,next)=>{
 
-        Diet.findOne({_id:req.query.token }, (err, doc)  => {
-        if(err)
-        return res.send(err);
-        else
-        return res.send(doc);
+        PatientRequest.findOne({Client_id:req.query.token,Status:"accepted"}, (err, doc)  => {
+            if(err)
+            {
+              return  res.send({
+                   err,
+                   success:false,
+                   message:'Error'
+               });
+            }else{
+             return  res.send({
+               doc,
+               success:true,
+               message:'Added'
+           });
+            }
         });
     });
-    //search patient into diet
-    app.get('/api/accounts/GetPatient',(req,res,next)=>{
+    
+app.get('/api/accounts/GetDiet',(req,res,next)=>{
 
         Diet.findOne({patient:req.query.token }, (err, doc)  => {
         if(err)
@@ -214,10 +177,22 @@ app.post('/api/accounts/ModifyDiet',(req,res,next) =>
         return res.send(doc);
         });
     });
-    //search clinet into patients
-    app.get('/api/accounts/GetUser',(req,res,next)=>{
+app.get('/api/accounts/GetMyClients',(req,res,next)=>{
 
-        Patient.findOne({Client_id:req.query.token }, (err, doc)  => {
+        PatientRequest.find({Nutritionist_id:req.query.Nutritionist,Status:"accepted" },{Client_id:1}, (err, doc)  => {
+        if(err)
+        return res.send(err);
+        else
+        return res.send(doc);
+        });
+    });
+
+    app.get('/api/accounts/GetMyClientsUser',(req,res,next)=>{
+
+        var ArrClients = req.query.Clients.split(',');
+
+        User.find({"$or":[{"_id":ArrClients}] }, (err, doc)  => {
+
         if(err)
         return res.send(err);
         else

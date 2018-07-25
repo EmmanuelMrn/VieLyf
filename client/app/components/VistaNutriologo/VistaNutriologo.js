@@ -175,7 +175,7 @@ class VistaNutriologo extends Component {
                 <div className="btn-group-vertical">
                     <Link to="/vistanutriologo" className="btn btn-dark">Página principal</Link>
                     <button type="button" className="btn btn-dark">Calendario</button>
-                    <Link to="/diet" className="btn btn-dark">Crear Dieta</Link>
+                    <Link to="/transition" className="btn btn-dark">Crear Dieta</Link>
                     <Link to="/agenda" className="btn btn-dark">Agenda</Link>
                     {/* <br/> */}
                     <button type="button" className="btn btn-dark" onClick={this.logout}>Cerrar sesion</button>            
