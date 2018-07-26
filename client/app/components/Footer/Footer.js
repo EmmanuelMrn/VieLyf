@@ -4,7 +4,7 @@ const Footer = () => (
   <footer className="footer">
       <nav className="navbar bg-dark text-white">
       
-        <p>Abput VieLyf</p>
+        <p>About VieLyf</p>
       </nav>
   </footer>
 );
