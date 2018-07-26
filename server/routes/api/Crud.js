@@ -4,27 +4,56 @@ const RolesSchema = require('../../models/Roles');
 const Agenda = require('../../models/Agenda');
     module.exports = (app) => {
 
-        app.get("/api/account/agendaarray", (req, res, next)=> {
-            const {query} = req;
-            const {token} = query;
+  app.get("/api/account/agendaarray", (req, res, next)=> {
+      const {query} = req;
+      const {token} = query;
 
-            Agenda.find({ Nutriologist_id:token, pending:false}, (err, doc)  => {
-                console.log(doc);
-                return res.send(doc);
-               });
-        });
+      Agenda.find({ Nutriologist_id:token, pending:false}, (err, doc)  => {
+          console.log(doc);
+          return res.send(doc);
+          });
+  });
 
-        app.get("/api/account/agendaarrayaproved", (req, res, next)=> {
-            const {query} = req;
-            const {token} = query;
+  app.get("/api/account/agendaarrayaproved", (req, res, next)=> {
+      const {query} = req;
+      const {token} = query;
 
-            Agenda.find({ Nutriologist_id:token, pending:true}, (err, doc)  => {
-                console.log(doc);
-                return res.send(doc);
-               });
-        });
+      Agenda.find({ Nutriologist_id:token, pending:true}, (err, doc)  => {
+          console.log(doc);
+          return res.send(doc);
+          });
+  });
 
+  app.get("/api/account/deleteagenda", (req, res) => {
+    const {query} = req;
+    const { token } = query;;
+    Agenda.findByIdAndRemove(token);
+    res.json({status: 'Task deleted'});
+  });
 
+  app.get("/api/account/editagenda", (req, res, next) => {
+    const { query } = req;
+    const { token, token2, token3, token4 } = query;
+    Agenda.findOneAndUpdate(
+      {
+        _id: token
+      },
+      {
+        $set: {
+          pending: false
+        }
+      },
+      (err) => {
+        if (err) {
+          status = "Error: server error";
+        } else {
+          status = "success";
+        }
+      }
+    );
+
+    res.json({ status: status });
+  });
   
   app.delete("/api/account/deleteaccount", (req, res) => {
       const {query} = req;

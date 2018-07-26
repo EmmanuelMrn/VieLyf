@@ -213,11 +213,12 @@ class VistaNutriologo extends Component {
                             <a><h4>{client.name}</h4></a>
                             <a><h6>{"Para: "+dia+ " de " + monthMinusOneName + " del " + anio}</h6></a>
                             <a><h6>{"Con una duracion de "+moment.duration(diferencia, "hours").humanize()}</h6></a>
-                            {/* <button type="button" name="qfefqf" className="btn btn-dark" onClick={aceptar}>Aceptar</button>
-                            <button type="button" name="qfefqf" className="btn btn-dark" onClick={negar}>Negar</button> */}
-                             <button onClick={handleClick}>
-                            test
-                            </button> 
+                            <button type="button" id='hide' name="" className="btn btn-dark" onClick={function aceptar() {
+                              fetch("/api/account/editagenda?token="+client._id)
+                            }}>Aceptar</button>
+                            <button type="button" name="" className="btn btn-dark" onClick={function aceptar() {
+                              fetch('/api/account/deleteagenda?token='+client._id)
+                            }}>Denegar</button>
                         </div>
                         
                         )
@@ -226,40 +227,6 @@ class VistaNutriologo extends Component {
                     </aside>
                           </div>
 
-           
-
-            {/* <div className="col-md-3">
-                <p>Edit profile</p>
-                <input
-                  type="firstName"
-                  name="signUpFirstName"
-                  placeholder="First Name"
-                  value={this.state.signUpFirstName}
-                  onChange={this.handleInputChange}
-                /><br />
-                <input
-                  type="lastName"
-                  name="signUpLastName"
-                  placeholder="Last Name"
-                  value={this.state.signUpLastName}
-                  onChange={this.handleInputChange}
-                /><br />
-                <input
-                  type="email"
-                  name="signUpEmail"
-                  placeholder="Email"
-                  value={this.state.signUpEmail}
-                  onChange={this.handleInputChange}
-                /><br />
-                <input
-                  type="password"
-                  name="signUpPassword"
-                  placeholder="Password"
-                  value={this.state.signUpPassword}
-                  onChange={this.handleInputChange}
-                /><br />
-                <button type="button" className="btn btn-dark" onClick={this.onEditProfile}>Save changes</button>
-            </div> */}
           </div>  
       </div>
     );
