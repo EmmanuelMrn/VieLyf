@@ -358,9 +358,9 @@ class Signup extends Component {
               <div className="col-md-8 banner-sec">
                 <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
                   <ol className="carousel-indicators">
-                      <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
-                      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
                   </ol>
                   <div className="carousel-inner" role="listbox">
                     <div className="carousel-item active">
@@ -372,7 +372,6 @@ class Signup extends Component {
                         </div>	
                       </div>
                     </div>
-                    
                     <div className="carousel-item">
                     <img className="d-block img-fluid" width="1100px" height="500px" src="/assets/img/img6.jpg" alt="First slide"/>
                       <div className="carousel-caption d-none d-md-block">
@@ -385,8 +384,7 @@ class Signup extends Component {
                     <div className="carousel-item">
                     <img className="d-block img-fluid" width="1100px" height="500px" src="/assets/img/img7.jpg" alt="First slide"/>
                       <div className="carousel-caption d-none d-md-block">
-                        <div className="banner-text" style={{top: '-600px', width: '90%'}}
-                        >
+                        <div className="banner-text" style={{top: '-600px', width: '90%'}}>
                             <h2>Enjoy eating well</h2>
                             <h3 style={{color: 'rgb(227, 58, 22)', backgroundColor: '#fff'}}>And enjoy the change in your lifestyle.</h3>
                         </div>	
