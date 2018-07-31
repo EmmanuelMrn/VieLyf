@@ -244,8 +244,18 @@ handleItemChange(items , item){
 }
 
 onDelete(signUpEmail){
-    //const {signUpEmail} = this.state;
-    fetch('/api/account/deleteaccount?token='+signUpEmail)
+  const emailId = getFromStorage("Email");
+  console.log(emailId);
+  console.log(signUpEmail);
+  fetch('/api/account/deleteaccount', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      Email: signUpEmail
+    })
+  })
 }
 
 toggleModal() {
@@ -380,7 +390,7 @@ onEditProfile() {
                onClick={this.onEditProfile}>
                Salvar cambios
              </button>
-             <button type="button" name="" className="btn btn-dark" onClick={() => this.onDelete(signUpEmail)}>Eliminar cuenta</button>
+             <button type="button" name="" className="btn btn-dark" onClick={() => this.onDelete(this.signUpEmail)}>Eliminar cuenta</button>
              
              <button onClick={this.toggleModal}>Cancelar</button>
             </Modal>:''

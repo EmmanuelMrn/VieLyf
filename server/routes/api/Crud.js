@@ -5,13 +5,13 @@ const Agenda = require('../../models/Agenda');
 module.exports = (app) => {
 
   app.get("/api/account/agendaarray", (req, res, next)=> {
-      const {query} = req;
-      const {token} = query;
+    const {query} = req;
+    const {token} = query;
 
-      Agenda.find({ Nutriologist_id:token, pending:false}, (err, doc)  => {
-          console.log(doc);
-          return res.send(doc);
-          });
+    Agenda.find({ Nutriologist_id:token, pending:false}, (err, doc)  => {
+      console.log(doc);
+      return res.send(doc);
+      });
   });
 
   app.get("/api/account/agendaarrayaproved", (req, res, next)=> {
@@ -55,19 +55,19 @@ module.exports = (app) => {
     res.json({ status: status });
   });
   
-  /*
-  app.delete("/api/account/deleteaccount", (req, res) => {
-      const {query} = req;
-      const { token } = query;;
-      User.findByIdAndRemove(req.params.token);
-      res.json({status: 'Task deleted'});
+  app.delete('/api/account/deleteaccount', (req, res) => {
+      const { body } = req;
+      const { Email } = body;
+    
+      User.findOneAndRemove({Email: Email} , (err) => {
+        if (err) {
+          return res.send("Error" + err);
+        } else  {
+          return res.send('Delete: '+ req.body.Email);
+        }
+      });
+      
   });
-  
-  app.delete('/:id', async (req, res) => {
-    await User.findByIdAndRemove(req.params.id);
-    res.json({status: 'Task deleted'});
-  });
-  */
 
   app.get("/api/account/editprofile", (req, res, next) => {
     var status = "success";
