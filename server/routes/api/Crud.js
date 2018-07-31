@@ -1,6 +1,5 @@
 const User = require('../../models/User');
 const UserSession = require('../../models/UserSchema');
-const RolesSchema = require('../../models/Roles');
 const Agenda = require('../../models/Agenda');
 module.exports = (app) => {
 
@@ -104,36 +103,40 @@ module.exports = (app) => {
       FirstName,
       LastName,
       Password,
-      isDeleted,
+      UserName,
       Role,
-      nutri_Id,
       Phone,
-      Description
     } = body;
     let { Email } = body;
 
     if (!FirstName) {
       return res.send({
         success: false,
-        message: "Error en el nombre"
+        message: "Fail in the First Name"
       });
     }
     if (!LastName) {
       return res.send({
         success: false,
-        message: "Error en el apellido"
+        message: "Fail in the Last Name"
+      });
+    }
+    if (!UserName) {
+      return res.send({
+        success: false,
+        message: "Fail in the User Name"
       });
     }
     if (!Email) {
       return res.send({
         success: false,
-        message: "Error en su correo"
+        message: "Fail in the Email"
       });
     }
     if (!Password) {
       return res.send({
         success: false,
-        message: "Error en la contraseña"
+        message: "Please, write a Password"
       });
     }
     /*if (!Phone) {
@@ -145,9 +148,9 @@ module.exports = (app) => {
     if (Role == "Client" || Role == "Nutritionist") {
       User.find({ Email: Email }, (err, previousUser) => {
         if (err) {
-          return res.send("Error" + err);
-        } else if (previousUser.length > 0) {
           return res.send("Error");
+        } else if (previousUser.length > 0) {
+          return res.send("Error in users");
         }
 
         const newUser = new User();
@@ -156,10 +159,11 @@ module.exports = (app) => {
         newUser.LastName = LastName;
         newUser.Email = Email;
         newUser.Password = newUser.generateHash(Password);
-        (newUser.isDeleted = false),
-          (newUser.Role = Role),
-          (newUser.Phone = Phone),
-          (newUser.Description = ""),
+        newUser.UserName = UserName;
+        newUser.isDeleted = false,
+        newUser.Role = Role,
+        newUser.Phone = Phone,
+        newUser.Description = "",
           newUser.save((err, user) => {
             if (err) {
               return res.send({
@@ -169,19 +173,19 @@ module.exports = (app) => {
             }
             return res.send({
               success: true,
-              message: "Logrado"
+              message: "Welcome!"
             });
           });
       });
     } else if (Role == "") {
       return res.send({
         success: false,
-        message: "Campo vacio"
+        message: "Empty field"
       });
     } else {
       return res.send({
         success: false,
-        message: "Error en su opcion"
+        message: "Fail in the option"
       });
     }
   });
