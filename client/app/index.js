@@ -4,7 +4,6 @@ import "moment/locale/es";
 
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
-
 import App from './components/App/App';
 import Diet from './components/Diet/Diet';
 import Charts from './components/Charts/Charts';
@@ -21,7 +20,9 @@ import CatalogueNutriologist from './components/Home/CatalogueNutriologist';
 import DisponibilitySchedule from './components/Home/DisponibilitySchedule';
 import ResultadoBusqueda from './components/Home/ResultadoBusqueda';
 import SearchBar from './components/Home/SearchBar';
+import Profile from './components/Profile/Profile';
 import './styles/styles.scss';
+
 
 render(
   <Router>
@@ -41,9 +42,16 @@ render(
         <Route path="/disponibilitySchedule" component={DisponibilitySchedule}/>
         <Route path="/ResultadoBusqueda" component={ResultadoBusqueda} />
         <Route path="/SearchBar" component={SearchBar} />
+        <Route path="/profile" component={Profile} />
         <Route component={NotFound} />
       </Switch>
     </App>
   </Router>,
   document.getElementById("app")
 );
+
+
+
+
+
+
