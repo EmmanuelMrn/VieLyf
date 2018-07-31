@@ -13,25 +13,25 @@ class ChartsPage extends React.Component {
     {   super(props);
         this.state = {
 
-            items:[],
-            firstName:'',
-            lastName:'',
-            toogle:false,
-            corpFirstname:'',
-            corpLastName:'',
-            id:'',
-            height:'',
-            weight:'',
-            Age:'',
-            FatFreeBodyMass:'',
-            LeanSoftTissue:'',
-            TotalBodyWater:'',
-            FFBMBodyFat:'',
-            LSTBodyFat:'',
-            LSTMineral:'',
-            TBWProtein:'',
-            TBWMineral:'',
-            TBWBodyFat:''
+            // items:[],
+            // firstName:'',
+            // lastName:'',
+            // toogle:false,
+            // corpFirstname:'',
+            // corpLastName:'',
+            // id:'',
+            // height:'',
+            // weight:'',
+            // Age:'',
+            // FatFreeBodyMass:'',
+            // LeanSoftTissue:'',
+            // TotalBodyWater:'',
+            // FFBMBodyFat:'',
+            // LSTBodyFat:'',
+            // LSTMineral:'',
+            // TBWProtein:'',
+            // TBWMineral:'',
+            // TBWBodyFat:''
           };
          this.onChart = this.onChart.bind(this);
          this.onChart2 = this.onChart2.bind(this);
@@ -39,27 +39,28 @@ class ChartsPage extends React.Component {
         }
     
      componentDidMount() {
-        
-                  
-//    const obj = getFromStorage('the_main_app');
+        const obj = getFromStorage('myClient');
 
-    //    console.log(obj);
-  //      const {token}=obj;
-          fetch('/api/accounts/graphs?chart=5b43a832e4d9fc30c0bcd020', {method:'GET'}) 
-            .then(res => res.json())   
-            .then(responseJson => {
-                    
-                this.setState({
-                      weight:responseJson.Weight,
-                      height:responseJson.Height,
-                      Age:responseJson.Age,
-                      FatFreeBodyMass:responseJson.FatFreeBodyMass
+    console.log("Hey whats up " +obj._id);
+    const {token}=obj._id;
+    console.log("Token : "+obj._id);
+        fetch('/api/accounts/graphs?chart='+obj._id, {method:'GET'}) 
+        .then(res => res.json())   
+        .then(response => {
+                console.log("El response"+ this.response);
+            this.setState({
+                  weight:response.Weight,
+                  height:response.Height,
+                  Age:response.Age,
+                  FatFreeBodyMass:response.FatFreeBodyMass
 
-                    });
-                console.log("json",responseJson.Weight);
-               // console.log("Height",items);
+                });
+            console.log("json",response.Weight);
+           // console.log("Height",items);
+
+        });
     
-            });
+          
      
 
     
@@ -151,7 +152,7 @@ options: {
 scales: {
     yAxes: [{
         ticks: {
-            beginAtZero:true
+            beginAtZero:false
         }
     }]
 }

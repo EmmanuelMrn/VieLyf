@@ -5,6 +5,7 @@ var vista = ('');
 import {
   getFromStorage,
   setInStorage,
+  setClientInStorage,
 } from '../../utils/storage';
 
 class Login extends Component {
@@ -100,6 +101,8 @@ class Login extends Component {
     }).then(res => res.json())
       .then(json => {
         localStorage.setItem('email', json.Email)
+        setClientInStorage('myClient', json);
+        console.log(json)
         if (json.success) {
           setInStorage('the_main_app', { token: json.token });
           this.setState({

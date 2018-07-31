@@ -148,9 +148,7 @@ class Signup extends Component {
       }
 
     }
-    onProfSignUp()
-  {
-    
+  onProfSignUp(){
     const{
       profFirstName,
       profLastName,
@@ -314,7 +312,7 @@ class Signup extends Component {
     if (!token) {
 
       return (
-          
+       
 <div>
         <section className="login-block" style={{padding: '100px'}}>
           <div className="container">

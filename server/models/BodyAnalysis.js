@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const BodyAnalysisSchema = new mongoose.Schema({
         
         id:{
-            type:Number,
+            type:String,
             default:''
         },
         Weight:{
@@ -53,6 +53,18 @@ const BodyAnalysisSchema = new mongoose.Schema({
             type:Number,
             default:''
         },
+        BodyMassIndex:{
+            type:Number,
+            default:''
+        },
+        BodyFat:{
+            type:Number,
+            default:''
+        },
+        FatFreeMass:{
+            type:Number,
+            default:''
+        }
         
 });
 

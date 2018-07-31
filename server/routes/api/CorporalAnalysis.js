@@ -18,7 +18,10 @@ module.exports=(app) => {
         LSTMineral,
         TBWProtein,
         TBWMineral,
-        TBWBodyFat
+        TBWBodyFat,
+        BodyMassIndex,
+        BodyFat,
+        FatFreeMass
 
         }= body;
        
@@ -140,12 +143,15 @@ module.exports=(app) => {
                 newCopA.TBWProtein = TBWProtein;
                 newCopA.TBWMineral = TBWMineral;
                 newCopA.TBWBodyFat = TBWBodyFat;
+                newCopA.BodyMassIndex = BodyMassIndex;
+                newCopA.BodyFat = BodyFat;
+                newCopA.FatFreeMass = FatFreeMass;
                 newCopA.save((err,CopA)=>{
                     if(err)
                  {
                    return  res.send({
                         success:false,
-                        message:'Error: First Name not found'
+                        message:err
                     });
                  }
                 return  res.send({
@@ -164,9 +170,9 @@ module.exports=(app) => {
      const {chart}=query;
    //  return res.send
    
-    BodyAnalysis.findOne({ _id:chart }, (err, doc)  => {
+    BodyAnalysis.findOne({ id:chart }, (err, doc)  => {
      //console.log(doc); 
-     return res.send(doc);
+     return res.json(doc);
     });
  
  });
