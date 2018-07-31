@@ -7,7 +7,7 @@ app.get('/api/accounts/nutritionistcatalog',(req,res,next)=>{
     const {chart}=query;
   //  return res.send
   
-   User.find({'Role':'Nutritionist'}, (err, doc)  => {
+   User.find({Role:"Nutritionist"}, (err, doc)  => {
     //console.log(doc); 
     // if(err)
     //  return res.send(err);

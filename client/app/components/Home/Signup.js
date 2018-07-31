@@ -330,6 +330,8 @@ class Signup extends Component {
             /><br />
             <input
               type="email"
+              pattern=".+@globex.com" size="30" required
+              title="Must be a globex.com email address"
               name="signUpEmail"
               placeholder="Email"
               value={signUpEmail}

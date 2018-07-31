@@ -190,6 +190,7 @@ toggleModal() {
             .then(json => {
               console.log(json)
               this.GetMyClientsUser(json.userId)
+              console.log(json.userId);
             });
           } else {
             this.setState({
