@@ -174,6 +174,15 @@ componentDidMount() {
               token,
               isLoading: false
             });
+
+            //get user
+            fetch('/api/accounts/GetUserFromUserSession?token='+token)
+            .then(res => res.json())
+            .then(json => {
+              console.log(json)
+              this.GetMyClientsUser(json.userId)
+              console.log(json.userId);
+            });
           } else {
             this.setState({
               isLoading: false,

@@ -20,6 +20,7 @@ import CatalogueNutriologist from './components/Home/CatalogueNutriologist';
 import DisponibilitySchedule from './components/Home/DisponibilitySchedule';
 import ResultadoBusqueda from './components/Home/ResultadoBusqueda';
 import SearchBar from './components/Home/SearchBar';
+import CorporalAnalysis from './components/CorporalAnalysis/CorporalAnalysis'
 import Profile from './components/Profile/Profile';
 import './styles/styles.scss';
 
@@ -38,6 +39,7 @@ render(
         <Route path="/vistacliente" component={VistaCliente}/>
         <Route path="/nutritionalBlog" component={NutritionalBlog}/>
         <Route path="/vistanutriologo" component={VistaNutriologo}/>
+        <Route path="/corporalanalysis" component={CorporalAnalysis}/>
         <Route path="/catalogueNutriologist" component={CatalogueNutriologist}/>
         <Route path="/disponibilitySchedule" component={DisponibilitySchedule}/>
         <Route path="/ResultadoBusqueda" component={ResultadoBusqueda} />
