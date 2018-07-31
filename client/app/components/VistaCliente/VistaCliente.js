@@ -52,7 +52,6 @@ class VistaCliente extends Component {
       signUpFirstName: '',
       signUpLastName: '',
       items:[],
-      token: '',
       selected:[],
       cellHeight:(60 / 4),
       showModal:false,
@@ -81,7 +80,7 @@ class VistaCliente extends Component {
     this.toggleModal = this.toggleModal.bind(this);
   }
 
-  removeEvent(items , item){
+removeEvent(items , item){
 
     this.setState({ items:items});
 }
@@ -90,6 +89,7 @@ addNewEvent (items , newItems){
   this.setState({showModal:false ,selected:[] , items:items});
   this._closeModal();
 }
+
 editEvent (items , item){
 
   this.setState({showModal:false ,selected:[] , items:items});
@@ -100,48 +100,52 @@ changeView (days , event ){
 this.setState({numberOfDays:days})
 }
 
-  _openModal(){
+_openModal(){
     this.setState({showModal:true})
-  }
-  _closeModal(e){
+}
+
+_closeModal(e){
     if(e){
       e.stopPropagation();
       e.preventDefault();
     }
     console.log('test');
       this.setState({showModal:false})
-  }
+}
 
-  handleRangeSelection (selected) {
+handleRangeSelection (selected) {
 
 
     this.setState({selected:selected , showCtrl:true})
     this._openModal();
     
-  }
+}
 
-  handleItemEdit(item, openModal) {
+handleItemEdit(item, openModal) {
     if(item && openModal === true){
       this.setState({selected:[item] })
       return this._openModal();
     }
-  }
-  handleCellSelection(item, openModal) {
+}
+
+handleCellSelection(item, openModal) {
     if(this.state.selected && this.state.selected[0] === item){
       return  this._openModal();
     }
        this.setState({selected:[item] })
-  }
-  zoomIn(){
+}
+
+zoomIn(){
 var num = this.state.cellHeight + 15
     this.setState({cellHeight:num})
-  }
-  zoomOut(){
+}
+
+zoomOut(){
 var num = this.state.cellHeight - 15
     this.setState({cellHeight:num})
-  }
+}
 
-  handleInputChange(event) {
+handleInputChange(event) {
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -151,9 +155,9 @@ var num = this.state.cellHeight - 15
     }, function() {
       console.log(name+value)
     });
-  }
+}
 
-  componentDidMount() {
+componentDidMount() {
     console.log(this.state.isActive)
     console.log(localStorage.getItem('AssignedNutriologist'))
     console.log('=============')
@@ -181,33 +185,14 @@ var num = this.state.cellHeight - 15
         isLoading: false,
       });
     }
-  }
+}
 
-  handleDateRangeChange (startDate, endDate) {
+handleDateRangeChange (startDate, endDate) {
     this.setState({startDate:startDate })
 
 }
-
-
-  onEditProfile() {
-    const {signUpEmail, signUpFirstName, signUpLastName, signUpPassword} = this.state;
-      fetch('/api/account/editprofile?token='+signUpEmail+'&token2='+signUpFirstName+'&token3='+signUpLastName+'&token4='+signUpPassword+'')
-        .then(res => res.json())
-        .then(json => {
-          if (json.success) {
-            this.setState({
-              token,
-              isLoading: false
-            });
-          } else {
-            this.setState({
-              isLoading: false,
-            });
-          }
-        });
-  }
   
-  logout() {
+logout() {
     this.setState({
       isLoading: true,
     });
@@ -239,31 +224,31 @@ var num = this.state.cellHeight - 15
     localStorage.removeItem('Auth');
     localStorage.removeItem('Rol');
     window.location=('/login');
-  }
+}
 
-  agendaModal() {
+agendaModal() {
     console.log("============");
     console.log("Abrir modal");
     console.log("============");
     this.setState({showModal:true})
     console.log()
-  }
+}
 
-  handleItemSize(items , item){
+handleItemSize(items , item){
     this.setState({items:items})
-  }
+}
 
-  handleItemChange(items , item){
+handleItemChange(items , item){
     console.log('testfqefqefq');
     this.setState({items:items})
-  }
+}
 
-  onDelete(){
-    const {signUpEmail} = this.state;
-    fetch('/api/account/deleteaccount?token='+signUpEmail+'')
-  }
+onDelete(signUpEmail){
+    //const {signUpEmail} = this.state;
+    fetch('/api/account/deleteaccount?token='+signUpEmail)
+}
 
- toggleModal() {
+toggleModal() {
     this.setState({
       isActive:!this.state.isActive,
       signUpEmail:'',
@@ -271,9 +256,9 @@ var num = this.state.cellHeight - 15
       signUpLastName:'',
       signUpPassword:''
     })
-  }
+}
 
- onEditProfile() {
+onEditProfile() {
    console.log(this.state.signUpEmail)
     const {
       signUpEmail,
@@ -305,7 +290,7 @@ var num = this.state.cellHeight - 15
           });
         }
       });
-  }
+}
 
   render() {
     const {
@@ -314,6 +299,11 @@ var num = this.state.cellHeight - 15
       loginError,
       loginEmail,
       loginPassword,
+      signUpEmail,
+      signUpError,
+      signUpFirstName,
+      signUpLastName,
+      signUpPassword,
       Name
     } = this.state;
     
@@ -390,7 +380,8 @@ var num = this.state.cellHeight - 15
                onClick={this.onEditProfile}>
                Salvar cambios
              </button>
-             <button type="button" className="btn btn-dark" onClick={this.onDelete}>Eliminar cuenta</button>
+             <button type="button" name="" className="btn btn-dark" onClick={() => this.onDelete(signUpEmail)}>Eliminar cuenta</button>
+             
              <button onClick={this.toggleModal}>Cancelar</button>
             </Modal>:''
            }
