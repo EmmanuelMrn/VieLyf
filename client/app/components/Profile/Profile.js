@@ -81,48 +81,48 @@ Profile(){
     var user = this.state.UserProfile
     return(
 
-    <div class="container">
-        <div class="row">
+    <div className="container">
+        <div className="row">
 
-            <div class="col-4">
-        		<div class="col-md-6" align="center">
+            <div className="col-4">
+        		<div className="col-md-6" align="center">
                 <br />
                     <img height='120px' src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg"/>
         		</div>
-        		<div class="col-md-6">
-                    <p class="text-center"><strong>{user.FirstName} {user.LastName}</strong></p>
-	        		<p class="text-center"><em>UserName: {user.Email}</em></p>
+        		<div className="col-md-6">
+                    <p className="text-center"><strong>{user.FirstName} {user.LastName}</strong></p>
+	        		<p className="text-center"><em>UserName: {user.Email}</em></p>
         		</div>
 
-        		<div class="col-md-8">
+        		<div className="col-md-8">
         			<br />
-        			<ul class="list-group list-primary">
-                        <a class="list-group-item">First Name: {user.FirstName}</a>
-        				<a class="list-group-item">Last Name: {user.LastName}</a>
-        				<a class="list-group-item">Phone: {user.Phone}</a>
-        				<a class="list-group-item">Email: {user.Email}</a>
-        				<a class="list-group-item">Role: {user.Role}</a>
+        			<ul className="list-group list-primary">
+                        <a className="list-group-item">First Name: {user.FirstName}</a>
+        				<a className="list-group-item">Last Name: {user.LastName}</a>
+        				<a className="list-group-item">Phone: {user.Phone}</a>
+        				<a className="list-group-item">Email: {user.Email}</a>
+        				<a className="list-group-item">Role: {user.Role}</a>
     				</ul>
     			</div>   
             </div>
 
             
-            <div class="col-8">
+            <div className="col-8">
                 <br />
-                <div class="col-md-12" align="center">
+                <div className="col-md-12" align="center">
                     <h3 align="center">Profile <p><small>Profile's Content</small></p></h3>
                 </div>
                 <br />
-                <div class="card text-center">
-                    <div class="card-header">
+                <div className="card text-center">
+                    <div className="card-header">
                         Featured
                     </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Content</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <div className="card-body">
+                        <h5 className="card-title">Content</h5>
+                        <p className="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" className="btn btn-primary">Go somewhere</a>
                     </div>
-                    <div class="card-footer text-muted">
+                    <div className="card-footer text-muted">
                         2 days ago
                     </div>
                 </div>
