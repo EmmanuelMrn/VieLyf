@@ -29,7 +29,6 @@ class Signup extends Component {
       signUpPhone:'',
       signUpError: '',
       signUpEmail: '',
-      signUpPhone:'',
       signUpPassword: '',
       signUpFirstName: '',
       isActive: false,
@@ -147,9 +146,7 @@ class Signup extends Component {
       }
 
     }
-    onProfSignUp()
-  {
-    
+  onProfSignUp(){
     const{
       profFirstName,
       profLastName,
@@ -305,13 +302,6 @@ class Signup extends Component {
               name="signUpFirstName"
               placeholder="First Name"
               value={signUpFirstName}
-              onChange={this.handleInputChange}
-            /><br />
-             <input
-              type="text"
-              name="signUpPhone"
-              placeholder="Phone"
-              value={signUpPhone}
               onChange={this.handleInputChange}
             /><br />
             <input
