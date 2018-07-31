@@ -28,8 +28,17 @@ ActionLink(client) {
     setClientInStorage('myClient', client);
     window.location=('/diet');
   }
+  function handleClickC(e)
+  {
+    e.preventDefault();
+    setClientInStorage('myClient',client);
+    window.location=('/corporalanalysis');
+  }
   return (
-    <a  className="btn btn-success"  id={client} onClick={handleClick} >Abrir</a>
+    <div>
+      <a  className="btn btn-success"  id={client} onClick={handleClick} >Diet</a>
+      <a  className="btn btn-success"  id={client} onClick={handleClickC} >Corporral Analysis</a>
+    </div>
   );
 }
 componentDidMount() {

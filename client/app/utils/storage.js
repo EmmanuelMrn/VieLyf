@@ -28,16 +28,16 @@ export function setInStorage(key,Email) {
         console.error('Error')
     }
 }
-    export function setClientInStorage(key,Client) {
-        if (!key) {
-            return null;
-        }
+
+export function setClientInStorage(key,Client) {
+    if (!key) {
+        return null;
+    }
     
-        try {
-            localStorage.setItem(key, JSON.stringify(Client));
-            console.log(JSON.stringify(Client));
-        } catch (err) {
-            console.error('Error')
-        }
-    
+    try {
+        localStorage.setItem(key, JSON.stringify(Client));
+        console.log(JSON.stringify(Client));
+    } catch (err) {
+        console.error('Error')
+    } 
 }
