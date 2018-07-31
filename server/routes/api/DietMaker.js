@@ -182,5 +182,19 @@ module.exports=(app) => {
         else
             return res.send(doc);
     });
-  });  
+
+  });
+app.get('/api/account/getUserByUserName',(req,res,next)=>{
+    User.findOne({Email:req.query.PathName}, (err, doc)  => {
+    if(err)
+    return res.send({
+        err,
+        success:false
+      });
+    else
+    return res.send({
+        doc
+      });
+    });
+}); 
 }
