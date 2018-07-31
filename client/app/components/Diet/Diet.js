@@ -69,10 +69,12 @@ class Diet extends Component {
     var usertoken='';
     const clientSelectedObj = getFromStorage('myClient');
     ClientSendFromTransition = clientSelectedObj._id;
+    console.log(ClientSendFromTransition);
     
     //Get the current UserID on session
     const obj = getFromStorage('the_main_app');
     const {token} = obj;
+    console.log(obj);
 
     fetch('/api/accounts/GetUserFromUserSession?token='+token)
     .then(res => res.json())

@@ -190,6 +190,8 @@ componentDidMount()
             <div className="col-9 offset-3"> <h3>Weight Control Evaluation </h3></div> 
             <div className="col-10 offset-2">
             <input type="text"  name="BodyFat" placeholder="Body Fat" value={BodyFat} onChange={this.onTextBoxChange}/><br />
+            <input type="text"  name="BodyMassIndex" placeholder="Body MassIndex" value={BodyMassIndex} onChange={this.onTextBoxChange}/><br />
+            <input type="text"  name="FatFreeMass" placeholder="Fat Free Mass" value={FatFreeMass} onChange={this.onTextBoxChange}/><br />            
             </div>
             </div>
 

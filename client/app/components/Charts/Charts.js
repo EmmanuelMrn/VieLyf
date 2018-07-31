@@ -13,25 +13,25 @@ class ChartsPage extends React.Component {
     {   super(props);
         this.state = {
 
-            // items:[],
-            // firstName:'',
-            // lastName:'',
-            // toogle:false,
-            // corpFirstname:'',
-            // corpLastName:'',
-            // id:'',
-            // height:'',
-            // weight:'',
-            // Age:'',
-            // FatFreeBodyMass:'',
-            // LeanSoftTissue:'',
-            // TotalBodyWater:'',
-            // FFBMBodyFat:'',
-            // LSTBodyFat:'',
-            // LSTMineral:'',
-            // TBWProtein:'',
-            // TBWMineral:'',
-            // TBWBodyFat:''
+            items:[],
+            firstName:'',
+            lastName:'',
+            toogle:false,
+            corpFirstname:'',
+            corpLastName:'',
+            id:'',
+            height:'',
+            weight:'',
+            Age:'',
+            FatFreeBodyMass:'',
+            LeanSoftTissue:'',
+            TotalBodyWater:'',
+            FFBMBodyFat:'',
+            LSTBodyFat:'',
+            LSTMineral:'',
+            TBWProtein:'',
+            TBWMineral:'',
+            TBWBodyFat:''
           };
          this.onChart = this.onChart.bind(this);
          this.onChart2 = this.onChart2.bind(this);
@@ -50,9 +50,9 @@ class ChartsPage extends React.Component {
                 console.log("El response"+ this.response);
             this.setState({
                   weight:response.Weight,
-                  height:response.Height,
-                  Age:response.Age,
-                  FatFreeBodyMass:response.FatFreeBodyMass
+                  FatFreeBodyMass:response.FatFreeBodyMass,
+                  LeanSoftTissue:response.LeanSoftTissue,
+                  LSTBodyFat:response.LSTBodyFat
 
                 });
             console.log("json",response.Weight);
@@ -78,10 +78,10 @@ var ctxB = document.getElementById("barChart").getContext('2d');
 var myBarChart = new Chart(ctxB, {
     type: 'bar',
     data: {
-        labels: ["Height", "Weight", "Age", "FatFreeBodyMass", "Purple", "Orange"],
+        labels: ["Weight", "Fat Free Body Mass", "Age", "Purple", "Orange"],
         datasets: [{
             label: '# of Votes',
-            data: [this.state.weight,this.state.height, this.state.FatFreeBodyMass*5, 5, 2, 3],
+            data: [this.state.weight,this.state.FatFreeBodyMass, 10, 5, 2, 3],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -125,10 +125,10 @@ var ctxB = document.getElementById("barChart").getContext('2d');
 var myBarChart = new Chart(ctxB, {
 type: 'bar',
 data: {
-labels: ["Height", "Weight", "Age", "Id", "Purple", "Orange"],
+labels: ["Lean Soft Tissue", "LST Body Fat", "Age", "Id", "Purple", "Orange"],
 datasets: [{
     label: '# of Votes',
-    data: [this.state.weight,this.state.height, this.state.Age, 100, 2, 3],
+    data: [this.state.LeanSoftTissue,this.state.LSTBodyFat, 200, 100, 2, 3],
     backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
         'rgba(54, 162, 235, 0.2)',
