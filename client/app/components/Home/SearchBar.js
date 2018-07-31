@@ -1,38 +1,41 @@
-import React, { Component } from 'react';
-import 'whatwg-fetch';
-import { Link } from 'react-router-dom';
-import {
-  getFromStorage,
-  setInStorage,
-} from '../../utils/storage';
+import React, { Component } from "react";
+import "whatwg-fetch";
+import { Link } from "react-router-dom";
+import { getFromStorage, setInStorage } from "../../utils/storage";
 
 class SearchBar extends Component {
   constructor() {
     super();
 
     this.state = {
-        isLoading: true,
-        token: "",
-         Name: "",
-        Customers: []
+      isLoading: true,
+      token: "",
+      Name: "",
+      Customers: []
     };
 
     this.inputsearch = this.inputsearch.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    //this.ActionLink = this.ActionLink.bind(this);
   }
 
   handleClick(e) {
     e.preventDefault();
     this.inputsearch();
-
   }
-  
+
   ActionLink() {
     return (
-      <button type="button" onClick={this.handleClick}>
-        search
-      </button>
+      <span class="input-group-btn">
+        <button
+          class="btn btn-default"
+          type="button"
+          onClick={this.handleClick}
+        >
+          Search
+        </button>
+      </span>
     );
   }
 
@@ -73,18 +76,14 @@ class SearchBar extends Component {
     var Customers = Array.from(this.state.Customers);
     var that = this;
 
-    const {
-      isLoading,
-      token,
-      Name
-    } = this.state;
+    const { isLoading, token, Name } = this.state;
 
     return (
       <div>
         <h1>Search Bar</h1>
-        <div className="row">
-          <div className="col-md-3">
-            <div className="btn-group-vertical">
+        <div className="form-group">
+          <div className="col-lg-6">
+            <div className="input-group">
               <input
                 type="text"
                 name="Name"
@@ -102,4 +101,3 @@ class SearchBar extends Component {
 }
 
 export default SearchBar;
-
