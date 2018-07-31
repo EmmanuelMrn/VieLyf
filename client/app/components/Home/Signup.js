@@ -146,9 +146,7 @@ class Signup extends Component {
       }
 
     }
-    onProfSignUp()
-  {
-    
+  onProfSignUp(){
     const{
       profFirstName,
       profLastName,
