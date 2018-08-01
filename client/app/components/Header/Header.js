@@ -43,9 +43,17 @@ class Header extends Component {
             <Link to="/" className="navbar-brand text-white">
               VieLyf
             </Link>
-            <Link to="/SearchBar" className="text-white">
-              Search Bar
-            </Link>
+            
+           
+                 
+               <Link to="/nutritionalBlog" className="text-white">Blog nutricional</Link>
+               <Link to="/catalogueNutriologist" className="text-white">Catálogo de nutriólogos</Link>
+             <div>
+               <Link to="/signup" className="navbar-brand text-white">Sign up</Link>
+               <Link to="/login" className="navbar-brand text-white">Log in</Link>
+             </div>
+           
+         
             <form className="navbar-form navbar-left">
               <div className="form-group">
                 <input
@@ -64,25 +72,11 @@ class Header extends Component {
               </div>
             </form>
 
-            <Link to="/nutritionalBlog" className="text-white">
-              Blog nutricional
-            </Link>
-            <Link to="/catalogueNutriologist" className="text-white">
-              Catálogo de nutriólogos
-            </Link>
-            <div>
-              <Link to="/signup" className="navbar-brand text-white">
-                Sign up
-              </Link>
-              <Link to="/login" className="navbar-brand text-white">
-                Log in
-              </Link>
-            </div>
-          </nav>
-        </header>
-      );
+            </nav>
+          </header>
+      )
     }
-  }
+}
 }
 
 export default Header;

@@ -39,7 +39,7 @@ class ChartsPage extends React.Component {
         }
     
      componentDidMount() {
-        const obj = getFromStorage('myClient');
+        const obj = getFromStorage('the_main_app');
 
     console.log("Hey whats up " +obj._id);
     const {token}=obj._id;
