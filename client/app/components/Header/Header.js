@@ -11,8 +11,11 @@ class Header extends Component {
     super();
 
     this.state = {
+      isLoading: true,
       isActive: false,
     };
+
+    this.logout = this.logout.bind(this);
 
   }
 
@@ -23,47 +26,100 @@ class Header extends Component {
     }
   }
 
+  logout() {
+    this.setState({
+      isLoading: true,
+    });
+    const obj = getFromStorage('the_main_app');
+    if (obj && obj.token) {
+      const { token } = obj;
+      // Verify token
+      fetch('/api/account/logout?token=' + token)
+        .then(res => res.json())
+        .then(json => {
+          if (json.success) {
+            this.setState({
+              token: '',
+              isLoading: false
+            });
+          } else {
+            this.setState({
+              isLoading: false,
+            });
+          }
+        });
+    } else {
+      this.setState({
+        isLoading: false,
+      });
+    }
+    localStorage.removeItem('the_main_app');
+    localStorage.removeItem('email');
+    localStorage.removeItem('Auth');
+    localStorage.removeItem('Rol');
+    window.location=('/login')
+  }
   render() {
     const {
+      isLoading,
       isActive,
     } = this.state;
+
+    function alerta() {
+      if (localStorage.getItem('Role')=="Nutriologist") {
+        return (
+          <li className="nav-item dropdown no-arrow mx-1">
+            <a className="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i className="fa fa-bell fa-fw"></i>
+              <span className="badge badge-danger"></span>
+            </a>
+            <div className="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
+              {/* <a className="dropdown-item" href="#">Action</a>
+              <a className="dropdown-item" href="#">Another action</a>
+              <div className="dropdown-divider"></div>
+              <a className="dropdown-item" href="#">Something else here</a> */}
+            </div>
+          </li>
+        )
+      }
+    }
+
     if (isActive) {
       return (
         <header>
-          <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a className="navbar-brand" href="javascript:void(0)">VieLyf</a>
-            <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navb">
-              <span className="navbar-toggler-icon"></span>
-            </button>
-
-            <div className="collapse navbar-collapse" id="navb">
-              <ul className="navbar-nav mr-auto">
-                <li className="nav-item">
-                <Link to="/nutritionalBlog" className="text-white">Nutritional Blog</Link>
-                  {/* <a className="nav-link">Nutritional Blog</a> */}
+          <nav className="navbar navbar-expand navbar-dark bg-dark static-top">
+            <a className="navbar-brand mr-1" href="index.html">VieLyf</a>
+            <a href="#menu-toggle" className="btn " id="menu-toggle" 
+            onClick={ function(e) {
+              e.preventDefault();
+              $("#wrapper").toggleClass("toggled")
+              } }><i className="fa fa-bars"></i></a>
+              <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                <div className="input-group">
+                  <input type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2"/>
+                  <div className="input-group-append">
+                    <button className="btn btn-primary" type="button">
+                      <i className="fa fa-search"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <ul className="navbar-nav ml-auto ml-md-0">
+                {alerta()}
+                <li className="nav-item dropdown no-arrow">
+                  <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i className="fa fa-user-circle fa-fw"></i>
+                  </a>
+                  <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                    <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+                    <button type="button" className="btn btn-dark" onClick={this.logout}>Cerrar sesion</button>            
+                  </div>
                 </li>
               </ul>
-              <form className="form-inline my-2 my-lg-0">
-                <input className="form-control mr-sm-2" type="text" placeholder="Search"/>
-                <button className="btn btn-success my-2 my-sm-0" type="button">Search</button>
-              </form>
-              <ul>
-              <li  class="nav-item dropdown">
-                <a style={{padding: '0rem 0rem', color: '#fff'}} class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                <i className='fa fa-user-circle-o'></i>
-                  Account
-                </a>
-                <div class="dropdown-menu">
-                  <a class="dropdown-item" href="#">Sign Out</a>
-                  <a class="dropdown-item" href="#">My Profile</a>
-                  <a class="dropdown-item" href="#">Contact Us</a>
-                </div>
-              </li>
-              </ul>
-            </div>
-          </nav>
 
-        </header>
+              </nav>
+          
+            </header>
       )
     } else {
 

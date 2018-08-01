@@ -148,13 +148,12 @@ var num = this.state.cellHeight - 15
 
     this.setState({
       [name]: value
-    }, function() {
-      console.log(name+value)
     });
   }
 
   componentDidMount() {
     console.log(this.state.isActive)
+    console.log('+===========+')
     console.log(localStorage.getItem('AssignedNutriologist'))
     console.log('=============')
     console.log(localStorage.getItem('Rol'));
@@ -318,97 +317,66 @@ var num = this.state.cellHeight - 15
     } = this.state;
     
     return (
-      <div>
-        <h1>Cuenta Cliente</h1>
-        <div className="row">
-            <div className="col-md-3">
-                <div className="btn-group-vertical">
-                    <button type="button" className="btn btn-dark">Página principal</button>
-                    <Link to="/charts" className="btn btn-dark">Análisis Corporal</Link>
-                    <Link to="/diet" className="btn btn-dark">Calendario de Dieta</Link>
-                    <button type="button" className="btn btn-dark">Progreso</button>
-                    <button type="button" className="btn btn-dark" onClick={this.agendaModal}>Agendar Cita</button>
-                    <button type="button" className="btn btn-dark" onClick={this.toggleModal}>Account Settings</button><br/>
-                </div>
-            </div>
+      
+      
+           <div id="wrapper">
 
-            <div className="col-md-6 img1">
+           <div id="sidebar-wrapper">
+               <ul className="sidebar-nav">
+                   <li className="sidebar-brand">
+                       <a href="#">
+                           Main Menu
+                       </a>
+                   </li>
+                   <li>
+                       <a href="#">Agenda</a>
+                   </li>
+                   <li>
+                       <a href="#">Corporal Analisis</a>
+                   </li>
+                   <li>
+                       <a href="#">Dieta</a>
+                   </li>
+                   <li>
+                       <a href="#">Nutritional Blog</a>
+                   </li>
+                   <li>
+                       <a href="#">About</a>
+                   </li>
+               </ul>
+           </div>
+           
+           <div id="page-content-wrapper">
+               <div className="container-fluid">
+               <div className="col-md-6 img1">
                 <div className="col-md-3">
                   <img height='120px' src='https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg' alt='Imagen1' />
                 </div>
                 <div className="col-md-3">
                   <p>Nombre: </p>
-                  <p>Edad: </p>
-                  <p>Estatura: </p>
-                  <p>Peso: </p>
+                  <p>Título: </p>
+                  <p>Telefóno: </p>
+                  <p>Correo: </p>
                 </div>
-            </div>
+            </div> 
 
-          
+               </div>
+           </div>
+           {/* {
+             
+             $("#menu-toggle").click(function(e) {
+                 e.preventDefault();
+                 $("#wrapper").toggleClass("toggled");
+             })
            
-           {
-             this.state.isActive? 
-             <Modal onRequestClose={this.toggleModal}style ={customStyles}>
-             <p>Edit profile</p>
-             <input
-               type="firstName"
-               name="signUpFirstName"
-               placeholder="Nombre"
-               value={this.state.signUpFirstName}
-               onChange={this.handleInputChange}
-             />
-             <br />
-             <input
-               type="lastName"
-               name="signUpLastName"
-               placeholder="Apellido"
-               value={this.state.signUpLastName}
-               onChange={this.handleInputChange}
-             />
-             <br />
-             <input
-               type="email"
-               name="signUpEmail"
-               placeholder="Correo electronico"
-               value={this.state.signUpEmail}
-               onChange={this.handleInputChange}
-             />
-             <br />
+           } */}
+   
+       </div>
+               
 
-             <input
-               type="password"
-               name="signUpPassword"
-               placeholder="Contraseña"
-               value={this.state.signUpPassword}
-               onChange={this.handleInputChange}
-             />
 
-             <br />
-             <button
-               type="button"
-               className="btn btn-dark"
-               onClick={this.onEditProfile}>
-               Salvar cambios
-             </button>
-             <button type="button" className="btn btn-dark" onClick={this.onDelete}>Eliminar cuenta</button>
-             <button onClick={this.toggleModal}>Cancelar</button>
-            </Modal>:''
-           }
-         
-          </div>
-          <button type="button" className="btn btn-dark" onClick={this.logout}>Logout</button>          
-      {
-        this.state.showModal? <Modal clickOutside={this._closeModal} >
-        <div className="modal-content">
-           <ReactAgendaCtrl items={this.state.items} itemColors={colors} selectedCells={this.state.selected} Addnew={this.addNewEvent} edit={this.editEvent}  />
-
-        </div>
- </Modal>:''
-}
-      </div>
-
-    
       
+
     );
   }
 }

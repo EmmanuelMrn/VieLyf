@@ -116,17 +116,24 @@ class Login extends Component {
                 window.location=('/vistanutriologo');
                 localStorage.setItem('Rol', 'Nutriologo'); 
               } else {
-                var getuser;
+                console.log(loginEmail)
                 fetch('/api/account/getuseremail?token='+loginEmail)
                 .then(res => res.json())
                 .then(json2 => {
+                  console.log(json2[0]._id)
                   fetch('/api/accounts/getuser?token='+json2[0]._id)
                   .then(res => res.json())
                   .then(json3 => {
-                    fetch('/api/account/getuserbyid?token='+json3.Nutritionist_id)
+                    console.log("+===+")
+                    console.log(json3)
+                    console.log(json3.doc)
+                    console.log(json3.doc.Nutritionist_id)
+                    fetch('/api/account/getuserbyid?token='+json3.doc.Nutritionist_id)
                     .then(res => res.json())
                     .then(json4 => {
+                      console.log(json4[0].Email)
                       localStorage.setItem('AssignedNutriologist', json4[0].Email)
+                      console.log(localStorage.getItem('AssignedNutriologist'))
                     })
                   })       
                 })
