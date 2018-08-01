@@ -526,7 +526,7 @@ class Diet extends Component {
     } else if (this.state.dietAssigned == "No diet assigned") {
       return (
         <div align="center">
-          <h1>No tienes dieta prro</h1>
+          <h1>No tienes dieta</h1>
           <a className="btn btn-success" href="/catalogueNutriologist">
             catalogo
           </a>
