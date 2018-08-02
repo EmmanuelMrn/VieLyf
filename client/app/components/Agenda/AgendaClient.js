@@ -152,7 +152,7 @@ render() {
     return <div style={{display:'block', position:'absolute' , background:'#FFF'}}>{props.item.name} <button onClick={()=> props.edit(props.item)}>Edit </button></div>
   }
   return (
-<div id="page-content-wrapper">
+
     <div className="content-expanded ">
       <div className="">
         <button className="btn btn-secondary" onClick={this.zoomIn}> <i className="zoom-plus-icon"></i> zoomIn</button>
@@ -197,7 +197,6 @@ render() {
 }
 
 
-     </div>
      </div>
 
   );

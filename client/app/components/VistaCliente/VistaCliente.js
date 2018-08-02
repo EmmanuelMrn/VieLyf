@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
-import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import moment from 'moment';
 import { ReactAgenda , ReactAgendaCtrl, guid , getUnique , getLast , getFirst , Modal } from 'react-agenda';
 
@@ -20,6 +20,37 @@ require('moment/locale/es.js');
       "color-4":"rgba(70, 159, 213, 1)",
       "color-5":"rgba(170, 59, 123, 1)"
     }
+    
+  const routes = [
+      {
+        path: "/agenda",
+        exact: true,
+        sidebar: () => <a href="#">Agenda</a>,
+        main: () => <a href="#">Agenda</a>
+      },
+      {
+        path: "/nutritionalBlog",
+        sidebar: () => <a href="#">Nutrirional Blog</a>,
+        main: () => <a href="#">Nutritional Blog</a>
+      },
+      {
+        path: "/catalogueNutriologist",
+        sidebar: () => <a href="#">Nutriologist Catalogue</a>,
+        main: () => <a href="#">Nutriologist Catalogue</a>
+      },
+      {
+        path: "/charts",
+        exact: true,
+        sidebar: () => <a href="#">Charts</a>,
+        main: () => <a href="#">Charts</a>
+      },
+      {
+        path: "/diet",
+        exact: true,
+        sidebar: () => <a href="#">Diet</a>,
+        main: () => <a href="#">Diet</a>
+      }
+    ]
 
 const customStyles = {
  content : {
@@ -152,11 +183,11 @@ var num = this.state.cellHeight - 15
   }
 
   componentDidMount() {
-    console.log(this.state.isActive)
-    console.log('+===========+')
-    console.log(localStorage.getItem('AssignedNutriologist'))
-    console.log('=============')
-    console.log(localStorage.getItem('Rol'));
+    // console.log(this.state.isActive)
+    // console.log('+===========+')
+    // console.log(localStorage.getItem('AssignedNutriologist'))
+    // console.log('=============')
+    // console.log(localStorage.getItem('Rol'));
     const obj = getFromStorage('the_main_app');
     if (obj && obj.token) {
       const { token } = obj;
@@ -180,6 +211,40 @@ var num = this.state.cellHeight - 15
         isLoading: false,
       });
     }
+    this.setState({
+      items: [
+        {
+          path: "/agenda",
+          exact: true,
+          sidebar: () => <a href="#">Agenda</a>,
+          main: () => <a href="#">Agenda</a>
+        },
+        {
+          path: "/nutritionalBlog",
+          sidebar: () => <a href="#">Nutrirional Blog</a>,
+          main: () => <a href="#">Nutritional Blog</a>
+        },
+        {
+          path: "/catalogueNutriologist",
+          sidebar: () => <a href="#">Nutriologist Catalogue</a>,
+          main: () => <a href="#">Nutriologist Catalogue</a>
+        },
+        {
+          path: "/charts",
+          exact: true,
+          sidebar: () => <a href="#">Charts</a>,
+          main: () => <a href="#">Charts</a>
+        },
+        {
+          path: "/diet",
+          exact: true,
+          sidebar: () => <a href="#">Diet</a>,
+          main: () => <a href="#">Diet</a>
+        }
+      ]
+    }, function() {
+      console.log(this.state.items)
+    })
   }
 
   handleDateRangeChange (startDate, endDate) {
@@ -306,6 +371,8 @@ var num = this.state.cellHeight - 15
       });
   }
 
+  
+
   render() {
     const {
       isLoading,
@@ -315,52 +382,89 @@ var num = this.state.cellHeight - 15
       loginPassword,
       Name
     } = this.state;
-    
+
+    var ClientsData = Array.from(this.state.items);
+
     return (
       
       
-           <div id="wrapper">
+           
+<Router>
+  {/* <div id="wrapper"> */}
 
-           <div id="sidebar-wrapper">
-               <ul className="sidebar-nav">
-                   <li className="sidebar-brand">
+           {/* <div id="sidebar-wrapper">
+               <ul className="sidebar-nav"> */}
+                   {/* <li className="sidebar-brand">
                        <a href="#">
                            Main Menu
                        </a>
-                   </li>
-                   <li>
-                       <a href="#">Agenda</a>
-                   </li>
-                   <li>
-                       <a href="#">Corporal Analisis</a>
-                   </li>
-                   <li>
-                       <a href="#">Dieta</a>
-                   </li>
-                   <li>
-                       <a href="#">Nutritional Blog</a>
-                   </li>
-                   <li>
-                       <a href="#">About</a>
-                   </li>
+                   </li> */}
+                   {/* <ul style={{ listStyleType: "none", padding: 0 }}>
+
+                <li>
+                  <Link to="/Agenda#">Agenda</Link>
+                </li>
+                <li>
+                  <Link to="/nutritionalblog">Nutrirional Blog</Link>
+                </li>
+                <li>
+                  <Link to="/catalogueNutriologist">Nutriologist Catalogue</Link>
+                </li>
+                <li>
+                  <Link to="/charts">Charts</Link>
+                </li>
+                <li>
+                  <Link to="/diet">Diet</Link>
+                </li>
+                </ul>
                </ul>
-           </div>
+           </div> */}
            
            <div id="page-content-wrapper">
-               <div className="container-fluid">
-               <div className="col-md-6 img1">
-                <div className="col-md-3">
-                  <img height='120px' src='https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg' alt='Imagen1' />
-                </div>
-                <div className="col-md-3">
-                  <p>Nombre: </p>
-                  <p>Título: </p>
-                  <p>Telefóno: </p>
-                  <p>Correo: </p>
-                </div>
-            </div> 
+           <div>
+        <div style={{ display: "flex" }}>
+          <div
+            style={{
+              padding: "10px",
+              width: "40%",
+              background: "#f0f0f0"
+            }}
+          >
 
-               </div>
+            
+    
+            {routes.map((route, index) => (
+              // You can render a <Route> in as many places
+              // as you want in your app. It will render along
+              // with any other <Route>s that also match the URL.
+              // So, a sidebar or breadcrumbs or anything else
+              // that requires you to render multiple things
+              // in multiple places at the same URL is nothing
+              // more than multiple <Route>s.
+              <Route
+                key={index}
+                path={route.path}
+                exact={route.exact}
+                component={route.sidebar}
+              />
+            ))}
+          </div>
+    
+          <div style={{ flex: 1, padding: "10px" }}>
+            {routes.map((route, index) => (
+              // Render more <Route>s with the same paths as
+              // above, but different components this time.
+              <Route
+                key={index}
+                path={route.path}
+                exact={route.exact}
+                component={route.main}
+              />
+            ))}
+          </div>
+        </div>
+          
+{/* </div>   */}
            </div>
            {/* {
              
@@ -371,12 +475,12 @@ var num = this.state.cellHeight - 15
            
            } */}
    
+      
+
        </div>
                
 
-
-      
-
+</Router>
     );
   }
 }

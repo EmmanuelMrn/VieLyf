@@ -5,6 +5,7 @@ import {
   getFromStorage,
   setInStorage,
 } from '../../utils/storage';
+// import { link } from 'fs';
 
 class Header extends Component {
   constructor() {
@@ -118,6 +119,39 @@ class Header extends Component {
               </ul>
 
               </nav>
+              <div id="wrapper">
+
+           <div id="sidebar-wrapper">
+               <ul className="sidebar-nav">
+                   {/* <li className="sidebar-brand">
+                       <a href="#">
+                           Main Menu
+                       </a>
+                   </li> */}
+                   <ul style={{ listStyleType: "none", padding: 0 }}>
+                <li>
+                  <Link onClick={ function(e) {
+              e.preventDefault();
+              $("#wrapper").toggleClass("toggled")
+              return false;
+              }  } href="/Agenda"  >Agenda</Link>
+                </li>
+                <li>
+                  <Link to="/nutritionalblog">Nutrirional Blog</Link>
+                </li>
+                <li>
+                  <Link to="/catalogueNutriologist">Nutriologist Catalogue</Link>
+                </li>
+                <li>
+                  <Link to="/charts">Charts</Link>
+                </li>
+                <li>
+                  <Link to="/diet">Diet</Link>
+                </li>
+                </ul>
+               </ul>
+           </div>
+           </div>
           
             </header>
       )
