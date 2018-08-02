@@ -218,5 +218,18 @@ app.get('/api/accounts/GetMyClients',(req,res,next)=>{
     return res.send(doc);
     });
   });
+  app.get('/api/account/getUserByUserName',(req,res,next)=>{
+    User.findOne({UserName:req.query.PathName}, (err, doc)  => {
+    if(err)
+    return res.send({
+        err,
+        success:false
+      });
+    else
+    return res.send({
+        doc
+      });
+    });
+});
     
 }
