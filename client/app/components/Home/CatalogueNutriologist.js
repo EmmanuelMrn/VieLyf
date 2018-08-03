@@ -21,12 +21,10 @@ class CatalogueNutriologist extends Component {
       Nutritionists:[],
       isActive:null,
       activeModal:null
-
-    
     };
+
     this.clickHandler =this.clickHandler.bind(this);
     this.hideModal = this.hideModal.bind(this);
-    //this.toggleModal = this.toggleModal.bind(this);
 
   }
   clickHandler(e, index) {
@@ -102,16 +100,13 @@ render()
                     <button  id={nutritionist} onClick={e => that.requestClientToNutritionist(nutritionist._id)}>Contact</button>
                     </Modal>
                     <button  id={nutritionist} onClick={e => that.clickHandler(e,index)}>abrir</button>
-                   
-
             </div>
             </div>
             </div>
             )
             })}
           </div>
-  )
-
+    )
   }
 }
 
