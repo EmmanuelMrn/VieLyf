@@ -31,11 +31,29 @@ class CatalogueNutriologist extends Component {
   }
   clickHandler(e, index) {
     this.setState({ activeModal: index })
-}
-hideModal() {
-  this.setState({ activeModal: null })
-}
+  }
 
+  hideModal() {
+  this.setState({ activeModal: null })
+  }
+  
+  requestClientToNutritionist(_id){
+    const {
+      token
+    } = this.state;
+
+    fetch('/api/accounts/newPatientRequest', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        Nutritionist_id: _id,
+        Client_id: token,
+        Status: 'stand by'
+      }),
+    })
+  }
 
   componentDidMount(){
   fetch('/api/accounts/nutritionistcatalog', {method:'GET'})
@@ -45,13 +63,10 @@ hideModal() {
         this.setState({
           Nutritionists:json
         });
-        
-        
-      
     });
   }
-  toggleModal()
-  {
+
+  toggleModal(){
     this.setState({
       isActive:!this.state.isActive
     });
@@ -78,12 +93,13 @@ render()
               <div className="card-body">
            
                    <h5 className="card-title"> {nutritionist.FirstName}</h5>
-                    <Modal id= {nutritionist} isOpen={that.state.activeModal == index} onRequestClose={that.hideModal} style={customStyles}>
+                    <Modal id= {nutritionist} isOpen={that.state.activeModal == index} onRequestClose={that.hideModal} ariaHideApp={false} style={customStyles}>
                     
                     {nutritionist.LastName}<br />
                     {nutritionist.Role}<br />
                     {nutritionist.Email}<br />
                     {nutritionist.Phone}<br />
+                    <button  id={nutritionist} onClick={e => that.requestClientToNutritionist(nutritionist._id)}>Contact</button>
                     </Modal>
                     <button  id={nutritionist} onClick={e => that.clickHandler(e,index)}>abrir</button>
                    

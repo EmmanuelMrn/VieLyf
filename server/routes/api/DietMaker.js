@@ -1,34 +1,7 @@
 const User = require('../../models/User');
-const UserSession = require('../../models/UserSchema');
 const Diet = require('../../models/Diet');
 const PatientRequest = require('../../models/PatientRequest');
 module.exports=(app) => {
-
- app.post('/api/accounts/newPatientRequest', (req,res,next) =>{
-    const {body } = req;
-    const {
-        Nutritionist_id,
-        Client_id
-    } = body;
-         
-         const newPatientRequest = new PatientRequest();
-        newPatientRequest.Nutritionist_id=Nutritionist_id;
-         newPatientRequest.Client_id=Client_id;
-                
-        newPatientRequest.save((err,nPatient)=>{
-            if(err){
-                return  res.send({
-                success:false,
-                message:'Error',
-                });
-            }else{
-                return  res.send({
-                success:true,
-                message:'Information PatientRequest captured',
-                });
-        }
-    });
-});
 
 app.put('/api/accounts/ModifyStatus',(req,res,next) =>
     {
@@ -209,6 +182,7 @@ app.get('/api/accounts/GetMyClients',(req,res,next)=>{
       return res.send(doc);
       });
   });
+
   app.get('/api/account/getuserbyid',(req,res,next)=>{
     console.log(req.query.token);
     User.find({_id:req.query.token }, (err, doc)  => {
@@ -218,6 +192,7 @@ app.get('/api/accounts/GetMyClients',(req,res,next)=>{
     return res.send(doc);
     });
   });
+  
   app.get('/api/account/getUserByUserName',(req,res,next)=>{
     User.findOne({UserName:req.query.PathName}, (err, doc)  => {
     if(err)
