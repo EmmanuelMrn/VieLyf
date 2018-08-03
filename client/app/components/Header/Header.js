@@ -75,10 +75,6 @@ class Header extends Component {
               <span className="badge badge-danger"></span>
             </a>
             <div className="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-              {/* <a className="dropdown-item" href="#">Action</a>
-              <a className="dropdown-item" href="#">Another action</a>
-              <div className="dropdown-divider"></div>
-              <a className="dropdown-item" href="#">Something else here</a> */}
             </div>
           </li>
         )
@@ -119,39 +115,92 @@ class Header extends Component {
               </ul>
 
               </nav>
+              <div id="wrapper1">
+                <div id="sidebar-wrapper1">
+                  <ul className="sidebar-nav1">
+                      <li className="sidebar-brand1">
+                          <a href="/vistacliente">
+                              test
+                          </a>
+                      </li>
+                      <ul style={{ listStyleType: "none", padding: 0 }}>
+                    
+                    <li>
+                      <Link to="/agenda" onClick={ $('#menu-toggle').click() }>Agenda</Link>
+                    </li>
+                    </ul>
+                  </ul>
+                </div>
+              </div>
+              
               <div id="wrapper">
-
-           <div id="sidebar-wrapper">
-               <ul className="sidebar-nav">
-                   {/* <li className="sidebar-brand">
-                       <a href="#">
-                           Main Menu
-                       </a>
-                   </li> */}
-                   <ul style={{ listStyleType: "none", padding: 0 }}>
-                <li>
-                  <Link onClick={ function(e) {
-              e.preventDefault();
-              $("#wrapper").toggleClass("toggled")
-              return false;
-              }  } href="/Agenda"  >Agenda</Link>
-                </li>
-                <li>
-                  <Link to="/nutritionalblog">Nutrirional Blog</Link>
-                </li>
-                <li>
-                  <Link to="/catalogueNutriologist">Nutriologist Catalogue</Link>
-                </li>
-                <li>
-                  <Link to="/charts">Charts</Link>
-                </li>
-                <li>
-                  <Link to="/diet">Diet</Link>
-                </li>
-                </ul>
-               </ul>
-           </div>
-           </div>
+                <div id="sidebar-wrapper">
+                  <ul className="sidebar-nav">
+                      <li className="sidebar-brand">
+                          <a href="/vistacliente">
+                              Profile
+                          </a>
+                      </li>
+                      <ul style={{ listStyleType: "none", padding: 0 }}>
+                    
+                    <li>
+                      <Link to="/agenda" onClick={ $('#menu-toggle').click() }>Agenda</Link>
+                    </li>
+                    <li>
+                      <Link id="nutri" to="/nutritionalblog" onClick={ $('#menu-toggle').click() }>Nutrirional Blog</Link>
+                    </li>
+                    <li>
+                      <Link to="/catalogueNutriologist" onClick={ $('#menu-toggle').click() }>Nutriologist Catalogue</Link>
+                    </li>
+                    <li>
+                      <Link to="/charts" onClick={ $('#menu-toggle').click() }>Charts</Link>
+                    </li>
+                    <li>
+                      <Link to="/diet" onClick={ $('#menu-toggle').click() }>Diet</Link>
+                    </li>
+                    </ul>
+                  </ul>
+                </div>
+              </div>
+              <a href="#menu-toggle" className="btn " id="menu-toggle" 
+            onClick={ function(e) {
+              $(".toggle").click(function () {
+                console.log("toggling sidebar");
+                  $(".sidebar").toggleClass('active');
+              
+              });
+              $(".cancel").click(function () {
+                console.log("toggling visibility");
+                  $(this).parent().toggleClass('gone');
+              
+              });
+            } }><i className="fa fa-bars"></i></a>
+              <div class="toggle"><div class="ico" onClick={
+                    $(".sidebar").toggleClass('active')
+                
+                
+                // $(".cancel").click(function () {
+                //   console.log("toggling visibility");
+                //     $(this).parent().toggleClass('gone');
+                
+                // });
+              }>↻</div></div>
+              
+                <div class="sidebar">
+                  <h2>Notifications</h2>
+                  <div class="notibox">
+                    Wash the Car
+                    <div class="cancel">✕</div>
+                  </div>
+                  <div class="notibox">
+                    Do Laundry
+                    <div class="cancel">✕</div>
+                  </div>
+                  <div class="notibox">
+                    Feed the Cat
+                    <div class="cancel">✕</div>
+                  </div>
+                </div>
           
             </header>
       )
@@ -175,3 +224,7 @@ class Header extends Component {
 }
 
 export default Header;
+{/* <a className="dropdown-item" href="#">Action</a>
+              <a className="dropdown-item" href="#">Another action</a>
+              <div className="dropdown-divider"></div>
+              <a className="dropdown-item" href="#">Something else here</a> */}
