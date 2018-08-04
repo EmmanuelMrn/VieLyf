@@ -15,17 +15,14 @@ class Home extends Component {
 
   }
 
-
   render() {
     const {
 
     } = this.state;
     return(
-    <div className="container">
-      <h1>Welcome to VieLyf!</h1>
-      <div align="center" className="col-md-12">
-        <img height='300px' width='100%' src='/assets/img/imagen2.png' alt='Imagen2'/>
-      </div>
+      
+      <div className="img-bg">
+        <a className="btn btn-success button-break" id="BtnHome"href="/signup">Get Started</a>
     </div>);
   }
 }
