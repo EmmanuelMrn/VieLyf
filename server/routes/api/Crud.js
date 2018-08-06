@@ -103,7 +103,7 @@ module.exports = (app) => {
       FirstName,
       LastName,
       Password,
-      UserName,
+     // UserName,
       Role,
       Phone,
     } = body;
@@ -121,12 +121,12 @@ module.exports = (app) => {
         message: "Fail in the Last Name"
       });
     }
-    if (!UserName) {
-      return res.send({
-        success: false,
-        message: "Fail in the User Name"
-      });
-    }
+    // if (!UserName) {
+    //   return res.send({
+    //     success: false,
+    //     message: "Fail in the User Name"
+    //   });
+    // }
     if (!Email) {
       return res.send({
         success: false,
