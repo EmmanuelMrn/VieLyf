@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 import {
   getFromStorage,
   setInStorage,
@@ -14,6 +15,7 @@ class Header extends Component {
     this.state = {
       isLoading: true,
       isActive: false,
+      items:[],
     };
 
     this.logout = this.logout.bind(this);
@@ -25,6 +27,13 @@ class Header extends Component {
       this.setState({isActive: true}, function() {
       })
     }
+    fetch('/api/account/agendaarrayaproved?token='+localStorage.getItem('Auth'), {method:'GET'})
+      .then(res => res.json())
+      .then(json1 => {
+        this.setState({
+          items : json1,
+        });
+      });
   }
 
   logout() {
@@ -81,6 +90,8 @@ class Header extends Component {
       }
     }
 
+    var ClientsData = Array.from(this.state.items);
+
     if (isActive) {
       return (
         <header>
@@ -90,7 +101,19 @@ class Header extends Component {
             onClick={ function(e) {
               e.preventDefault();
               $("#wrapper").toggleClass("toggled")
-              } }><i className="fa fa-bars"></i></a>
+              } }><i className="fa fa-bars" ></i></a>
+              <a style={{color:'#0676f8'}} className="toggle" onClick={
+                      function(e) {
+                            $(".sidebar").toggleClass('active');
+                        
+                        }
+                        // $(".cancel").click(function () {
+                        //   console.log("toggling visibility");
+                        //     $(this).parent().toggleClass('gone');
+                        
+                        // });
+                      
+                    } ><i style={{color:'#0676f8'}} className="fa fa-bell"></i></a>
               <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
                 <div className="input-group">
                   <input type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2"/>
@@ -108,31 +131,79 @@ class Header extends Component {
                     <i className="fa fa-user-circle fa-fw"></i>
                   </a>
                   <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                    <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
-                    <button type="button" className="btn btn-dark" onClick={this.logout}>Cerrar sesion</button>            
+                    <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout} >Logout</a>       
                   </div>
                 </li>
               </ul>
+              
+          
 
               </nav>
-              <div id="wrapper1">
-                <div id="sidebar-wrapper1">
-                  <ul className="sidebar-nav1">
-                      <li className="sidebar-brand1">
-                          <a href="/vistacliente">
-                              test
-                          </a>
-                      </li>
-                      <ul style={{ listStyleType: "none", padding: 0 }}>
-                    
-                    <li>
-                      <Link to="/agenda" onClick={ $('#menu-toggle').click() }>Agenda</Link>
-                    </li>
-                    </ul>
-                  </ul>
-                </div>
-              </div>
-              
+              {/* <div class="sidebar">
+                  <h2>Notifications</h2>
+                  <div class="notibox">
+                    Wash the Car
+                    <div class="cancel">✕</div>
+                  </div>
+                  <div class="notibox">
+                    Do Laundry
+                    <div class="cancel">✕</div>
+                  </div>
+                  <div class="notibox">
+                    Feed the Cat
+                    <div class="cancel">✕</div>
+                  </div>
+               </div>
+           */}
+           <div class="sidebar">
+                  <h2>Notifications</h2>
+                  <div className="news_inner">
+                  { ClientsData.map(function(client, aceptar, negar, handleClick, isToggleOn){
+                    var dia = new Date(client.startDateTime).getDay();
+                    var anio = new Date(client.startDateTime).getFullYear();
+                    var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
+                    var diferencia = new Date(client.startDateTime).getHours() - new Date(client.endDateTime).getHours();
+                    console.log(moment.duration(diferencia, "hours").humanize())
+                      return( 
+                        <div style={{color: '#fff'}} key={client._id} className="news_item">
+                            <a><h4>{client.name}</h4></a>
+                            <a><h6>{"Para: "+dia+ " de " + monthMinusOneName + " del " + anio}</h6></a>
+                            <a><h6>{"Con una duracion de "+moment.duration(diferencia, "hours").humanize()}</h6></a>
+                            <button type="button" id='hide' name="" className="btn btn-dark" onClick={function aceptar() {
+                              fetch("/api/account/editagenda?token="+client._id)
+                            }}>Aceptar</button>
+                            <button type="button" name="" className="btn btn-dark" onClick={function aceptar() {
+                              fetch('/api/account/deleteagenda?token='+client._id)
+                                $(".cancel").click(function () {
+                                  console.log("toggling visibility");
+                                    $(this).parent().toggleClass('gone');
+                                });
+                              
+                            }}>Denegar</button>
+                            <div class="cancel" onClick={
+                      function(e) {
+                        $(".cancel").click(function () {
+                          console.log("toggling visibility");
+                            $(this).parent().toggleClass('gone');
+                        });
+                      }
+                    } >✕</div>
+                        </div>
+                        )
+                    })}
+                    </div>
+                  {/* <div class="notibox">
+                    cita dummie
+                    <div class="cancel" onClick={
+                      function() {
+                        $(".cancel").click(function () {
+                          console.log("toggling visibility");
+                            $(this).parent().toggleClass('gone');
+                        });
+                      }
+                    } >✕</div> */}
+                  {/* </div> */}
+               </div>
               <div id="wrapper">
                 <div id="sidebar-wrapper">
                   <ul className="sidebar-nav">
@@ -142,9 +213,8 @@ class Header extends Component {
                           </a>
                       </li>
                       <ul style={{ listStyleType: "none", padding: 0 }}>
-                    
                     <li>
-                      <Link to="/agenda" onClick={ $('#menu-toggle').click() }>Agenda</Link>
+                      <Link to="/agendaclient" onClick={ $('#menu-toggle').click() }>Agenda</Link>
                     </li>
                     <li>
                       <Link id="nutri" to="/nutritionalblog" onClick={ $('#menu-toggle').click() }>Nutrirional Blog</Link>
@@ -161,47 +231,7 @@ class Header extends Component {
                     </ul>
                   </ul>
                 </div>
-              </div>
-              <a href="#menu-toggle" className="btn " id="menu-toggle" 
-            onClick={ function(e) {
-              $(".toggle").click(function () {
-                console.log("toggling sidebar");
-                  $(".sidebar").toggleClass('active');
-              
-              });
-              $(".cancel").click(function () {
-                console.log("toggling visibility");
-                  $(this).parent().toggleClass('gone');
-              
-              });
-            } }><i className="fa fa-bars"></i></a>
-              <div class="toggle"><div class="ico" onClick={
-                    $(".sidebar").toggleClass('active')
-                
-                
-                // $(".cancel").click(function () {
-                //   console.log("toggling visibility");
-                //     $(this).parent().toggleClass('gone');
-                
-                // });
-              }>↻</div></div>
-              
-                <div class="sidebar">
-                  <h2>Notifications</h2>
-                  <div class="notibox">
-                    Wash the Car
-                    <div class="cancel">✕</div>
-                  </div>
-                  <div class="notibox">
-                    Do Laundry
-                    <div class="cancel">✕</div>
-                  </div>
-                  <div class="notibox">
-                    Feed the Cat
-                    <div class="cancel">✕</div>
-                  </div>
-                </div>
-          
+              </div>  
             </header>
       )
     } else {
@@ -224,7 +254,3 @@ class Header extends Component {
 }
 
 export default Header;
-{/* <a className="dropdown-item" href="#">Action</a>
-              <a className="dropdown-item" href="#">Another action</a>
-              <div className="dropdown-divider"></div>
-              <a className="dropdown-item" href="#">Something else here</a> */}

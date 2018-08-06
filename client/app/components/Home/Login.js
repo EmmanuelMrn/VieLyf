@@ -121,6 +121,7 @@ class Login extends Component {
                 .then(res => res.json())
                 .then(json2 => {
                   console.log(json2[0]._id)
+                  
                   fetch('/api/accounts/getuser?token='+json2[0]._id)
                   .then(res => res.json())
                   .then(json3 => {

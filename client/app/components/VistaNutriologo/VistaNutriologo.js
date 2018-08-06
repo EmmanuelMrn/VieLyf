@@ -45,6 +45,10 @@ class VistaNutriologo extends Component {
   }
 
   componentDidMount() {
+    console.log('+===========+')
+    console.log(localStorage.getItem('AssignedNutriologist'))
+    console.log('=============')
+    console.log(localStorage.getItem('Rol'));
     fetch('/api/account/agendaarrayaproved?token='+localStorage.getItem('Auth'), {method:'GET'})
       .then(res => res.json())
       .then(json1 => {
