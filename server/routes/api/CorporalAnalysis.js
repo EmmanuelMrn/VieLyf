@@ -164,9 +164,10 @@ module.exports=(app) => {
      const {chart}=query;
    //  return res.send
    
-    BodyAnalysis.findOne({ _id:chart }, (err, doc)  => {
-     //console.log(doc); 
+    BodyAnalysis.findOne({ id:chart }, (err, doc)  => {
+     console.log(doc); 
      return res.send(doc);
+    //  json(doc);
     });
  
  });
