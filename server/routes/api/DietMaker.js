@@ -1,9 +1,13 @@
 const User = require('../../models/User');
+<<<<<<< HEAD
 const UserSession = require('../../models/UserSchema');
+=======
+>>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
 const Diet = require('../../models/Diet');
 const PatientRequest = require('../../models/PatientRequest');
 module.exports=(app) => {
 
+<<<<<<< HEAD
  app.post('/api/accounts/newPatientRequest', (req,res,next) =>{
     const {body } = req;
     const {
@@ -30,6 +34,8 @@ module.exports=(app) => {
     });
 });
 
+=======
+>>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
 app.put('/api/accounts/ModifyStatus',(req,res,next) =>
     {
        var EditStatus = {Status:req.body.status}
@@ -209,6 +215,10 @@ app.get('/api/accounts/GetMyClients',(req,res,next)=>{
       return res.send(doc);
       });
   });
+<<<<<<< HEAD
+=======
+
+>>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
   app.get('/api/account/getuserbyid',(req,res,next)=>{
     console.log(req.query.token);
     User.find({_id:req.query.token }, (err, doc)  => {
@@ -218,5 +228,22 @@ app.get('/api/accounts/GetMyClients',(req,res,next)=>{
     return res.send(doc);
     });
   });
+<<<<<<< HEAD
+=======
+  
+  app.get('/api/account/getUserByUserName',(req,res,next)=>{
+    User.findOne({UserName:req.query.PathName}, (err, doc)  => {
+    if(err)
+    return res.send({
+        err,
+        success:false
+      });
+    else
+    return res.send({
+        doc
+      });
+    });
+});
+>>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
     
 }

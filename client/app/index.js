@@ -4,49 +4,60 @@ import "moment/locale/es";
 
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
-import './styles/styles.scss';
-import App from './components/App/App';
-import Diet from './components/Diet/Diet';
-import Home from './components/Home/Home';
-import Login from './components/Home/Login';
-import Signup from './components/Home/Signup';
-import Agenda from './components/Agenda/Agenda';
-import Charts from './components/Charts/Charts';
-import NotFound from './components/App/NotFound';
-import SearchBar from './components/Home/SearchBar';
-import Transition from './components/Diet/Transition';
+import App from "./components/App/App";
+import Diet from "./components/Diet/Diet";
+import Charts from "./components/Charts/Charts";
+import Home from "./components/Home/Home";
+import Login from "./components/Home/Login";
+import Signup from "./components/Home/Signup";
+import Agenda from "./components/Agenda/Agenda";
+import NotFound from "./components/App/NotFound";
+import Transition from "./components/Diet/Transition";
+import NutritionalBlog from "./components/Home/NutritionalBlog";
+import VistaCliente from "./components/VistaCliente/VistaCliente";
+import VistaNutriologo from "./components/VistaNutriologo/VistaNutriologo";
+import VistaPrincipal from "./components/VistaPrincipal/VistaPrincipal";
+import CorporalAnalysis from "./components/CorporalAnalysis/CorporalAnalysis";
 import AgendaClient from './components/Agenda/AgendaClient';
-import NutritionalBlog from './components/Home/NutritionalBlog';
-import VistaCliente from './components/VistaCliente/VistaCliente';
-import ResultadoBusqueda from './components/Home/ResultadoBusqueda';
-import VistaNutriologo from './components/VistaNutriologo/VistaNutriologo';
-import CatalogueNutriologist from './components/Home/CatalogueNutriologist';
-import DisponibilitySchedule from './components/Home/DisponibilitySchedule';
 
-
-
+import CatalogueNutriologist from "./components/Home/CatalogueNutriologist";
+import DisponibilitySchedule from "./components/Home/DisponibilitySchedule";
+import ResultadoBusqueda from "./components/Home/ResultadoBusqueda";
+import SearchBar from "./components/Home/SearchBar";
+import Profile from './components/Profile/Profile';
+import "./styles/styles.scss";
 
 render(
   <Router>
     <App>
       <Switch>
-      <Route exact path="/" component={Home}/>  
-        
-        <Route path="/diet" component={Diet}/>
-        
-        <Route path="/login" component={Login}/>
-        <Route path="/signup" component={Signup}/>
-        <Route path="/agenda" component={Agenda}/>
-        <Route path="/charts" component={Charts}/>
-        <Route path="/SearchBar" component={SearchBar}/>
-        <Route path="/transition" component={Transition}/>
-        <Route path="/vistacliente" component={VistaCliente}/>
+        <Route exact path="/" component={Home} />
+        <Route path="/login" component={Login} />
+        <Route path="/diet" component={Diet} />
+        <Route path="/corporalanalysis" component={CorporalAnalysis}/>
+        <Route path="/signup" component={Signup} />
+        <Route path="/agenda" component={Agenda} />
+        <Route path="/charts" component={Charts} />
+        <Route path="/transition" component={Transition} />
+        <Route path="/vistacliente" component={VistaCliente} />
         <Route path="/agendaclient" component={AgendaClient} />
-        <Route path="/nutritionalBlog" component={NutritionalBlog}/>
-        <Route path="/vistanutriologo" component={VistaNutriologo}/>
-        <Route path="/ResultadoBusqueda" component={ResultadoBusqueda}/>
-        <Route path="/catalogueNutriologist" component={CatalogueNutriologist}/>
-        <Route path="/disponibilitySchedule" component={DisponibilitySchedule}/>
+
+        <Route path="/vistaprincipal" component={VistaPrincipal} />
+
+        <Route path="/nutritionalBlog" component={NutritionalBlog} />
+        <Route path="/vistanutriologo" component={VistaNutriologo} />
+        <Route
+          path="/catalogueNutriologist"
+          component={CatalogueNutriologist}
+        />
+        <Route
+          path="/disponibilitySchedule"
+          component={DisponibilitySchedule}
+        />
+        <Route path="/ResultadoBusqueda" component={ResultadoBusqueda} />
+        <Route path="/SearchBar" component={SearchBar} />
+        <Route path="/profile" component={Profile} />
+>>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
         <Route component={NotFound} />
       </Switch>
     </App>

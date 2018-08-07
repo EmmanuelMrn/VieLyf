@@ -1,18 +1,25 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 import { Link } from 'react-router-dom';
+<<<<<<< HEAD
 import moment from 'moment';
+=======
+>>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
 import {
   getFromStorage,
   setInStorage,
 } from '../../utils/storage';
+<<<<<<< HEAD
 // import { link } from 'fs';
+=======
+>>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
 
 class Header extends Component {
   constructor() {
     super();
 
     this.state = {
+<<<<<<< HEAD
       isLoading: true,
       isActive: false,
       items:[],
@@ -20,6 +27,11 @@ class Header extends Component {
 
     this.logout = this.logout.bind(this);
 
+=======
+      isActive: false,
+    };
+
+>>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
   }
 
   componentDidMount() {
@@ -27,6 +39,7 @@ class Header extends Component {
       this.setState({isActive: true}, function() {
       })
     }
+<<<<<<< HEAD
     fetch('/api/account/agendaarrayaproved?token='+localStorage.getItem('Auth'), {method:'GET'})
       .then(res => res.json())
       .then(json1 => {
@@ -233,13 +246,33 @@ class Header extends Component {
                 </div>
               </div>  
             </header>
+=======
+  }
+
+  render() {
+    const {
+      isActive,
+    } = this.state;
+    if (isActive) {
+      return (
+        <nav className="navbar bg-dark text-white">
+          <Link to="/login" className="navbar-brand text-white">VieLyf</Link>      
+          <Link to="/nutritionalBlog" className="text-white">Blog nutricional</Link>
+          <Link to="/catalogueNutriologist" className="text-white">Catálogo de nutriólogos</Link>
+        </nav>
+>>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
       )
     } else {
 
     return(
       <header>
            <nav className="navbar bg-dark text-white">
+<<<<<<< HEAD
              <Link to="/" className="navbar-brand text-white">VieLyf</Link>      
+=======
+               <Link to="/" className="navbar-brand text-white">VieLyf</Link>
+               <Link to="/SearchBar" className="text-white">Search Bar</Link>      
+>>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
                <Link to="/nutritionalBlog" className="text-white">Blog nutricional</Link>
                <Link to="/catalogueNutriologist" className="text-white">Catálogo de nutriólogos</Link>
              <div>
@@ -253,4 +286,8 @@ class Header extends Component {
 }
 }
 
+<<<<<<< HEAD
 export default Header;
+=======
+export default Header;
+>>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63

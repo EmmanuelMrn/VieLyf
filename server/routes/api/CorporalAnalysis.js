@@ -164,9 +164,16 @@ module.exports=(app) => {
      const {chart}=query;
    //  return res.send
    
+<<<<<<< HEAD
     BodyAnalysis.findOne({ _id:chart }, (err, doc)  => {
      //console.log(doc); 
      return res.send(doc);
+=======
+    BodyAnalysis.findOne({ id:chart }, (err, doc)  => {
+     console.log(doc); 
+     return res.send(doc);
+    //  json(doc);
+>>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
     });
  
  });

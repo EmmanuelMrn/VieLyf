@@ -22,7 +22,11 @@
     "autoprefixer": "^8.2.0",
     "babel": "^6.23.0",
     "babel-loader": "^8.0.0-beta.2",
+<<<<<<< HEAD
     "bcrypt": "^3.0.0",
+=======
+    "bcrypt": "^2.0.1",
+>>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
     "chart.js": "^2.7.2",
     "connect-history-api-fallback": "^1.5.0",
     "copy-webpack-plugin": "^4.5.1",
@@ -46,13 +50,20 @@
     "react-buttons": "0.0.11",
     "react-cards": "^0.2.2",
     "react-chartjs-2": "^2.7.3",
+<<<<<<< HEAD
+=======
+    "react-datetime": "^2.15.0",
+>>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
     "react-dom": "^16.4.1",
     "react-hot-loader": "^4.0.0",
     "react-modal": "^3.5.1",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "sass-loader": "^6.0.7",
+<<<<<<< HEAD
     "startbootstrap-simple-sidebar": "^4.1.1",
+=======
+>>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
     "style-loader": "^0.20.3",
     "webpack-cli": "^2.0.13",
     "webpack-dev-middleware": "^3.0.1",
