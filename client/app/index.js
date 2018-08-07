@@ -17,6 +17,7 @@ import NutritionalBlog from "./components/Home/NutritionalBlog";
 import VistaCliente from "./components/VistaCliente/VistaCliente";
 import VistaNutriologo from "./components/VistaNutriologo/VistaNutriologo";
 import VistaPrincipal from "./components/VistaPrincipal/VistaPrincipal";
+import CorporalAnalysis from "./components/CorporalAnalysis/CorporalAnalysis";
 
 import CatalogueNutriologist from "./components/Home/CatalogueNutriologist";
 import DisponibilitySchedule from "./components/Home/DisponibilitySchedule";
@@ -32,6 +33,7 @@ render(
         <Route exact path="/" component={Home} />
         <Route path="/login" component={Login} />
         <Route path="/diet" component={Diet} />
+        <Route path="/corporalanalysis" component={CorporalAnalysis}/>
         <Route path="/signup" component={Signup} />
         <Route path="/agenda" component={Agenda} />
         <Route path="/charts" component={Charts} />
