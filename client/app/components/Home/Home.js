@@ -15,23 +15,11 @@ class Home extends Component {
 
   }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
   render() {
     const {
 
     } = this.state;
     return(
-<<<<<<< HEAD
-    <div className="container">
-      <h1>Welcome to VieLyf!</h1>
-      <div align="center" className="col-md-12">
-        <img height='300px' width='100%' src='/assets/img/imagen2.png' alt='Imagen2'/>
-      </div>
-    </div>);
-=======
       <div>
         <div className="img-bg">
           <a className="btn btn-success btn-lg" id="BtnHome"href="/signup">Get Started</a>
@@ -137,7 +125,7 @@ class Home extends Component {
 
             <div className="img-bg3">
             <div className="container TitleBlog-containers">
-              <h4>Healthy Blog</h4>
+              <h3 style={{color: "rgba(232, 246, 247, 0.863)"}} >Healthy Blog</h3>
               <hr width= "50%"/>
             </div>
             <div className="container">
@@ -149,7 +137,7 @@ class Home extends Component {
                   </p>
                 </font>
               </div>
-              <a className="btn btn-danger" id="BtnGo"href="/catalogueNutriologist">Go Blog</a>
+              <a className="btn btn-danger" id="BtnGo"href="/nutritionalBlog">Go Blog</a>
             </div>
           </div> 
 
@@ -159,7 +147,6 @@ class Home extends Component {
         </div>
       </div>
     );
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
   }
 }
 

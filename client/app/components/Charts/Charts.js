@@ -41,24 +41,6 @@ class ChartsPage extends React.Component {
      componentDidMount() {
         
                   
-<<<<<<< HEAD
-//    const obj = getFromStorage('the_main_app');
-
-    //    console.log(obj);
-  //      const {token}=obj;
-          fetch('/api/accounts/graphs?chart=5b43a832e4d9fc30c0bcd020', {method:'GET'}) 
-            .then(res => res.json())   
-            .then(responseJson => {
-                    
-                this.setState({
-                      weight:responseJson.Weight,
-                      height:responseJson.Height,
-                      Age:responseJson.Age,
-                      FatFreeBodyMass:responseJson.FatFreeBodyMass
-
-                    });
-                console.log("json",responseJson.Weight);
-=======
    const obj = localStorage.getItem('clientID');
    
        console.log(obj);
@@ -66,17 +48,16 @@ class ChartsPage extends React.Component {
        
           fetch('/api/accounts/graphs?chart='+obj, {method:'GET'}) 
             .then(res => res.json())   
-            .then(res => {
-                console.log("res",res.Weight);
+            .then(json => {
+                console.log("json",json.Weight);
                 this.setState({
-                      weight:res.Weight,
-                      height:res.Height,
-                      Age:res.Age,
-                      FatFreeBodyMass:res.FatFreeBodyMass
+                      weight:json.Weight,
+                      height:json.Height,
+                      Age:json.Age,
+                      FatFreeBodyMass:json.FatFreeBodyMass
 
                     });
                
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
                // console.log("Height",items);
     
             });

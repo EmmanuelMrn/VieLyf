@@ -60,11 +60,7 @@ if (isDev) {
   });
 }
 
-<<<<<<< HEAD
 app.listen(port, 'localhost', (err) => {
-=======
-app.listen(port, '0.0.0.0', (err) => {
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
   if (err) {
     console.log(err);
   }

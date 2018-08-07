@@ -1,7 +1,5 @@
 
 import React, { Component } from 'react';
-<<<<<<< HEAD
-=======
 import Datetime from 'react-datetime';
 import 'whatwg-fetch';
 import {
@@ -9,7 +7,6 @@ import {
 } from '../../utils/storage';
 
 
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
 
 
 class CorporalAnalysis extends Component {
@@ -33,13 +30,6 @@ class CorporalAnalysis extends Component {
       LSTMineral:'',
       TBWProtein:'',
       TBWMineral:'',
-<<<<<<< HEAD
-      TBWBodyFat:''
-    };
-    this.onTextBoxChange = this.onTextBoxChange.bind(this);
-    this.onUpdateCorpA= this.onUpdateCorpA.bind(this);
-}
-=======
       TBWBodyFat:'',
       BodyMassIndex:'',
       BodyFat:'',
@@ -53,7 +43,6 @@ class CorporalAnalysis extends Component {
 handleDate(date){
   this.setState({date}); 
 };
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
 onTextBoxChange(event)
 {
   const {name, value} = event.target;
@@ -67,10 +56,7 @@ onUpdateCorpA()
 {
   const {
 
-<<<<<<< HEAD
     id,
-=======
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
     height,
     weight,
     Age,
@@ -82,18 +68,11 @@ onUpdateCorpA()
     LSTMineral,
     TBWProtein,
     TBWMineral,
-<<<<<<< HEAD
-    TBWBodyFat
-
-    }=this.state;
-    console.log(this.state);
-=======
     TBWBodyFat,
     date
 
     }=this.state;
     console.log(date);
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
     this.setState({
       isLoading:true
      });
@@ -105,11 +84,7 @@ onUpdateCorpA()
     }, 
     body : JSON.stringify({
       
-<<<<<<< HEAD
-      id: id,
-=======
       id: this.state.id,
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
       Weight:weight,
       Height:height,
       Age:Age,
@@ -121,12 +96,8 @@ onUpdateCorpA()
       LSTMineral:LSTMineral,
       TBWProtein:TBWProtein,
       TBWMineral:TBWMineral,
-<<<<<<< HEAD
-      TBWBodyFat:TBWBodyFat
-=======
       TBWBodyFat:TBWBodyFat,
       date:date
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
     }),
 })
     .then(res => res.json())
@@ -148,12 +119,8 @@ onUpdateCorpA()
           LSTMineral:'',
           TBWProtein:'',
           TBWMineral:'',
-<<<<<<< HEAD
-          TBWBodyFat:''
-=======
           TBWBodyFat:'',
           date:'',
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
         });
       
       }
@@ -167,10 +134,6 @@ onUpdateCorpA()
 
 
 }
-<<<<<<< HEAD
-  render()
-  {
-=======
 componentDidMount()
 {
   const clientSelectedObj = getFromStorage('myClient');
@@ -180,7 +143,6 @@ componentDidMount()
   render()
   {
     
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
       const {
          
         corpFirstname,
@@ -198,56 +160,6 @@ componentDidMount()
           TBWProtein,
           TBWMineral,
           TBWBodyFat,
-<<<<<<< HEAD
-          isLoading
-      } = this.state;
- // if(isLoading)
-   //{
-     return(   
-  <div>
-       <p>Fill the client information</p><br />
-       
-       <input type="text" name="corpFirstname" placeholder="First Name" value ={corpFirstname} onChange={this.onTextBoxChange}/>
-       <input type="text" name ="corpLastName" placeholder="Last  Name" value ={corpLastName}  onChange={this.onTextBoxChange}/>
-       <input type="text" name="id" placeholder={id} value={id} onChange={this.onTextBoxChange}/><br />
-       <input type="text" name="height" placeholder="Height" value ={height} onChange={this.onTextBoxChange}/><br />
-       <input type="text" name ="weight" placeholder="Weight" value ={weight} onChange={this.onTextBoxChange}/>
-       <input type="text" name="Age" placeholder="Age" value={Age} onChange={this.onTextBoxChange}/>
-        <div className="container">
-        <div className="row">
-         <div className="col-12"> <h3>Composicion Corporal</h3></div>
-          <div className="col-12">
-          <input type="text"  className="p-3 mb-2 bg-success text-white" name =" weight" placeholder="Weight" value ={weight} onChange={this.onTextBoxChange}/>
-          </div>
-          <div >
-          <input type="text" className="p-3 mb-5 bg-success text-white" name ="FatFreeBodyMass" placeholder="Fat-Free Body Mass" value ={FatFreeBodyMass} onChange={this.onTextBoxChange}/>
-          </div>
-          <div className="col-8">
-          <input  type="text" className="p-3 mb-5 bg-success text-white" name="FFBMBodyFat" placeholder="FFBM Body Fat" value ={FFBMBodyFat} onChange={this.onTextBoxChange}/>
-            </div>
-            <div>
-          <input type="text" className="p-3 mb-5 bg-success text-white" name="LeanSoftTissue" placeholder="Lean Soft Tissue" value ={LeanSoftTissue} onChange={this.onTextBoxChange}/>
-            </div>
-            <div>
-          <input type="text" className="p-3 mb-5 bg-success text-white" name ="LSTMineral" placeholder="Mineral" value ={LSTMineral} onChange={this.onTextBoxChange}/>
-            </div>
-            <div className="col-6">
-          <input type="text" className="p-3 mb-5 bg-success text-white" name ="LSTBodyFat" placeholder="Body Fat" value ={LSTBodyFat} onChange={this.onTextBoxChange}/>
-            </div>
-            <div>
-          <input type="text" className="p-3 mb-5 bg-success text-white" name="TotalBodyWater" placeholder="Total Body Water" value ={TotalBodyWater} onChange={this.onTextBoxChange}/>
-            </div>
-            <div>
-          <input type="text" className="p-3 mb-5 bg-success text-white" name="TBWProtein" placeholder="Protein" value ={TBWProtein} onChange={this.onTextBoxChange}/>
-            </div>
-            <div>
-          <input type="text" className="p-3 mb-5 bg-success text-white" name ="TBWMineral" placeholder="Mineral" value ={TBWMineral} onChange={this.onTextBoxChange}/>
-            </div>
-            <div>
-          <input type="text" className="p-3 mb-5 bg-success text-white" name="TBWBodyFat" placeholder="Body Fat" value ={TBWBodyFat} onChange={this.onTextBoxChange}/>
-            </div>
-        </div>
-=======
           BodyMassIndex,
           BodyFat,
           FatFreeMass,
@@ -312,7 +224,6 @@ componentDidMount()
             </div>
 
       
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
         <button onClick={this.onUpdateCorpA}>Save</button>
         {/*<button onClick={this.logout}>logout</button> */}
       </div>

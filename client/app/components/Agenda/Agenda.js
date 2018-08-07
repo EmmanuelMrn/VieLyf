@@ -7,11 +7,7 @@ import 'moment/locale/es';
 import {
   getFromStorage,
 } from '../../utils/storage';
-<<<<<<< HEAD
-// import { METHODS } from 'http';
-=======
 import { METHODS } from 'http';
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
 
 var now = new Date();
 
@@ -135,11 +131,6 @@ removeEvent(items , item){
 }
 
 addNewEvent (items , newItems){
-<<<<<<< HEAD
-  console.log('new items',newItems);
-  console.log('items', items);
-=======
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
   this.setState({showModal:false ,selected:[] , items:items});
   this._closeModal();
 }

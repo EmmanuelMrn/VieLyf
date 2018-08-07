@@ -21,30 +21,14 @@ class CatalogueNutriologist extends Component {
       Nutritionists:[],
       isActive:null,
       activeModal:null
-<<<<<<< HEAD
-
-    
-    };
-    this.clickHandler =this.clickHandler.bind(this);
-    this.hideModal = this.hideModal.bind(this);
-    //this.toggleModal = this.toggleModal.bind(this);
-=======
     };
 
     this.clickHandler =this.clickHandler.bind(this);
     this.hideModal = this.hideModal.bind(this);
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
 
   }
   clickHandler(e, index) {
     this.setState({ activeModal: index })
-<<<<<<< HEAD
-}
-hideModal() {
-  this.setState({ activeModal: null })
-}
-
-=======
   }
 
   hideModal() {
@@ -68,7 +52,6 @@ hideModal() {
       }),
     })
   }
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
 
   componentDidMount(){
   fetch('/api/accounts/nutritionistcatalog', {method:'GET'})
@@ -78,20 +61,10 @@ hideModal() {
         this.setState({
           Nutritionists:json
         });
-<<<<<<< HEAD
-        
-        
-      
-    });
-  }
-  toggleModal()
-  {
-=======
     });
   }
 
   toggleModal(){
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
     this.setState({
       isActive:!this.state.isActive
     });
@@ -118,38 +91,22 @@ render()
               <div className="card-body">
            
                    <h5 className="card-title"> {nutritionist.FirstName}</h5>
-<<<<<<< HEAD
-                    <Modal id= {nutritionist} isOpen={that.state.activeModal == index} onRequestClose={that.hideModal} style={customStyles}>
-=======
                     <Modal id= {nutritionist} isOpen={that.state.activeModal == index} onRequestClose={that.hideModal} ariaHideApp={false} style={customStyles}>
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
                     
                     {nutritionist.LastName}<br />
                     {nutritionist.Role}<br />
                     {nutritionist.Email}<br />
                     {nutritionist.Phone}<br />
-<<<<<<< HEAD
-                    </Modal>
-                    <button  id={nutritionist} onClick={e => that.clickHandler(e,index)}>abrir</button>
-                   
-
-=======
                     <button  id={nutritionist} onClick={e => that.requestClientToNutritionist(nutritionist._id)}>Contact</button>
                     </Modal>
                     <button  id={nutritionist} onClick={e => that.clickHandler(e,index)}>abrir</button>
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
             </div>
             </div>
             </div>
             )
             })}
           </div>
-<<<<<<< HEAD
-  )
-
-=======
     )
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
   }
 }
 

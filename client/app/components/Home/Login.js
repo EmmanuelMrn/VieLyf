@@ -1,19 +1,8 @@
-<<<<<<< HEAD
-import React, { Component } from 'react';
-import 'whatwg-fetch';
-import { Link } from 'react-router-dom';
-var vista = ('');
-import {
-  getFromStorage,
-  setInStorage,
-} from '../../utils/storage';
-=======
 import React, { Component } from "react";
 import "whatwg-fetch";
 import { Link } from "react-router-dom";
 var vista = "";
 import { getFromStorage, setInStorage } from "../../utils/storage";
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
 
 class Login extends Component {
   constructor(props) {
@@ -21,17 +10,6 @@ class Login extends Component {
 
     this.state = {
       isLoading: true,
-<<<<<<< HEAD
-      token: '',
-      signUpError: '',
-      loginError: '',
-      loginEmail: '',
-      loginPassword: '',
-      signUpEmail: '',
-      signUpPassword: '',
-      signUpFirstName: '',
-      signUpLastName: ''
-=======
       token: "",
       signUpError: "",
       loginError: "",
@@ -41,7 +19,6 @@ class Login extends Component {
       signUpPassword: "",
       signUpFirstName: "",
       signUpLastName: ""
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
     };
 
     this.onLogin = this.onLogin.bind(this);
@@ -50,11 +27,6 @@ class Login extends Component {
 
     this.handleInputChange = this.handleInputChange.bind(this);
   }
-<<<<<<< HEAD
-  
-=======
-
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
@@ -66,17 +38,10 @@ class Login extends Component {
   }
 
   componentDidMount() {
-<<<<<<< HEAD
-    const obj = getFromStorage('the_main_app');
-    if (obj && obj.token) {
-      const { token } = obj;
-      fetch('/api/account/verify?token=' + token)
-=======
     const obj = getFromStorage("the_main_app");
     if (obj && obj.token) {
       const { token } = obj;
       fetch("/api/account/verify?token=" + token)
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
         .then(res => res.json())
         .then(json => {
           if (json.success) {
@@ -84,7 +49,6 @@ class Login extends Component {
               token,
               isLoading: false
             });
-<<<<<<< HEAD
             if (localStorage.hasOwnProperty('email')) {
               fetch('/api/account/isnutriologist?token='+localStorage.getItem('email'))
               .then(res => res.json())
@@ -105,147 +69,11 @@ class Login extends Component {
     } else {
       this.setState({
         isLoading: false,
-=======
-            if (localStorage.hasOwnProperty("email")) {
-              fetch(
-                "/api/account/isnutriologist?token=" +
-                  localStorage.getItem("email")
-              )
-                .then(res => res.json())
-                .then(isnutriologit => {
-                  if (isnutriologit.success) {
-                    //                    setInStorage("userrole", { token: "Nutriologist" });
-
-                    window.location = "/vistacliente";
-                    //window.location=('/vistanutriologo');
-                  } else {
-                    //window.location = "/vistaprincipal";
-                    //                  setInStorage("userrole", { token: "Client" });
-
-                    window.location = "/vistacliente";
-                  }
-                });
-            } else {
-              this.setState({
-                isLoading: false
-              });
-            }
-          }
-        });
-    } else {
-      this.setState({
-        isLoading: false
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
       });
     }
   }
 
   onLogin() {
-<<<<<<< HEAD
-
-    const {
-      loginEmail,
-      loginPassword,
-    } = this.state;
-
-    this.setState({
-      isLoading: true,
-    });
-    
-    fetch('/api/account/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({        
-        Email: loginEmail,
-        Password: loginPassword,
-      }),
-    }).then(res => res.json())
-      .then(json => {
-        localStorage.setItem('email', json.Email)
-        if (json.success) {
-          setInStorage('the_main_app', { token: json.token });
-          this.setState({
-            loginError: json.message,
-            isLoading: false,
-            loginPassword: '',
-            token: json.token,
-          });
-          fetch('/api/account/isnutriologist?token='+ loginEmail)
-            .then(res => res.json())
-            .then(json1 => {
-              if(json1.success){
-                localStorage.setItem('Auth', loginEmail)
-                window.location=('/vistanutriologo');
-                localStorage.setItem('Rol', 'Nutriologo'); 
-              } else {
-                console.log(loginEmail)
-                fetch('/api/account/getuseremail?token='+loginEmail)
-                .then(res => res.json())
-                .then(json2 => {
-                  console.log(json2[0]._id)
-                  
-                  fetch('/api/accounts/getuser?token='+json2[0]._id)
-                  .then(res => res.json())
-                  .then(json3 => {
-                    console.log("+===+")
-                    console.log(json3)
-                    console.log(json3.doc)
-                    console.log(json3.doc.Nutritionist_id)
-                    fetch('/api/account/getuserbyid?token='+json3.doc.Nutritionist_id)
-                    .then(res => res.json())
-                    .then(json4 => {
-                      console.log(json4[0].Email)
-                      localStorage.setItem('AssignedNutriologist', json4[0].Email)
-                      console.log(localStorage.getItem('AssignedNutriologist'))
-                    })
-                  })       
-                })
-                localStorage.setItem('Rol', 'Cliente');  
-                window.location=('/vistacliente');
-              }
-            });    
-        } else {
-          this.setState({
-            loginError: json.message,
-            isLoading: false,
-          });
-        }
-      });
-      this.setState({
-        loginEmail: '',
-      });
-  }
-
-  onEditProfile() {
-    const {signUpEmail, signUpFirstName, signUpLastName, signUpPassword} = this.state;
-      fetch('/api/account/editprofile?token='+signUpEmail+'&token2='+signUpFirstName+'&token3='+signUpLastName+'&token4='+signUpPassword+'')
-        .then(res => res.json())
-        .then(json6 => {
-          if (json6.success) {
-            this.setState({
-              token,
-              isLoading: false
-            });
-          } else {
-            this.setState({
-              isLoading: false,
-            });
-          }
-        }); 
-}
-  
-  logout() {
-    this.setState({
-      isLoading: true,
-    });
-    const obj = getFromStorage('the_main_app');
-    if (obj && obj.token) {
-      const { token } = obj;
-      // Verify token
-      fetch('/api/account/logout?token=' + token)
-=======
     const { loginEmail, loginPassword } = this.state;
    
     this.setState({
@@ -364,35 +192,22 @@ class Login extends Component {
       const { token } = obj;
       // Verify token
       fetch("/api/account/logout?token=" + token)
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
         .then(res => res.json())
         .then(json => {
           if (json.success) {
             this.setState({
-<<<<<<< HEAD
-              token: '',
-=======
               token: "",
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
               isLoading: false
             });
           } else {
             this.setState({
-<<<<<<< HEAD
-              isLoading: false,
-=======
               isLoading: false
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
             });
           }
         });
     } else {
       this.setState({
-<<<<<<< HEAD
         isLoading: false,
-=======
-        isLoading: false
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
       });
     }
   }
@@ -407,7 +222,6 @@ class Login extends Component {
     } = this.state;
 
     if (isLoading) {
-<<<<<<< HEAD
       return (<div><p>Loading...</p></div>);
     }
 
@@ -427,7 +241,7 @@ class Login extends Component {
     return (
       <div>
         <section className="login-block">
-          <div className="container">
+          <div  className="container container2">
             <div className="row">
               <div className="col-md-4 login-sec">
                 <h2 className="text-center" style={{color: '#00c851'}}>Welcome back!</h2>
@@ -493,84 +307,7 @@ class Login extends Component {
         </section> 
       </div> 
     );
-=======
-      return (
-        <div>
-          <p>Loading...</p>
-        </div>
-      );
-    }
-
-    if (!token) {
-      return (
-        <div>
-          <div>
-            {loginError ? <p>{loginError}</p> : null}
-            <h1>Log In</h1>
-            <input
-              name="loginEmail"
-              type="text"
-              placeholder="Email"
-              value={loginEmail}
-              onChange={this.handleInputChange}
-            />
-            <br />
-            <input
-              type="password"
-              name="loginPassword"
-              placeholder="Password"
-              value={loginPassword}
-              onChange={this.handleInputChange}
-            />
-            <br />
-            <button
-              type="button"
-              className="btn btn-dark"
-              onClick={this.onLogin}
-            >
-              Log In
-            </button>
-          </div>
-        </div>
-      );
-    }
-
-    return <div />;
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
   }
 }
 
 export default Login;
-<<<<<<< HEAD
-
-// {document.write(new Date().getFullYear())}
-
-// <div>
-        //   <div>
-        //     {
-        //       (loginError) ? (
-        //         <p>{loginError}</p>
-        //       ) : (null)
-        //     }
-        //     <h1>Log In</h1>
-        //     <input
-        //       name="loginEmail"
-        //       type="text"
-        //       placeholder="Email"
-        //       value={loginEmail}
-        //       onChange={this.handleInputChange}
-        //     />
-        //     <br />
-        //     <input
-        //       type="password"
-        //       name="loginPassword"
-        //       placeholder="Password"
-        //       value={loginPassword}
-        //       onChange={this.handleInputChange}
-        //     />
-        //     <br />
-        //     <button type="button" className="btn btn-dark" onClick={this.onLogin}>Log In</button>
-        //   </div>
-        // </div>
-=======
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63

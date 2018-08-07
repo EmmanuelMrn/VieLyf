@@ -1,35 +1,9 @@
-<<<<<<< HEAD
-import React, { Component } from 'react';
-
-=======
 import React, { Component } from "react";
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
 
 class NutritionalBlog extends Component {
   constructor(props) {
     super(props);
 
-<<<<<<< HEAD
-    this.state = {
-    };
-
-  }
-  
-  render() {
-    const {
-
-    } = this.state;
-
-    return (
-      <div className="container">
-        <h1>Nutritional Blog</h1>
-        <p>In this place will be the Nutriotional Blog, but theres nothing here yet, come back later bro</p>
-      </div>);
-  }
-}
-
-export default NutritionalBlog;
-=======
     this.state = {};
   }
 
@@ -528,4 +502,3 @@ export default NutritionalBlog;
 }
 
 export default NutritionalBlog;
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63

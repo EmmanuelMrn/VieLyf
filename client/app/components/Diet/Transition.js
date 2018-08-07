@@ -28,10 +28,6 @@ ActionLink(client) {
     setClientInStorage('myClient', client);
     window.location=('/diet');
   }
-<<<<<<< HEAD
-  return (
-    <a  className="btn btn-success"  id={client} onClick={handleClick} >Abrir</a>
-=======
   function handleClickC(e)
   {
     e.preventDefault();
@@ -44,7 +40,6 @@ ActionLink(client) {
     <a  className="btn btn-success"  id={client} onClick={handleClick} >Abrir</a>
     <a  className="btn btn-success"  id={client} onClick={handleClickC} >Corporral Analysis</a>
     </div>
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
   );
 }
 componentDidMount() {

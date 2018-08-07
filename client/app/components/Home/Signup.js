@@ -7,10 +7,6 @@ import {
   getFromStorage,
   setInStorage,
 } from '../../utils/storage';
-<<<<<<< HEAD
-import { join } from 'path';
-=======
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
 const customStyles = {
   content : {
     top                   : '50%',
@@ -35,10 +31,7 @@ class Signup extends Component {
       signUpEmail: '',
       signUpPassword: '',
       signUpFirstName: '',
-<<<<<<< HEAD
       signUpUserName: '',
-=======
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
       isActive: false,
       signUpLastName: '',
       profFirstName:'',
@@ -232,10 +225,7 @@ class Signup extends Component {
       signUpEmail,
       signUpPhone,
       signUpPassword,
-<<<<<<< HEAD
       signUpUserName,
-=======
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
     } = this.state;
 
     this.setState({
@@ -254,10 +244,7 @@ class Signup extends Component {
         Email: signUpEmail,
         Password: signUpPassword,
         Phone: signUpPhone,
-<<<<<<< HEAD
         UserName: signUpUserName,
-=======
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
         Role:'Client'
       }),
     }).then(res => res.json())
@@ -269,18 +256,12 @@ class Signup extends Component {
             isLoading: false,
             signUpFirstName: '',
             signUpLastName: '',
-<<<<<<< HEAD
             signUpUserName: '',
-=======
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
             signUpEmail: '',
             signUpPassword: '', 
             signUpPhone: ''
           });
-<<<<<<< HEAD
           window.location=('/login')
-=======
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
         } else {
           this.setState({
             signUpError: json.message,
@@ -290,11 +271,8 @@ class Signup extends Component {
       });
   }
 
-<<<<<<< HEAD
   
 
-=======
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
   render() {
     const {
       isLoading,
@@ -302,10 +280,7 @@ class Signup extends Component {
       signUpEmail,
       signUpFirstName,
       signUpLastName,
-<<<<<<< HEAD
       signUpUserName,
-=======
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
       signUpPassword,
       signUpError,
       signUpPhone,
@@ -319,7 +294,6 @@ class Signup extends Component {
       License ,
     } = this.state;
 
-<<<<<<< HEAD
     // if (isLoading) {
     //   return (<div><p>Loading...</p></div>);
     // }
@@ -342,7 +316,7 @@ class Signup extends Component {
           
 <div>
         <section className="login-block" style={{padding: '100px'}}>
-          <div className="container">
+          <div className="container container2">
             <div className="row">
               <div className="col-md-4 login-sec">
                 {userMessage}
@@ -422,57 +396,6 @@ class Signup extends Component {
           </div>
         </section> 
 
-=======
-    if (isLoading) {
-      return (<div><p>Loading...</p></div>);
-    }
-
-    if (!token) {
-      return (
-          <div>
-            {
-              (signUpError) ? (
-                <p>{signUpError}</p>
-              ) : (null)
-            }
-            <h1>Sign Up</h1>
-            <input
-              type="firstName"
-              name="signUpFirstName"
-              placeholder="First Name"
-              value={signUpFirstName}
-              onChange={this.handleInputChange}
-            /><br />
-            <input
-              type="lastName"
-              name="signUpLastName"
-              placeholder="Last Name"
-              value={signUpLastName}
-              onChange={this.handleInputChange}
-            /><br />
-            <input
-              type="text"
-              name="signUpPhone"
-              placeholder="Phone"
-              value={signUpPhone}
-              onChange={this.handleInputChange}
-            /><br />
-            <input
-              type="email"
-              name="signUpEmail"
-              placeholder="Email"
-              value={signUpEmail}
-              onChange={this.handleInputChange}
-            /><br />
-            <input
-              type="password"
-              name="signUpPassword"
-              placeholder="Password"
-              value={signUpPassword}
-              onChange={this.handleInputChange}
-            /><br />
-          <input type="checkbox" value="Nutriologo" checked={false} onChange={this.toggleModal}/>Nutritionist<br/>
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
           <Modal isOpen={this.state.isActive} onRequestClose={this.toggleModal}style ={customStyles}>
           <input type="text" name ="License" placeholder="Cedula Profesional" value ={License} onChange={this.handleInputChange}/> <button onClick={() => this.verify()}>Verificar</button><br />
           <input type="text" name = "profFirstName"placeholder="Nombre" value ={profFirstName} onChange={this.handleInputChange}readOnly/><br />
@@ -482,19 +405,10 @@ class Signup extends Component {
           <input type="text" name = "profPhone" placeholder="Phone" value = {profPhone} onChange={this.handleInputChange}/><br />
           <input type="email" name = "profEmail" placeholder="email" value = {profEmail} onChange={this.handleInputChange}/><br />
           <input type="password" name= "profPassword" placeholder="password" value = {profPassword}onChange={this.handleInputChange}/><br />
-<<<<<<< HEAD
           <button onClick={this.toggleModal}>Cancel</button>
           <button onClick={this.onProfSignUp}>Sign me up!</button>
           </Modal>
       </div>           
-=======
-         
-          <button onClick={this.toggleModal}>Cancel</button>
-          <button onClick={this.onProfSignUp}>Sign me up!</button>
-          </Modal>
-            <button type="button" className="btn btn-dark" onClick={this.onSignUp}>Sign Up</button>
-          </div>
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
       );
     }
   }

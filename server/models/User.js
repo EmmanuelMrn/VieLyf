@@ -9,13 +9,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
-<<<<<<< HEAD
   UserName: {
     type: String,
     default: ''
   },
-=======
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
   Email: {
     type: String,
     default: ''

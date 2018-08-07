@@ -1,23 +1,5 @@
 const User = require('../../models/User');
 const BodyAnalysis = require('../../models/BodyAnalysis');
-<<<<<<< HEAD
-module.exports=(app) => {
-app.get('/api/accounts/nutritionistcatalog',(req,res,next)=>{
-    //get the chart Id
-    const {query}=req;
-    const {chart}=query;
-  //  return res.send
-  
-   User.find({'Role':'Nutritionist'}, (err, doc)  => {
-    //console.log(doc); 
-    // if(err)
-    //  return res.send(err);
-   
-    return res.json(doc);
-   });
-
-});
-=======
 const PatientRequest = require('../../models/PatientRequest');
 module.exports=(app) => {
 
@@ -56,5 +38,4 @@ module.exports=(app) => {
         }
     });
   });
->>>>>>> 4ecec229019d023c9c214ad60ea439fedb3adf63
 }
