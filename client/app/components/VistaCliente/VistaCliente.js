@@ -374,7 +374,7 @@ class VistaCliente extends Component {
         		<div class="col-md-8">
         			<br />
         			<ul class="list-group list-primary">
-                        <a class="list-group-item">First Name: {user.FirstName}</a>
+                <a class="list-group-item">First Name: {user.FirstName}</a>
         				<a class="list-group-item">Last Name: {user.LastName}</a>
         				<a class="list-group-item">Phone: {user.Phone}</a>
         				<a class="list-group-item">Email: {user.Email}</a>
@@ -458,10 +458,11 @@ class VistaCliente extends Component {
                 />
               </div>
               <div className="col-md-3">
-                <p>Nombre: </p>
-                <p>Título: </p>
-                <p>Telefóno: </p>
-                <p>Correo: </p>
+                <ul class="list-group list-primary">
+                  <a class="list-group-item">First Name: {user.FirstName} {user.LastName}</a>
+                  <a class="list-group-item">Phone: {user.Phone}</a>
+                  <a class="list-group-item">Email: {user.Email}</a>
+    				    </ul>
               </div>
             </div>
 
