@@ -89,17 +89,13 @@ var num = this.state.cellHeight - 15
     this.setState({cellHeight:num})
   }
 
-  handleDateRangeChange (startDate, endDate) {
-      this.setState({startDate:startDate })
+handleDateRangeChange (startDate, endDate) {
+    this.setState({startDate:startDate })
+}
 
-  }
-
-  handleRangeSelection (selected) {
-
-
-this.setState({selected:selected , showCtrl:true})
-this._openModal();
-
+handleRangeSelection (selected) {
+  this.setState({selected:selected , showCtrl:true})
+  this._openModal();
 }
 
 _openModal(){
@@ -115,8 +111,8 @@ _closeModal(e){
 }
 
 handleItemChange(items , item){
-console.log('testfqefqefq');
-this.setState({items:items})
+  console.log('testfqefqefq');
+  this.setState({items:items})
 }
 
 handleItemSize(items , item){
