@@ -9,21 +9,35 @@ export function getFromStorage(key) {
             return JSON.parse(valueStr);
         }
         return null;
-    return null;
     } catch (err) {
         null
     }
 }
 
-export function setInStorage(key,obj) {
+export function setInStorage(key,Email) {
     if (!key) {
         console.error('Error, llave perdida');
     }
 
     try {
-        localStorage.setItem(key, JSON.stringify(obj));
+        localStorage.setItem(key, JSON.stringify(Email));
+        // console.log(JSON.stringify(Email));
+
     } catch (err)
     {
         console.error('Error')
     }
+}
+    export function setClientInStorage(key,Client) {
+        if (!key) {
+            return null;
+        }
+    
+        try {
+            localStorage.setItem(key, JSON.stringify(Client));
+            console.log(JSON.stringify(Client));
+        } catch (err) {
+            console.error('Error')
+        }
+    
 }
