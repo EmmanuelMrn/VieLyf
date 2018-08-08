@@ -134,25 +134,11 @@ class VistaNutriologo extends Component {
     window.location=('/login')
   }
 
-  aceptar() { 
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    });
-    console.log(name)
-  }
-
   handleClick() {
     this.setState(prevState => ({
       isToggleOn: !prevState.isToggleOn
     }));
     console.log(isToggleOn)
-  }
-
-  negar() { 
   }
 
   render() {
@@ -166,6 +152,10 @@ class VistaNutriologo extends Component {
     } = this.state;
 
     var ClientsData = Array.from(this.state.items);
+
+    function assigna() {
+      console.log('test' + a);
+    }
     
     return (
       <div>
@@ -178,7 +168,7 @@ class VistaNutriologo extends Component {
                     <Link to="/diet" className="btn btn-dark">Crear Dieta</Link>
                     <Link to="/agenda" className="btn btn-dark">Agenda</Link>
                     {/* <br/> */}
-                    <button type="button" className="btn btn-dark" onClick={this.logout}>Cerrar sesion</button>            
+                    <button type="button" className="btn btn-dark" onClick={this.logout}>Cerrar sesion</button>
                 </div>
             </div>
 
@@ -196,35 +186,45 @@ class VistaNutriologo extends Component {
 
 
      
-        <div className="col-md-3 right_sidebar_area">
+            <div className="col-md-3 right_sidebar_area">
               <aside className="right_widget r_news_widget">
                   <div className="r_w_title">
                       <h3>Noticias recientes</h3>
                   </div>
                   <div className="news_inner">
-                  { ClientsData.map(function(client, aceptar, negar, handleClick, isToggleOn){
+                  
+                  { ClientsData.map(function( client, logout, aceptar, negar, handleClick, isToggleOn){
+                    
+                    
+
                     var dia = new Date(client.startDateTime).getDay();
                     var anio = new Date(client.startDateTime).getFullYear();
                     var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
                     var diferencia = new Date(client.startDateTime).getHours() - new Date(client.endDateTime).getHours();
-                    console.log(moment.duration(diferencia, "hours").humanize())
+
                       return( 
                         <div key={client._id} className="news_item">
                             <a><h4>{client.name}</h4></a>
                             <a><h6>{"Para: "+dia+ " de " + monthMinusOneName + " del " + anio}</h6></a>
                             <a><h6>{"Con una duracion de "+moment.duration(diferencia, "hours").humanize()}</h6></a>
-                            {/* <button type="button" name="qfefqf" className="btn btn-dark" onClick={aceptar}>Aceptar</button>
-                            <button type="button" name="qfefqf" className="btn btn-dark" onClick={negar}>Negar</button> */}
-                             <button onClick={handleClick}>
-                            test
-                            </button> 
+                            <br/>
+                            <button type="button" name='123' className="btn btn-dark" 
+                            onClick={
+                              function assigna() {
+                              console.log('test '+client._id)
+                            }}>Aceptar</button>
+                            <button type="button" name='123' className="btn btn-dark" 
+                            onClick={
+                              function assigna() {
+                              console.log('test '+client._id)
+                            }}>negar</button>
                         </div>
-                        
                         )
                     })}
-                    </div>
-                    </aside>
-                          </div>
+
+                  </div>
+                </aside>
+              </div>
 
            
 

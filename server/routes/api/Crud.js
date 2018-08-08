@@ -25,6 +25,14 @@ const Agenda = require('../../models/Agenda');
                });
         });
 
+        app.get("/api/account/acceptappointment", (req, res, next)=> {
+
+            Agenda.find({ _id: req.query.token}, (err, doc)  => {
+                console.log(doc);
+                return res.send(doc);
+               });
+        });
+
 
         app.get("/api/account/editprofile", (req, res, next) => {
             var status = "success";
