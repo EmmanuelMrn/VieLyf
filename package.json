@@ -39,6 +39,7 @@
     "mongoose": "^5.0.11",
     "node-sass": "^4.9.2",
     "nodemon": "^1.18.3",
+    "npm": "^6.3.0",
     "postcss-loader": "^2.1.3",
     "react": "^16.4.1",
     "react-addons-pure-render-mixin": "^15.6.2",
