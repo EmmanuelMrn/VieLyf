@@ -125,19 +125,19 @@ class Home extends Component {
 
             <div className="img-bg3">
             <div className="container TitleBlog-containers">
-              <h4>Healthy Blog</h4>
+              <h3 style={{color: "rgba(232, 246, 247, 0.863)"}}>Healthy Blog</h3>
               <hr width= "50%"/>
             </div>
             <div className="container">
               <div className="col-md-8 offset-md-2">
                 <font color="White" size="4">
-                  <p align="justify" >
+                  <p align="justify">
                     Encuentra las noticias mas relevantes para tu nuevo estilo de vida mas saludable
                     mira tendencias y recomendaciones a diario 
                   </p>
                 </font>
               </div>
-              <a className="btn btn-danger" id="BtnGo"href="/catalogueNutriologist">Go Blog</a>
+              <a className="btn btn-danger" id="BtnGo"href="/NutritionalBlog">Go Blog</a>
             </div>
           </div> 
 
