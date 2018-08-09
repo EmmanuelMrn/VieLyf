@@ -92,7 +92,7 @@ class Header extends Component {
 
     var ClientsData = Array.from(this.state.items);
 
-    if (isActive) {
+    if (isActive && localStorage.getItem('Rol') == "Cliente" ) {
       return (
         <header>
           <nav className="navbar navbar-expand navbar-dark bg-dark static-top">
