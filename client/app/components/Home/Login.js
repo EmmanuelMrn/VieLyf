@@ -120,21 +120,14 @@ class Login extends Component {
                 fetch('/api/account/getuseremail?token='+loginEmail)
                 .then(res => res.json())
                 .then(json2 => {
-                  console.log(json2[0]._id)
-                  
                   fetch('/api/accounts/getuser?token='+json2[0]._id)
                   .then(res => res.json())
                   .then(json3 => {
-                    console.log("+===+")
-                    console.log(json3)
-                    console.log(json3.doc)
-                    console.log(json3.doc.Nutritionist_id)
                     fetch('/api/account/getuserbyid?token='+json3.doc.Nutritionist_id)
                     .then(res => res.json())
                     .then(json4 => {
                       console.log(json4[0].Email)
                       localStorage.setItem('AssignedNutriologist', json4[0].Email)
-                      console.log(localStorage.getItem('AssignedNutriologist'))
                     })
                   })       
                 })
@@ -230,7 +223,7 @@ class Login extends Component {
     return (
       <div>
         <section className="login-block">
-          <div className="container">
+          <div className="container container2">
             <div className="row">
               <div className="col-md-4 login-sec">
                 <h2 className="text-center" style={{color: '#00c851'}}>Welcome back!</h2>

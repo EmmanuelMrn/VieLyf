@@ -7,7 +7,6 @@ import {
   getFromStorage,
   setInStorage,
 } from '../../utils/storage';
-import { join } from 'path';
 const customStyles = {
   content : {
     top                   : '50%',
@@ -317,7 +316,7 @@ class Signup extends Component {
           
 <div>
         <section className="login-block" style={{padding: '100px'}}>
-          <div className="container">
+          <div className="container container2">
             <div className="row">
               <div className="col-md-4 login-sec">
                 {userMessage}
