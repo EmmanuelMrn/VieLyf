@@ -57,7 +57,18 @@ export default class Agenda extends Component {
       .then(res => res.json())
       .then(json1 => {
         this.setState({
-          items : json1,
+          items : [
+            {
+              "classes": json1.classes,
+              "Nutriologist_id": json1.Nutriologist_id,
+              "pending": json1.pending,
+              "_id": json1._id,
+              "name": json1.name,
+              "startDateTime": new Date(json1.startAtTime),
+              "endDateTime": new Date(json1.endDateTime),
+              "__v": 0
+          }
+          ],
         });
       });      
   }
