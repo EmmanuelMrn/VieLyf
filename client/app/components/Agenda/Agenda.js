@@ -66,8 +66,8 @@ export default class Agenda extends Component {
               "name": json1.name,
               "startDateTime": new Date(json1.startAtTime),
               "endDateTime": new Date(json1.endDateTime),
-              "__v": 0
-          }
+              "__v": json1.__v
+            }
           ],
         });
       });      
