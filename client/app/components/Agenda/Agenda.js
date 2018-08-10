@@ -56,19 +56,24 @@ export default class Agenda extends Component {
     fetch('/api/account/agendaarray?token='+localStorage.getItem('Auth'), {method:'GET'})
       .then(res => res.json())
       .then(json1 => {
+        
+       array.forEach(json1 => {
+         console.log(json1._id);
+       });
+        console.log(item1)
         this.setState({
           items : [
-            {
-              "classes": json1.classes,
-              "Nutriologist_id": json1.Nutriologist_id,
-              "pending": json1.pending,
-              "_id": json1._id,
-              "name": json1.name,
-              "startDateTime": new Date(json1.startAtTime),
-              "endDateTime": new Date(json1.endDateTime),
-              "__v": 0
-          }
-          ],
+              {
+                "classes": json1.classes,
+                "Nutriologist_id": json1.Nutriologist_id,
+                "pending": json1.pending,
+                "_id": json1._id,
+                "name": json1.name,
+                "startDateTime": new Date(json1.startAtTime),
+                "endDateTime": new Date(json1.endDateTime),
+                "__v": json1.__v
+            }
+          ]
         });
       });      
   }
@@ -142,8 +147,6 @@ removeEvent(items , item){
 }
 
 addNewEvent (items , newItems){
-  console.log('new items',newItems);
-  console.log('items', items);
   this.setState({showModal:false ,selected:[] , items:items});
   this._closeModal();
 }
