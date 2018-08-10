@@ -110,32 +110,23 @@ class Login extends Component {
                 //  window.location = "/vistanutriologo";
                 localStorage.setItem("Rol", "Nutriologo");
               } else {
-                var getuser;
-                fetch("/api/account/getuseremail?token=" + loginEmail)
+                console.log(loginEmail)
+                fetch('/api/account/getuseremail?token='+loginEmail)
+                .then(res => res.json())
+                .then(json2 => {
+                  fetch('/api/accounts/getuser?token='+json2[0]._id)
                   .then(res => res.json())
-                  .then(json2 => {
-                    localStorage.setItem('clientID', json2[0]._id);
-                    fetch("/api/accounts/getuser?token=" + json2[0]._id)
-                      .then(res => res.json())
-                      .then(json3 => {
-                        fetch(
-                          "/api/account/getuserbyid?token=" +
-                            json3.Nutritionist_id
-                        )
-                          .then(res => res.json())
-                          .then(json4 => {
-                            console.log("hola");
-                            console.log(json4);
-                            localStorage.setItem(
-                              "AssignedNutriologist",
-                              json4[0].Email
-                            );
-                          });
-                      });
-                  });
-                localStorage.setItem("Rol", "Cliente");
-                //    window.localtion = "/vistaprincipal";
-                window.location = "/vistacliente";
+                  .then(json3 => {
+                    fetch('/api/account/getuserbyid?token='+json3.doc.Nutritionist_id)
+                    .then(res => res.json())
+                    .then(json4 => {
+                      console.log(json4[0].Email)
+                      localStorage.setItem('AssignedNutriologist', json4[0].Email)
+                    })
+                  })       
+                })
+                localStorage.setItem('Rol', 'Cliente');  
+                window.location=('/vistacliente');
               }
             });
         } else {
@@ -227,21 +218,13 @@ class Login extends Component {
 
     // if (!token) {
     //   return (
-        
-        
-
-
-
-
-
-        
     //   );
     // }
 
     return (
       <div>
         <section className="login-block">
-          <div  className="container container2">
+          <div className="container container2">
             <div className="row">
               <div className="col-md-4 login-sec">
                 <h2 className="text-center" style={{color: '#00c851'}}>Welcome back!</h2>

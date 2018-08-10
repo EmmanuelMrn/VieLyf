@@ -243,40 +243,6 @@ module.exports = (app) => {
     );
   });
 
-  app.get("/api/account/verify", (req, res, next) => {
-    // Obtener el token
-    const { query } = req;
-    const { token } = query;
-
-    UserSession.find(
-      {
-        _id: token,
-        isDeleted: false
-      },
-      (err, sessions) => {
-        if (err) {
-          console.log(err);
-          return res.send({
-            success: false,
-            message: "Error: Server error"
-          });
-        }
-        if (sessions.length != 1) {
-          return res.send({
-            success: false,
-            message: "Error: Invalid"
-          });
-        } else {
-          // DO ACTION
-          return res.send({
-            success: true,
-            message: "Good"
-          });
-        }
-      }
-    );
-  });
-
   app.post("/api/account/login", (req, res, next) => {
     const { body } = req;
     const { Password } = body;

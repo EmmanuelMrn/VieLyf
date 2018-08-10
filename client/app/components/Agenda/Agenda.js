@@ -57,22 +57,25 @@ export default class Agenda extends Component {
       .then(res => res.json())
       .then(json1 => {
         this.setState({
-          items : [
-            {
-              "classes": json1.classes,
-              "Nutriologist_id": json1.Nutriologist_id,
-              "pending": json1.pending,
-              "_id": json1._id,
-              "name": json1.name,
-              "startDateTime": new Date(json1.startAtTime),
-              "endDateTime": new Date(json1.endDateTime),
-              "__v": json1.__v
+          items : Object.keys(json1).map(function(key) {
+            [
+              {
+                "classes": json1[key].classes,
+                "Nutriologist_id": json1[key].Nutriologist_id,
+                "pending": json1[key].pending,
+                "_id": json1[key]._id,
+                "name": json1[key].name,
+                "startDateTime": new Date(json1[key].startAtTime),
+                "endDateTime": new Date(json1[key].endDateTime),
+                "__v": json1[key].__v
             }
-          ],
+            ]
+          }, function() {
+            console.log(items)
+          }) ,
         });
       });      
   }
-
 
 componentWillReceiveProps(next , last){
   if(next.items){

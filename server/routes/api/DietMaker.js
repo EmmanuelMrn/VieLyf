@@ -3,32 +3,6 @@ const Diet = require('../../models/Diet');
 const PatientRequest = require('../../models/PatientRequest');
 module.exports=(app) => {
 
- app.post('/api/accounts/newPatientRequest', (req,res,next) =>{
-    const {body } = req;
-    const {
-        Nutritionist_id,
-        Client_id
-    } = body;
-         
-         const newPatientRequest = new PatientRequest();
-        newPatientRequest.Nutritionist_id=Nutritionist_id;
-         newPatientRequest.Client_id=Client_id;
-                
-        newPatientRequest.save((err,nPatient)=>{
-            if(err){
-                return  res.send({
-                success:false,
-                message:'Error',
-                });
-            }else{
-                return  res.send({
-                success:true,
-                message:'Information PatientRequest captured',
-                });
-        }
-    });
-});
-
 app.put('/api/accounts/ModifyStatus',(req,res,next) =>
     {
        var EditStatus = {Status:req.body.status}

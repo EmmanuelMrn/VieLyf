@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import "whatwg-fetch";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import moment from "moment";
+import { getFromStorage, setInStorage } from "../../utils/storage";
 
 class NutritionalBlog extends Component {
   constructor(props) {
@@ -12,6 +16,38 @@ class NutritionalBlog extends Component {
 
     return (
       <div className="container">
+        <meta charset="utf-8" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+
+        <link
+          href="https://fonts.googleapis.com/css?family=Josefin+Sans:300, 400,700"
+          rel="stylesheet"
+        />
+
+        <link
+          href="https://fonts.googleapis.com/css?family=Josefin+Sans:300, 400,700"
+          rel="stylesheet"
+        />
+
+        <link rel="stylesheet" href="../styles/bootstrap.css" />
+        <link rel="stylesheet" href="../styles/animate.css" />
+        <link rel="stylesheet" href="../styles/owl.carousel.min.css" />
+
+        <link
+          rel="stylesheet"
+          href="../../fonts/ionicons/css/ionicons.min.css"
+        />
+        <link
+          rel="stylesheet"
+          href="../../fonts/fontawesome/css/font-awesome.min.css"
+        />
+        <link rel="stylesheet" href="../../fonts/flaticon/font/flaticon.css" />
+
+        <link rel="stylesheet" href="css/style.css" />
+
         <link
           href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
           rel="stylesheet"
@@ -19,18 +55,24 @@ class NutritionalBlog extends Component {
         />
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" />
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" />
-        <h1>Nutritional Blog</h1>
-
-        <section class="details-card">
-          <div class="container">
-            <div class="row">
-              <div class="col-md-4">
-                <div class="card-content">
-                  <div class="card-img">
+        <section class="banner-section" />
+        <div class="col-lg-12 col-md-12 col-sm-12 post-title-block">
+          <h1 class="text-center">Nutritional Blog</h1>
+          <ul class="list-inline text-center">
+            <li>A startup from MindHub</li>
+          </ul>
+        </div>
+        <section className="details-card">
+          <div className="container">
+            <div className="row">
+              <div className="col-md-4">
+                <div className="card-content">
+                  <div className="card-img">
                     <img src="https://placeimg.com/380/230/nature" alt="" />
                   </div>
-                  <div class="card-desc">
-                    <h3 class="post-title">Get started with Vielyf</h3>
+                  <div className="card-desc">
+                    <h3 className="post-title">Get started with Vielyf</h3>
+
                     <p>
                       Vielyf is not just a platform for connecting nutritionists
                       and clients, it is also a tool for keeping up to date with
@@ -42,38 +84,40 @@ class NutritionalBlog extends Component {
                   </div>
                 </div>
               </div>
-              <div class="col-md-4">
-                <div class="card-content">
-                  <div class="card-img">
+              <div className="col-md-4">
+                <div className="card-content">
+                  <div className="card-img">
                     <img src="https://picsum.photos/380/230" alt="" />
                   </div>
-                  <div class="card-desc">
-                    <h3>Heading2</h3>
+                  <div className="card-desc">
+                    <h3>This is the first step for a change</h3>
                     <p>
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Laboriosam, voluptatum! Dolor quo, perspiciatis voluptas
-                      totam
+                      Whatever your goal is, to lose weight or to live a
+                      healthier lifestyle, Vielyf can assist you by helping you
+                      find professionals who can guide you in this process
                     </p>
                     <a href="#" class="btn-card">
-                      Read
+                      See more
                     </a>
                   </div>
                 </div>
               </div>
-              <div class="col-md-4">
-                <div class="card-content">
-                  <div class="card-img">
+              <div className="col-md-4">
+                <div className="card-content">
+                  <div className="card-img">
                     <img src="https://placeimg.com/380/230/tech" alt="" />
                   </div>
-                  <div class="card-desc">
-                    <h3>Heading3</h3>
+                  <div className="card-desc">
+                    <h3>The molecules of Food and Nutrition</h3>
                     <p>
-                      Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-                      Laboriosam, voluptatum! Dolor quo, perspiciatis voluptas
-                      totam
+                      Nutrition specialist Dr. Dena Herman introduced UCLA
+                      students to the molecules of food and nutrition as part of
+                      our 2013 Science and Food course. We learned all about
+                      essential nutrients, were introduced to the exciting new
+                      world of phytonutrients, a...
                     </p>
                     <a href="#" class="btn-card">
-                      Read
+                      See more
                     </a>
                   </div>
                 </div>
@@ -81,30 +125,28 @@ class NutritionalBlog extends Component {
             </div>
           </div>
         </section>
-
-        <div class="container">
-          <h5 class="section-title h1">OUR TEAM</h5>
-          <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-4">
+        <div className="container">
+          <h5 className="section-title h1">OUR TEAM</h5>
+          <div className="row">
+            <div className="col-xs-12 col-sm-6 col-md-4">
               <div
-                class="image-flip"
+                className="image-flip"
                 ontouchstart="this.classList.toggle('hover');"
               >
-                <div class="mainflip">
-                  <div class="frontside">
-                    <div class="card">
-                      <div class="card-body text-center">
+                <div className="mainflip">
+                  <div className="frontside">
+                    <div className="card">
+                      <div className="card-body text-center">
                         <p>
                           <img
-                            class=" img-fluid"
+                            className=" img-fluid"
                             src="https://endimages.s3.amazonaws.com/cache/d6/5b/d65b000590e2eadf48d8265a8c01ac8f.jpg"
                             alt="card image"
                           />
                         </p>
-                        <h4 class="card-title">Carlo</h4>
-                        <p class="card-text">
-                          This is basic card with image on top, title,
-                          description and button.
+                        <h4 className="card-title">Carlo</h4>
+                        <p className="card-text">
+                          Web developer and Product Owner for Vielyf proyect
                         </p>
                         <a href="#" class="btn btn-primary btn-sm">
                           <i class="fa fa-plus" />
@@ -112,15 +154,14 @@ class NutritionalBlog extends Component {
                       </div>
                     </div>
                   </div>
-                  <div class="backside">
+                  <div className="backside">
                     <div class="card">
                       <div class="card-body text-center mt-4">
-                        <h4 class="card-title">Sunlimetech</h4>
+                        <h4 class="card-title">ArkusNexus Bootcamp</h4>
                         <p class="card-text">
-                          This is basic card with image on top, title,
-                          description and button.This is basic card with image
-                          on top, title, description and button.This is basic
-                          card with image on top, title, description and button.
+                          Web developer and Product Owner for Vielyf proyect{" "}
+                          <br />
+                          Senior Student at ITT
                         </p>
                         <ul class="list-inline">
                           <li class="list-inline-item">
@@ -185,8 +226,7 @@ class NutritionalBlog extends Component {
                         </p>
                         <h4 class="card-title">Javier</h4>
                         <p class="card-text">
-                          This is basic card with image on top, title,
-                          description and button.
+                          Web developer for Vielyf proyect Senior Student at ITT
                         </p>
                         <a href="#" class="btn btn-primary btn-sm">
                           <i class="fa fa-plus" />
@@ -197,12 +237,10 @@ class NutritionalBlog extends Component {
                   <div class="backside">
                     <div class="card">
                       <div class="card-body text-center mt-4">
-                        <h4 class="card-title">Sunlimetech</h4>
+                        <h4 class="card-title">ArkusNexus Bootcamp</h4>
                         <p class="card-text">
-                          This is basic card with image on top, title,
-                          description and button.This is basic card with image
-                          on top, title, description and button.This is basic
-                          card with image on top, title, description and button.
+                          Web developer for Vielyf proyect <br />
+                          Senior Student at ITT
                         </p>
                         <ul class="list-inline">
                           <li class="list-inline-item">
@@ -267,8 +305,8 @@ class NutritionalBlog extends Component {
                         </p>
                         <h4 class="card-title">Sergio</h4>
                         <p class="card-text">
-                          This is basic card with image on top, title,
-                          description and button.
+                          Web developer and QA for Vielyf proyect <br /> Senior
+                          Student at UABC
                         </p>
                         <a href="#" class="btn btn-primary btn-sm">
                           <i class="fa fa-plus" />
@@ -279,12 +317,9 @@ class NutritionalBlog extends Component {
                   <div class="backside">
                     <div class="card">
                       <div class="card-body text-center mt-4">
-                        <h4 class="card-title">Sunlimetech</h4>
+                        <h4 class="card-title">ArkusNexus Bootcamp</h4>
                         <p class="card-text">
-                          This is basic card with image on top, title,
-                          description and button.This is basic card with image
-                          on top, title, description and button.This is basic
-                          card with image on top, title, description and button.
+                          Web developer and QA for Vielyf proyect
                         </p>
                         <ul class="list-inline">
                           <li class="list-inline-item">
@@ -349,8 +384,8 @@ class NutritionalBlog extends Component {
                         </p>
                         <h4 class="card-title">Jose</h4>
                         <p class="card-text">
-                          This is basic card with image on top, title,
-                          description and button.
+                          Web developer for Vielyf proyect <br /> Senior Student
+                          at UABC
                         </p>
                         <a href="#" class="btn btn-primary btn-sm">
                           <i class="fa fa-plus" />
@@ -361,12 +396,10 @@ class NutritionalBlog extends Component {
                   <div class="backside">
                     <div class="card">
                       <div class="card-body text-center mt-4">
-                        <h4 class="card-title">Sunlimetech</h4>
+                        <h4 class="card-title">ArkusNexus Bootcamp</h4>
                         <p class="card-text">
-                          This is basic card with image on top, title,
-                          description and button.This is basic card with image
-                          on top, title, description and button.This is basic
-                          card with image on top, title, description and button.
+                          Web developer for Vielyf proyect <br /> Senior Student
+                          at UABC
                         </p>
                         <ul class="list-inline">
                           <li class="list-inline-item">
@@ -431,8 +464,8 @@ class NutritionalBlog extends Component {
                         </p>
                         <h4 class="card-title">Emmanuel</h4>
                         <p class="card-text">
-                          This is basic card with image on top, title,
-                          description and button.
+                          Web developer and Scrum Master
+                          <br /> Senior Student at UABC
                         </p>
                         <a href="#" class="btn btn-primary btn-sm">
                           <i class="fa fa-plus" />
@@ -443,12 +476,10 @@ class NutritionalBlog extends Component {
                   <div class="backside">
                     <div class="card">
                       <div class="card-body text-center mt-4">
-                        <h4 class="card-title">Sunlimetech</h4>
+                        <h4 class="card-title">ArkusNexus Bootcamp</h4>
                         <p class="card-text">
-                          This is basic card with image on top, title,
-                          description and button.This is basic card with image
-                          on top, title, description and button.This is basic
-                          card with image on top, title, description and button.
+                          Web developer and Scrum Master for Vielyf proyect
+                          <br /> Senior Student at UABC
                         </p>
                         <ul class="list-inline">
                           <li class="list-inline-item">

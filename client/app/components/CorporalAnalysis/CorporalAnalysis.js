@@ -56,7 +56,6 @@ onUpdateCorpA()
 {
   const {
 
-    id,
     height,
     weight,
     Age,
