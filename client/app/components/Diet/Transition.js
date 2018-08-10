@@ -44,8 +44,9 @@ ActionLink(client) {
 }
 componentDidMount() {
 
-    const obj = getFromStorage('the_main_app');
+    const obj = getFromStorage('El_token');
     const {token} = obj;
+    console.log("Usuarioa Actual :", obj)
       
       fetch('/api/accounts/GetUserFromUserSession?token='+token)
         .then(res => res.json())

@@ -60,6 +60,16 @@ if (isDev) {
   });
 }
 
+var cors = require('cors');
+
+
+app.use(cors())
+
+app.get('/products/:id', function (req, res, next) {
+  res.json({msg: 'This is CORS-enabled for all origins!'})
+})
+
+
 app.listen(port, '0.0.0.0', (err) => {
   if (err) {
     console.log(err);

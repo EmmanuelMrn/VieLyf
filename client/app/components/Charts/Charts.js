@@ -48,13 +48,13 @@ class ChartsPage extends React.Component {
        
           fetch('/api/accounts/graphs?chart='+obj, {method:'GET'}) 
             .then(res => res.json())   
-            .then(res => {
-                console.log("res",res.Weight);
+            .then(json => {
+                console.log("json",json.date);
                 this.setState({
-                      weight:res.Weight,
-                      height:res.Height,
-                      Age:res.Age,
-                      FatFreeBodyMass:res.FatFreeBodyMass
+                      weight:json.Weight,
+                      height:json.Height,
+                      Age:json.Age,
+                      FatFreeBodyMass:json.FatFreeBodyMass
 
                     });
                

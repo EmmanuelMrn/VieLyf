@@ -69,7 +69,28 @@ const BodyAnalysisSchema = new mongoose.Schema({
         date:{
             type:Date,
             default:''
+        },
+        HipWaistIndex:{
+            type:Number,
+            default:''
+        },
+        TotalEnergyExpenditure:{
+                type:Number,
+                default:''
+        },
+        BasalEnergyExpenditure:{
+            type:Number,
+            defaut:''
+        },
+        EquivalentBiologicalAge:{
+            type:Number,
+            default:''
+        },
+        BodyType:{
+            type:String,
+            default:''
         }
+        
         
 });
 
