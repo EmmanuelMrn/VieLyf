@@ -287,7 +287,7 @@ class VistaCliente extends Component {
     localStorage.removeItem("Rol");
     window.location = "/";
   }
-
+  
   agendaModal() {
     console.log("============");
     console.log("Abrir modal");
@@ -308,6 +308,7 @@ class VistaCliente extends Component {
   onDelete() {
     const { signUpEmail } = this.state;
     fetch("/api/account/deleteaccount?token=" + signUpEmail + "");
+    this.toggleModal();
   }
 
   toggleModal() {
@@ -321,6 +322,7 @@ class VistaCliente extends Component {
   }
 
   onEditProfile() {
+    this.toggleModal();
     console.log(this.state.signUpEmail);
     const {
       signUpEmail,
@@ -410,6 +412,7 @@ class VistaCliente extends Component {
     )
 }
 
+
   render() {
     const {
       isLoading,
@@ -425,7 +428,6 @@ class VistaCliente extends Component {
       return (
         <div>
           <h1>Cuenta Nutriólogo </h1>
-          Hello nutriologo
           <div className="row">
             <div className="col-md-3">
               <div className="btn-group-vertical">
@@ -442,8 +444,7 @@ class VistaCliente extends Component {
                 <button
                   type="button"
                   className="btn btn-dark"
-                  onClick={this.logout}
-                >
+                  onClick={this.logout}>
                   Cerrar sesion
                 </button>
               </div>
@@ -458,7 +459,7 @@ class VistaCliente extends Component {
                 />
               </div>
               <div className="col-md-3">
-                <p>Nombre: </p>
+                <p>Nombre:</p>
                 <p>Título: </p>
                 <p>Telefóno: </p>
                 <p>Correo: </p>
@@ -597,6 +598,13 @@ class VistaCliente extends Component {
                 <p>Peso: </p>
               </div>
             </div>
+            
+            <button
+                  id="alerta"
+                  type="button"
+                  className="btn btn-dark">
+                  Click me
+            </button>
 
             {this.state.isActive ? (
               <Modal onRequestClose={this.toggleModal} style={customStyles}>
@@ -636,17 +644,17 @@ class VistaCliente extends Component {
 
                 <br />
                 <button
-                  type="button"
-                  className="btn btn-dark"
-                  onClick={this.onEditProfile}
-                >
-                  Salvar cambios
+                id="btnEdit"
+                type="button"
+                className="btn btn-dark"
+                onClick={this.onEditProfile}>
+                  Submit changes
                 </button>
+
                 <button
                   type="button"
                   className="btn btn-dark"
-                  onClick={this.onDelete}
-                >
+                  onClick={this.onDelete}>
                   Eliminar cuenta
                 </button>
                 <button onClick={this.toggleModal}>Cancelar</button>
@@ -673,7 +681,14 @@ class VistaCliente extends Component {
           ) : (
             ""
           )}
+
+          <div id="alertEdit" className="alert alert-success collapse">
+                    <a href="#" className="close" data-dismiss="alert">&times;</a>
+                    <strong>Changes saved</strong> You changed your information satisfactorily
+                </div>
+              
         </div>
+
       );
     } else {
       return <div>no session found</div>;

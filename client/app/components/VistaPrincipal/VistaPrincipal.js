@@ -422,12 +422,29 @@ class VistaPrincipal extends Component {
 
               <br />
               <button
+                id="btnEdit"
                 type="button"
                 className="btn btn-dark"
                 onClick={this.onEditProfile}
               >
-                Salvar cambios
+                Submit changes
               </button>
+              <br /><br />
+
+              <div id="alertEdit" className="alert alert-success collapse">
+                  <a href="#" className="close" data-dismiss="alert">&times;</a>
+                  <strong>Changes saved</strong> You changed your information satisfactorily
+              </div>
+
+              <script type="text/javascript">
+                  $(document).ready(function () {
+
+                      $('#btnEdit').click(function () {
+                          $('#alertEdit').show('fade');
+                      })
+                  });
+              </script>
+
               <button
                 type="button"
                 className="btn btn-dark"
