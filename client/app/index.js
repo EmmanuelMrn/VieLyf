@@ -17,7 +17,7 @@ import NutritionalBlog from "./components/Home/nutritionalBlog";
 import VistaCliente from "./components/VistaCliente/VistaCliente";
 import VistaNutriologo from "./components/VistaNutriologo/VistaNutriologo";
 import VistaPrincipal from "./components/VistaPrincipal/VistaPrincipal";
-import CorporalAnalisys from "./components/CorporalAnalysis/CorporalAnalysis";
+import CorporalAnalysis from "./components/CorporalAnalysis/CorporalAnalysis";
 import CatalogueNutriologist from "./components/Home/CatalogueNutriologist";
 import DisponibilitySchedule from "./components/Home/DisponibilitySchedule";
 import ResultadoBusqueda from "./components/Home/ResultadoBusqueda";
@@ -39,7 +39,7 @@ render(
         <Route path="/charts" component={Charts} />
         <Route path="/transition" component={Transition} />
         <Route path="/vistacliente" component={VistaCliente} />
-        <Route path="/corporalanalysis" component={CorporalAnalisys} />        
+        <Route path="/corporalanalysis" component={CorporalAnalysis} />        
         <Route path="/vistaprincipal" component={VistaPrincipal} />
 
         <Route path="/nutritionalBlog" component={NutritionalBlog} />
