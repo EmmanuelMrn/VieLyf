@@ -56,9 +56,12 @@ export default class Agenda extends Component {
     fetch('/api/account/agendaarray?token='+localStorage.getItem('Auth'), {method:'GET'})
       .then(res => res.json())
       .then(json1 => {
-        this.setState({
-          items : json1,
+        array.forEach(element => {
+          console.log(json1[element])
         });
+        // this.setState({
+        //   items : json1,
+        // });
       });      
   }
 

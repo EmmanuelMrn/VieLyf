@@ -56,18 +56,37 @@ export default class Agenda extends Component {
     fetch('/api/account/agendaarray?token='+localStorage.getItem('Auth'), {method:'GET'})
       .then(res => res.json())
       .then(json1 => {
+        // jsox
+        var arrayItems;
+        for(var k in json1) {
+          console.log(k, json1[k]);
+          console.log(json1[k].startDateTime)
+          console.log(new Date(console.log(json1[k].startDateTime)))
+          arrayItems[k] = [{
+            "classes": json1[k].classes,
+            "Nutriologist_id": json1[k].Nutriologist_id,
+            "pending": json1[k].pending,
+            "_id": json1[k]._id,
+            "name": json1[k].name,
+            "startDateTime": new Date(json1[k].startAtTime),
+            "endDateTime": new Date(json1[k].endDateTime),
+            "__v": json1[k].__v
+          }]
+       }
+       console.log("Items: ")
+       console.log(arrayItems)
         // this.setState({
-        //   items : Object.keys(json1).map(function(key) {
+        //   items : Object.ks(json1).map(function(k) {
         //     [
         //       {
-        //         "classes": json1[key].classes,
-        //         "Nutriologist_id": json1[key].Nutriologist_id,
-        //         "pending": json1[key].pending,
-        //         "_id": json1[key]._id,
-        //         "name": json1[key].name,
-        //         "startDateTime": new Date(json1[key].startAtTime),
-        //         "endDateTime": new Date(json1[key].endDateTime),
-        //         "__v": json1[key].__v
+        //         "classes": json1[k].classes,
+        //         "Nutriologist_id": json1[k].Nutriologist_id,
+        //         "pending": json1[k].pending,
+        //         "_id": json1[k]._id,
+        //         "name": json1[k].name,
+        //         "startDateTime": new Date(json1[k].startAtTime),
+        //         "endDateTime": new Date(json1[k].endDateTime),
+        //         "__v": json1[k].__v
         //     }
         //     ]
         //   }, function() {
