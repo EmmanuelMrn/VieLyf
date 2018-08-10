@@ -41,22 +41,23 @@ class ChartsPage extends React.Component {
      componentDidMount() {
         
                   
-//    const obj = getFromStorage('the_main_app');
-
-    //    console.log(obj);
-  //      const {token}=obj;
-          fetch('/api/accounts/graphs?chart=5b43a832e4d9fc30c0bcd020', {method:'GET'}) 
+   const obj = localStorage.getItem('clientID');
+   
+       console.log(obj);
+       console.log(localStorage.getItem('clientID'));
+       
+          fetch('/api/accounts/graphs?chart='+obj, {method:'GET'}) 
             .then(res => res.json())   
-            .then(responseJson => {
-                    
+            .then(json => {
+                console.log("json",json.Weight);
                 this.setState({
-                      weight:responseJson.Weight,
-                      height:responseJson.Height,
-                      Age:responseJson.Age,
-                      FatFreeBodyMass:responseJson.FatFreeBodyMass
+                      weight:json.Weight,
+                      height:json.Height,
+                      Age:json.Age,
+                      FatFreeBodyMass:json.FatFreeBodyMass
 
                     });
-                console.log("json",responseJson.Weight);
+               
                // console.log("Height",items);
     
             });

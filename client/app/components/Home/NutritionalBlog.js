@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "whatwg-fetch";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import moment from "moment";
-
 import { getFromStorage, setInStorage } from "../../utils/storage";
 
 class NutritionalBlog extends Component {
@@ -73,6 +72,7 @@ class NutritionalBlog extends Component {
                   </div>
                   <div className="card-desc">
                     <h3 className="post-title">Get started with Vielyf</h3>
+
                     <p>
                       Vielyf is not just a platform for connecting nutritionists
                       and clients, it is also a tool for keeping up to date with
@@ -125,7 +125,6 @@ class NutritionalBlog extends Component {
             </div>
           </div>
         </section>
-
         <div className="container">
           <h5 className="section-title h1">OUR TEAM</h5>
           <div className="row">
