@@ -15,7 +15,7 @@ class Header extends Component {
     this.state = {
       isLoading: true,
       isActive: false,
-      items:[],
+      items:[], 
     };
 
     this.logout = this.logout.bind(this);
@@ -96,7 +96,7 @@ class Header extends Component {
       return (
         <header>
           <nav className="navbar navbar-expand navbar-dark bg-dark static-top">
-            <a className="navbar-brand mr-1" href="index.html">VieLyf</a>
+            <a className="navbar-brand mr-1" href="/">VieLyf</a>
             <a href="#menu-toggle" className="btn " id="menu-toggle" 
             onClick={ function(e) {
               e.preventDefault();
@@ -238,7 +238,7 @@ class Header extends Component {
       return (
         <header>
           <nav className="navbar navbar-expand navbar-dark bg-dark static-top">
-            <a className="navbar-brand mr-1" href="index.html">VieLyf</a>
+            <a className="navbar-brand mr-1" href="/">VieLyf</a>
             <a href="#menu-toggle" className="btn " id="menu-toggle" 
             onClick={ function(e) {
               e.preventDefault();
@@ -350,8 +350,8 @@ class Header extends Component {
                 <div id="sidebar-wrapper">
                   <ul className="sidebar-nav">
                       <li className="sidebar-brand">
-                          <a href="/vistacliente">
-                              Profile
+                          <a href="/vistanutriologo">
+                                Profile
                           </a>
                       </li>
                       <ul style={{ listStyleType: "none", padding: 0 }}>
