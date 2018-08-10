@@ -103,7 +103,7 @@ const Agenda = require('../../models/Agenda');
       FirstName,
       LastName,
       Password,
-      UserName,
+     // UserName,
       Role,
       Phone,
     } = body;
@@ -121,12 +121,12 @@ const Agenda = require('../../models/Agenda');
         message: "Fail in the Last Name"
       });
     }
-    if (!UserName) {
-      return res.send({
-        success: false,
-        message: "Fail in the User Name"
-      });
-    }
+    // if (!UserName) {
+    //   return res.send({
+    //     success: false,
+    //     message: "Fail in the User Name"
+    //   });
+    // }
     if (!Email) {
       return res.send({
         success: false,

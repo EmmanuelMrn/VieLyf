@@ -78,12 +78,8 @@ class Login extends Component {
   }
 
   onLogin() {
-
-    const {
-      loginEmail,
-      loginPassword,
-    } = this.state;
-
+    const { loginEmail, loginPassword } = this.state;
+   
     this.setState({
       isLoading: true,
     });
@@ -102,6 +98,7 @@ class Login extends Component {
         localStorage.setItem('email', json.Email)
         if (json.success) {
           setInStorage('the_main_app', { token: json.token });
+          // .id!?
           this.setState({
             loginError: json.message,
             isLoading: false,
@@ -120,6 +117,7 @@ class Login extends Component {
                 fetch('/api/account/getuseremail?token='+loginEmail)
                 .then(res => res.json())
                 .then(json2 => {
+                  localStorage.setItem('clientID', json2[0]._id);
                   fetch('/api/accounts/getuser?token='+json2[0]._id)
                   .then(res => res.json())
                   .then(json3 => {
