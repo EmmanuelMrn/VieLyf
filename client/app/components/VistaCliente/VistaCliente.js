@@ -173,6 +173,7 @@ class VistaCliente extends Component {
     console.log(name);
   }
   componentDidMount() {
+    console.log(localStorage.getItem('AssignedNutriologist'))
     console.log("Hello");
     console.log(localStorage.getItem("Rol"));
     console.log("=============");
@@ -190,7 +191,6 @@ class VistaCliente extends Component {
         });
     } else {
       console.log(this.state.isActive);
-      console.log(localStorage.getItem("AssignedNutriologist"));
     }
     const obj = getFromStorage("the_main_app");
     if (obj && obj.token) {

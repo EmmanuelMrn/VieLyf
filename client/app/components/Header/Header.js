@@ -214,7 +214,7 @@ class Header extends Component {
                       </li>
                       <ul style={{ listStyleType: "none", padding: 0 }}>
                     <li>
-                      <Link to="/agendaclient" onClick={ $('#menu-toggle').click() }>Agenda</Link>
+                      <Link to="/agenda" onClick={ $('#menu-toggle').click() }>Agenda</Link>
                     </li>
                     <li>
                       <Link id="nutri" to="/nutritionalblog" onClick={ $('#menu-toggle').click() }>Nutrirional Blog</Link>
@@ -277,26 +277,8 @@ class Header extends Component {
                   </div>
                 </li>
               </ul>
+            </nav>
               
-          
-
-              </nav>
-              {/* <div class="sidebar">
-                  <h2>Notifications</h2>
-                  <div class="notibox">
-                    Wash the Car
-                    <div class="cancel">✕</div>
-                  </div>
-                  <div class="notibox">
-                    Do Laundry
-                    <div class="cancel">✕</div>
-                  </div>
-                  <div class="notibox">
-                    Feed the Cat
-                    <div class="cancel">✕</div>
-                  </div>
-               </div>
-           */}
            <div class="sidebar">
                   <h2>Notifications</h2>
                   <div className="news_inner">
@@ -307,7 +289,9 @@ class Header extends Component {
                     var diferencia = new Date(client.startDateTime).getHours() - new Date(client.endDateTime).getHours();
                     console.log(moment.duration(diferencia, "hours").humanize())
                       return( 
-                        <div style={{color: '#fff'}} key={client._id} className="news_item">
+                        
+                        <div style={{color: '#fff'}} key={client._id} className="news_item cancel">
+                        <br/>
                             <a><h4>{client.name}</h4></a>
                             <a><h6>{"Para: "+dia+ " de " + monthMinusOneName + " del " + anio}</h6></a>
                             <a><h6>{"Con una duracion de "+moment.duration(diferencia, "hours").humanize()}</h6></a>
@@ -316,20 +300,12 @@ class Header extends Component {
                             }}>Aceptar</button>
                             <button type="button" name="" className="btn btn-dark" onClick={function aceptar() {
                               fetch('/api/account/deleteagenda?token='+client._id)
-                                $(".cancel").click(function () {
-                                  console.log("toggling visibility");
-                                    $(this).parent().toggleClass('gone');
-                                });
-                              
+                                // $(".cancel").click(function () {
+                                //   console.log("toggling visibility");
+                                //     $(this).parent().toggleClass('gone');
+                                // });                  
                             }}>Denegar</button>
-                            <div class="cancel" onClick={
-                      function(e) {
-                        $(".cancel").click(function () {
-                          console.log("toggling visibility");
-                            $(this).parent().toggleClass('gone');
-                        });
-                      }
-                    } >✕</div>
+                            
                         </div>
                         )
                     })}

@@ -117,13 +117,19 @@ class Login extends Component {
                 fetch('/api/account/getuseremail?token='+loginEmail)
                 .then(res => res.json())
                 .then(json2 => {
+                  console.log("Entro a getuseremail")
+                  console.log(loginEmail)
                   localStorage.setItem('clientID', json2[0]._id);
                   fetch('/api/accounts/getuser?token='+json2[0]._id)
                   .then(res => res.json())
                   .then(json3 => {
+                    console.log("Entro a getuser")
+                    console.log(json2[0]._id)
                     fetch('/api/account/getuserbyid?token='+json3.doc.Nutritionist_id)
                     .then(res => res.json())
                     .then(json4 => {
+                      console.log("Entro a getuserbyid")
+                      console.log(json2[0]._id)
                       console.log(json4[0].Email)
                       localStorage.setItem('AssignedNutriologist', json4[0].Email)
                     })
