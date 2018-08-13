@@ -155,7 +155,7 @@ class Header extends Component {
                   </div>
                </div>
            */}
-           <div class="sidebar">
+           <div className="sidebar">
                   <h2>Notifications</h2>
                   <div className="news_inner">
                   { ClientsData.map(function(client, aceptar, negar, handleClick, isToggleOn){
@@ -180,7 +180,7 @@ class Header extends Component {
                                 });
                               
                             }}>Denegar</button>
-                            <div class="cancel" onClick={
+                            <div className="cancel" onClick={
                       function(e) {
                         $(".cancel").click(function () {
                           console.log("toggling visibility");
@@ -297,7 +297,7 @@ class Header extends Component {
                   </div>
                </div>
            */}
-           <div class="sidebar">
+           <div className="sidebar">
                   <h2>Notifications</h2>
                   <div className="news_inner">
                   { ClientsData.map(function(client, aceptar, negar, handleClick, isToggleOn){
@@ -322,7 +322,7 @@ class Header extends Component {
                                 });
                               
                             }}>Denegar</button>
-                            <div class="cancel" onClick={
+                            <div className="cancel" onClick={
                       function(e) {
                         $(".cancel").click(function () {
                           console.log("toggling visibility");
