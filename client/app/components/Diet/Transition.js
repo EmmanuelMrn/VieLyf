@@ -46,14 +46,15 @@ componentDidMount() {
 
     const obj = getFromStorage('the_main_app');
     const {token} = obj;
-      
+    console.log(token)
       fetch('/api/accounts/GetUserFromUserSession?token='+token)
         .then(res => res.json())
         .then(json => {
           this.setState({
             currentUserId:json.userId
           });
-            
+            console.log(json)
+            console.log(this.state.currentUserId)
             this.GetMyClients(this.state.currentUserId);
         });
 }
