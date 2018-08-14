@@ -27,6 +27,15 @@ class Header extends Component {
       this.setState({isActive: true}, function() {
       })
     }
+
+    this.interval = setInterval(()=> this.updatethings(),2000)
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.interval)
+  }
+  
+  updatethings(){
     fetch('/api/account/agendaarrayaproved?token='+localStorage.getItem('Auth'), {method:'GET'})
       .then(res => res.json())
       .then(json1 => {
@@ -34,6 +43,7 @@ class Header extends Component {
           items : json1,
         });
       });
+      console.log('Arriba el TEC')
   }
 
   logout() {
@@ -300,10 +310,7 @@ class Header extends Component {
                             }}>Aceptar</button>
                             <button type="button" name="" className="btn btn-dark" onClick={function aceptar() {
                               fetch('/api/account/deleteagenda?token='+client._id)
-                                // $(".cancel").click(function () {
-                                //   console.log("toggling visibility");
-                                //     $(this).parent().toggleClass('gone');
-                                // });                  
+                              $(this).parent().toggleClass('gone');
                             }}>Denegar</button>
                             
                         </div>
