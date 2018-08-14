@@ -56,12 +56,31 @@ export default class Agenda extends Component {
     fetch('/api/account/agendaarray?token='+localStorage.getItem('Auth'), {method:'GET'})
       .then(res => res.json())
       .then(json1 => {
-        this.setState({
-          items : json1,
-        });
+        
+       array.forEach(json1 => {
+         console.log(json1._id);
+       });
+        console.log(item1)
+        // this.setState({
+        //   items : Object.keys(json1).map(function(key) {
+        //     [
+        //       {
+        //         "classes": json1[key].classes,
+        //         "Nutriologist_id": json1[key].Nutriologist_id,
+        //         "pending": json1[key].pending,
+        //         "_id": json1[key]._id,
+        //         "name": json1[key].name,
+        //         "startDateTime": new Date(json1[key].startAtTime),
+        //         "endDateTime": new Date(json1[key].endDateTime),
+        //         "__v": json1[key].__v
+        //     }
+        //     ]
+        //   }, function() {
+        //     console.log(items)
+        //   }) ,
+        // });
       });      
   }
-
 
 componentWillReceiveProps(next , last){
   if(next.items){
@@ -150,7 +169,6 @@ render() {
     return <div style={{display:'block', position:'absolute' , background:'#FFF'}}>{props.item.name} <button onClick={()=> props.edit(props.item)}>Edit </button></div>
   }
   return (
-
     <div className="content-expanded ">
       <div className="">
         <button className="btn btn-secondary" onClick={this.zoomIn}> <i className="zoom-plus-icon"></i> zoomIn</button>

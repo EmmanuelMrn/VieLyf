@@ -30,7 +30,6 @@ class VistaNutriologo extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
-
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;

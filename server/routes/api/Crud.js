@@ -26,7 +26,7 @@ module.exports = (app) => {
   app.get("/api/account/deleteagenda", (req, res) => {
     const {query} = req;
     const { token } = query;;
-    Agenda.findByIdAndRemove(token);
+    Agenda.findOneAndDelete({_id:token});
     res.json({status: 'Task deleted'});
   });
 

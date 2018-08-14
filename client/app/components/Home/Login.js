@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "whatwg-fetch";
 import { Link } from "react-router-dom";
 var vista = "";
+import swal from 'sweetalert2';
 import { getFromStorage, setInStorage } from "../../utils/storage";
 
 class Login extends Component {
@@ -27,7 +28,6 @@ class Login extends Component {
 
     this.handleInputChange = this.handleInputChange.bind(this);
   }
-
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
@@ -50,35 +50,26 @@ class Login extends Component {
               token,
               isLoading: false
             });
-            if (localStorage.hasOwnProperty("email")) {
-              fetch(
-                "/api/account/isnutriologist?token=" +
-                  localStorage.getItem("email")
-              )
-                .then(res => res.json())
-                .then(isnutriologit => {
-                  if (isnutriologit.success) {
-                    //                    setInStorage("userrole", { token: "Nutriologist" });
-
-                    window.location = "/vistacliente";
-                    //window.location=('/vistanutriologo');
-                  } else {
-                    //window.location = "/vistaprincipal";
-                    //                  setInStorage("userrole", { token: "Client" });
-
-                    window.location = "/vistacliente";
-                  }
-                });
+            if (localStorage.hasOwnProperty('email')) {
+              fetch('/api/account/isnutriologist?token='+localStorage.getItem('email'))
+              .then(res => res.json())
+              .then(isnutriologit => {
+                if(isnutriologit.success){
+                  window.location=('/vistanutriologo');
+                } else {
+                  window.location=('/vistacliente');
+                }
+              });
             } else {
               this.setState({
-                isLoading: false
+                isLoading: false,
               });
-            }
+            }  
           }
-        });
+      });
     } else {
       this.setState({
-        isLoading: false
+        isLoading: false,
       });
     }
   }
@@ -105,6 +96,7 @@ class Login extends Component {
         localStorage.setItem("email", json.Email);
         if (json.success) {
           setInStorage("El_token", {token:json.token} );
+          setInStorage("the_main_app", { token: json.token._id });
           this.setState({
             loginError: json.message,
             isLoading: false,
@@ -120,8 +112,11 @@ class Login extends Component {
                 //  window.location = "/vistanutriologo";
                 localStorage.setItem("Rol", "Nutriologo");
               } else {
-                var getuser;
-                fetch("/api/account/getuseremail?token=" + loginEmail)
+                console.log(loginEmail)
+                fetch('/api/account/getuseremail?token='+loginEmail)
+                .then(res => res.json())
+                .then(json2 => {
+                  fetch('/api/accounts/getuser?token='+json2[0]._id)
                   .then(res => res.json())
                   .then(json2 => {
                     localStorage.setItem('clientID', json2[0]._id);
@@ -155,6 +150,7 @@ class Login extends Component {
           });
         }
       });
+      alertify.success("Welcome!");
     this.setState({
       loginEmail: ""
     });
@@ -191,6 +187,7 @@ class Login extends Component {
           });
         }
       });
+      alertify.success("Edited profile");
   }
 
   logout() {
@@ -217,9 +214,10 @@ class Login extends Component {
         });
     } else {
       this.setState({
-        isLoading: false
+        isLoading: false,
       });
     }
+    alertify.warning("Closed session");
   }
 
   render() {
@@ -232,48 +230,83 @@ class Login extends Component {
     } = this.state;
 
     if (isLoading) {
-      return (
-        <div>
-          <p>Loading...</p>
-        </div>
-      );
+      return (<div><p>Loading...</p></div>);
     }
 
-    if (!token) {
-      return (
-        <div>
-          <div>
-            {loginError ? <p>{loginError}</p> : null}
-            <h1>Log In</h1>
-            <input
-              name="loginEmail"
-              type="text"
-              placeholder="Email"
-              value={loginEmail}
-              onChange={this.handleInputChange}
-            />
-            <br />
-            <input
-              type="password"
-              name="loginPassword"
-              placeholder="Password"
-              value={loginPassword}
-              onChange={this.handleInputChange}
-            />
-            <br />
-            <button
-              type="button"
-              className="btn btn-dark"
-              onClick={this.onLogin}
-            >
-              Log In
-            </button>
+    // if (!token) {
+    //   return (
+    //   );
+    // }
+
+    return (
+      <div>
+        <section className="login-block">
+          <div className="container container2">
+            <div className="row">
+              <div className="col-md-4 login-sec">
+                <h2 className="text-center" style={{color: '#00c851'}}>Welcome back!</h2>
+                <form className="login-form">
+                  <div className="form-group">
+                    <label htmlFor="exampleInputEmail1" className="text-uppercase">Username</label>
+                    <input type="text" name="loginEmail" value={loginEmail} onChange={this.handleInputChange} className="form-control" placeholder=""/>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="exampleInputPassword1" className="text-uppercase">Password</label>
+                    <input type="password" name="loginPassword" value={loginPassword} onChange={this.handleInputChange} className="form-control" placeholder=""/>                    
+                  </div>
+                  <div className="form-check">
+                      {/* <label className="form-check-label">
+                        <input type="checkbox" className="form-check-input"/>
+                        <small>Remember Me</small>
+                      </label> */}
+                    <button type="button" className="btn btn-login float-center" onClick={this.onLogin}>Submit</button>
+                  </div>
+                </form>
+              </div>
+              <div className="col-md-8 banner-sec">
+                <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
+                  <ol className="carousel-indicators">
+                      <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
+                      <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                      <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                  </ol>
+                  <div className="carousel-inner" role="listbox">
+                    <div className="carousel-item active">
+                    <img className="d-block img-fluid" width="1100px" height="500px" src="/assets/img/img 1.png" alt="First slide"/>
+                      <div className="carousel-caption d-none d-md-block">
+                        <div className="banner-text">
+                            <h2>Solutions for health</h2>
+                            <h5 style={{color: '#e5c885', backgroundColor: '#fff'}}>In Vielyf we have the determination to create the best software for you and your needs.</h5>
+                        </div>	
+                      </div>
+                    </div>
+                    {/* width="1100px" height="500px" */}
+                    <div className="carousel-item">
+                    <img className="d-block img-fluid"  src="/assets/img/img2.png" alt="First slide"/>
+                      <div className="carousel-caption d-none d-md-block">
+                        <div className="banner-text">
+                            <h2>Solutions for life</h2>
+                            <h5 style={{color: '#9e6d4a', backgroundColor: '#fff'}}>And Yes, it is posible, and No, it isn't easy.</h5>
+                        </div>	
+                      </div>
+                    </div>
+                    <div className="carousel-item">
+                    <img className="d-block img-fluid" width="1100px" height="500px" src="/assets/img/img3.png" alt="First slide"/>
+                      <div className="carousel-caption d-none d-md-block">
+                        <div className="banner-text">
+                            <h2>Solutions for you</h2>
+                            <h5 style={{color: '#95b3cf', backgroundColor: '#fff'}}>We offer you the best technologies for the best life quality.</h5>
+                        </div>	
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      );
-    }
-
-    return <div />;
+        </section> 
+      </div> 
+    );
   }
 }
 
