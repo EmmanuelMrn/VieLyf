@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 import Modal from 'react-modal';
+import swal from 'sweetalert2';
 
 
 import {
@@ -106,11 +107,16 @@ class Signup extends Component {
    /*Consuimiedo API  
    Ya es dinamico
    */
+  let header = new Headers({
+    'Access-Control-Allow-Origin':'http://localhost:8080',
+    'Content-Type': 'multipart/form-data'
+  });
   const URL ='http://search.sep.gob.mx/solr/cedulasCore/select?fl=%2A%2Cscore&q='+License+'&start=0&rows=100&facet=true&indent=on&wt=json';
   if(License!="" || !License)
     {fetch(URL, { 
       method: 'GET',
      crossDomain:true,
+     header:header,
       //headers: { 'Content-Type': 'application/json'}
       
   })
@@ -147,9 +153,8 @@ class Signup extends Component {
       }
 
     }
-    onProfSignUp()
-  {
-    
+
+  onProfSignUp() {
     const{
       profFirstName,
       profLastName,
@@ -201,10 +206,14 @@ class Signup extends Component {
           });
         }
       });
-
+      swal(
+        'Welcome to VieLyf Nutritionist!',
+        'Your account has been created!',
+        'success'
+      );
   }
-  toggleModal() 
-  {
+
+  toggleModal() {
     this.setState({
       isActive:!this.state.isActive,
       profFirstName:'',
@@ -217,6 +226,7 @@ class Signup extends Component {
       License:''
     })
   }
+
   onSignUp() {
     // Grab state
     const {
@@ -269,6 +279,11 @@ class Signup extends Component {
           });
         }
       });
+      swal(
+        'Welcome to VieLyf User!',
+        'Your account has been created!',
+        'success'
+      );
   }
 
   

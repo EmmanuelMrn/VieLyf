@@ -1,16 +1,16 @@
 const User = require('../../models/User');
 const UserSession = require('../../models/UserSchema');
 const Agenda = require('../../models/Agenda');
-    module.exports = (app) => {
+module.exports = (app) => {
 
   app.get("/api/account/agendaarray", (req, res, next)=> {
-      const {query} = req;
-      const {token} = query;
+    const {query} = req;
+    const {token} = query;
 
-      Agenda.find({ Nutriologist_id:token, pending:false}, (err, doc)  => {
-          console.log(doc);
-          return res.send(doc);
-          });
+    Agenda.find({ Nutriologist_id:token, pending:false}, (err, doc)  => {
+      console.log(doc);
+      return res.send(doc);
+      });
   });
 
   app.get("/api/account/agendaarrayaproved", (req, res, next)=> {
@@ -372,40 +372,6 @@ const Agenda = require('../../models/Agenda');
           success: true,
           message: "Good"
         });
-      }
-    );
-  });
-
-  app.get("/api/account/verify", (req, res, next) => {
-    // Obtener el token
-    const { query } = req;
-    const { token } = query;
-
-    UserSession.find(
-      {
-        _id: token,
-        isDeleted: false
-      },
-      (err, sessions) => {
-        if (err) {
-          console.log(err);
-          return res.send({
-            success: false,
-            message: "Error: Server error"
-          });
-        }
-        if (sessions.length != 1) {
-          return res.send({
-            success: false,
-            message: "Error: Invalid"
-          });
-        } else {
-          // DO ACTION
-          return res.send({
-            success: true,
-            message: "Good"
-          });
-        }
       }
     );
   });

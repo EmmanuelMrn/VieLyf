@@ -286,6 +286,7 @@ class VistaCliente extends Component {
     localStorage.removeItem("Auth");
     localStorage.removeItem("Rol");
     window.location = "/";
+    alertify.warning("Closed session");
   }
   
   agendaModal() {
@@ -309,6 +310,7 @@ class VistaCliente extends Component {
     const { signUpEmail } = this.state;
     fetch("/api/account/deleteaccount?token=" + signUpEmail + "");
     this.toggleModal();
+    alertify.error("Your account was deleted");
   }
 
   toggleModal() {
@@ -354,6 +356,7 @@ class VistaCliente extends Component {
           });
         }
       });
+      alertify.success("Edited profile");
   }
 
   Profile(){
