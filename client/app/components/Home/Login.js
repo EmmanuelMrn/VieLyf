@@ -95,8 +95,9 @@ class Login extends Component {
       .then(json => {
         localStorage.setItem("email", json.Email);
         if (json.success) {
+          setInStorage('the_main_app', { token: json.token });
           setInStorage("El_token", {token:json.token} );
-          setInStorage("the_main_app", { token: json.token._id });
+
           this.setState({
             loginError: json.message,
             isLoading: false,
@@ -116,31 +117,27 @@ class Login extends Component {
                 fetch('/api/account/getuseremail?token='+loginEmail)
                 .then(res => res.json())
                 .then(json2 => {
+                  console.log("Entro a getuseremail")
+                  console.log(loginEmail)
+                  localStorage.setItem('clientID', json2[0]._id);
                   fetch('/api/accounts/getuser?token='+json2[0]._id)
                   .then(res => res.json())
-                  .then(json2 => {
-                    localStorage.setItem('clientID', json2[0]._id);
-                    fetch("/api/accounts/getuser?token=" + json2[0]._id)
-                      .then(res => res.json())
-                      .then(json3 => {
-                        fetch(
-                          "/api/account/getuserbyid?token=" +
-                            json3.Nutritionist_id
-                        )
-                          .then(res => res.json())
-                          .then(json4 => {
-                            console.log("hola");
-                            console.log(json4);
-                            localStorage.setItem(
-                              "AssignedNutriologist",
-                              json4[0].Email
-                            );
-                          });
-                      });
-                  });
-                localStorage.setItem("Rol", "Cliente");
-                //    window.localtion = "/vistaprincipal";
-                window.location = "/vistacliente";
+                  .then(json3 => {
+                    console.log("Entro a getuser")
+                    console.log(json2[0]._id)
+                    fetch('/api/account/getuserbyid?token='+json3.doc.Nutritionist_id)
+                    .then(res => res.json())
+                    .then(json4 => {
+                      console.log("Entro a getuserbyid")
+                      console.log(json2[0]._id)
+                      console.log(json4[0].Email)
+                      localStorage.setItem('AssignedNutriologist', json4[0].Email)
+                    })
+                  })       
+                })
+                localStorage.setItem('Rol', 'Cliente');  
+                window.location=('/vistacliente');
+
               }
             });
         } else {

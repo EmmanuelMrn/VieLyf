@@ -17,10 +17,12 @@ require('moment/locale/es.js');
       "color-2":"rgba(242, 177, 52, 1)" ,
       "color-3":"rgba(235, 85, 59, 1)" ,
       "color-4":"rgba(70, 159, 213, 1)",
-      "color-5":"rgba(170, 59, 123, 1)"
+      "color-5":"rgba(170, 59, 123, 1)",
+      "color-6":"rgb(160, 163, 167)",
+
     }
 
-    var items;
+    // var items;
 
 export default class Agenda extends Component {
   constructor(props){
@@ -53,33 +55,53 @@ export default class Agenda extends Component {
   }
 
   componentDidMount(){
-    fetch('/api/account/agendaarray?token='+localStorage.getItem('Auth'), {method:'GET'})
-      .then(res => res.json())
-      .then(json1 => {
-        
-       array.forEach(json1 => {
-         console.log(json1._id);
-       });
-        console.log(item1)
-        // this.setState({
-        //   items : Object.keys(json1).map(function(key) {
-        //     [
-        //       {
-        //         "classes": json1[key].classes,
-        //         "Nutriologist_id": json1[key].Nutriologist_id,
-        //         "pending": json1[key].pending,
-        //         "_id": json1[key]._id,
-        //         "name": json1[key].name,
-        //         "startDateTime": new Date(json1[key].startAtTime),
-        //         "endDateTime": new Date(json1[key].endDateTime),
-        //         "__v": json1[key].__v
-        //     }
-        //     ]
-        //   }, function() {
-        //     console.log(items)
-        //   }) ,
-        // });
+    const arrayItems=[];  
+    if (localStorage.getItem('Rol') == 'Nutriologo'){
+      console.log(localStorage.getItem('Auth'))
+      fetch('/api/account/agendaarray?token='+localStorage.getItem('Auth'), {method:'GET'})
+        .then(res => res.json())
+        .then(json1 => {
+          for(var k in json1) {
+            arrayItems[k] = {
+              "classes": json1[k].classes,
+              "Nutriologist_id": json1[k].Nutriologist_id,
+              "pending": json1[k].pending,
+              "_id": json1[k]._id,
+              "name": json1[k].name,
+              "startDateTime": new Date(json1[k].startDateTime),
+              "endDateTime": new Date(json1[k].endDateTime),
+              "__v": json1[k].__v
+          }
+        }
+        this.setState({
+          items : arrayItems
+        });
       });      
+    } else if (localStorage.getItem('Rol') == 'Cliente') {
+      console.log(localStorage.getItem('AssignedNutriologist'))
+      fetch('/api/account/agendaarray?token='+localStorage.getItem('AssignedNutriologist'), {method:'GET'})
+        .then(res => res.json())
+        .then(json1 => {
+          for(var k in json1) {
+            arrayItems[k] = {
+              "classes": "color-6",
+              "Nutriologist_id": json1[k].Nutriologist_id,
+              "pending": json1[k].pending,
+              "_id": json1[k]._id,
+              "name": json1[k].name,
+              "startDateTime": new Date(json1[k].startDateTime),
+              "endDateTime": new Date(json1[k].endDateTime),
+              "__v": json1[k].__v
+          }
+        }
+        this.setState({
+          items : arrayItems
+        });
+      });
+    } else {
+      console.log('Error')
+    }
+    
   }
 
 componentWillReceiveProps(next , last){
@@ -108,17 +130,13 @@ var num = this.state.cellHeight - 15
     this.setState({cellHeight:num})
   }
 
-  handleDateRangeChange (startDate, endDate) {
-      this.setState({startDate:startDate })
+handleDateRangeChange (startDate, endDate) {
+    this.setState({startDate:startDate })
+}
 
-  }
-
-  handleRangeSelection (selected) {
-
-
-this.setState({selected:selected , showCtrl:true})
-this._openModal();
-
+handleRangeSelection (selected) {
+  this.setState({selected:selected , showCtrl:true})
+  this._openModal();
 }
 
 _openModal(){
@@ -134,8 +152,8 @@ _closeModal(e){
 }
 
 handleItemChange(items , item){
-console.log('testfqefqefq');
-this.setState({items:items})
+  console.log('testfqefqefq');
+  this.setState({items:items})
 }
 
 handleItemSize(items , item){
@@ -145,13 +163,76 @@ handleItemSize(items , item){
 }
 
 removeEvent(items , item){
-
-    this.setState({ items:items});
+  fetch('/api/account/removedate?token='+item._id, {method:'GET'})
+      //  .then(res => res.json())
+      //  .then(json1 => {
+      //    console.log(json1)
+      //  });  
+  this.setState({ items:items});
+    
+    
 }
 
 addNewEvent (items , newItems){
   this.setState({showModal:false ,selected:[] , items:items});
   this._closeModal();
+  // console.log(newItems)
+  // console.log(newItems.name);
+  // console.log(newItems.startDateTime);
+  // console.log(newItems.endDateTime);
+  // console.log(newItems.classes);
+  // console.log(localStorage.getItem('Rol'));
+  if (localStorage.getItem('Rol') == 'Nutriologo'){
+    fetch('/api/account/createdate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: newItems.name,
+        Nutriologist_id: localStorage.getItem('Auth'),
+        clases: newItems.classes,
+        startDateTime: newItems.startDateTime,
+        endDateTime: newItems.endDateTime,
+        classes: newItems.classes,
+        pending: false,
+      }),
+    }).then(res => res.json())
+      .then(json => {
+        console.log('json', json);
+        if (json.success) {
+          console.log('Logrado');
+        } else {
+          console.log('No logrado');
+        }
+      });
+  } else if (localStorage.getItem('Rol') == 'Cliente') {
+      fetch('/api/account/createdate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: newItems.name,
+        Nutriologist_id: localStorage.getItem('AssignedNutriologist'),
+        clases: newItems.classes,
+        startDateTime: newItems.startDateTime,
+        endDateTime: newItems.endDateTime,
+        classes: newItems.classes,
+        pending: true,
+      }),
+    }).then(res => res.json())
+      .then(json => {
+        console.log('json', json);
+        if (json.success) {
+          console.log('Logrado');
+        } else {
+          console.log('No logrado');
+        }
+      });
+  } else {
+    console.log('Error creando')
+  }   
 }
 editEvent (items , item){
 

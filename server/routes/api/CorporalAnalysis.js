@@ -237,8 +237,10 @@ module.exports=(app) => {
      const {chart}=query;
    //  return res.send
    
+
     BodyAnalysis.findOne({$and:[{date:chart },{id:"5b5f3bbe15c2a80434feb939"}]}, (err, doc)  => {
      console.log(chart); 
+
      return res.send(doc);
     //  json(doc);
     });
