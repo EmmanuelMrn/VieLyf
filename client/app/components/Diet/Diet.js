@@ -66,7 +66,7 @@ class Diet extends Component {
     ClientSendFromTransition = clientSelectedObj._id;
 
     //Get the current UserID on session
-    const obj = getFromStorage("the_main_app");
+    const obj = getFromStorage("El_token");
     const { token } = obj;
 
     fetch("/api/accounts/GetUserFromUserSession?token=" + token)

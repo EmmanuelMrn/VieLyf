@@ -286,6 +286,7 @@ class VistaCliente extends Component {
     localStorage.removeItem("Auth");
     localStorage.removeItem("Rol");
     window.location = "/";
+    alertify.warning("Closed session");
   }
   
   agendaModal() {
@@ -309,6 +310,7 @@ class VistaCliente extends Component {
     const { signUpEmail } = this.state;
     fetch("/api/account/deleteaccount?token=" + signUpEmail + "");
     this.toggleModal();
+    alertify.error("Your account was deleted");
   }
 
   toggleModal() {
@@ -354,6 +356,7 @@ class VistaCliente extends Component {
           });
         }
       });
+      alertify.success("Edited profile");
   }
 
   Profile(){
@@ -432,20 +435,20 @@ class VistaCliente extends Component {
             <div className="col-md-3">
               <div className="btn-group-vertical">
                 <button type="button" className="btn btn-dark">
-                  Calendario
+                  Calendar
                 </button>
                 <Link to="/transition" className="btn btn-dark">
-                  Crear Dieta
+                  Create diet
                 </Link>
                 <Link to="/agenda" className="btn btn-dark">
-                  Agenda
+                  Diary
                 </Link>
                 {/* <br/> */}
                 <button
                   type="button"
                   className="btn btn-dark"
                   onClick={this.logout}>
-                  Cerrar sesion
+                  Log out
                 </button>
               </div>
             </div>
@@ -459,17 +462,16 @@ class VistaCliente extends Component {
                 />
               </div>
               <div className="col-md-3">
-                <p>Nombre:</p>
-                <p>Título: </p>
-                <p>Telefóno: </p>
-                <p>Correo: </p>
+                <p>Name:</p>
+                <p>Phone: </p>
+                <p>Email: </p>
               </div>
             </div>
 
             <div className="col-md-3 right_sidebar_area">
               <aside className="right_widget r_news_widget">
                 <div className="r_w_title">
-                  <h3>Noticias recientes</h3>
+                  <h3>Last news</h3>
                 </div>
                 <div className="news_inner">
                   {ClientsData.map(function(
@@ -526,7 +528,7 @@ class VistaCliente extends Component {
                             );
                           }}
                         >
-                          Aceptar
+                          Accept
                         </button>
                         <button
                           type="button"
@@ -538,7 +540,7 @@ class VistaCliente extends Component {
                             );
                           }}
                         >
-                          Denegar
+                          Deny
                         </button>
                       </div>
                     );
@@ -592,19 +594,12 @@ class VistaCliente extends Component {
                 />
               </div>
               <div className="col-md-3">
-                <p>Nombre: </p>
-                <p>Edad: </p>
-                <p>Estatura: </p>
-                <p>Peso: </p>
+                <p>Name: </p>
+                <p>Age: </p>
+                <p>Height: </p>
+                <p>Weight: </p>
               </div>
             </div>
-            
-            <button
-                  id="alerta"
-                  type="button"
-                  className="btn btn-dark">
-                  Click me
-            </button>
 
             {this.state.isActive ? (
               <Modal onRequestClose={this.toggleModal} style={customStyles}>
@@ -655,9 +650,9 @@ class VistaCliente extends Component {
                   type="button"
                   className="btn btn-dark"
                   onClick={this.onDelete}>
-                  Eliminar cuenta
+                    Delete Account
                 </button>
-                <button onClick={this.toggleModal}>Cancelar</button>
+                <button onClick={this.toggleModal}>Cancel</button>
               </Modal>
             ) : (
               ""
@@ -681,17 +676,12 @@ class VistaCliente extends Component {
           ) : (
             ""
           )}
-
-          <div id="alertEdit" className="alert alert-success collapse">
-                    <a href="#" className="close" data-dismiss="alert">&times;</a>
-                    <strong>Changes saved</strong> You changed your information satisfactorily
-                </div>
               
         </div>
 
       );
     } else {
-      return <div>no session found</div>;
+      return <div>No session found</div>;
     }
   }
 }
