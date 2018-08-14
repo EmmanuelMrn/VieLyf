@@ -95,6 +95,7 @@ class Login extends Component {
       .then(json => {
         localStorage.setItem("email", json.Email);
         if (json.success) {
+          setInStorage("El_token", {token:json.token} );
           setInStorage("the_main_app", { token: json.token._id });
           this.setState({
             loginError: json.message,
@@ -117,17 +118,29 @@ class Login extends Component {
                 .then(json2 => {
                   fetch('/api/accounts/getuser?token='+json2[0]._id)
                   .then(res => res.json())
-                  .then(json3 => {
-                    fetch('/api/account/getuserbyid?token='+json3.doc.Nutritionist_id)
-                    .then(res => res.json())
-                    .then(json4 => {
-                      console.log(json4[0].Email)
-                      localStorage.setItem('AssignedNutriologist', json4[0].Email)
-                    })
-                  })       
-                })
-                localStorage.setItem('Rol', 'Cliente');  
-                window.location=('/vistacliente');
+                  .then(json2 => {
+                    localStorage.setItem('clientID', json2[0]._id);
+                    fetch("/api/accounts/getuser?token=" + json2[0]._id)
+                      .then(res => res.json())
+                      .then(json3 => {
+                        fetch(
+                          "/api/account/getuserbyid?token=" +
+                            json3.Nutritionist_id
+                        )
+                          .then(res => res.json())
+                          .then(json4 => {
+                            console.log("hola");
+                            console.log(json4);
+                            localStorage.setItem(
+                              "AssignedNutriologist",
+                              json4[0].Email
+                            );
+                          });
+                      });
+                  });
+                localStorage.setItem("Rol", "Cliente");
+                //    window.localtion = "/vistaprincipal";
+                window.location = "/vistacliente";
               }
             });
         } else {
