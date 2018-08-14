@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import 'whatwg-fetch';
+import Datetime from 'react-datetime';
 import Modal from 'react-modal';
 import { Chart } from 'react-chartjs-2';
 import { Container } from 'mdbreact';
@@ -45,16 +46,19 @@ class ChartsPage extends React.Component {
    
        console.log(obj);
        console.log(localStorage.getItem('clientID'));
-       
+
+       var date= new Date();
+       console.log(date.toDateString());
           fetch('/api/accounts/graphs?chart='+obj, {method:'GET'}) 
             .then(res => res.json())   
-            .then(res => {
-                console.log("res",res.Weight);
+            .then(json => {
+                console.log("json",json.date);
                 this.setState({
-                      weight:res.Weight,
-                      height:res.Height,
-                      Age:res.Age,
-                      FatFreeBodyMass:res.FatFreeBodyMass
+                      weight:json.Weight,
+                      height:json.Height,
+                      Age:json.Age,
+                      FatFreeBodyMass:json.FatFreeBodyMass
+
 
                     });
                

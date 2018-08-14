@@ -79,6 +79,7 @@ class Header extends Component {
     localStorage.removeItem('Rol');
     window.location=('/login')
   }
+  
   render() {
     const {
       isLoading,
@@ -145,9 +146,6 @@ class Header extends Component {
                   </div>
                 </li>
               </ul>
-              
-          
-
               </nav>
               {/* <div class="sidebar">
                   <h2>Notifications</h2>
@@ -165,7 +163,7 @@ class Header extends Component {
                   </div>
                </div>
            */}
-           <div class="sidebar">
+           <div className="sidebar">
                   <h2>Notifications</h2>
                   <div className="news_inner">
                   { ClientsData.map(function(client, aceptar, negar, handleClick, isToggleOn){
@@ -181,7 +179,7 @@ class Header extends Component {
                             <a><h6>{"Con una duracion de "+moment.duration(diferencia, "hours").humanize()}</h6></a>
                             <button type="button" id='hide' name="" className="btn btn-dark" onClick={function aceptar() {
                               fetch("/api/account/editagenda?token="+client._id)
-                            }}>Aceptar</button>
+                            }}>Accept</button>
                             <button type="button" name="" className="btn btn-dark" onClick={function aceptar() {
                               fetch('/api/account/deleteagenda?token='+client._id)
                                 $(".cancel").click(function () {
@@ -189,8 +187,8 @@ class Header extends Component {
                                     $(this).parent().toggleClass('gone');
                                 });
                               
-                            }}>Denegar</button>
-                            <div class="cancel" onClick={
+                            }}>Deny</button>
+                            <div className="cancel" onClick={
                       function(e) {
                         $(".cancel").click(function () {
                           console.log("toggling visibility");
@@ -224,7 +222,7 @@ class Header extends Component {
                       </li>
                       <ul style={{ listStyleType: "none", padding: 0 }}>
                     <li>
-                      <Link to="/agenda" onClick={ $('#menu-toggle').click() }>Agenda</Link>
+                      <Link to="/agenda" onClick={ $('#menu-toggle').click() }>Diary</Link>
                     </li>
                     <li>
                       <Link id="nutri" to="/nutritionalblog" onClick={ $('#menu-toggle').click() }>Nutrirional Blog</Link>
@@ -289,7 +287,8 @@ class Header extends Component {
               </ul>
             </nav>
               
-           <div class="sidebar">
+
+           <div className="sidebar">
                   <h2>Notifications</h2>
                   <div className="news_inner">
                   { ClientsData.map(function(client, aceptar, negar, handleClick, isToggleOn){
@@ -307,12 +306,11 @@ class Header extends Component {
                             <a><h6>{"Con una duracion de "+moment.duration(diferencia, "hours").humanize()}</h6></a>
                             <button type="button" id='hide' name="" className="btn btn-dark" onClick={function aceptar() {
                               fetch("/api/account/editagenda?token="+client._id)
-                            }}>Aceptar</button>
+                            }}>Accept</button>
                             <button type="button" name="" className="btn btn-dark" onClick={function aceptar() {
                               fetch('/api/account/deleteagenda?token='+client._id)
                               $(this).parent().toggleClass('gone');
-                            }}>Denegar</button>
-                            
+                            }}>Deny</button>
                         </div>
                         )
                     })}
@@ -339,7 +337,7 @@ class Header extends Component {
                       </li>
                       <ul style={{ listStyleType: "none", padding: 0 }}>
                     <li>
-                      <Link to="/agenda" onClick={ $('#menu-toggle').click() }>Agenda</Link>
+                      <Link to="/agenda" onClick={ $('#menu-toggle').click() }>Diary</Link>
                     </li>
                     <li>
                       <Link id="nutri" to="/nutritionalblog" onClick={ $('#menu-toggle').click() }>Nutrirional Blog</Link>
@@ -365,8 +363,8 @@ class Header extends Component {
       <header>
            <nav className="navbar bg-dark text-white">
              <Link to="/" className="navbar-brand text-white">VieLyf</Link>      
-               <Link to="/nutritionalBlog" className="text-white">Blog nutricional</Link>
-               <Link to="/catalogueNutriologist" className="text-white">Catálogo de nutriólogos</Link>
+               <Link to="/nutritionalBlog" className="text-white">Nutritional Blog</Link>
+               <Link to="/catalogueNutriologist" className="text-white">Nutritionist Catalogue</Link>
              <div>
                <Link to="/signup" className="navbar-brand text-white">Sign up</Link>
                <Link to="/login" className="navbar-brand text-white">Log in</Link>
