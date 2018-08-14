@@ -6,6 +6,11 @@ const BodyAnalysisSchema = new mongoose.Schema({
             type:String,
             default:''
         },
+        // consult:{
+        //     type:Number,
+        //     default:0,
+        //     auto:true,
+        //  },
         Weight:{
             type:Number,
             default:''

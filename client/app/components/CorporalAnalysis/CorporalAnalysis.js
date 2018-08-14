@@ -37,7 +37,7 @@ class CorporalAnalysis extends Component {
       BodyMassIndex:'',
       BodyFat:'',
       FatFreeMass:'',
-      date:'',
+      date1:'',
       HipWaistIndex:'',
       TotalEnergyExpenditure:'',
       BasalEnergyExpenditure:'',
@@ -79,7 +79,7 @@ onUpdateCorpA()
     TBWProtein,
     TBWMineral,
     TBWBodyFat,
-    date,
+    date1,
     BodyFat,
     FatFreeMass,
     BodyMassIndex,
@@ -90,7 +90,7 @@ onUpdateCorpA()
     BodyType
 
     }=this.state;
-    console.log(date);
+    console.log("La fecha perro " +this.state.date1.toString());
     this.setState({
       isLoading:true
      });
@@ -115,7 +115,7 @@ onUpdateCorpA()
       TBWProtein:TBWProtein,
       TBWMineral:TBWMineral,
       TBWBodyFat:TBWBodyFat,
-      date:date,
+      date:this.state.date1,
       BodyFat:BodyFat,
       FatFreeMass:FatFreeMass,
       BodyMassIndex:BodyMassIndex,
@@ -205,15 +205,17 @@ componentDidMount()
  // if(isLoading)
    //{
       var yesterday = Datetime.moment().subtract( 1, 'day' );
-       //date = new Date();
+        this.state.date1 = new Date();
+        console.log(this.state.date1.toDateString());
+       
       // var date=time.toDateString();
       var valid = function( current ){
           return current.isAfter( yesterday );
          // return current.isBefore(tomorrow);
       };
     
-      console.log(date.toString());
-      console.log(date);
+      console.log(this.state.date1.toString().trim());
+      console.log(this.state.date1);
     
       //  <button onClick={this.onUpdateCorpA}>Save</button>
      
@@ -222,7 +224,7 @@ componentDidMount()
        
   <div>
       <div className="container">
-      <Datetime   name="date" value={date} timeFormat={false} isValidDate={valid} onChange={this.handleDate} />
+      <Datetime   name="date" value={this.state.date1}  timeFormat={false} isValidDate={valid} onChange={this.handleDate} />
       <div className="row">
       <div className="col-10 offset-2">
        <p>Fill the client information</p><br />

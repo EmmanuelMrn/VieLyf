@@ -213,6 +213,7 @@ module.exports=(app) => {
                 newCopA.EquivalentBiologicalAge=EquivalentBiologicalAge;
                 newCopA.BodyType=BodyType;
                 newCopA.save((err,CopA)=>{
+                    console.log(newCopA);
                     if(err)
                  {
                    return  res.send({
@@ -236,7 +237,7 @@ module.exports=(app) => {
      const {chart}=query;
    //  return res.send
    
-    BodyAnalysis.findOne({ id:chart }, (err, doc)  => {
+    BodyAnalysis.findOne({$and:[{date:chart },{id:"5b5f3bbe15c2a80434feb939"}]}, (err, doc)  => {
      console.log(chart); 
      return res.send(doc);
     //  json(doc);
