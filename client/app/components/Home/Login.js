@@ -207,21 +207,21 @@ class Login extends Component {
       loginPassword
     } = this.state;
 
-    if (isLoading) {
-      return (<div><p>Loading...</p></div>);
+    let userMessage
+    if (!loginError) {
+      userMessage = (
+        <span>
+          <h2 className="text-center" style={{color: '#00c851'}}>Welcome Back!</h2>
+        </span>
+      )
+    } else {
+      userMessage = (
+        <h2 className="text-center" style={{color: 'red'}}>{loginError}</h2>
+      )
     }
 
-    // if (!token) {
-    //   return (
-        
-        
-
-
-
-
-
-        
-    //   );
+    // if (isLoading) {
+    //   return (<div><p>Loading...</p></div>);
     // }
 
     return (
@@ -230,7 +230,7 @@ class Login extends Component {
           <div className="container container2">
             <div className="row">
               <div className="col-md-4 login-sec">
-                <h2 className="text-center" style={{color: '#00c851'}}>Welcome back!</h2>
+                {userMessage}
                 <form className="login-form">
                   <div className="form-group">
                     <label htmlFor="exampleInputEmail1" className="text-uppercase">Username</label>
