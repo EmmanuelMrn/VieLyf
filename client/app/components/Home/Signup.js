@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 import Modal from 'react-modal';
-
+import swal from 'sweetalert2';
 
 import {
   getFromStorage,
@@ -147,9 +147,8 @@ class Signup extends Component {
       }
 
     }
-    onProfSignUp()
-  {
-    
+
+  onProfSignUp() {
     const{
       profFirstName,
       profLastName,
@@ -201,10 +200,14 @@ class Signup extends Component {
           });
         }
       });
-
+      swal(
+        'Welcome to VieLyf Nutritionist!',
+        'Your account has been created!',
+        'success'
+      );
   }
-  toggleModal() 
-  {
+
+  toggleModal() {
     this.setState({
       isActive:!this.state.isActive,
       profFirstName:'',
@@ -217,6 +220,7 @@ class Signup extends Component {
       License:''
     })
   }
+
   onSignUp() {
     // Grab state
     const {
@@ -269,6 +273,11 @@ class Signup extends Component {
           });
         }
       });
+      swal(
+        'Welcome to VieLyf User!',
+        'Your account has been created!',
+        'success'
+      );
   }
 
   

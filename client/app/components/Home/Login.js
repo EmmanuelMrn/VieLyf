@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "whatwg-fetch";
 import { Link } from "react-router-dom";
 var vista = "";
+import swal from 'sweetalert2';
 import { getFromStorage, setInStorage } from "../../utils/storage";
 
 class Login extends Component {
@@ -136,6 +137,7 @@ class Login extends Component {
           });
         }
       });
+      alertify.success("Welcome!");
     this.setState({
       loginEmail: ""
     });
@@ -172,6 +174,7 @@ class Login extends Component {
           });
         }
       });
+      alertify.success("Edited profile");
   }
 
   logout() {
@@ -201,6 +204,7 @@ class Login extends Component {
         isLoading: false,
       });
     }
+    alertify.warning("Closed session");
   }
 
   render() {
