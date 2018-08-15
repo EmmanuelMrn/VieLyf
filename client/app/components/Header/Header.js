@@ -163,23 +163,23 @@ class Header extends Component {
                   </div>
                </div>
            */}
-           <div className="sidebar">
+           <div class="sidebar">
                   <h2>Notifications</h2>
-                  {/* <div className="news_inner"> */}
-                  {/* { ClientsData.map(function(client, aceptar, negar, handleClick, isToggleOn){
+                  <div className="news_inner">
+                  { ClientsData.map(function(client, aceptar, negar, handleClick, isToggleOn){
                     var dia = new Date(client.startDateTime).getDay();
                     var anio = new Date(client.startDateTime).getFullYear();
                     var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
                     var diferencia = new Date(client.startDateTime).getHours() - new Date(client.endDateTime).getHours();
                     console.log(moment.duration(diferencia, "hours").humanize())
                       return( 
-                        <div style={{color: '#fff'}} key={client._id} className="notibox">
+                        <div style={{color: '#fff'}} key={client._id} className="news_item">
                             <a><h4>{client.name}</h4></a>
                             <a><h6>{"Para: "+dia+ " de " + monthMinusOneName + " del " + anio}</h6></a>
                             <a><h6>{"Con una duracion de "+moment.duration(diferencia, "hours").humanize()}</h6></a>
                             <button type="button" id='hide' name="" className="btn btn-dark" onClick={function aceptar() {
                               fetch("/api/account/editagenda?token="+client._id)
-                            }}>Accept</button>
+                            }}>Aceptar</button>
                             <button type="button" name="" className="btn btn-dark" onClick={function aceptar() {
                               fetch('/api/account/deleteagenda?token='+client._id)
                                 $(".cancel").click(function () {
@@ -187,86 +187,19 @@ class Header extends Component {
                                     $(this).parent().toggleClass('gone');
                                 });
                               
-                            }}>Deny</button>
-                            {/* <div className="cancel" onClick={
+                            }}>Denegar</button>
+                            <div class="cancel" onClick={
                       function(e) {
                         $(".cancel").click(function () {
                           console.log("toggling visibility");
                             $(this).parent().toggleClass('gone');
                         });
                       }
-                    } >✕</div> */}
+                    } >✕</div>
                         </div>
-                        {/* ) */}
-                    {/* })} */} 
-                    {ClientsData.map(function(
-                  client,
-                  aceptar,
-                  negar,
-                  handleClick,
-                  isToggleOn
-                ) {
-                  var dia = new Date(client.startDateTime).getDay();
-                  var anio = new Date(client.startDateTime).getFullYear();
-                  var monthMinusOneName = moment()
-                    .subtract(
-                      new Date(client.startDateTime).getMonth(),
-                      "month"
-                    )
-                    .startOf("month")
-                    .format("MMMM");
-                  var diferencia =
-                    new Date(client.startDateTime).getHours() -
-                    new Date(client.endDateTime).getHours();
-                  console.log(moment.duration(diferencia, "hours").humanize());
-                  return (
-                    <div key={client._id} className="news_item">
-                      <a>
-                        <h4>{client.name}</h4>
-                      </a>
-                      <a>
-                        <h6>
-                          {"Para: " +
-                            dia +
-                            " de " +
-                            monthMinusOneName +
-                            " del " +
-                            anio}
-                        </h6>
-                      </a>
-                      <a>
-                        <h6>
-                          {"Con una duracion de " +
-                            moment.duration(diferencia, "hours").humanize()}
-                        </h6>
-                      </a>
-                      <button
-                        type="button"
-                        id="hide"
-                        name=""
-                        className="btn btn-dark"
-                        onClick={function aceptar() {
-                          fetch("/api/account/editagenda?token=" + client._id);
-                        }}
-                      >
-                        Accept
-                      </button>
-                      <button
-                        type="button"
-                        name=""
-                        className="btn btn-dark"
-                        onClick={function aceptar() {
-                          fetch(
-                            "/api/account/deleteagenda?token=" + client._id
-                          );
-                        }}
-                      >
-                        Deny
-                      </button>
+                        )
+                    })}
                     </div>
-                  );
-                })}   
-                    {/* </div> */}
                   {/* <div class="notibox">
                     cita dummie
                     <div class="cancel" onClick={
@@ -278,7 +211,7 @@ class Header extends Component {
                       }
                     } >✕</div> */}
                   {/* </div> */}
-               {/* </div> */}
+               </div>
               <div id="wrapper">
                 <div id="sidebar-wrapper">
                   <ul className="sidebar-nav">
@@ -354,8 +287,7 @@ class Header extends Component {
               </ul>
             </nav>
               
-
-           <div className="sidebar">
+            <div class="sidebar">
                   <h2>Notifications</h2>
                   <div className="news_inner">
                   { ClientsData.map(function(client, aceptar, negar, handleClick, isToggleOn){
@@ -365,35 +297,35 @@ class Header extends Component {
                     var diferencia = new Date(client.startDateTime).getHours() - new Date(client.endDateTime).getHours();
                     console.log(moment.duration(diferencia, "hours").humanize())
                       return( 
-                        
-                        <div style={{color: '#fff'}} key={client._id} className="news_item cancel">
-                        <br/>
+                        <div style={{color: '#fff'}} key={client._id} className="news_item">
                             <a><h4>{client.name}</h4></a>
                             <a><h6>{"Para: "+dia+ " de " + monthMinusOneName + " del " + anio}</h6></a>
                             <a><h6>{"Con una duracion de "+moment.duration(diferencia, "hours").humanize()}</h6></a>
                             <button type="button" id='hide' name="" className="btn btn-dark" onClick={function aceptar() {
                               fetch("/api/account/editagenda?token="+client._id)
-                            }}>Accept</button>
+                            }}>Aceptar</button>
                             <button type="button" name="" className="btn btn-dark" onClick={function aceptar() {
                               fetch('/api/account/deleteagenda?token='+client._id)
-                              $(this).parent().toggleClass('gone');
-                            }}>Deny</button>
-                        </div>
-                        )
-                    })}
-                    </div>
-                  {/* <div class="notibox">
-                    cita dummie
-                    <div class="cancel" onClick={
-                      function() {
+                                $(".cancel").click(function () {
+                                  console.log("toggling visibility");
+                                    $(this).parent().toggleClass('gone');
+                                });
+                              
+                            }}>Denegar</button>
+                            {/* <div class="cancel" onClick={
+                      function(e) {
                         $(".cancel").click(function () {
                           console.log("toggling visibility");
                             $(this).parent().toggleClass('gone');
                         });
                       }
                     } >✕</div> */}
-                  {/* </div> */}
+                        </div>
+                        )
+                    })}
+                    </div>
                </div>
+
               <div id="wrapper">
                 <div id="sidebar-wrapper">
                   <ul className="sidebar-nav">

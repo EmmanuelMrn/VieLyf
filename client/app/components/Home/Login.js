@@ -117,9 +117,14 @@ class Login extends Component {
                 fetch('/api/account/getuseremail?token='+loginEmail)
                 .then(res => res.json())
                 .then(json2 => {
-                  console.log("Entro a getuseremail")
-                  console.log(loginEmail)
+                  console.log("json 2")
+                  console.log(json2)
+                  console.log(json2[0])
+                  
                   localStorage.setItem('clientID', json2[0]._id);
+                  localStorage.setItem('ClientInfo', json2[0].FirstName)
+                  console.log("test")
+                  console.log(localStorage.getItem('ClientInfo'.FirstName))
                   fetch('/api/accounts/getuser?token='+json2[0]._id)
                   .then(res => res.json())
                   .then(json3 => {

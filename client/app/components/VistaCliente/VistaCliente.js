@@ -173,10 +173,7 @@ class VistaCliente extends Component {
     console.log(name);
   }
   componentDidMount() {
-    console.log(localStorage.getItem('AssignedNutriologist'))
-    console.log("Hello");
-    console.log(localStorage.getItem("Rol"));
-    console.log("=============");
+    console.log(localStorage.getItem('ClientInfo'))
     if (localStorage.getItem("Rol") == "Nutriologo") {
       console.log("true nutriologo");
       fetch(
