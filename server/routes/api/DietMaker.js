@@ -182,7 +182,6 @@ app.get('/api/accounts/GetMyClients',(req,res,next)=>{
       return res.send(doc);
       });
   });
-
   app.get('/api/account/getuserbyid',(req,res,next)=>{
     console.log(req.query.token);
     User.find({_id:req.query.token }, (err, doc)  => {

@@ -25,7 +25,7 @@ module.exports = app => {
   app.get("/api/account/deleteagenda", (req, res) => {
     const { query } = req;
     const { token } = query;
-    Agenda.findByIdAndRemove(token);
+    Agenda.findOneAndDelete({ _id: token });
     res.json({ status: "Task deleted" });
   });
 
@@ -97,7 +97,14 @@ module.exports = app => {
 
   app.post("/api/account/signup", (req, res, next) => {
     const { body } = req;
-    const { FirstName, LastName, Password, UserName, Role, Phone } = body;
+    const {
+      FirstName,
+      LastName,
+      Password,
+      // UserName,
+      Role,
+      Phone
+    } = body;
     let { Email } = body;
 
     if (!FirstName) {
@@ -112,12 +119,12 @@ module.exports = app => {
         message: "Fail in the Last Name"
       });
     }
-    if (!UserName) {
-      return res.send({
-        success: false,
-        message: "Fail in the User Name"
-      });
-    }
+    // if (!UserName) {
+    //   return res.send({
+    //     success: false,
+    //     message: "Fail in the User Name"
+    //   });
+    // }
     if (!Email) {
       return res.send({
         success: false,
@@ -187,6 +194,56 @@ module.exports = app => {
 
     User.find(
       {
+        FirstName: { $regex: ".*" + token + ".*", $options: "i" }
+      },
+      (err, doc) => {
+        if (err) {
+          console.log(err);
+          return res.send({
+            success: false,
+            message: "Error: Server error"
+          });
+        } else {
+          res.send({
+            success: true,
+            doc
+          });
+        }
+      }
+    );
+  });
+  app.get("/api/account/searchNutritionist", (req, res, next) => {
+    const { query } = req;
+    const { token } = query;
+
+    User.find(
+      {
+        Role: "Nutritionist",
+        FirstName: { $regex: ".*" + token + ".*", $options: "i" }
+      },
+      (err, doc) => {
+        if (err) {
+          console.log(err);
+          return res.send({
+            success: false,
+            message: "Error: Server error"
+          });
+        } else {
+          res.send({
+            success: true,
+            doc
+          });
+        }
+      }
+    );
+  });
+  app.get("/api/account/searchClient", (req, res, next) => {
+    const { query } = req;
+    const { token } = query;
+
+    User.find(
+      {
+        Role: "Client",
         FirstName: { $regex: ".*" + token + ".*", $options: "i" }
       },
       (err, doc) => {

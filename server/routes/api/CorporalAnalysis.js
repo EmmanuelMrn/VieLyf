@@ -18,7 +18,15 @@ module.exports=(app) => {
         LSTMineral,
         TBWProtein,
         TBWMineral,
-        TBWBodyFat
+        TBWBodyFat,
+        HipWaistIndex,
+        date,
+        BodyMassIndex,
+        BodyFat,
+        FatFreeMass,
+        TotalEnergyExpenditure,
+        EquivalentBiologicalAge,
+        BodyType
 
         }= body;
        
@@ -113,6 +121,62 @@ module.exports=(app) => {
                  message:'Error: TBWBodyFat  not found'
              });
          }
+         if(!HipWaistIndex)
+         {
+             return res.send({
+                 success:false,
+                 message:'Error : Hip Waist Index not found'
+             });
+         }
+         if(!date)
+         {
+             return res.send({
+                 success:false,
+                 message:'Error : Date Index not found'
+             });
+         }
+         if(!BodyMassIndex)
+         {
+             return res.send({
+                 success:false,
+                 message:'Error : Body Mass Index Index not found'
+             });
+         }
+         if(!BodyFat)
+         {
+             return res.send({
+                 success:false,
+                 message:'Error : Body Fat Index not found'
+             });
+         }
+         if(!FatFreeMass)
+         {
+             return res.send({
+                 success:false,
+                 message:'Error : Fat Free Mass Index not found'
+             });
+         }
+         if(!TotalEnergyExpenditure)
+         {
+             return res.send({
+                 success:false,
+                 message:'Error : Total Energy Expenditure Index not found'
+             });
+         }
+         if(!EquivalentBiologicalAge)
+         {
+             return res.send({
+                 success:false,
+                 message:'Error : Equivalent Biological Age Index not found'
+             });
+         }
+        //  if(!BodyType)
+        //  {
+        //      return res.send({
+        //          success:false,
+        //          message:'Error : Body Type Index not found'
+        //      });
+        //  }
 
          User.find({
              id:id
@@ -140,7 +204,16 @@ module.exports=(app) => {
                 newCopA.TBWProtein = TBWProtein;
                 newCopA.TBWMineral = TBWMineral;
                 newCopA.TBWBodyFat = TBWBodyFat;
+                newCopA.HipWaistIndex=HipWaistIndex;
+                newCopA.BodyMassIndex=BodyMassIndex;
+                newCopA.BodyFat=BodyFat;
+                newCopA.FatFreeMass=FatFreeMass;
+                newCopA.date=date;
+                newCopA.TotalEnergyExpenditure=TotalEnergyExpenditure;
+                newCopA.EquivalentBiologicalAge=EquivalentBiologicalAge;
+                newCopA.BodyType=BodyType;
                 newCopA.save((err,CopA)=>{
+                    console.log(newCopA);
                     if(err)
                  {
                    return  res.send({
@@ -164,9 +237,12 @@ module.exports=(app) => {
      const {chart}=query;
    //  return res.send
    
-    BodyAnalysis.findOne({ _id:chart }, (err, doc)  => {
-     //console.log(doc); 
+
+    BodyAnalysis.findOne({$and:[{date:chart },{id:"5b5f3bbe15c2a80434feb939"}]}, (err, doc)  => {
+     console.log(chart); 
+
      return res.send(doc);
+    //  json(doc);
     });
  
  });
