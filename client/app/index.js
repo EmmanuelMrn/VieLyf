@@ -22,7 +22,7 @@ import CatalogueNutriologist from "./components/Home/CatalogueNutriologist";
 import DisponibilitySchedule from "./components/Home/DisponibilitySchedule";
 import ResultadoBusqueda from "./components/Home/ResultadoBusqueda";
 import SearchBar from "./components/Home/SearchBar";
-import Profile from './components/Profile/Profile';
+import Profile from "./components/Profile/Profile";
 import "./styles/styles.scss";
 
 render(
