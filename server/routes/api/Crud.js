@@ -18,7 +18,7 @@ module.exports = (app) => {
       const {token} = query;
 
       Agenda.find({ Nutriologist_id:token, pending:true}, (err, doc)  => {
-          console.log(doc);
+          // console.log(doc);
           return res.send(doc);
           });
   });
@@ -26,8 +26,16 @@ module.exports = (app) => {
   app.get("/api/account/deleteagenda", (req, res) => {
     const {query} = req;
     const { token } = query;;
-    Agenda.findOneAndRemove({_id:token});
-    res.json({status: 'Task deleted'});
+    Agenda.findOneAndDelete({_id:token}, 
+      (err) => {
+        if (err) {
+          res.send(err)
+        } else {
+          res.send("Appointment deleted"
+          )
+        }
+      });
+    // res.json({status: 'Task deleted'});
   });
 
   app.get("/api/account/editagenda", (req, res, next) => {

@@ -109,40 +109,26 @@ class Login extends Component {
             .then(json1 => {
               if (json1.success) {
                 localStorage.setItem("Auth", loginEmail);
-                window.location = "/vistacliente";
-                //  window.location = "/vistanutriologo";
+                window.location = "/vistanutriologo";
                 localStorage.setItem("Rol", "Nutriologo");
               } else {
-                console.log(loginEmail)
                 fetch('/api/account/getuseremail?token='+loginEmail)
                 .then(res => res.json())
                 .then(json2 => {
-                  console.log("json 2")
-                  console.log(json2)
-                  console.log(json2[0])
-                  
-                  localStorage.setItem('clientID', json2[0]._id);
-                  localStorage.setItem('ClientInfo', json2[0].FirstName)
-                  console.log("test")
-                  console.log(localStorage.getItem('ClientInfo'.FirstName))
                   fetch('/api/accounts/getuser?token='+json2[0]._id)
                   .then(res => res.json())
                   .then(json3 => {
-                    console.log("Entro a getuser")
-                    console.log(json2[0]._id)
                     fetch('/api/account/getuserbyid?token='+json3.doc.Nutritionist_id)
                     .then(res => res.json())
                     .then(json4 => {
-                      console.log("Entro a getuserbyid")
-                      console.log(json2[0]._id)
-                      console.log(json4[0].Email)
-                      localStorage.setItem('AssignedNutriologist', json4[0].Email)
+                    localStorage.setItem('AssignedNutriologist', json4[0].Email)
+                    localStorage.setItem('clientID', json2[0]._id);
+                  
                     })
                   })       
                 })
                 localStorage.setItem('Rol', 'Cliente');  
                 window.location=('/vistacliente');
-
               }
             });
         } else {
@@ -154,7 +140,8 @@ class Login extends Component {
       });
       alertify.success("Welcome!");
     this.setState({
-      loginEmail: ""
+      loginEmail: "",
+      loginPassword: ""
     });
   }
 

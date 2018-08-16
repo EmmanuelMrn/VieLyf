@@ -19,16 +19,18 @@ class Header extends Component {
     };
 
     this.logout = this.logout.bind(this);
+    this.updatethings = this.updatethings.bind(this);
 
   }
 
   componentDidMount() {
+    this.updatethings();
     if (localStorage.hasOwnProperty('the_main_app')) {
       this.setState({isActive: true}, function() {
       })
     }
 
-    this.interval = setInterval(()=> this.updatethings(),2000)
+    this.interval = setInterval(()=> this.updatethings(),1000)
   }
 
   componentWillUnmount(){
@@ -43,7 +45,6 @@ class Header extends Component {
           items : json1,
         });
       });
-      console.log('Arriba el TEC')
   }
 
   logout() {
@@ -86,6 +87,10 @@ class Header extends Component {
       isActive,
     } = this.state;
 
+    function update() {
+      this.updatethings;
+    }
+
     function alerta() {
       if (localStorage.getItem('Role')=="Nutriologist") {
         return (
@@ -100,8 +105,6 @@ class Header extends Component {
         )
       }
     }
-
-    var ClientsData = Array.from(this.state.items);
 
     if (isActive && localStorage.getItem('Rol')=="Cliente") {
       return (
@@ -166,7 +169,7 @@ class Header extends Component {
            <div class="sidebar">
                   <h2>Notifications</h2>
                   <div className="news_inner">
-                  { ClientsData.map(function(client, aceptar, negar, handleClick, isToggleOn){
+                  { this.state.items.map(function(client, aceptar, negar, handleClick, isToggleOn){
                     var dia = new Date(client.startDateTime).getDay();
                     var anio = new Date(client.startDateTime).getFullYear();
                     var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
@@ -290,7 +293,10 @@ class Header extends Component {
             <div class="sidebar">
                   <h2>Notifications</h2>
                   <div className="news_inner">
-                  { ClientsData.map(function(client, aceptar, negar, handleClick, isToggleOn){
+                  { this.state.items.map(function(client,  aceptar, negar, handleClick, isToggleOn){
+                    function up() {
+                      this.updatethings;
+                    }
                     var dia = new Date(client.startDateTime).getDay();
                     var anio = new Date(client.startDateTime).getFullYear();
                     var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
@@ -305,12 +311,7 @@ class Header extends Component {
                               fetch("/api/account/editagenda?token="+client._id)
                             }}>Aceptar</button>
                             <button type="button" name="" className="btn btn-dark" onClick={function aceptar() {
-                              fetch('/api/account/deleteagenda?token='+client._id)
-                                $(".cancel").click(function () {
-                                  console.log("toggling visibility");
-                                    $(this).parent().toggleClass('gone');
-                                });
-                              
+                              fetch('/api/account/deleteagenda?token='+client._id);
                             }}>Denegar</button>
                             {/* <div class="cancel" onClick={
                       function(e) {
