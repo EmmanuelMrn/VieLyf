@@ -87,12 +87,14 @@ class VistaCliente extends Component {
     this.toggleModal = this.toggleModal.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
+
   handleClick() {
     this.setState(prevState => ({
       isToggleOn: !prevState.isToggleOn
     }));
     console.log(isToggleOn);
   }
+
   removeEvent(items, item) {
     this.setState({ items: items });
   }
@@ -101,6 +103,7 @@ class VistaCliente extends Component {
     this.setState({ showModal: false, selected: [], items: items });
     this._closeModal();
   }
+
   editEvent(items, item) {
     this.setState({ showModal: false, selected: [], items: items });
     this._closeModal();
@@ -113,6 +116,7 @@ class VistaCliente extends Component {
   _openModal() {
     this.setState({ showModal: true });
   }
+
   _closeModal(e) {
     if (e) {
       e.stopPropagation();
@@ -133,16 +137,19 @@ class VistaCliente extends Component {
       return this._openModal();
     }
   }
+
   handleCellSelection(item, openModal) {
     if (this.state.selected && this.state.selected[0] === item) {
       return this._openModal();
     }
     this.setState({ selected: [item] });
   }
+
   zoomIn() {
     var num = this.state.cellHeight + 15;
     this.setState({ cellHeight: num });
   }
+
   zoomOut() {
     var num = this.state.cellHeight - 15;
     this.setState({ cellHeight: num });
@@ -162,6 +169,7 @@ class VistaCliente extends Component {
       }
     );
   }
+
   aceptar() {
     const target = event.target;
     const value = target.value;
@@ -172,6 +180,7 @@ class VistaCliente extends Component {
     });
     console.log(name);
   }
+
   componentDidMount() {
     console.log(localStorage.getItem('AssignedNutriologist'))
     console.log("Hello");
@@ -221,39 +230,6 @@ class VistaCliente extends Component {
     this.setState({ startDate: startDate });
   }
 
-  onEditProfile() {
-    const {
-      signUpEmail,
-      signUpFirstName,
-      signUpLastName,
-      signUpPassword
-    } = this.state;
-    fetch(
-      "/api/account/editprofile?token=" +
-        signUpEmail +
-        "&token2=" +
-        signUpFirstName +
-        "&token3=" +
-        signUpLastName +
-        "&token4=" +
-        signUpPassword +
-        ""
-    )
-      .then(res => res.json())
-      .then(json => {
-        if (json.success) {
-          this.setState({
-            token,
-            isLoading: false
-          });
-        } else {
-          this.setState({
-            isLoading: false
-          });
-        }
-      });
-  }
-
   logout() {
     this.setState({
       isLoading: true
@@ -288,7 +264,7 @@ class VistaCliente extends Component {
     window.location = "/";
     alertify.warning("Closed session");
   }
-  
+
   agendaModal() {
     console.log("============");
     console.log("Abrir modal");
@@ -379,7 +355,7 @@ class VistaCliente extends Component {
         		<div class="col-md-8">
         			<br />
         			<ul class="list-group list-primary">
-                        <a class="list-group-item">First Name: {user.FirstName}</a>
+                <a class="list-group-item">First Name: {user.FirstName}</a>
         				<a class="list-group-item">Last Name: {user.LastName}</a>
         				<a class="list-group-item">Phone: {user.Phone}</a>
         				<a class="list-group-item">Email: {user.Email}</a>
@@ -535,9 +511,7 @@ class VistaCliente extends Component {
                           name=""
                           className="btn btn-dark"
                           onClick={function aceptar() {
-                            fetch(
-                              "/api/account/deleteagenda?token=" + client._id
-                            );
+                            fetch("/api/account/deleteagenda?token=" + client._id);
                           }}
                         >
                           Deny

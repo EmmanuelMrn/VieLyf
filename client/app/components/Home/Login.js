@@ -23,11 +23,9 @@ class Login extends Component {
     };
 
     this.onLogin = this.onLogin.bind(this);
-    this.onEditProfile = this.onEditProfile.bind(this);
-    this.logout = this.logout.bind(this);
-
     this.handleInputChange = this.handleInputChange.bind(this);
   }
+  
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
@@ -152,71 +150,7 @@ class Login extends Component {
       loginEmail: ""
     });
   }
-
-  onEditProfile() {
-    const {
-      signUpEmail,
-      signUpFirstName,
-      signUpLastName,
-      signUpPassword
-    } = this.state;
-    fetch(
-      "/api/account/editprofile?token=" +
-        signUpEmail +
-        "&token2=" +
-        signUpFirstName +
-        "&token3=" +
-        signUpLastName +
-        "&token4=" +
-        signUpPassword +
-        ""
-    )
-      .then(res => res.json())
-      .then(json6 => {
-        if (json6.success) {
-          this.setState({
-            token,
-            isLoading: false
-          });
-        } else {
-          this.setState({
-            isLoading: false
-          });
-        }
-      });
-      alertify.success("Edited profile");
-  }
-
-  logout() {
-    this.setState({
-      isLoading: true
-    });
-    const obj = getFromStorage("the_main_app");
-    if (obj && obj.token) {
-      const { token } = obj;
-      // Verify token
-      fetch("/api/account/logout?token=" + token)
-        .then(res => res.json())
-        .then(json => {
-          if (json.success) {
-            this.setState({
-              token: "",
-              isLoading: false
-            });
-          } else {
-            this.setState({
-              isLoading: false
-            });
-          }
-        });
-    } else {
-      this.setState({
-        isLoading: false,
-      });
-    }
-    alertify.warning("Closed session");
-  }
-
+ 
   render() {
     const {
       isLoading,
@@ -256,7 +190,9 @@ class Login extends Component {
                         <input type="checkbox" className="form-check-input"/>
                         <small>Remember Me</small>
                       </label> */}
-                    <button type="button" className="btn btn-login float-center" onClick={this.onLogin}>Submit</button>
+                    <button type="button" className="btn btn-login float-center" onClick={this.onLogin}>
+                      Log in
+                    </button>
                   </div>
                 </form>
               </div>

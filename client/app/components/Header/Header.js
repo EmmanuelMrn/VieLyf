@@ -1,25 +1,27 @@
-import React, { Component } from 'react';
-import 'whatwg-fetch';
-import { Link } from 'react-router-dom';
-import moment from 'moment';
-import {
-  getFromStorage,
-  setInStorage,
-} from '../../utils/storage';
-// import { link } from 'fs';
+import React, { Component } from "react";
+import "whatwg-fetch";
+import { Link } from "react-router-dom";
+import moment from "moment";
+import { getFromStorage, setInStorage } from "../../utils/storage";
 
 class Header extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       isLoading: true,
       isActive: false,
-      items:[], 
+      isActiveModal: false,
+      items:[],
+      showModal: false, 
     };
 
     this.logout = this.logout.bind(this);
-
+    this.onDelete = this.onDelete.bind(this);
+    this.onEditProfile = this.onEditProfile.bind(this);
+    this._openModal = this._openModal.bind(this);
+    this._closeModal = this._closeModal.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
   componentDidMount() {
@@ -28,13 +30,14 @@ class Header extends Component {
       })
     }
 
-    this.interval = setInterval(()=> this.updatethings(),2000)
+    //this.interval = setInterval(()=> this.updatethings(),2000)
   }
 
   componentWillUnmount(){
     clearInterval(this.interval)
   }
   
+  /*
   updatethings(){
     fetch('/api/account/agendaarrayaproved?token='+localStorage.getItem('Auth'), {method:'GET'})
       .then(res => res.json())
@@ -44,6 +47,48 @@ class Header extends Component {
         });
       });
       console.log('Arriba el TEC')
+  }
+  */
+ 
+  onEditProfile() {
+  const {
+    signUpEmail,
+    signUpFirstName,
+    signUpLastName,
+    signUpPassword
+  } = this.state;
+  fetch(
+    "/api/account/editprofile?token=" +
+      signUpEmail +
+      "&token2=" +
+      signUpFirstName +
+      "&token3=" +
+      signUpLastName +
+      "&token4=" +
+      signUpPassword +
+      ""
+  )
+    .then(res => res.json())
+    .then(json6 => {
+      if (json6.success) {
+        this.setState({
+          token,
+          isLoading: false
+        });
+      } else {
+        this.setState({
+          isLoading: false
+        });
+      }
+    });
+    alertify.success("Edited profile");
+  }
+
+  onDelete() {
+    const { signUpEmail } = this.state;
+    fetch("/api/account/deleteaccount?token=" + signUpEmail + "");
+    this.toggleModal();
+    alertify.error("Your account was deleted");
   }
 
   logout() {
@@ -78,6 +123,31 @@ class Header extends Component {
     localStorage.removeItem('Auth');
     localStorage.removeItem('Rol');
     window.location=('/login')
+    alertify.warning("Closed session");
+  }
+
+  toggleModal() {
+    console.log("qweq");
+    this.setState({
+      isActiveModal: !this.state.isActiveModal,
+      signUpEmail: "",
+      signUpFirstName: "",
+      signUpLastName: "",
+      signUpPassword: ""
+    });
+  }
+
+  _openModal() {
+    this.setState({ showModal: true });
+  }
+
+  _closeModal(e) {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+    console.log("test");
+    this.setState({ showModal: false });
   }
   
   render() {
@@ -142,7 +212,8 @@ class Header extends Component {
                     <i className="fa fa-user-circle fa-fw"></i>
                   </a>
                   <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                    <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout} >Logout</a>       
+                    <a className="dropdown-item" href="#" data-toggle="modal" data-target="#editProfileModal" onClick={this.toggleModal} >Edit profile</a> 
+                    <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout}>Log out</a>       
                   </div>
                 </li>
               </ul>
@@ -281,6 +352,7 @@ class Header extends Component {
                     <i className="fa fa-user-circle fa-fw"></i>
                   </a>
                   <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                    <a className="dropdown-item" href="#" data-toggle="modal" data-target="#editProfileModal" onClick={this.toggleModal} >Edit profile</a> 
                     <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout} >Logout</a>       
                   </div>
                 </li>
@@ -354,7 +426,65 @@ class Header extends Component {
                     </ul>
                   </ul>
                 </div>
-              </div>  
+              </div> 
+              
+              {this.state.isActiveModal ? (
+                <Modal onRequestClose={this.toggleModal} isOpen={this.state.isActiveModal} style={customStyles}>
+                  <p>Edit profile</p>
+                  <input
+                    type="firstName"
+                    name="signUpFirstName"
+                    placeholder="Nombre"
+                    value={this.state.signUpFirstName}
+                    onChange={this.handleInputChange}
+                  />
+                  <br />
+                  <input
+                    type="lastName"
+                    name="signUpLastName"
+                    placeholder="Apellido"
+                    value={this.state.signUpLastName}
+                    onChange={this.handleInputChange}
+                  />
+                  <br />
+                  <input
+                    type="email"
+                    name="signUpEmail"
+                    placeholder="Correo electronico"
+                    value={this.state.signUpEmail}
+                    onChange={this.handleInputChange}
+                  />
+                  <br />
+  
+                  <input
+                    type="password"
+                    name="signUpPassword"
+                    placeholder="Contraseña"
+                    value={this.state.signUpPassword}
+                    onChange={this.handleInputChange}
+                  />
+  
+                  <br />
+                  <button
+                  id="btnEdit"
+                  type="button"
+                  className="btn btn-dark"
+                  onClick={this.onEditProfile}>
+                    Submit changes
+                  </button>
+  
+                  <button
+                    type="button"
+                    className="btn btn-dark"
+                    onClick={this.onDelete}>
+                      Delete Account
+                  </button>
+                  <button onClick={this.toggleModal}>Cancel</button>
+                </Modal>
+              ) : (
+                ""
+              )}
+
             </header>
       )
     } else {
@@ -373,7 +503,7 @@ class Header extends Component {
          </header>
     );
   }
-}
+  }
 }
 
 export default Header;
