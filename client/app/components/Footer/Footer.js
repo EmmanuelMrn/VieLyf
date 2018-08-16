@@ -1,14 +1,12 @@
-import React from "react";
-
+import React from 'react';
+var a = new Date().getFullYear();
 const Footer = () => (
-  <div id="container">
-    <div id="header" />
-    <div id="body">
-      <p>About VieLyf</p>
-    </div>
-
-    <div id="footer" />
-  </div>
+  <footer className="footer">
+      <nav className="navbar bg-dark text-white">
+      
+        <p>VieLyf {a}<i className='fa fa-copyright'></i></p>
+      </nav>
+  </footer>
 );
 
 export default Footer;

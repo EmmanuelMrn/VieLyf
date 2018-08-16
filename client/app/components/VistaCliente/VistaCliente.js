@@ -173,6 +173,7 @@ class VistaCliente extends Component {
     console.log(name);
   }
   componentDidMount() {
+    console.log(localStorage.getItem('AssignedNutriologist'))
     console.log("Hello");
     console.log(localStorage.getItem("Rol"));
     console.log("=============");
@@ -190,7 +191,6 @@ class VistaCliente extends Component {
         });
     } else {
       console.log(this.state.isActive);
-      console.log(localStorage.getItem("AssignedNutriologist"));
     }
     const obj = getFromStorage("the_main_app");
     if (obj && obj.token) {
@@ -286,8 +286,9 @@ class VistaCliente extends Component {
     localStorage.removeItem("Auth");
     localStorage.removeItem("Rol");
     window.location = "/";
+    alertify.warning("Closed session");
   }
-
+  
   agendaModal() {
     console.log("============");
     console.log("Abrir modal");
@@ -308,6 +309,8 @@ class VistaCliente extends Component {
   onDelete() {
     const { signUpEmail } = this.state;
     fetch("/api/account/deleteaccount?token=" + signUpEmail + "");
+    this.toggleModal();
+    alertify.error("Your account was deleted");
   }
 
   toggleModal() {
@@ -321,6 +324,7 @@ class VistaCliente extends Component {
   }
 
   onEditProfile() {
+    this.toggleModal();
     console.log(this.state.signUpEmail);
     const {
       signUpEmail,
@@ -352,7 +356,65 @@ class VistaCliente extends Component {
           });
         }
       });
+      alertify.success("Edited profile");
   }
+
+  Profile(){
+    var user = this.state.UserProfile
+    return(
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-4">
+        		<div class="col-md-6" align="center">
+                <br />
+                    <img height='120px' src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg"/>
+        		</div>
+        		<div class="col-md-6">
+                    <p class="text-center"><strong>{user.FirstName} {user.LastName}</strong></p>
+	        		<p class="text-center"><em>UserName: {user.Email}</em></p>
+        		</div>
+
+        		<div class="col-md-8">
+        			<br />
+        			<ul class="list-group list-primary">
+                        <a class="list-group-item">First Name: {user.FirstName}</a>
+        				<a class="list-group-item">Last Name: {user.LastName}</a>
+        				<a class="list-group-item">Phone: {user.Phone}</a>
+        				<a class="list-group-item">Email: {user.Email}</a>
+        				<a class="list-group-item">Role: {user.Role}</a>
+    				</ul>
+    			</div>   
+            </div>
+
+            
+            <div class="col-8">
+                <br />
+                <div class="col-md-12" align="center">
+                    <h3 align="center">Profile <p><small>Profile's Content</small></p></h3>
+                </div>
+                <br />
+                <div class="card text-center">
+                    <div class="card-header">
+                        Featured
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Content</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                    <div class="card-footer text-muted">
+                        2 days ago
+                    </div>
+                </div>
+            </div>
+            </div>           
+    </div>
+    
+    )
+}
+
 
   render() {
     const {
@@ -369,26 +431,24 @@ class VistaCliente extends Component {
       return (
         <div>
           <h1>Cuenta Nutriólogo </h1>
-          Hello nutriologo
           <div className="row">
             <div className="col-md-3">
               <div className="btn-group-vertical">
                 <button type="button" className="btn btn-dark">
-                  Calendario
+                  Calendar
                 </button>
                 <Link to="/transition" className="btn btn-dark">
-                  Crear Dieta
+                  Create diet
                 </Link>
                 <Link to="/agenda" className="btn btn-dark">
-                  Agenda
+                  Diary
                 </Link>
                 {/* <br/> */}
                 <button
                   type="button"
                   className="btn btn-dark"
-                  onClick={this.logout}
-                >
-                  Cerrar sesion
+                  onClick={this.logout}>
+                  Log out
                 </button>
               </div>
             </div>
@@ -402,17 +462,16 @@ class VistaCliente extends Component {
                 />
               </div>
               <div className="col-md-3">
-                <p>Nombre: </p>
-                <p>Título: </p>
-                <p>Telefóno: </p>
-                <p>Correo: </p>
+                <p>Name:</p>
+                <p>Phone: </p>
+                <p>Email: </p>
               </div>
             </div>
 
             <div className="col-md-3 right_sidebar_area">
               <aside className="right_widget r_news_widget">
                 <div className="r_w_title">
-                  <h3>Noticias recientes</h3>
+                  <h3>Last news</h3>
                 </div>
                 <div className="news_inner">
                   {ClientsData.map(function(
@@ -469,7 +528,7 @@ class VistaCliente extends Component {
                             );
                           }}
                         >
-                          Aceptar
+                          Accept
                         </button>
                         <button
                           type="button"
@@ -481,7 +540,7 @@ class VistaCliente extends Component {
                             );
                           }}
                         >
-                          Denegar
+                          Deny
                         </button>
                       </div>
                     );
@@ -535,10 +594,10 @@ class VistaCliente extends Component {
                 />
               </div>
               <div className="col-md-3">
-                <p>Nombre: </p>
-                <p>Edad: </p>
-                <p>Estatura: </p>
-                <p>Peso: </p>
+                <p>Name: </p>
+                <p>Age: </p>
+                <p>Height: </p>
+                <p>Weight: </p>
               </div>
             </div>
 
@@ -580,20 +639,20 @@ class VistaCliente extends Component {
 
                 <br />
                 <button
-                  type="button"
-                  className="btn btn-dark"
-                  onClick={this.onEditProfile}
-                >
-                  Salvar cambios
+                id="btnEdit"
+                type="button"
+                className="btn btn-dark"
+                onClick={this.onEditProfile}>
+                  Submit changes
                 </button>
+
                 <button
                   type="button"
                   className="btn btn-dark"
-                  onClick={this.onDelete}
-                >
-                  Eliminar cuenta
+                  onClick={this.onDelete}>
+                    Delete Account
                 </button>
-                <button onClick={this.toggleModal}>Cancelar</button>
+                <button onClick={this.toggleModal}>Cancel</button>
               </Modal>
             ) : (
               ""
@@ -617,10 +676,12 @@ class VistaCliente extends Component {
           ) : (
             ""
           )}
+              
         </div>
+
       );
     } else {
-      return <div>no session found</div>;
+      return <div>No session found</div>;
     }
   }
 }
