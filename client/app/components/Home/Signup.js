@@ -11,7 +11,7 @@ import {
 const customStyles = {
   content : {
     top                   : '50%',
-    left                  : '50%',
+    left                  : '20%',
     right                 : 'auto',
     bottom                : 'auto',
     marginRight           : '-50%',
@@ -349,25 +349,30 @@ class Signup extends Component {
                     <input type="text" name="signUpUserName" value={signUpUserName} onChange={this.handleInputChange} className="form-control" placeholder=""/>
                   </div>
                   <div className="form-group">
-                    <label htmlFor="exampleInputPassword1" className="text-uppercase">Phone</label>
-                    <input type="password" name="signUpPhone" value={signUpPhone} onChange={this.handleInputChange} className="form-control" placeholder=""/>                    
-                  </div>
-                  <div className="form-group">
+
                     <label htmlFor="exampleInputPassword1" className="text-uppercase">Email</label>
-                    <input type="email" pattern="" name="signUpEmail" value={signUpEmail} onChange={this.handleInputChange} className="form-control" placeholder=""/>                    
+                    <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" name="signUpEmail" value={signUpEmail} onChange={this.handleInputChange} className="form-control" placeholder=""/>                    
+
                   </div>  
                   <div className="form-group">
                     <label htmlFor="exampleInputPassword1" className="text-uppercase">Password</label>
                     <input type="password" name="signUpPassword" value={signUpPassword} onChange={this.handleInputChange} className="form-control" placeholder=""/>                    
                   </div>
+                  <div className="form-group">
+                    <label htmlFor="exampleInputPassword1" className="text-uppercase">Phone</label>
+                    <input type="phone" name="signUpPhone" value={signUpPhone} onChange={this.handleInputChange} className="form-control" placeholder=""/>                    
+                  </div>
+r
                   <label className="form-check-label">
                       <input type="checkbox" className="form-check-input" value="Nutriologo" checked={false} onChange={this.toggleModal}/>
                       <small>I'm Nutriologist</small>
                   </label>
                   <div className="form-check">
+
                     <button type="button" className="btn btn-login float-left" onClick={this.onSignUp}>
                       Create account
                     </button>
+
                   </div>
                 </form>
               </div>
