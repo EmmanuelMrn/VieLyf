@@ -47,6 +47,7 @@ class ChartsPage extends React.Component {
    
        console.log(obj);
        console.log(localStorage.getItem('clientID'));
+
        var date= new Date();
        console.log(date.toDateString());
           fetch('/api/accounts/graphs?chart='+obj, {method:'GET'}) 
@@ -62,6 +63,7 @@ class ChartsPage extends React.Component {
                     items:  json.map(function(data){
                         return data
                     })
+
 
                     });
                

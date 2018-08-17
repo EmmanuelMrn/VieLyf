@@ -30,7 +30,6 @@ class VistaNutriologo extends Component {
     this.handleClick = this.handleClick.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
-
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
@@ -146,6 +145,7 @@ class VistaNutriologo extends Component {
     localStorage.removeItem("Auth");
     localStorage.removeItem("Rol");
     window.location = "/login";
+    alertify.warning("Closed session");
   }
 
   aceptar() {
@@ -187,26 +187,16 @@ class VistaNutriologo extends Component {
         <div className="row">
           <div className="col-md-3">
             <div className="btn-group-vertical">
-              <Link to="/vistanutriologo" className="btn btn-dark">
-                Página principal
-              </Link>
               <button type="button" className="btn btn-dark">
-                Calendario
+                Calendar
               </button>
               <Link to="/transition" className="btn btn-dark">
-                Crear Dieta
+                Create diet
               </Link>
               <Link to="/agenda" className="btn btn-dark">
-                Agenda
+                Diary
               </Link>
               {/* <br/> */}
-              <button
-                type="button"
-                className="btn btn-dark"
-                onClick={this.logout}
-              >
-                Cerrar sesion
-              </button>
             </div>
           </div>
 
@@ -219,17 +209,17 @@ class VistaNutriologo extends Component {
               />
             </div>
             <div className="col-md-3">
-              <p>Nombre: </p>
-              <p>Título: </p>
-              <p>Telefóno: </p>
-              <p>Correo: </p>
+              <p>Name: </p>
+              <p>Title: </p>
+              <p>Phone: </p>
+              <p>Email: </p>
             </div>
           </div>
 
           <div className="col-md-3 right_sidebar_area">
             <aside className="right_widget r_news_widget">
               <div className="r_w_title">
-                <h3>Noticias recientes</h3>
+                <h3>Last News</h3>
               </div>
               <div className="news_inner">
                 {ClientsData.map(function(
@@ -282,7 +272,7 @@ class VistaNutriologo extends Component {
                           fetch("/api/account/editagenda?token=" + client._id);
                         }}
                       >
-                        Aceptar
+                        Accept
                       </button>
                       <button
                         type="button"
@@ -294,7 +284,7 @@ class VistaNutriologo extends Component {
                           );
                         }}
                       >
-                        Denegar
+                        Deny
                       </button>
                     </div>
                   );
