@@ -103,7 +103,7 @@ module.exports = (app) => {
       FirstName,
       LastName,
       Password,
-     // UserName,
+      UserName,
       Role,
       Phone,
     } = body;

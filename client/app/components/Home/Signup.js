@@ -11,7 +11,7 @@ import {
 const customStyles = {
   content : {
     top                   : '50%',
-    left                  : '50%',
+    left                  : '20%',
     right                 : 'auto',
     bottom                : 'auto',
     marginRight           : '-50%',
@@ -298,49 +298,89 @@ class Signup extends Component {
 
     if (!token) {
       return (
-          <div>
-            {
-              (signUpError) ? (
-                <p>{signUpError}</p>
-              ) : (null)
-            }
-            <h1>Sign Up</h1>
-            <input
-              type="firstName"
-              name="signUpFirstName"
-              placeholder="First Name"
-              value={signUpFirstName}
-              onChange={this.handleInputChange}
-            /><br />
-            <input
-              type="lastName"
-              name="signUpLastName"
-              placeholder="Last Name"
-              value={signUpLastName}
-              onChange={this.handleInputChange}
-            /><br />
-            <input
-              type="text"
-              name="signUpPhone"
-              placeholder="Phone"
-              value={signUpPhone}
-              onChange={this.handleInputChange}
-            /><br />
-            <input
-              type="email"
-              name="signUpEmail"
-              placeholder="Email"
-              value={signUpEmail}
-              onChange={this.handleInputChange}
-            /><br />
-            <input
-              type="password"
-              name="signUpPassword"
-              placeholder="Password"
-              value={signUpPassword}
-              onChange={this.handleInputChange}
-            /><br />
-          <input type="checkbox" value="Nutriologo" checked={false} onChange={this.toggleModal}/>Nutritionist<br/>
+          
+<div>
+        <section className="login-block" style={{padding: '100px'}}>
+          <div className="container container2">
+            <div className="row">
+              <div className="col-md-4 login-sec">
+                {userMessage}
+                <form className="login-form">
+                  <div className="form-group">    
+                    <label htmlFor="exampleInputEmail1" className="text-uppercase">First Name</label>
+                    <input type="text" name="signUpFirstName" value={signUpFirstName} onChange={this.handleInputChange} className="form-control" placeholder=""/>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="exampleInputEmail1" className="text-uppercase">Last Name</label>
+                    <input type="text" name="signUpLastName" value={signUpLastName} onChange={this.handleInputChange} className="form-control" placeholder=""/>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="exampleInputEmail1" className="text-uppercase">User Name</label>
+                    <input type="text" name="signUpUserName" value={signUpUserName} onChange={this.handleInputChange} className="form-control" placeholder=""/>
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="exampleInputPassword1" className="text-uppercase">Email</label>
+                    <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" name="signUpEmail" value={signUpEmail} onChange={this.handleInputChange} className="form-control" placeholder=""/>                    
+                  </div>  
+                  <div className="form-group">
+                    <label htmlFor="exampleInputPassword1" className="text-uppercase">Password</label>
+                    <input type="password" name="signUpPassword" value={signUpPassword} onChange={this.handleInputChange} className="form-control" placeholder=""/>                    
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="exampleInputPassword1" className="text-uppercase">Phone</label>
+                    <input type="password" name="signUpPhone" value={signUpPhone} onChange={this.handleInputChange} className="form-control" placeholder=""/>                    
+                  </div>
+                  <label className="form-check-label">
+                      <input type="checkbox" className="form-check-input" value="Nutriologo" checked={false} onChange={this.toggleModal}/>
+                      <small>I'm Nutriologist</small>
+                  </label>
+                  <div className="form-check">
+                    <button type="button" className="btn btn-login float-left" onClick={this.onSignUp}>Submit</button>
+                  </div>
+                </form>
+              </div>
+              <div className="col-md-8 banner-sec">
+                <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
+                  <ol className="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                  </ol>
+                  <div className="carousel-inner" role="listbox">
+                    <div className="carousel-item active">
+                    <img className="d-block img-fluid" width="1100px" height="500px" src="/assets/img/img8.jpg" alt="First slide"/>
+                      <div className="carousel-caption d-none d-md-block">
+                        <div className="banner-text" style={{top: '-600px', width: '90%'}}>
+                            <h2>Welcome to your new life</h2>
+                            <h4 style={{color: 'rgb(187, 54, 143)', backgroundColor: '#fff'}}>Take care of your body, it's the only place you have to live in.</h4>
+                        </div>	
+                      </div>
+                    </div>
+                    <div className="carousel-item">
+                    <img className="d-block img-fluid" width="1100px" height="500px" src="/assets/img/img6.jpg" alt="First slide"/>
+                      <div className="carousel-caption d-none d-md-block">
+                        <div className="banner-text" style={{top: '-600px', width: '90%'}}>
+                            <h2>Work for the happiest version of yourself</h2>
+                            <h3 style={{color: 'rgb(237, 208, 194)', backgroundColor: '#fff'}}>Remeber: Dreams and dedictaion are a powerful combination.</h3>
+                        </div>	
+                      </div>
+                    </div>
+                    <div className="carousel-item">
+                    <img className="d-block img-fluid" width="1100px" height="500px" src="/assets/img/img7.jpg" alt="First slide"/>
+                      <div className="carousel-caption d-none d-md-block">
+                        <div className="banner-text" style={{top: '-600px', width: '90%'}}>
+                            <h2>Enjoy eating well</h2>
+                            <h3 style={{color: 'rgb(227, 58, 22)', backgroundColor: '#fff'}}>And enjoy the change in your lifestyle.</h3>
+                        </div>	
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section> 
+
           <Modal isOpen={this.state.isActive} onRequestClose={this.toggleModal}style ={customStyles}>
           <input type="text" name ="License" placeholder="Cedula Profesional" value ={License} onChange={this.handleInputChange}/> <button onClick={() => this.verify()}>Verificar</button><br />
           <input type="text" name = "profFirstName"placeholder="Nombre" value ={profFirstName} onChange={this.handleInputChange}readOnly/><br />
