@@ -35,10 +35,10 @@ class Transition extends Component {
 
 
 componentDidMount() {
-
     const obj = getFromStorage('the_main_app');
 
       fetch('/api/accounts/GetUserFromUserSession?token='+ obj.token)
+    //const obj = getFromStorage('El_token');
         .then(res => res.json())
         .then(json => {
           this.setState({

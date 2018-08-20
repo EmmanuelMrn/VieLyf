@@ -22,7 +22,9 @@ class Home extends Component {
     return(
       <div>
         <div className="img-bg">
-          <a className="btn btn-success btn-lg" id="BtnHome"href="/signup">Get Started</a>
+          <div>
+            <a className="btn btn-success btn-lg" id="BtnHome"href="/signup">Get Started</a>
+          </div>  
         </div>
         <div>
         <form>
