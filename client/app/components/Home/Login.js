@@ -95,7 +95,6 @@ class Login extends Component {
         if (json.success) {
           setInStorage('the_main_app', { token: json.token });
           setInStorage("El_token", {token:json.token} );
-
           this.setState({
             loginError: json.message,
             isLoading: false,
