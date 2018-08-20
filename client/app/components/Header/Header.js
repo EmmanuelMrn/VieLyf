@@ -117,13 +117,14 @@ class Header extends Component {
       this.setState({ isActive: true }, function() {});
     }
 
-    this.interval = setInterval(() => this.updatethings(), 2000);
+    //this.interval = setInterval(() => this.updatethings(), 2000);
   }
 
   componentWillUnmount() {
     clearInterval(this.interval);
   }
 
+  /*
   updatethings() {
     fetch(
       "/api/account/agendaarrayaproved?token=" + localStorage.getItem("Auth"),
@@ -137,7 +138,8 @@ class Header extends Component {
       });
     console.log("Arriba el TEC");
   }
-
+  */
+ 
   logout() {
     this.setState({
       isLoading: true
