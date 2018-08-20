@@ -1460,3 +1460,42 @@ h2 {
   margin-left: 20px;
 }
 
+.modal{
+  background:#1213123b
+}
+.modal-backdrop{
+  z-index:0;
+}
+
+#cardClient{
+  width: 300px;
+  height: 300px;
+  min-height: 300px;
+  
+}
+
+#cardSpace{
+  padding-left: 25px;
+  padding-right: 0px;
+}
+
+#newClient{
+  text-align: center;
+  background-color: #6c757d;
+  width: 300px;
+  height: 300px;
+  min-height: 300px;
+}
+
+#bttnAdd{
+  margin-top: 10px;
+  width: 130px;
+  height: 130px;
+}
+
+#buttonSize{
+  width: 296px;
+  height: 250px;
+  min-height: 250px;
+}
+
