@@ -62,51 +62,83 @@ export default class Agenda extends Component {
           localStorage.setItem('Client_ID', userdata[0]._id);  
           localStorage.setItem('ClientFirst', userdata[0].FirstName);  
       });
-    if (localStorage.getItem('Rol') == "Nutriologo") {
+    // if (localStorage.getItem('Rol') == "Nutriologo") {
       this.interval = setInterval(()=> this.updateAgenda(),1000)  
-    }
+    // }
     console.log(this.state.items)
   }
 
 updateAgenda() {
   const arrayItems=[];  
     if (localStorage.getItem('Rol') == 'Nutriologo'){
-      // console.log(localStorage.getItem('Auth'))
       fetch('/api/account/agendaarray?token='+localStorage.getItem('Auth'), {method:'GET'})
         .then(res => res.json())
         .then(json1 => {
           for(var k in json1) {
+            if (json1[k].createdByID == localStorage.getItem('Client_ID')) {
+              arrayItems[k] = {
+                "createdBy":json1[k].createdBy,
+                "createdByID":json1[k].createdByID,
+                "classes": json1[k].classes,
+                "Nutriologist_id": json1[k].Nutriologist_id,
+                "pending": json1[k].pending,
+                "name": json1[k].name + " (Created by you)",
+                "_id": json1[k]._id , 
+                "startDateTime": new Date(json1[k].startDateTime),
+                "endDateTime": new Date(json1[k].endDateTime),
+                "__v": json1[k].__v
+            }
+          } else {
             arrayItems[k] = {
+              "createdBy":json1[k].createdBy,
+              "createdByID":json1[k].createdByID,
               "classes": json1[k].classes,
               "Nutriologist_id": json1[k].Nutriologist_id,
               "pending": json1[k].pending,
-              "_id": json1[k]._id ,
-              "name": json1[k].name + "Send by " +json1[k].createdBy,
+              "name": json1[k].name + " Created by: " + json1[k].createdBy,
+              "_id": json1[k]._id , 
               "startDateTime": new Date(json1[k].startDateTime),
               "endDateTime": new Date(json1[k].endDateTime),
               "__v": json1[k].__v
           }
         }
+          }
         this.setState({
           items : arrayItems
         });
       });      
     } else if (localStorage.getItem('Rol') == 'Cliente') {
-      // console.log(localStorage.getItem('AssignedNutriologist'))
       fetch('/api/account/agendaarray?token='+localStorage.getItem('AssignedNutriologist'), {method:'GET'})
         .then(res => res.json())
         .then(json1 => {
           for(var k in json1) {
-            arrayItems[k] = {
-              "classes": "color-6",
-              "Nutriologist_id": json1[k].Nutriologist_id,
-              "pending": json1[k].pending,
-              "_id": json1[k]._id,
-              "name": json1[k].name,
-              "startDateTime": new Date(json1[k].startDateTime),
-              "endDateTime": new Date(json1[k].endDateTime),
-              "__v": json1[k].__v
-          }
+            if (json1[k].createdByID == localStorage.getItem('Client_ID')) {
+              arrayItems[k] = {
+                "createdBy":json1[k].createdBy,
+                "createdByID":json1[k].createdByID,
+                "classes": json1[k].classes,
+                "Nutriologist_id": json1[k].Nutriologist_id,
+                "pending": json1[k].pending,
+                "_id": json1[k]._id,
+                "name": json1[k].name + " (Created by you)",
+                "startDateTime": new Date(json1[k].startDateTime),
+                "endDateTime": new Date(json1[k].endDateTime),
+                "__v": json1[k].__v
+            }
+            } else {
+              arrayItems[k] = {
+                "createdBy":json1[k].createdBy,
+                "createdByID":json1[k].createdByID,
+                "classes": "color-6",
+                "Nutriologist_id": json1[k].Nutriologist_id,
+                "pending": json1[k].pending,
+                "_id": json1[k]._id,
+                "name": json1[k].name,
+                "startDateTime": new Date(json1[k].startDateTime),
+                "endDateTime": new Date(json1[k].endDateTime),
+                "__v": json1[k].__v
+            }
+            }
         }
         this.setState({
           items : arrayItems
@@ -176,10 +208,20 @@ handleItemSize(items , item){
 }
 
 removeEvent(items , item){
-  fetch('/api/account/removedate?token='+item._id, {method:'GET'})
-  this.setState({ items:items});
-    
-    
+  if (localStorage.getItem('Rol') == 'Nutriologo'){
+    fetch('/api/account/removedate?token='+item._id, {method:'GET'})
+    this.setState({ items:items});
+  } else if (localStorage.getItem('Rol') == 'Cliente' && item.createdByID == localStorage.getItem('Client_ID')) {
+    fetch('/api/account/removedate?token='+item._id, {method:'GET'})
+    console.log(item.createdByID)
+    console.log(localStorage.getItem('Client_ID'))
+    if ( item.createdByID = localStorage.getItem('Client_ID')) {
+      console.log("Equals")
+    } 
+    this.setState({ items:items});
+  } else {
+    console.log('Error')
+  }  
 }
 
 addNewEvent (items , newItems){
@@ -199,6 +241,8 @@ addNewEvent (items , newItems){
         endDateTime: newItems.endDateTime,
         classes: newItems.classes,
         pending: false,
+        createdBy: localStorage.getItem('ClientFirst'),
+        createdByID: localStorage.getItem('Client_ID')
       }),
     }).then(res => res.json())
       .then(json => {

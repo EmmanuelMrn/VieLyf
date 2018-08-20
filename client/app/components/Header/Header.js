@@ -132,7 +132,7 @@ class Header extends Component {
                 <div className="input-group">
                   <input type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2"/>
                   <div className="input-group-append">
-                    <button className="btn btn-primary" type="button">
+                    <button className="btn" type="button">
                       <i className="fa fa-search"></i>
                     </button>
                   </div>
@@ -150,22 +150,6 @@ class Header extends Component {
                 </li>
               </ul>
               </nav>
-              {/* <div class="sidebar">
-                  <h2>Notifications</h2>
-                  <div class="notibox">
-                    Wash the Car
-                    <div class="cancel">✕</div>
-                  </div>
-                  <div class="notibox">
-                    Do Laundry
-                    <div class="cancel">✕</div>
-                  </div>
-                  <div class="notibox">
-                    Feed the Cat
-                    <div class="cancel">✕</div>
-                  </div>
-               </div>
-           */}
            <div class="sidebar">
                   <h2>Notifications</h2>
                   <div className="news_inner">
@@ -203,17 +187,6 @@ class Header extends Component {
                         )
                     })}
                     </div>
-                  {/* <div class="notibox">
-                    cita dummie
-                    <div class="cancel" onClick={
-                      function() {
-                        $(".cancel").click(function () {
-                          console.log("toggling visibility");
-                            $(this).parent().toggleClass('gone');
-                        });
-                      }
-                    } >✕</div> */}
-                  {/* </div> */}
                </div>
               <div id="wrapper">
                 <div id="sidebar-wrapper">
@@ -250,22 +223,15 @@ class Header extends Component {
         <header>
           <nav className="navbar navbar-expand navbar-dark bg-dark static-top">
             <a className="navbar-brand mr-1" href="/">VieLyf</a>
-            <a href="#menu-toggle" className="btn " id="menu-toggle" 
+            <a href="#menu-toggle" style={{transition: ''}} className="btn" id="menu-toggle" 
             onClick={ function(e) {
               e.preventDefault();
               $("#wrapper").toggleClass("toggled")
               } }><i className="fa fa-bars" ></i></a>
-              <a style={{color:'#0676f8'}} className="toggle" onClick={
+              <a style={{color:'#0676f8'}} className="btn" onClick={
                       function(e) {
                             $(".sidebar").toggleClass('active');
-                        
                         }
-                        // $(".cancel").click(function () {
-                        //   console.log("toggling visibility");
-                        //     $(this).parent().toggleClass('gone');
-                        
-                        // });
-                      
                     } ><i style={{color:'#0676f8'}} className="fa fa-bell"></i></a>
               <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
                 <div className="input-group">
@@ -303,30 +269,26 @@ class Header extends Component {
                     var diferencia = new Date(client.startDateTime).getHours() - new Date(client.endDateTime).getHours();
                     console.log(moment.duration(diferencia, "hours").humanize())
                       return( 
-                        <div style={{color: '#fff'}} key={client._id} className="news_item">
+                        <div style={{color: '#fff'}} key={client._id} className="news_item notibox">
                             <a><h4>{client.name}</h4></a>
                             <a><h6>{"Para: "+dia+ " de " + monthMinusOneName + " del " + anio}</h6></a>
                             <a><h6>{"Con una duracion de "+moment.duration(diferencia, "hours").humanize()}</h6></a>
-                            <button type="button" id='hide' name="" className="btn btn-dark" onClick={function aceptar() {
+                            <div style={{marginRight: '30px'}} class="cancel" onClick={function aceptar() {
                               fetch("/api/account/editagenda?token="+client._id)
-                            }}>Aceptar</button>
-                            <button type="button" name="" className="btn btn-dark" onClick={function aceptar() {
+                            }}>✓</div>
+                            <div class="cancel" onClick={function aceptar() {
                               fetch('/api/account/deleteagenda?token='+client._id);
-                            }}>Denegar</button>
-                            {/* <div class="cancel" onClick={
-                      function(e) {
-                        $(".cancel").click(function () {
-                          console.log("toggling visibility");
-                            $(this).parent().toggleClass('gone');
-                        });
-                      }
-                    } >✕</div> */}
+                            }}>✕</div>                           
                         </div>
                         )
                     })}
+                    {/* <div class="notibox"> */}
+                      {/* Wash the Car */}
+                      {/* <div style={{marginRight: '30px'}} class="cancel">✓</div> */}
+                      {/* <div class="cancel">✕</div> */}
+                    {/* </div> */}
                     </div>
                </div>
-
               <div id="wrapper">
                 <div id="sidebar-wrapper">
                   <ul className="sidebar-nav">

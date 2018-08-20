@@ -480,6 +480,8 @@ module.exports = (app) => {
       classes,
       Nutriologist_id,
       pending,
+      createdByID,
+      createdBy,
     }   = body;
                     
       if (!name) {
@@ -496,6 +498,8 @@ module.exports = (app) => {
       newDate.classes = classes;
       newDate.Nutriologist_id = Nutriologist_id;
       newDate.pending=pending;
+      newDate.createdBy=createdBy;
+      newDate.createdByID=createdByID;
       newDate.save((err, user) => {
         if (err) {
           return res.send ({
