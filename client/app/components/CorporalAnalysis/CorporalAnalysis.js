@@ -1,10 +1,13 @@
-
 import React, { Component } from 'react';
+
+import Dropdown from 'react-dropdown';
+//import 'react-dropdown/style.css'
 import Datetime from 'react-datetime';
 import 'whatwg-fetch';
 import {
   getFromStorage,
 } from '../../utils/storage';
+
 
 
 
@@ -34,14 +37,21 @@ class CorporalAnalysis extends Component {
       BodyMassIndex:'',
       BodyFat:'',
       FatFreeMass:'',
-      date:''
+      date1:'',
+      HipWaistIndex:'',
+      TotalEnergyExpenditure:'',
+      BasalEnergyExpenditure:'',
+      EquivalentBiologicalAge:'',
+      BodyType:''
+
     };
     this.onTextBoxChange = this.onTextBoxChange.bind(this);
     this.handleDate = this.handleDate.bind(this);
     this.onUpdateCorpA= this.onUpdateCorpA.bind(this);
 }
 handleDate(date){
-  this.setState({date}); 
+  this.setState({date});
+  console.log(date); 
 };
 onTextBoxChange(event)
 {
@@ -49,8 +59,9 @@ onTextBoxChange(event)
   this.setState({
       [name]: value
   });
-  console.log(name,value);
+  console.log("Nombre: "+name,"Valor:" +value);
 }
+
 
 onUpdateCorpA()
 {
@@ -68,14 +79,22 @@ onUpdateCorpA()
     TBWProtein,
     TBWMineral,
     TBWBodyFat,
-    date
+    date1,
+    BodyFat,
+    FatFreeMass,
+    BodyMassIndex,
+    HipWaistIndex,
+    TotalEnergyExpenditure,
+    BasalEnergyExpenditure,
+    EquivalentBiologicalAge,
+    BodyType
 
     }=this.state;
-    console.log(date);
+    console.log("La fecha perro " +this.state.date1.toString());
     this.setState({
       isLoading:true
      });
-     console.log()
+     console.log(HipWaistIndex)
     fetch('api/accounts/AnalysisFill', 
   { method: 'POST',
     headers:{
@@ -96,7 +115,15 @@ onUpdateCorpA()
       TBWProtein:TBWProtein,
       TBWMineral:TBWMineral,
       TBWBodyFat:TBWBodyFat,
-      date:date
+      date:this.state.date1,
+      BodyFat:BodyFat,
+      FatFreeMass:FatFreeMass,
+      BodyMassIndex:BodyMassIndex,
+      HipWaistIndex:HipWaistIndex,
+      TotalEnergyExpenditure:TotalEnergyExpenditure,
+      BasalEnergyExpenditure:BasalEnergyExpenditure,
+      EquivalentBiologicalAge:EquivalentBiologicalAge,
+      BodyType:BodyType
     }),
 })
     .then(res => res.json())
@@ -120,6 +147,10 @@ onUpdateCorpA()
           TBWMineral:'',
           TBWBodyFat:'',
           date:'',
+          TotalEnergyExpenditure:'',
+      BasalEnergyExpenditure:'',
+      EquivalentBiologicalAge:'',
+      BodyType:''
         });
       
       }
@@ -163,21 +194,29 @@ componentDidMount()
           BodyFat,
           FatFreeMass,
           isLoading,
-          date
+          date,
+          HipWaistIndex,
+          TotalEnergyExpenditure,
+      BasalEnergyExpenditure,
+      EquivalentBiologicalAge,
+      BodyType
       } = this.state;
+    
  // if(isLoading)
    //{
       var yesterday = Datetime.moment().subtract( 1, 'day' );
-       //date = new Date();
+        this.state.date1 = new Date();
+        console.log(this.state.date1.toDateString());
+       
       // var date=time.toDateString();
       var valid = function( current ){
           return current.isAfter( yesterday );
          // return current.isBefore(tomorrow);
       };
     
-      console.log(date.toString());
-      console.log(date);
-     
+      console.log(this.state.date1.toString().trim());
+      console.log(this.state.date1);
+    
       //  <button onClick={this.onUpdateCorpA}>Save</button>
      
      
@@ -185,7 +224,7 @@ componentDidMount()
        
   <div>
       <div className="container">
-      <Datetime   name="date" value={date} timeFormat={false} isValidDate={valid} onChange={this.handleDate} />
+      <Datetime   name="date" value={this.state.date1}  timeFormat={false} isValidDate={valid} onChange={this.handleDate} />
       <div className="row">
       <div className="col-10 offset-2">
        <p>Fill the client information</p><br />
@@ -216,13 +255,33 @@ componentDidMount()
             </div>
             <div className="col-9 offset-3"> <h3>Weight Control Evaluation </h3></div> 
             <div className="col-10 offset-2">
+            <input type="tex"   name =" weight" placeholder="Weight" value ={weight} onChange={this.onTextBoxChange}/><br />
             <input type="tex"  name="BodyFat" placeholder="Body Fat" value={BodyFat} onChange={this.onTextBoxChange}/><br />
-            <input type="tex"  name="BodyMassIndex" placeholder="Body MassIndex" value={BodyMassIndex} onChange={this.onTextBoxChange}/><br />
+            <input type="tex"  name="BodyMassIndex" placeholder="Body Mass Index" value={BodyMassIndex} onChange={this.onTextBoxChange}/><br />
             <input type="tex"  name="FatFreeMass" placeholder="Fat Free Mass" value={FatFreeMass} onChange={this.onTextBoxChange}/><br />            
             </div>
+            <div className ="col-9 offset-3"> <h3>Energy Expenditure </h3> </div>
+            <div className="col-10 offset-2">
+            <input type="tex" name="HipWaistIndex" placeholder="Hip Waist index" value={HipWaistIndex} onChange={this.onTextBoxChange}/><br />
+            <input type="tex" name="TotalEnergyExpenditure" placeholder="Total Energy Expenditure" value={TotalEnergyExpenditure} onChange={this.onTextBoxChange}/><br />
+            <input type="tex" name="BasalEnergyExpenditure" placeholder="Basal Energy Expenditure" value={BasalEnergyExpenditure} onChange={this.onTextBoxChange}/><br />
+            <input type="tex" name="EquivalentBiologicalAge" placeholder="Equivalent Biological Age" value={EquivalentBiologicalAge} onChange={this.onTextBoxChange}/><br />
+            </div>
+            <div>
+            <select name ="BodyType"  onChange={this.onTextBoxChange}>
+                <option  value="Thin with excess fat" >Thin with excess fat</option>
+                <option  value="OverWeight" >OverWeight</option>
+                <option  value="Obesity" >Obesity</option>
+                <option  value="UnderWeight" >UnderWeight</option>
+                <option  value="Normal" >Normal</option>
+                <option  value="Muscular OverWeight" >Muscular OverWeight</option>
+                <option  value="Low Fat Mass And Low Weight" >Low Fat Mass And Low Weight</option>
+                <option  value="Low Fat Mass And Muscular Mass" >Low Fat Mass And Muscular Mass</option>
+                <option  value="Atlethic" >Atlethic</option>
+          </select>
+            </div>  
             </div>
 
-      
         <button onClick={this.onUpdateCorpA}>Save</button>
         {/*<button onClick={this.logout}>logout</button> */}
       </div>
