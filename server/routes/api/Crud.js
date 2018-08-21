@@ -15,18 +15,26 @@ module.exports = app => {
   app.get("/api/account/agendaarrayaproved", (req, res, next) => {
     const { query } = req;
     const { token } = query;
-
-    Agenda.find({ Nutriologist_id: token, pending: true }, (err, doc) => {
-      console.log(doc);
-      return res.send(doc);
-    });
+    
+    Agenda.find({ Nutriologist_id:token, pending:true}, (err, doc)  => {
+          // console.log(doc);
+          return res.send(doc);
+          });
   });
 
   app.get("/api/account/deleteagenda", (req, res) => {
-    const { query } = req;
-    const { token } = query;
-    Agenda.findOneAndDelete({ _id: token });
-    res.json({ status: "Task deleted" });
+    const {query} = req;
+    const { token } = query;;
+    Agenda.findOneAndDelete({_id:token}, 
+      (err) => {
+        if (err) {
+          res.send(err)
+        } else {
+          res.send("Appointment deleted"
+          )
+        }
+      });
+    // res.json({status: 'Task deleted'});
   });
 
   app.get("/api/account/editagenda", (req, res, next) => {
@@ -101,10 +109,7 @@ module.exports = app => {
       FirstName,
       LastName,
       Password,
-
       UserName,
-
-
       Role,
       Phone
     } = body;
@@ -122,12 +127,12 @@ module.exports = app => {
         message: "Fail in the Last Name"
       });
     }
-    // if (!UserName) {
-    //   return res.send({
-    //     success: false,
-    //     message: "Fail in the User Name"
-    //   });
-    // }
+    if (!UserName) {
+      return res.send({
+        success: false,
+        message: "Fail in the User Name"
+      });
+    }
     if (!Email) {
       return res.send({
         success: false,
@@ -523,10 +528,12 @@ module.exports = app => {
       endDateTime,
       classes,
       Nutriologist_id,
-      pending
-    } = body;
-
-    if (!name) {
+      pending,
+      createdByID,
+      createdBy,
+    }   = body;
+                    
+      if (!name) {
       return res.send({
         success: false,
         message: "Error en el nombre"
@@ -547,9 +554,26 @@ module.exports = app => {
           message: "Error"
         });
       }
-      return res.send({
-        success: true,
-        message: "logrado"
+              
+    const newDate = new Agenda();
+      newDate.name = name;
+      newDate.startDateTime = startDateTime,
+      newDate.endDateTime = endDateTime,
+      newDate.classes = classes;
+      newDate.Nutriologist_id = Nutriologist_id;
+      newDate.pending=pending;
+      newDate.createdBy=createdBy;
+      newDate.createdByID=createdByID;
+      newDate.save((err, user) => {
+        if (err) {
+          return res.send ({
+            success: false,
+            message: 'Error'
+          })
+        }
+        return res.send({
+          success: true,
+            message: 'logrado'
       });
     });
   });

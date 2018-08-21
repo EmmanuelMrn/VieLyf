@@ -49,16 +49,16 @@ section {
 
 .btn-primary:hover,
 .btn-primary:focus {
-  background-color: #108d6f;
-  border-color: #108d6f;
+  background-color: #0b64ca;
+  border-color: #ffffff;
   box-shadow: none;
   outline: none;
 }
 
 .btn-primary {
   color: #fff;
-  background-color: #007b5e;
-  border-color: #007b5e;
+  background-color: #0676f8;
+  border-color: #ffffff;
 }
 
 section {
@@ -287,19 +287,19 @@ section .section-title {
   background: #eee !important;
 }
 
-.btn-primary:hover,
-.btn-primary:focus {
-  background-color: #1672af;
-  border-color: #1587e4;
-  box-shadow: none;
-  outline: none;
-}
+// .btn-primary:hover,
+// .btn-primary:focus {
+//   background-color: #1672af;
+//   border-color: #1587e4;
+//   box-shadow: none;
+//   outline: none;
+// }
 
-.btn-primary {
-  color: #fff;
-  background-color: #269cc0;
-  border-color: #084e63;
-}
+// .btn-primary {
+//   color: #fff;
+//   background-color: #269cc0;
+//   border-color: #084e63;
+// }
 
 section {
   padding: 60px 0;
@@ -1252,7 +1252,7 @@ body {
 
 @media (min-width: 768px) {
   .sidebar {
-    width: 225px !important;
+    width: 400px !important;
   }
 
   .sidebar .nav-item .dropdown-menu {
@@ -1282,7 +1282,7 @@ body {
 
 @media (min-width: 768px) {
   .sidebar1 {
-    width: 225px !important;
+    width: 400px !important;
   }
 
   .sidebar1 .nav-item1 .dropdown-menu1 {
@@ -1311,7 +1311,7 @@ body {
 }   
 
 // @import url(https://fonts.googleapis.com/css?family=Muli);
-// *{transition:all 0.5s;-webkit-transition:all 0.5s;}
+*{transition:all 0.5s;-webkit-transition:all 0.5s;}
 
 .toggle{
   color: #0676f8;
@@ -1350,8 +1350,8 @@ body {
 .notibox{
   color:white;
   font-family: 'Muli', sans-serif;
-  background-color:#0d0d0d;
-  width:calc(100% - 60px);
+  background-color:#0676f8;
+  // width:calc(100% - 60px);
   padding:15px;
   margin:15px;
   border-radius:4px;

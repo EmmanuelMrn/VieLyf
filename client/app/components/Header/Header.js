@@ -23,7 +23,9 @@ class Header extends Component {
     this.handleClick2 = this.handleClick2.bind(this);
 
     this.logout = this.logout.bind(this);
+    this.updatethings = this.updatethings.bind(this);
   }
+  
   handleClick(e) {
     e.preventDefault();
     this.inputsearch();
@@ -33,6 +35,7 @@ class Header extends Component {
     e.preventDefault();
     this.inputsearchNutritionist();
   }
+  
   ActionLink() {
     return (
       <button
@@ -44,6 +47,7 @@ class Header extends Component {
       </button>
     );
   }
+  
   ActionLink2() {
     return (
       <button
@@ -55,6 +59,7 @@ class Header extends Component {
       </button>
     );
   }
+  
   inputsearch() {
     console.log("search name " + this.state.Name);
     fetch("/api/account/searchClient?token=" + this.state.Name)
@@ -113,11 +118,13 @@ class Header extends Component {
     });
   }
   componentDidMount() {
-    if (localStorage.hasOwnProperty("the_main_app")) {
-      this.setState({ isActive: true }, function() {});
+    this.updatethings();
+    if (localStorage.hasOwnProperty('the_main_app')) {
+      this.setState({isActive: true}, function() {
+      })
     }
 
-    //this.interval = setInterval(() => this.updatethings(), 2000);
+    this.interval = setInterval(()=> this.updatethings(),1000)
   }
 
   componentWillUnmount() {
@@ -136,7 +143,6 @@ class Header extends Component {
           items: json1
         });
       });
-    console.log("Arriba el TEC");
   }
   */
  
@@ -180,6 +186,10 @@ class Header extends Component {
 
     const { isLoading, isActive, token, Name } = this.state;
 
+    function update() {
+      this.updatethings;
+    }
+
     function alerta() {
       if (localStorage.getItem("Role") == "Nutriologist") {
         return (
@@ -205,168 +215,78 @@ class Header extends Component {
       }
     }
 
-    var ClientsData = Array.from(this.state.items);
-
-    if (isActive && localStorage.getItem("Rol") == "Cliente") {
+    if (isActive && localStorage.getItem('Rol')=="Cliente") {
       return (
         <header>
           <nav className="navbar navbar-expand navbar-dark bg-dark static-top">
-            <a className="navbar-brand mr-1" href="/">
-              VieLyf
-            </a>
-            <a
-              href="#menu-toggle"
-              className="btn "
-              id="menu-toggle"
-              onClick={function(e) {
-                e.preventDefault();
-                $("#wrapper").toggleClass("toggled");
-              }}
-            >
-              <i className="fa fa-bars" />
-            </a>
-            <a
-              style={{ color: "#0676f8" }}
-              className="toggle"
-              onClick={
-                function(e) {
-                  $(".sidebar").toggleClass("active");
-                }
-                // $(".cancel").click(function () {
-                //   console.log("toggling visibility");
-                //     $(this).parent().toggleClass('gone');
-
-                // });
-              }
-            >
-              <i style={{ color: "#0676f8" }} className="fa fa-bell" />
-            </a>
-            <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  name="Name"
-                  placeholder="Name"
-                  aria-label="Search"
-                  aria-describedby="basic-addon2"
-                  value={this.state.Name}
-                  onChange={this.handleInputChange}
-                />
-
-                <div className="input-group-append">{this.ActionLink2()}</div>
-              </div>
-            </form>
-            <ul className="navbar-nav ml-auto ml-md-0">
-              {alerta()}
-              <li className="nav-item dropdown no-arrow">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  id="userDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <i className="fa fa-user-circle fa-fw" />
-                </a>
-                <div
-                  className="dropdown-menu dropdown-menu-right"
-                  aria-labelledby="userDropdown"
-                >
-                  <a
-                    className="dropdown-item"
-                    href="#"
-                    data-toggle="modal"
-                    data-target="#logoutModal"
-                    onClick={this.logout}
-                  >
-                    Logout
-                  </a>
-                </div>
-              </li>
-            </ul>
-          </nav>
-          {/* <div class="sidebar">
-                  <h2>Notifications</h2>
-                  <div class="notibox">
-                    Wash the Car
-                    <div class="cancel">✕</div>
-                  </div>
-                  <div class="notibox">
-                    Do Laundry
-                    <div class="cancel">✕</div>
-                  </div>
-                  <div class="notibox">
-                    Feed the Cat
-                    <div class="cancel">✕</div>
-                  </div>
-               </div>
-           */}
-          <div className="sidebar">
-            <h2>Notifications</h2>
-            <div className="news_inner">
-              {ClientsData.map(function(
-                client,
-                aceptar,
-                negar,
-                handleClick,
-                isToggleOn
-              ) {
-                var dia = new Date(client.startDateTime).getDay();
-                var anio = new Date(client.startDateTime).getFullYear();
-                var monthMinusOneName = moment()
-                  .subtract(new Date(client.startDateTime).getMonth(), "month")
-                  .startOf("month")
-                  .format("MMMM");
-                var diferencia =
-                  new Date(client.startDateTime).getHours() -
-                  new Date(client.endDateTime).getHours();
-                console.log(moment.duration(diferencia, "hours").humanize());
-                return (
-                  <div
-                    style={{ color: "#fff" }}
-                    key={client._id}
-                    className="news_item"
-                  >
-                    <a>
-                      <h4>{client.name}</h4>
-                    </a>
-                    <a>
-                      <h6>
-                        {"Para: " +
-                          dia +
-                          " de " +
-                          monthMinusOneName +
-                          " del " +
-                          anio}
-                      </h6>
-                    </a>
-                    <a>
-                      <h6>
-                        {"Con una duracion de " +
-                          moment.duration(diferencia, "hours").humanize()}
-                      </h6>
-                    </a>
-                    <button
-                      type="button"
-                      id="hide"
-                      name=""
-                      className="btn btn-dark"
-                      onClick={function aceptar() {
-                        fetch("/api/account/editagenda?token=" + client._id);
-                      }}
-                    >
-                      Accept
+            <a className="navbar-brand mr-1" href="/">VieLyf</a>
+            <a href="#menu-toggle" className="btn " id="menu-toggle" 
+            onClick={ function(e) {
+              e.preventDefault();
+              $("#wrapper").toggleClass("toggled")
+              } }><i className="fa fa-bars" ></i></a>
+              <a style={{color:'#0676f8'}} className="toggle" onClick={
+                      function(e) {
+                            $(".sidebar").toggleClass('active');
+                        
+                        }
+                        // $(".cancel").click(function () {
+                        //   console.log("toggling visibility");
+                        //     $(this).parent().toggleClass('gone');
+                        
+                        // });
+                      
+                    } ><i style={{color:'#0676f8'}} className="fa fa-bell"></i></a>
+              <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                <div className="input-group">
+                  <input type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2"/>
+                  <div className="input-group-append">
+                    <button className="btn" type="button">
+                      <i className="fa fa-search"></i>
                     </button>
-                    <button
-                      type="button"
-                      name=""
-                      className="btn btn-dark"
-                      onClick={function aceptar() {
-                        fetch("/api/account/deleteagenda?token=" + client._id);
-                        $(".cancel").click(function() {
+                  </div>
+                </div>
+              </form>
+              <ul className="navbar-nav ml-auto ml-md-0">
+                {alerta()}
+                <li className="nav-item dropdown no-arrow">
+                  <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i className="fa fa-user-circle fa-fw"></i>
+                  </a>
+                  <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                    <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout} >Logout</a>       
+                  </div>
+                </li>
+              </ul>
+              </nav>
+           <div class="sidebar">
+                  <h2>Notifications</h2>
+                  <div className="news_inner">
+                  { this.state.items.map(function(client, aceptar, negar, handleClick, isToggleOn){
+                    var dia = new Date(client.startDateTime).getDay();
+                    var anio = new Date(client.startDateTime).getFullYear();
+                    var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
+                    var diferencia = new Date(client.startDateTime).getHours() - new Date(client.endDateTime).getHours();
+                    console.log(moment.duration(diferencia, "hours").humanize())
+                      return( 
+                        <div style={{color: '#fff'}} key={client._id} className="news_item">
+                            <a><h4>{client.name}</h4></a>
+                            <a><h6>{"Para: "+dia+ " de " + monthMinusOneName + " del " + anio}</h6></a>
+                            <a><h6>{"Con una duracion de "+moment.duration(diferencia, "hours").humanize()}</h6></a>
+                            <button type="button" id='hide' name="" className="btn btn-dark" onClick={function aceptar() {
+                              fetch("/api/account/editagenda?token="+client._id)
+                            }}>Aceptar</button>
+                            <button type="button" name="" className="btn btn-dark" onClick={function aceptar() {
+                              fetch('/api/account/deleteagenda?token='+client._id)
+                                $(".cancel").click(function () {
+                                  console.log("toggling visibility");
+                                    $(this).parent().toggleClass('gone');
+                                });
+                              
+                            }}>Denegar</button>
+                            <div class="cancel" onClick={
+                      function(e) {
+                        $(".cancel").click(function () {
                           console.log("toggling visibility");
                           $(this)
                             .parent()
@@ -389,279 +309,137 @@ class Header extends Component {
                     >
                       ✕
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-            {/* <div class="notibox">
-                    cita dummie
-                    <div class="cancel" onClick={
-                      function() {
-                        $(".cancel").click(function () {
-                          console.log("toggling visibility");
-                            $(this).parent().toggleClass('gone');
-                        });
-                      }
-                    } >✕</div> */}
-            {/* </div> */}
-          </div>
-          <div id="wrapper">
-            <div id="sidebar-wrapper">
-              <ul className="sidebar-nav">
-                <li className="sidebar-brand">
-                  <a href="/vistacliente">Profile</a>
-                </li>
-                <ul style={{ listStyleType: "none", padding: 0 }}>
-                  <li>
-                    <Link to="/agenda" onClick={$("#menu-toggle").click()}>
-                      Diary
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      id="nutri"
-                      to="/nutritionalblog"
-                      onClick={$("#menu-toggle").click()}
-                    >
-                      Nutrirional Blog
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/catalogueNutriologist"
-                      onClick={$("#menu-toggle").click()}
-                    >
-                      Nutriologist Catalogue
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/charts" onClick={$("#menu-toggle").click()}>
-                      Charts
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/diet" onClick={$("#menu-toggle").click()}>
-                      Diet
-                    </Link>
-                  </li>
-                </ul>
-              </ul>
-            </div>
-          </div>
-        </header>
-      );
-    } else if (isActive && localStorage.getItem("Rol") == "Nutriologo") {
+               </div>
+              <div id="wrapper">
+                <div id="sidebar-wrapper">
+                  <ul className="sidebar-nav">
+                      <li className="sidebar-brand">
+                          <a href="/vistacliente">
+                              Profile
+                          </a>
+                      </li>
+                      <ul style={{ listStyleType: "none", padding: 0 }}>
+                    <li>
+                      <Link to="/agenda" onClick={ $('#menu-toggle').click() }>Diary</Link>
+                    </li>
+                    <li>
+                      <Link id="nutri" to="/nutritionalblog" onClick={ $('#menu-toggle').click() }>Nutrirional Blog</Link>
+                    </li>
+                    <li>
+                      <Link to="/catalogueNutriologist" onClick={ $('#menu-toggle').click() }>Nutriologist Catalogue</Link>
+                    </li>
+                    <li>
+                      <Link to="/charts" onClick={ $('#menu-toggle').click() }>Charts</Link>
+                    </li>
+                    <li>
+                      <Link to="/diet" onClick={ $('#menu-toggle').click() }>Diet</Link>
+                    </li>
+                    </ul>
+                  </ul>
+                </div>
+              </div>  
+            </header>
+      )
+    } else if (isActive && localStorage.getItem('Rol')=="Nutriologo") {
       return (
         <header>
           <nav className="navbar navbar-expand navbar-dark bg-dark static-top">
-            <a className="navbar-brand mr-1" href="/">
-              VieLyf
-            </a>
-            <a
-              href="#menu-toggle"
-              className="btn "
-              id="menu-toggle"
-              onClick={function(e) {
-                e.preventDefault();
-                $("#wrapper").toggleClass("toggled");
-              }}
-            >
-              <i className="fa fa-bars" />
-            </a>
-            <a
-              style={{ color: "#0676f8" }}
-              className="toggle"
-              onClick={
-                function(e) {
-                  $(".sidebar").toggleClass("active");
-                }
-                // $(".cancel").click(function () {
-                //   console.log("toggling visibility");
-                //     $(this).parent().toggleClass('gone');
-
-                // });
-              }
-            >
-              <i style={{ color: "#0676f8" }} className="fa fa-bell" />
-            </a>
-            <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-              <div className="input-group">
-                <input
-                  type="text"
-                  className="form-control"
-                  name="Name"
-                  placeholder="Name"
-                  aria-label="Search"
-                  aria-describedby="basic-addon2"
-                  value={this.state.Name}
-                  onChange={this.handleInputChange}
-                />
-
-                <div className="input-group-append">{this.ActionLink()}</div>
-              </div>
-            </form>
-            <ul className="navbar-nav ml-auto ml-md-0">
-              {alerta()}
-              <li className="nav-item dropdown no-arrow">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  id="userDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <i className="fa fa-user-circle fa-fw" />
-                </a>
-                <div
-                  className="dropdown-menu dropdown-menu-right"
-                  aria-labelledby="userDropdown"
-                >
-                  <a
-                    className="dropdown-item"
-                    href="#"
-                    data-toggle="modal"
-                    data-target="#logoutModal"
-                    onClick={this.logout}
-                  >
-                    Logout
-                  </a>
-                </div>
-              </li>
-            </ul>
-          </nav>
-
-          <div className="sidebar">
-            <h2>Notifications</h2>
-            <div className="news_inner">
-              {ClientsData.map(function(
-                client,
-                aceptar,
-                negar,
-                handleClick,
-                isToggleOn
-              ) {
-                var dia = new Date(client.startDateTime).getDay();
-                var anio = new Date(client.startDateTime).getFullYear();
-                var monthMinusOneName = moment()
-                  .subtract(new Date(client.startDateTime).getMonth(), "month")
-                  .startOf("month")
-                  .format("MMMM");
-                var diferencia =
-                  new Date(client.startDateTime).getHours() -
-                  new Date(client.endDateTime).getHours();
-                console.log(moment.duration(diferencia, "hours").humanize());
-                return (
-                  <div
-                    style={{ color: "#fff" }}
-                    key={client._id}
-                    className="news_item cancel"
-                  >
-                    <br />
-                    <a>
-                      <h4>{client.name}</h4>
-                    </a>
-                    <a>
-                      <h6>
-                        {"Para: " +
-                          dia +
-                          " de " +
-                          monthMinusOneName +
-                          " del " +
-                          anio}
-                      </h6>
-                    </a>
-                    <a>
-                      <h6>
-                        {"Con una duracion de " +
-                          moment.duration(diferencia, "hours").humanize()}
-                      </h6>
-                    </a>
-                    <button
-                      type="button"
-                      id="hide"
-                      name=""
-                      className="btn btn-dark"
-                      onClick={function aceptar() {
-                        fetch("/api/account/editagenda?token=" + client._id);
-                      }}
-                    >
-                      Accept
-                    </button>
-                    <button
-                      type="button"
-                      name=""
-                      className="btn btn-dark"
-                      onClick={function aceptar() {
-                        fetch("/api/account/deleteagenda?token=" + client._id);
-                        $(this)
-                          .parent()
-                          .toggleClass("gone");
-                      }}
-                    >
-                      Deny
+            <a className="navbar-brand mr-1" href="/">VieLyf</a>
+            <a href="#menu-toggle" style={{transition: ''}} className="btn" id="menu-toggle" 
+            onClick={ function(e) {
+              e.preventDefault();
+              $("#wrapper").toggleClass("toggled")
+              } }><i className="fa fa-bars" ></i></a>
+              <a style={{color:'#0676f8'}} className="btn" onClick={
+                      function(e) {
+                            $(".sidebar").toggleClass('active');
+                        }
+                    } ><i style={{color:'#0676f8'}} className="fa fa-bell"></i></a>
+              <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+                <div className="input-group">
+                  <input type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2"/>
+                  <div className="input-group-append">
+                    <button className="btn btn-primary" type="button">
+                      <i className="fa fa-search"></i>
                     </button>
                   </div>
-                );
-              })}
-            </div>
-            {/* <div class="notibox">
-                    cita dummie
-                    <div class="cancel" onClick={
-                      function() {
-                        $(".cancel").click(function () {
-                          console.log("toggling visibility");
-                            $(this).parent().toggleClass('gone');
-                        });
-                      }
-                    } >✕</div> */}
-            {/* </div> */}
-          </div>
-          <div id="wrapper">
-            <div id="sidebar-wrapper">
-              <ul className="sidebar-nav">
-                <li className="sidebar-brand">
-                  <a href="/vistanutriologo">Profile</a>
+                </div>
+              </form>
+              <ul className="navbar-nav ml-auto ml-md-0">
+                {alerta()}
+                <li className="nav-item dropdown no-arrow">
+                  <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i className="fa fa-user-circle fa-fw"></i>
+                  </a>
+                  <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                    <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout} >Logout</a>       
+                  </div>
                 </li>
-                <ul style={{ listStyleType: "none", padding: 0 }}>
-                  <li>
-                    <Link to="/agenda" onClick={$("#menu-toggle").click()}>
-                      Diary
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      id="nutri"
-                      to="/nutritionalblog"
-                      onClick={$("#menu-toggle").click()}
-                    >
-                      Nutrirional Blog
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/catalogueNutriologist"
-                      onClick={$("#menu-toggle").click()}
-                    >
-                      Nutriologist Catalogue
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/charts" onClick={$("#menu-toggle").click()}>
-                      Charts
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/transition" onClick={$("#menu-toggle").click()}>
-                      Diet
-                    </Link>
-                  </li>
-                </ul>
               </ul>
-            </div>
-          </div>
-        </header>
+            </nav>
+              
+            <div class="sidebar">
+                  <h2>Notifications</h2>
+                  <div className="news_inner">
+                  { this.state.items.map(function(client,  aceptar, negar, handleClick, isToggleOn){
+                    function up() {
+                      this.updatethings;
+                    }
+                    var dia = new Date(client.startDateTime).getDay();
+                    var anio = new Date(client.startDateTime).getFullYear();
+                    var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
+                    var diferencia = new Date(client.startDateTime).getHours() - new Date(client.endDateTime).getHours();
+                    console.log(moment.duration(diferencia, "hours").humanize())
+                      return( 
+                        <div style={{color: '#fff'}} key={client._id} className="news_item notibox">
+                            <a><h4>{client.name}</h4></a>
+                            <a><h6>{"Para: "+dia+ " de " + monthMinusOneName + " del " + anio}</h6></a>
+                            <a><h6>{"Con una duracion de "+moment.duration(diferencia, "hours").humanize()}</h6></a>
+                            <div style={{marginRight: '30px'}} class="cancel" onClick={function aceptar() {
+                              fetch("/api/account/editagenda?token="+client._id)
+                            }}>✓</div>
+                            <div class="cancel" onClick={function aceptar() {
+                              fetch('/api/account/deleteagenda?token='+client._id);
+                            }}>✕</div>                           
+                        </div>
+                        )
+                    })}
+                    {/* <div class="notibox"> */}
+                      {/* Wash the Car */}
+                      {/* <div style={{marginRight: '30px'}} class="cancel">✓</div> */}
+                      {/* <div class="cancel">✕</div> */}
+                    {/* </div> */}
+                    </div>
+               </div>
+              <div id="wrapper">
+                <div id="sidebar-wrapper">
+                  <ul className="sidebar-nav">
+                      <li className="sidebar-brand">
+                          <a href="/vistanutriologo">
+                                Profile
+                          </a>
+                      </li>
+                      <ul style={{ listStyleType: "none", padding: 0 }}>
+                    <li>
+                      <Link to="/agenda" onClick={ $('#menu-toggle').click() }>Diary</Link>
+                    </li>
+                    <li>
+                      <Link id="nutri" to="/nutritionalblog" onClick={ $('#menu-toggle').click() }>Nutrirional Blog</Link>
+                    </li>
+                    <li>
+                      <Link to="/catalogueNutriologist" onClick={ $('#menu-toggle').click() }>Nutriologist Catalogue</Link>
+                    </li>
+                    <li>
+                      <Link to="/charts" onClick={ $('#menu-toggle').click() }>Charts</Link>
+                    </li>
+                    <li>
+                      <Link to="/transition" onClick={ $('#menu-toggle').click() }>Diet</Link>
+                    </li>
+                    </ul>
+                  </ul>
+                </div>
+              </div>  
+            </header>
       );
     } else {
       return (

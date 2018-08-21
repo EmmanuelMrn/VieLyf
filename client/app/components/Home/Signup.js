@@ -197,6 +197,11 @@ class Signup extends Component {
             profPassword:'',
             profPhone:''
           });
+          swal(
+            'Welcome to VieLyf Nutritionist!',
+            'Your account has been created!',
+            'success'
+          );
           this.toggleModal()
         }
         else{
@@ -352,17 +357,16 @@ class Signup extends Component {
 
                     <label htmlFor="exampleInputPassword1" className="text-uppercase">Email</label>
                     <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" name="signUpEmail" value={signUpEmail} onChange={this.handleInputChange} className="form-control" placeholder=""/>                    
-
                   </div>  
+                  {/* pattern="" */}
                   <div className="form-group">
                     <label htmlFor="exampleInputPassword1" className="text-uppercase">Password</label>
                     <input type="password" name="signUpPassword" value={signUpPassword} onChange={this.handleInputChange} className="form-control" placeholder=""/>                    
                   </div>
                   <div className="form-group">
                     <label htmlFor="exampleInputPassword1" className="text-uppercase">Phone</label>
-                    <input type="phone" name="signUpPhone" value={signUpPhone} onChange={this.handleInputChange} className="form-control" placeholder=""/>                    
+                    <input type="number" name="signUpPhone" value={signUpPhone} onChange={this.handleInputChange} className="form-control" placeholder=""/>                    
                   </div>
-r
                   <label className="form-check-label">
                       <input type="checkbox" className="form-check-input" value="Nutriologo" checked={false} onChange={this.toggleModal}/>
                       <small>I'm Nutriologist</small>

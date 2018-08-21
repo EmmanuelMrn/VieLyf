@@ -106,35 +106,26 @@ class Login extends Component {
             .then(json1 => {
               if (json1.success) {
                 localStorage.setItem("Auth", loginEmail);
-                window.location = "/vistacliente";
-                //  window.location = "/vistanutriologo";
+                window.location = "/vistanutriologo";
                 localStorage.setItem("Rol", "Nutriologo");
               } else {
-                console.log(loginEmail)
                 fetch('/api/account/getuseremail?token='+loginEmail)
                 .then(res => res.json())
                 .then(json2 => {
-                  console.log("Entro a getuseremail")
-                  console.log(loginEmail)
-                  localStorage.setItem('clientID', json2[0]._id);
                   fetch('/api/accounts/getuser?token='+json2[0]._id)
                   .then(res => res.json())
                   .then(json3 => {
-                    console.log("Entro a getuser")
-                    console.log(json2[0]._id)
                     fetch('/api/account/getuserbyid?token='+json3.doc.Nutritionist_id)
                     .then(res => res.json())
                     .then(json4 => {
-                      console.log("Entro a getuserbyid")
-                      console.log(json2[0]._id)
-                      console.log(json4[0].Email)
-                      localStorage.setItem('AssignedNutriologist', json4[0].Email)
+                    localStorage.setItem('AssignedNutriologist', json4[0].Email)
+                    localStorage.setItem('clientID', json2[0]._id);
+                  
                     })
                   })       
                 })
                 localStorage.setItem('Rol', 'Cliente');  
                 window.location=('/vistacliente');
-
               }
             });
         } else {
@@ -146,7 +137,8 @@ class Login extends Component {
       });
       alertify.success("Welcome!");
     this.setState({
-      loginEmail: ""
+      loginEmail: "",
+      loginPassword: ""
     });
   }
  
@@ -159,8 +151,17 @@ class Login extends Component {
       loginPassword
     } = this.state;
 
-    if (isLoading) {
-      return (<div><p>Loading...</p></div>);
+    let userMessage
+    if (!loginError) {
+      userMessage = (
+        <span>
+          <h2 className="text-center" style={{color: '#00c851'}}>Welcome Back!</h2>
+        </span>
+      )
+    } else {
+      userMessage = (
+        <h2 className="text-center" style={{color: 'red'}}>{loginError}</h2>
+      )
     }
 
     // if (!token) {
@@ -174,7 +175,7 @@ class Login extends Component {
           <div className="container container2">
             <div className="row">
               <div className="col-md-4 login-sec">
-                <h2 className="text-center" style={{color: '#00c851'}}>Welcome back!</h2>
+                {userMessage}
                 <form className="login-form">
                   <div className="form-group">
                     <label htmlFor="exampleInputEmail1" className="text-uppercase">Username</label>
