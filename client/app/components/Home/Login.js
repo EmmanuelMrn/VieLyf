@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "whatwg-fetch";
 import { Link } from "react-router-dom";
 var vista = "";
+import swal from 'sweetalert2';
 import { getFromStorage, setInStorage } from "../../utils/storage";
 
 class Login extends Component {
@@ -22,11 +23,9 @@ class Login extends Component {
     };
 
     this.onLogin = this.onLogin.bind(this);
-    this.onEditProfile = this.onEditProfile.bind(this);
-    this.logout = this.logout.bind(this);
-
     this.handleInputChange = this.handleInputChange.bind(this);
   }
+  
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
@@ -94,7 +93,8 @@ class Login extends Component {
       .then(json => {
         localStorage.setItem("email", json.Email);
         if (json.success) {
-          setInStorage("the_main_app", { token: json.token._id });
+          setInStorage('the_main_app', { token: json.token });
+          setInStorage("El_token", {token:json.token} );
           this.setState({
             loginError: json.message,
             isLoading: false,
@@ -106,11 +106,9 @@ class Login extends Component {
             .then(json1 => {
               if (json1.success) {
                 localStorage.setItem("Auth", loginEmail);
-                window.location = "/vistacliente";
-                //  window.location = "/vistanutriologo";
+                window.location = "/vistanutriologo";
                 localStorage.setItem("Rol", "Nutriologo");
               } else {
-                console.log(loginEmail)
                 fetch('/api/account/getuseremail?token='+loginEmail)
                 .then(res => res.json())
                 .then(json2 => {
@@ -120,8 +118,9 @@ class Login extends Component {
                     fetch('/api/account/getuserbyid?token='+json3.doc.Nutritionist_id)
                     .then(res => res.json())
                     .then(json4 => {
-                      console.log(json4[0].Email)
-                      localStorage.setItem('AssignedNutriologist', json4[0].Email)
+                    localStorage.setItem('AssignedNutriologist', json4[0].Email)
+                    localStorage.setItem('clientID', json2[0]._id);
+                  
                     })
                   })       
                 })
@@ -136,73 +135,13 @@ class Login extends Component {
           });
         }
       });
+      alertify.success("Welcome!");
     this.setState({
-      loginEmail: ""
+      loginEmail: "",
+      loginPassword: ""
     });
   }
-
-  onEditProfile() {
-    const {
-      signUpEmail,
-      signUpFirstName,
-      signUpLastName,
-      signUpPassword
-    } = this.state;
-    fetch(
-      "/api/account/editprofile?token=" +
-        signUpEmail +
-        "&token2=" +
-        signUpFirstName +
-        "&token3=" +
-        signUpLastName +
-        "&token4=" +
-        signUpPassword +
-        ""
-    )
-      .then(res => res.json())
-      .then(json6 => {
-        if (json6.success) {
-          this.setState({
-            token,
-            isLoading: false
-          });
-        } else {
-          this.setState({
-            isLoading: false
-          });
-        }
-      });
-  }
-
-  logout() {
-    this.setState({
-      isLoading: true
-    });
-    const obj = getFromStorage("the_main_app");
-    if (obj && obj.token) {
-      const { token } = obj;
-      // Verify token
-      fetch("/api/account/logout?token=" + token)
-        .then(res => res.json())
-        .then(json => {
-          if (json.success) {
-            this.setState({
-              token: "",
-              isLoading: false
-            });
-          } else {
-            this.setState({
-              isLoading: false
-            });
-          }
-        });
-    } else {
-      this.setState({
-        isLoading: false,
-      });
-    }
-  }
-
+ 
   render() {
     const {
       isLoading,
@@ -212,8 +151,17 @@ class Login extends Component {
       loginPassword
     } = this.state;
 
-    if (isLoading) {
-      return (<div><p>Loading...</p></div>);
+    let userMessage
+    if (!loginError) {
+      userMessage = (
+        <span>
+          <h2 className="text-center" style={{color: '#00c851'}}>Welcome Back!</h2>
+        </span>
+      )
+    } else {
+      userMessage = (
+        <h2 className="text-center" style={{color: 'red'}}>{loginError}</h2>
+      )
     }
 
     // if (!token) {
@@ -227,7 +175,7 @@ class Login extends Component {
           <div className="container container2">
             <div className="row">
               <div className="col-md-4 login-sec">
-                <h2 className="text-center" style={{color: '#00c851'}}>Welcome back!</h2>
+                {userMessage}
                 <form className="login-form">
                   <div className="form-group">
                     <label htmlFor="exampleInputEmail1" className="text-uppercase">Username</label>
@@ -242,7 +190,9 @@ class Login extends Component {
                         <input type="checkbox" className="form-check-input"/>
                         <small>Remember Me</small>
                       </label> */}
-                    <button type="button" className="btn btn-login float-center" onClick={this.onLogin}>Submit</button>
+                    <button type="button" className="btn btn-login float-center" onClick={this.onLogin}>
+                      Log in
+                    </button>
                   </div>
                 </form>
               </div>

@@ -53,13 +53,27 @@ export default class Agenda extends Component {
   }
 
   componentDidMount(){
-    fetch('/api/account/agendaarray?token='+localStorage.getItem('Auth'), {method:'GET'})
+    const arrayItems=[];
+    console.log(localStorage.getItem('AssignedNutriologist'))
+    fetch('/api/account/agendaarray?token='+localStorage.getItem('AssignedNutriologist'), {method:'GET'})
       .then(res => res.json())
       .then(json1 => {
-        this.setState({
-          items : json1,
-        });
-      });      
+        for(var k in json1) {
+          arrayItems[k] = {
+            "classes": json1[k].classes,
+            "Nutriologist_id": json1[k].Nutriologist_id,
+            "pending": json1[k].pending,
+            "_id": json1[k]._id,
+            "name": json1[k].name,
+            "startDateTime": new Date(json1[k].startDateTime),
+            "endDateTime": new Date(json1[k].endDateTime),
+            "__v": json1[k].__v
+        }
+       }
+       this.setState({
+        items : arrayItems
+      });
+    });      
   }
 
 

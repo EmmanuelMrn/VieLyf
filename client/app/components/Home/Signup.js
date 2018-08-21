@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 import Modal from 'react-modal';
+import swal from 'sweetalert2';
 
 
 import {
@@ -10,7 +11,7 @@ import {
 const customStyles = {
   content : {
     top                   : '50%',
-    left                  : '50%',
+    left                  : '20%',
     right                 : 'auto',
     bottom                : 'auto',
     marginRight           : '-50%',
@@ -106,11 +107,16 @@ class Signup extends Component {
    /*Consuimiedo API  
    Ya es dinamico
    */
+  let header = new Headers({
+    'Access-Control-Allow-Origin':'http://localhost:8080',
+    'Content-Type': 'multipart/form-data'
+  });
   const URL ='http://search.sep.gob.mx/solr/cedulasCore/select?fl=%2A%2Cscore&q='+License+'&start=0&rows=100&facet=true&indent=on&wt=json';
   if(License!="" || !License)
     {fetch(URL, { 
       method: 'GET',
      crossDomain:true,
+     header:header,
       //headers: { 'Content-Type': 'application/json'}
       
   })
@@ -147,9 +153,8 @@ class Signup extends Component {
       }
 
     }
-    onProfSignUp()
-  {
-    
+
+  onProfSignUp() {
     const{
       profFirstName,
       profLastName,
@@ -192,6 +197,11 @@ class Signup extends Component {
             profPassword:'',
             profPhone:''
           });
+          swal(
+            'Welcome to VieLyf Nutritionist!',
+            'Your account has been created!',
+            'success'
+          );
           this.toggleModal()
         }
         else{
@@ -201,10 +211,14 @@ class Signup extends Component {
           });
         }
       });
-
+      swal(
+        'Welcome to VieLyf, Nutritionist!',
+        'Your account has been created!',
+        'success'
+      );
   }
-  toggleModal() 
-  {
+
+  toggleModal() {
     this.setState({
       isActive:!this.state.isActive,
       profFirstName:'',
@@ -217,6 +231,7 @@ class Signup extends Component {
       License:''
     })
   }
+
   onSignUp() {
     // Grab state
     const {
@@ -269,6 +284,11 @@ class Signup extends Component {
           });
         }
       });
+      swal(
+        'Welcome to VieLyf, User!',
+        'Your account has been created!',
+        'success'
+      );
   }
 
   
@@ -334,23 +354,29 @@ class Signup extends Component {
                     <input type="text" name="signUpUserName" value={signUpUserName} onChange={this.handleInputChange} className="form-control" placeholder=""/>
                   </div>
                   <div className="form-group">
+
                     <label htmlFor="exampleInputPassword1" className="text-uppercase">Email</label>
-                    <input type="email" pattern="" name="signUpEmail" value={signUpEmail} onChange={this.handleInputChange} className="form-control" placeholder=""/>                    
+                    <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" name="signUpEmail" value={signUpEmail} onChange={this.handleInputChange} className="form-control" placeholder=""/>                    
                   </div>  
+                  {/* pattern="" */}
                   <div className="form-group">
                     <label htmlFor="exampleInputPassword1" className="text-uppercase">Password</label>
                     <input type="password" name="signUpPassword" value={signUpPassword} onChange={this.handleInputChange} className="form-control" placeholder=""/>                    
                   </div>
                   <div className="form-group">
                     <label htmlFor="exampleInputPassword1" className="text-uppercase">Phone</label>
-                    <input type="password" name="signUpPhone" value={signUpPhone} onChange={this.handleInputChange} className="form-control" placeholder=""/>                    
+                    <input type="number" name="signUpPhone" value={signUpPhone} onChange={this.handleInputChange} className="form-control" placeholder=""/>                    
                   </div>
                   <label className="form-check-label">
                       <input type="checkbox" className="form-check-input" value="Nutriologo" checked={false} onChange={this.toggleModal}/>
                       <small>I'm Nutriologist</small>
                   </label>
                   <div className="form-check">
-                    <button type="button" className="btn btn-login float-left" onClick={this.onSignUp}>Submit</button>
+
+                    <button type="button" className="btn btn-login float-left" onClick={this.onSignUp}>
+                      Create account
+                    </button>
+
                   </div>
                 </form>
               </div>
@@ -397,16 +423,16 @@ class Signup extends Component {
         </section> 
 
           <Modal isOpen={this.state.isActive} onRequestClose={this.toggleModal}style ={customStyles}>
-          <input type="text" name ="License" placeholder="Cedula Profesional" value ={License} onChange={this.handleInputChange}/> <button onClick={() => this.verify()}>Verificar</button><br />
-          <input type="text" name = "profFirstName"placeholder="Nombre" value ={profFirstName} onChange={this.handleInputChange}readOnly/><br />
-          <input type="text" name ="profLastName" placeholder="Paterno" value ={profLastName} onChange={this.handleInputChange}readOnly/><br />
-          <input type="text" name = "profMotherLastName" placeholder="Materno" value ={profMotherLastName} onChange={this.handleInputChange}readOnly/><br />
-          <input type="text" name = "profTitle" placeholder="Titulo" value ={profTitle} onChange={this.handleInputChange} readOnly/><br />
+          <input type="text" name ="License" placeholder="Professional license" value ={License} onChange={this.handleInputChange}/> <button onClick={() => this.verify()}>Verify</button><br />
+          <input type="text" name = "profFirstName" placeholder="Name" value ={profFirstName} onChange={this.handleInputChange}readOnly/><br />
+          <input type="text" name ="profLastName" placeholder="Last name" value ={profLastName} onChange={this.handleInputChange}readOnly/><br />
+          <input type="text" name = "profMotherLastName" placeholder="Last name 2" value ={profMotherLastName} onChange={this.handleInputChange}readOnly/><br />
+          <input type="text" name = "profTitle" placeholder="Title" value ={profTitle} onChange={this.handleInputChange} readOnly/><br />
           <input type="text" name = "profPhone" placeholder="Phone" value = {profPhone} onChange={this.handleInputChange}/><br />
-          <input type="email" name = "profEmail" placeholder="email" value = {profEmail} onChange={this.handleInputChange}/><br />
-          <input type="password" name= "profPassword" placeholder="password" value = {profPassword}onChange={this.handleInputChange}/><br />
+          <input type="email" name = "profEmail" placeholder="Email" value = {profEmail} onChange={this.handleInputChange}/><br />
+          <input type="password" name= "profPassword" placeholder="Password" value = {profPassword}onChange={this.handleInputChange}/><br />
           <button onClick={this.toggleModal}>Cancel</button>
-          <button onClick={this.onProfSignUp}>Sign me up!</button>
+          <button onClick={this.onProfSignUp}>Create account as nutritionist</button>
           </Modal>
       </div>           
       );

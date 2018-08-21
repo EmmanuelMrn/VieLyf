@@ -17,10 +17,11 @@ require('moment/locale/es.js');
       "color-2":"rgba(242, 177, 52, 1)" ,
       "color-3":"rgba(235, 85, 59, 1)" ,
       "color-4":"rgba(70, 159, 213, 1)",
-      "color-5":"rgba(170, 59, 123, 1)"
+      "color-5":"rgba(170, 59, 123, 1)",
+      "color-6":"rgb(160, 163, 167)",
     }
 
-    var items;
+    // var items;
 
 export default class Agenda extends Component {
   constructor(props){
@@ -49,38 +50,104 @@ export default class Agenda extends Component {
   this.editEvent = this.editEvent.bind(this)
   this.changeView = this.changeView.bind(this)
   this.handleCellSelection = this.handleCellSelection.bind(this)
+  this.updateAgenda = this.updateAgenda.bind(this);
 
   }
 
   componentDidMount(){
-    fetch('/api/account/agendaarray?token='+localStorage.getItem('Auth'), {method:'GET'})
-      .then(res => res.json())
-      .then(json1 => {
-        
-       array.forEach(json1 => {
-         console.log(json1._id);
-       });
-        console.log(item1)
-        // this.setState({
-        //   items : Object.keys(json1).map(function(key) {
-        //     [
-        //       {
-        //         "classes": json1[key].classes,
-        //         "Nutriologist_id": json1[key].Nutriologist_id,
-        //         "pending": json1[key].pending,
-        //         "_id": json1[key]._id,
-        //         "name": json1[key].name,
-        //         "startDateTime": new Date(json1[key].startAtTime),
-        //         "endDateTime": new Date(json1[key].endDateTime),
-        //         "__v": json1[key].__v
-        //     }
-        //     ]
-        //   }, function() {
-        //     console.log(items)
-        //   }) ,
-        // });
-      });      
+    this.updateAgenda();
+    fetch('/api/account/getuseremail?token='+localStorage.getItem('email'), {method:'GET'})
+        .then(res => res.json())
+        .then(userdata => {
+          localStorage.setItem('Client_ID', userdata[0]._id);  
+          localStorage.setItem('ClientFirst', userdata[0].FirstName);  
+      });
+    // if (localStorage.getItem('Rol') == "Nutriologo") {
+      this.interval = setInterval(()=> this.updateAgenda(),1000)  
+    // }
+    console.log(this.state.items)
   }
+
+updateAgenda() {
+  const arrayItems=[];  
+    if (localStorage.getItem('Rol') == 'Nutriologo'){
+      fetch('/api/account/agendaarray?token='+localStorage.getItem('Auth'), {method:'GET'})
+        .then(res => res.json())
+        .then(json1 => {
+          for(var k in json1) {
+            if (json1[k].createdByID == localStorage.getItem('Client_ID')) {
+              arrayItems[k] = {
+                "createdBy":json1[k].createdBy,
+                "createdByID":json1[k].createdByID,
+                "classes": json1[k].classes,
+                "Nutriologist_id": json1[k].Nutriologist_id,
+                "pending": json1[k].pending,
+                "name": json1[k].name + " (Created by you)",
+                "_id": json1[k]._id , 
+                "startDateTime": new Date(json1[k].startDateTime),
+                "endDateTime": new Date(json1[k].endDateTime),
+                "__v": json1[k].__v
+            }
+          } else {
+            arrayItems[k] = {
+              "createdBy":json1[k].createdBy,
+              "createdByID":json1[k].createdByID,
+              "classes": json1[k].classes,
+              "Nutriologist_id": json1[k].Nutriologist_id,
+              "pending": json1[k].pending,
+              "name": json1[k].name + " Created by: " + json1[k].createdBy,
+              "_id": json1[k]._id , 
+              "startDateTime": new Date(json1[k].startDateTime),
+              "endDateTime": new Date(json1[k].endDateTime),
+              "__v": json1[k].__v
+          }
+        }
+          }
+        this.setState({
+          items : arrayItems
+        });
+      });      
+    } else if (localStorage.getItem('Rol') == 'Cliente') {
+      fetch('/api/account/agendaarray?token='+localStorage.getItem('AssignedNutriologist'), {method:'GET'})
+        .then(res => res.json())
+        .then(json1 => {
+          for(var k in json1) {
+            if (json1[k].createdByID == localStorage.getItem('Client_ID')) {
+              arrayItems[k] = {
+                "createdBy":json1[k].createdBy,
+                "createdByID":json1[k].createdByID,
+                "classes": json1[k].classes,
+                "Nutriologist_id": json1[k].Nutriologist_id,
+                "pending": json1[k].pending,
+                "_id": json1[k]._id,
+                "name": json1[k].name + " (Created by you)",
+                "startDateTime": new Date(json1[k].startDateTime),
+                "endDateTime": new Date(json1[k].endDateTime),
+                "__v": json1[k].__v
+            }
+            } else {
+              arrayItems[k] = {
+                "createdBy":json1[k].createdBy,
+                "createdByID":json1[k].createdByID,
+                "classes": "color-6",
+                "Nutriologist_id": json1[k].Nutriologist_id,
+                "pending": json1[k].pending,
+                "_id": json1[k]._id,
+                "name": json1[k].name,
+                "startDateTime": new Date(json1[k].startDateTime),
+                "endDateTime": new Date(json1[k].endDateTime),
+                "__v": json1[k].__v
+            }
+            }
+        }
+        this.setState({
+          items : arrayItems
+        });
+      });
+    } else {
+      console.log('Error')
+    }
+}
 
 componentWillReceiveProps(next , last){
   if(next.items){
@@ -108,17 +175,13 @@ var num = this.state.cellHeight - 15
     this.setState({cellHeight:num})
   }
 
-  handleDateRangeChange (startDate, endDate) {
-      this.setState({startDate:startDate })
+handleDateRangeChange (startDate, endDate) {
+    this.setState({startDate:startDate })
+}
 
-  }
-
-  handleRangeSelection (selected) {
-
-
-this.setState({selected:selected , showCtrl:true})
-this._openModal();
-
+handleRangeSelection (selected) {
+  this.setState({selected:selected , showCtrl:true})
+  this._openModal();
 }
 
 _openModal(){
@@ -134,8 +197,8 @@ _closeModal(e){
 }
 
 handleItemChange(items , item){
-console.log('testfqefqefq');
-this.setState({items:items})
+  console.log('testfqefqefq');
+  this.setState({items:items})
 }
 
 handleItemSize(items , item){
@@ -145,13 +208,80 @@ handleItemSize(items , item){
 }
 
 removeEvent(items , item){
-
+  if (localStorage.getItem('Rol') == 'Nutriologo'){
+    fetch('/api/account/removedate?token='+item._id, {method:'GET'})
     this.setState({ items:items});
+  } else if (localStorage.getItem('Rol') == 'Cliente' && item.createdByID == localStorage.getItem('Client_ID')) {
+    fetch('/api/account/removedate?token='+item._id, {method:'GET'})
+    console.log(item.createdByID)
+    console.log(localStorage.getItem('Client_ID'))
+    if ( item.createdByID = localStorage.getItem('Client_ID')) {
+      console.log("Equals")
+    } 
+    this.setState({ items:items});
+  } else {
+    console.log('Error')
+  }  
 }
 
 addNewEvent (items , newItems){
   this.setState({showModal:false ,selected:[] , items:items});
   this._closeModal();
+  if (localStorage.getItem('Rol') == 'Nutriologo'){
+    fetch('/api/account/createdate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: newItems.name,
+        Nutriologist_id: localStorage.getItem('Auth'),
+        clases: newItems.classes,
+        startDateTime: newItems.startDateTime,
+        endDateTime: newItems.endDateTime,
+        classes: newItems.classes,
+        pending: false,
+        createdBy: localStorage.getItem('ClientFirst'),
+        createdByID: localStorage.getItem('Client_ID')
+      }),
+    }).then(res => res.json())
+      .then(json => {
+        console.log('json', json);
+        if (json.success) {
+          console.log('Logrado');
+        } else {
+          console.log('No logrado');
+        }
+      });
+  } else if (localStorage.getItem('Rol') == 'Cliente') {
+      fetch('/api/account/createdate', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: newItems.name,
+        Nutriologist_id: localStorage.getItem('AssignedNutriologist'),
+        clases: newItems.classes,
+        startDateTime: newItems.startDateTime,
+        endDateTime: newItems.endDateTime,
+        classes: newItems.classes,
+        pending: true,
+        createdBy: localStorage.getItem('ClientFirst'),
+        createdByID: localStorage.getItem('Client_ID')
+      }),
+    }).then(res => res.json())
+      .then(json => {
+        console.log('json', json);
+        if (json.success) {
+          console.log('Logrado');
+        } else {
+          console.log('No logrado');
+        }
+      });
+  } else {
+    console.log('Error creando')
+  }   
 }
 editEvent (items , item){
 

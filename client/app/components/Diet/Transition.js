@@ -1,6 +1,7 @@
 import React, { Component,Children } from 'react';
-
 import 'whatwg-fetch';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter,Card,CardTitle,CardText } from 'reactstrap';
+
 
 import {
   setClientInStorage,
@@ -13,49 +14,79 @@ class Transition extends Component {
 
     this.state = {
         clientsId:[],
+        clientsDataRegistered:[],
         clientsData:[],
         currentUserId:'',
         isLoading: true,
         NutritionistAccount: false,
         isActive:null,
-        activeModal:null
+        activeModal:null,
+        modal: false,
+        FirstName: "",
+      LastName: "",
+      Email: "",
+      Phone: 0,
     };
+    this.toggle = this.toggle.bind(this);
+    this.handleClickSubmmit = this.handleClickSubmmit.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
+ 
 
-ActionLink(client) {
-  function handleClick(e) {
-    e.preventDefault();
-    setClientInStorage('myClient', client);
-    window.location=('/diet');
-  }
-  function handleClickC(e)
-  {
-    e.preventDefault();
-    setClientInStorage('myClient',client);
-    window.location=('/corporalanalysis');
-  }
-  return (
-    <div>
 
-    <a  className="btn btn-success"  id={client} onClick={handleClick} >Abrir</a>
-    <a  className="btn btn-success"  id={client} onClick={handleClickC} >Corporral Analysis</a>
-    </div>
-  );
-}
 componentDidMount() {
-
     const obj = getFromStorage('the_main_app');
-    const {token} = obj;
-      
-      fetch('/api/accounts/GetUserFromUserSession?token='+token)
+
+      fetch('/api/accounts/GetUserFromUserSession?token='+ obj.token)
+    //const obj = getFromStorage('El_token');
         .then(res => res.json())
         .then(json => {
           this.setState({
             currentUserId:json.userId
           });
-            
             this.GetMyClients(this.state.currentUserId);
         });
+}
+ 
+ toggle() {
+  this.setState({
+    modal: !this.state.modal
+  });
+}
+handleInputChange(event) {
+  const target = event.target;
+  const value = target.value;
+  const name = target.name;
+
+  this.setState({
+    [name]: value
+  });
+}
+
+handleClickSubmmit(e) {
+  e.preventDefault();
+  this.onAdd();
+  
+}
+
+ActionLink(client) {
+function handleClick(e) {
+  e.preventDefault();
+  setClientInStorage('myClient', client);
+  window.location=('/diet');
+}
+function handleClickC(e)
+{
+  e.preventDefault();
+  setClientInStorage('myClient',client);
+  window.location=('/corporalanalysis');
+}
+return (
+  <div>
+  <button  className="btn btn-success mt-3 ml-3"  id={client} onClick={handleClick} >Diet</button>
+  <button  className="btn btn-success mt-3 ml-3"  id={client} onClick={handleClickC} >Corporral Analysis</button>
+  </div>
+);
 }
 
 GetMyClients(CurrentUserId){
@@ -69,48 +100,156 @@ GetMyClients(CurrentUserId){
         })
       });
 
-      this.GetMyClientsUser(this.state.clientsId);
+      this.GetMyClientsUser(this.state.clientsId,CurrentUserId);
     
   });
 }
 
-GetMyClientsUser(ClientsId){
+GetMyClientsUser(ClientsId,CurrentUserId){
   fetch('/api/accounts/GetMyClientsUser?Clients='+ClientsId, {method:'GET'})
   .then(res => res.json())
-  .then (json=> {
-    
-      this.setState({
-        clientsData:json
+  .then (Registered=> {
+  
+      fetch('/api/account/GetClientsUnregistered/'+CurrentUserId, {method:'GET'})
+      .then(res => res.json())
+      .then (Unregistered=> {
+          this.setState({
+            clientsData:Registered.concat(Unregistered)
+          });
       });
-      
   });
+  
 }
-
+onAdd() {
+  fetch("/api/account/addClient", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      Nutritionist_id: this.state.currentUserId,
+      FirstName: this.state.FirstName,
+      LastName: this.state.LastName,
+      Email: this.state.Email,
+      Phone: this.state.Phone,
+    })
+  })
+}
 render(){
-  
   var ClientsData = Array.from(this.state.clientsData);
+  var that=this;
+
   
- var that=this;
 return(
   <div>
-    <h1>Clientes</h1>
-    <div className="row">
-    { 
-     ClientsData.map(function(client,index){
-      return(
-        <div key={client._id} className="client">
-
-           <div className="col-sm-12" >
-               <div className="card" id="cardstyle" >
-                 <div className="card-body">
-                     <h5 className="card-title">{client.FirstName+' '+ client.LastName}</h5>
-                     {that.ActionLink(client)}             
-                     </div>
+    <h1>Clients</h1>
+    <div className="row"> 
+    <div className="m-2" id="cardSpace"> 
+    <div  className="card card text-white " id="newClient">
+            <div className="card-header" >New Clients</div>
+                <div>
+                  <button className="btn btn-secondary"  id="buttonSize">
+                <img
+                         className=" img-fluid"
+                         src="https://www.australshippingagency.com/wp-content/themes/wpmetro/images/icon_social.png"
+                         alt="card image"
+                         onClick={this.toggle}
+                         id="bttnAdd"
+                       />
+                      </button>
+                    <Modal isOpen={this.state.modal} toggle={this.toggle} >
+                      <ModalHeader toggle={this.toggle}>Nuevos Clientes</ModalHeader>
+                      <ModalBody>
+                        <form>
+                        <div className="form-group">
+                            <label for="InputFirstName">First Name</label>
+                            <input type="text" className="form-control" 
+                             placeholder="Enter First Name"
+                             name="FirstName"
+                             value={this.state.FirstName}
+                             onChange={this.handleInputChange}
+                            />
+                          </div>
+                          <div className="form-group">
+                            <label for="InputLastName">Last Name</label>
+                            <input type="text" className="form-control"  
+                            placeholder="Enter Last Name"
+                            name="LastName"
+                            value={this.state.LastName}
+                            onChange={this.handleInputChange}/>
+                          </div>
+                          <div className="form-group">
+                            <label for="InputEmail">Email address</label>
+                            <input type="email" className="form-control"  aria-describedby="emailHelp" 
+                            placeholder="Enter email"
+                            name="Email"
+                            value={this.state.Email}
+                            onChange={this.handleInputChange}/>
+                            <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                          </div>
+                          <div className="form-group">
+                            <label for="InputPhone">Phone</label>
+                            <input type="text" className="form-control"  
+                            placeholder="+1 (555)555-5555"
+                            name="Phone"
+                            value={this.state.Phone}
+                            
+                            
+                            onChange={this.handleInputChange}
+                             />
+                          </div>
+                        </form>
+                      </ModalBody>
+                      <ModalFooter>
+                        <Button color="primary" onClick={this.handleClickSubmmit} onClick={this.toggle}>Submmit</Button>{' '}
+                        <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                    </ModalFooter>
+                  </Modal>
+                </div>   
+              </div>
+            </div>
+          
+    {ClientsData.map(function(client,index){
+    return(
+      <div key={client._id} className="client">
+         <div  className="col m-2" id="cardSpace">
+           <div
+             className="image-flip"
+             onTouchStart="this.classList.toggle('hover');"
+           >
+             <div className="mainflip">
+               <div className="frontside" >
+                 <div className="card  text-white " id="cardClient" >
+                   <div className="card-body text-center">
+                       <img
+                         className=" img-fluid mt-5"
+                         src="https://i.pinimg.com/originals/2b/be/83/2bbe83c41babaf761466774be9e52a13.png"
+                         alt="card image"
+                       />
+                       <br />
+                     <h4 className="card-title mt-2">{client.FirstName+' '+ client.LastName}</h4>
+                   </div>
                  </div>
-              </div> 
-              </div>         
-          )
+               </div>
+               <div className="backside">
+                 <div className="card" id="cardClient">
+                   <div className="card-body text-center mt-4">
+                     <h4 className="card-title">Client Information</h4>
+                     <ul className="list-group list-group-flush">
+                      <li className="list-group-item">Email: {client.Email}</li>
+                      <li className="list-group-item">Phone: {client.Phone}</li>
+                    </ul>
+                     {that.ActionLink(client)} 
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+           </div>
+      </div>         
+        )
       })}
+      
       </div>
     </div>
     
