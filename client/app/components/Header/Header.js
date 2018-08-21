@@ -15,7 +15,8 @@ class Header extends Component {
     this.state = {
       isLoading: true,
       isActive: false,
-      items:[], 
+      items:[],
+      notify:[], 
     };
 
     this.logout = this.logout.bind(this);
@@ -26,10 +27,19 @@ class Header extends Component {
   componentDidMount() {
     this.updatethings();
     if (localStorage.hasOwnProperty('the_main_app')) {
-      this.setState({isActive: true}, function() {
-      })
+      this.setState({isActive: true}, 
+      )
     }
-
+    if(!localStorage.hasOwnProperty('Client_ID' && this.state.isActive)){
+      fetch('/api/account/getuseremail?token='+localStorage.getItem('email'), {method:'GET'})
+        .then(res => res.json())
+        .then(userdata => {
+          localStorage.setItem('Client_ID', userdata[0]._id);  
+          localStorage.setItem('ClientFirst', userdata[0].FirstName);  
+      });
+      console.log(localStorage.getItem("Client_ID"))
+    }
+    // this.updatethings();
     this.interval = setInterval(()=> this.updatethings(),1000)
   }
 
@@ -43,6 +53,17 @@ class Header extends Component {
       .then(json1 => {
         this.setState({
           items : json1,
+        }, function() {
+          console.log(this.state.items)
+        });
+      });
+    fetch('/api/account/getnotifications?token='+localStorage.getItem('Client_ID'), {method:'GET'})
+      .then(res => res.json())
+      .then(json2 => {
+        this.setState({
+          notify : json2
+        }, function() {
+          console.log(this.state.items)
         });
       });
   }
@@ -158,7 +179,6 @@ class Header extends Component {
                     var anio = new Date(client.startDateTime).getFullYear();
                     var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
                     var diferencia = new Date(client.startDateTime).getHours() - new Date(client.endDateTime).getHours();
-                    console.log(moment.duration(diferencia, "hours").humanize())
                       return( 
                         <div style={{color: '#fff'}} key={client._id} className="news_item">
                             <a><h4>{client.name}</h4></a>
@@ -259,10 +279,8 @@ class Header extends Component {
             <div class="sidebar">
                   <h2>Notifications</h2>
                   <div className="news_inner">
-                  { this.state.items.map(function(client,  aceptar, negar, handleClick, isToggleOn){
-                    function up() {
-                      this.updatethings;
-                    }
+                  { this.state.items.map(function(client){
+                    
                     var dia = new Date(client.startDateTime).getDay();
                     var anio = new Date(client.startDateTime).getFullYear();
                     var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
@@ -271,7 +289,7 @@ class Header extends Component {
                       return( 
                         <div style={{color: '#fff'}} key={client._id} className="news_item notibox">
                             <a><h4>{client.name}</h4></a>
-                            <a><h6>{"Para: "+dia+ " de " + monthMinusOneName + " del " + anio}</h6></a>
+                            <a><h6>{"Para el "+dia+ " de " + monthMinusOneName + " del " + anio}</h6></a>
                             <a><h6>{"Con una duracion de "+moment.duration(diferencia, "hours").humanize()}</h6></a>
                             <div style={{marginRight: '30px'}} class="cancel" onClick={function aceptar() {
                               fetch("/api/account/editagenda?token="+client._id)
@@ -281,6 +299,26 @@ class Header extends Component {
                             }}>✕</div>                           
                         </div>
                         )
+                  
+                    
+                    })}
+                    { this.state.notify.map(function(client){
+                      
+                      var datetime = new Date(client.date).getDay();
+                      var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
+                        return( 
+                          <div style={{color: '#fff', backgroundColor:"#66c383"}} key={client._id} className="news_item notibox">
+                              <a><h5>{client.title}</h5></a>
+                              <a><h6>{client.text}</h6></a>
+                              <a><h6>{"From "+ datetime + " de " + monthMinusOneName}</h6></a>
+                              <div style={{marginRight: '30px'}} class="cancel" onClick={function aceptar() {
+                                fetch("/api/account/editagenda?token="+client._id)
+                              }}>✓</div>
+                              <div class="cancel" onClick={function aceptar() {
+                                fetch('/api/account/deleteagenda?token='+client._id);
+                              }}>✕</div>                           
+                          </div>
+                          )
                     })}
                     {/* <div class="notibox"> */}
                       {/* Wash the Car */}

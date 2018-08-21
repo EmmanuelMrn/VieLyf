@@ -72,6 +72,12 @@ class Login extends Component {
         isLoading: false,
       });
     }
+    fetch('/api/account/getuseremail?token='+localStorage.getItem('email'), {method:'GET'})
+        .then(res => res.json())
+        .then(userdata => {
+          localStorage.setItem('Client_ID', userdata[0]._id);  
+          localStorage.setItem('ClientFirst', userdata[0].FirstName);  
+      });
   }
 
   onLogin() {
