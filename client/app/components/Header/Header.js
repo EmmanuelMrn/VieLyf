@@ -1,8 +1,11 @@
-import React, { Component } from "react";
-import "whatwg-fetch";
-import { Link } from "react-router-dom";
-import moment from "moment";
-import { getFromStorage, setInStorage } from "../../utils/storage";
+import React, { Component } from 'react';
+import 'whatwg-fetch';
+import { Link } from 'react-router-dom';
+import moment from 'moment';
+import {
+  getFromStorage,
+  setInStorage,
+} from '../../utils/storage';
 // import { link } from 'fs';
 
 class Header extends Component {
@@ -12,111 +15,14 @@ class Header extends Component {
     this.state = {
       isLoading: true,
       isActive: false,
-      items: [],
-      token: "",
-      Name: "",
-      Customers: []
+      items:[], 
     };
-    this.inputsearch = this.inputsearch.bind(this);
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-    this.handleClick2 = this.handleClick2.bind(this);
 
     this.logout = this.logout.bind(this);
     this.updatethings = this.updatethings.bind(this);
-  }
-  
-  handleClick(e) {
-    e.preventDefault();
-    this.inputsearch();
+
   }
 
-  handleClick2(e) {
-    e.preventDefault();
-    this.inputsearchNutritionist();
-  }
-  
-  ActionLink() {
-    return (
-      <button
-        className="btn btn-primary"
-        type="button"
-        onClick={this.handleClick}
-      >
-        <i className="fa fa-search" />
-      </button>
-    );
-  }
-  
-  ActionLink2() {
-    return (
-      <button
-        className="btn btn-primary"
-        type="button"
-        onClick={this.handleClick2}
-      >
-        <i className="fa fa-search" />
-      </button>
-    );
-  }
-  
-  inputsearch() {
-    console.log("search name " + this.state.Name);
-    fetch("/api/account/searchClient?token=" + this.state.Name)
-      .then(res => res.json())
-      .then(json => {
-        if (json.success) {
-          this.setState({
-            Customers: json.doc.map(function(item) {
-              return item;
-            }),
-            isLoading: false
-          });
-        } else {
-          this.setState({
-            isLoading: false
-          });
-        }
-
-        console.log(this.state.Customers);
-        console.log(this.state.Customers.length);
-        setInStorage("searchresults", { token: json.doc });
-        window.location = "/ResultadoBusqueda";
-      });
-  }
-
-  inputsearchNutritionist() {
-    fetch("/api/account/searchNutritionist?token=" + this.state.Name)
-      .then(res => res.json())
-      .then(json => {
-        if (json.success) {
-          this.setState({
-            Customers: json.doc.map(function(item) {
-              return item;
-            }),
-            isLoading: false
-          });
-        } else {
-          this.setState({
-            isLoading: false
-          });
-        }
-
-        console.log(this.state.Customers);
-        console.log(this.state.Customers.length);
-        setInStorage("searchresults", { token: json.doc });
-        window.location = "/ResultadoBusqueda";
-      });
-  }
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-
-    this.setState({
-      [name]: value
-    });
-  }
   componentDidMount() {
     this.updatethings();
     if (localStorage.hasOwnProperty('the_main_app')) {
@@ -127,91 +33,76 @@ class Header extends Component {
     this.interval = setInterval(()=> this.updatethings(),1000)
   }
 
-  componentWillUnmount() {
-    clearInterval(this.interval);
+  componentWillUnmount(){
+    clearInterval(this.interval)
   }
-
-  /*
-  updatethings() {
-    fetch(
-      "/api/account/agendaarrayaproved?token=" + localStorage.getItem("Auth"),
-      { method: "GET" }
-    )
+  
+  updatethings(){
+    fetch('/api/account/agendaarrayaproved?token='+localStorage.getItem('Auth'), {method:'GET'})
       .then(res => res.json())
       .then(json1 => {
         this.setState({
-          items: json1
+          items : json1,
         });
       });
   }
-  */
- 
+
   logout() {
     this.setState({
-      isLoading: true
+      isLoading: true,
     });
-    const obj = getFromStorage("the_main_app");
+    const obj = getFromStorage('the_main_app');
     if (obj && obj.token) {
       const { token } = obj;
       // Verify token
-      fetch("/api/account/logout?token=" + token)
+      fetch('/api/account/logout?token=' + token)
         .then(res => res.json())
         .then(json => {
           if (json.success) {
             this.setState({
-              token: "",
+              token: '',
               isLoading: false
             });
           } else {
             this.setState({
-              isLoading: false
+              isLoading: false,
             });
           }
         });
     } else {
       this.setState({
-        isLoading: false
+        isLoading: false,
       });
     }
-    localStorage.removeItem("the_main_app");
-    localStorage.removeItem("email");
-    localStorage.removeItem("Auth");
-    localStorage.removeItem("Rol");
-    window.location = "/login";
+    localStorage.removeItem('the_main_app');
+    localStorage.removeItem('email');
+    localStorage.removeItem('Auth');
+    localStorage.removeItem('Rol');
+    window.location=('/login')
   }
-
+  
   render() {
-    var Customers = Array.from(this.state.Customers);
-    var that = this;
-
-    const { isLoading, isActive, token, Name } = this.state;
+    const {
+      isLoading,
+      isActive,
+    } = this.state;
 
     function update() {
       this.updatethings;
     }
 
     function alerta() {
-      if (localStorage.getItem("Role") == "Nutriologist") {
+      if (localStorage.getItem('Role')=="Nutriologist") {
         return (
           <li className="nav-item dropdown no-arrow mx-1">
-            <a
-              className="nav-link dropdown-toggle"
-              href="#"
-              id="alertsDropdown"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <i className="fa fa-bell fa-fw" />
-              <span className="badge badge-danger" />
+            <a className="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <i className="fa fa-bell fa-fw"></i>
+              <span className="badge badge-danger"></span>
             </a>
-            <div
-              className="dropdown-menu dropdown-menu-right"
-              aria-labelledby="alertsDropdown"
-            />
+            <div className="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
+            </div>
           </li>
-        );
+        )
       }
     }
 
@@ -288,26 +179,13 @@ class Header extends Component {
                       function(e) {
                         $(".cancel").click(function () {
                           console.log("toggling visibility");
-                          $(this)
-                            .parent()
-                            .toggleClass("gone");
+                            $(this).parent().toggleClass('gone');
                         });
-                      }}
-                    >
-                      Deny
-                    </button>
-                    <div
-                      className="cancel"
-                      onClick={function(e) {
-                        $(".cancel").click(function() {
-                          console.log("toggling visibility");
-                          $(this)
-                            .parent()
-                            .toggleClass("gone");
-                        });
-                      }}
-                    >
-                      ✕
+                      }
+                    } >✕</div>
+                        </div>
+                        )
+                    })}
                     </div>
                </div>
               <div id="wrapper">
@@ -440,33 +318,24 @@ class Header extends Component {
                 </div>
               </div>  
             </header>
-      );
+      )
     } else {
-      return (
-        <header>
-          <nav className="navbar bg-dark text-white">
-            <Link to="/" className="navbar-brand text-white">
-              VieLyf
-            </Link>
-            <Link to="/nutritionalBlog" className="text-white">
-              Nutritional Blog
-            </Link>
-            <Link to="/catalogueNutriologist" className="text-white">
-              Nutritionist Catalogue
-            </Link>
-            <div>
-              <Link to="/signup" className="navbar-brand text-white">
-                Sign up
-              </Link>
-              <Link to="/login" className="navbar-brand text-white">
-                Log in
-              </Link>
-            </div>
-          </nav>
-        </header>
-      );
-    }
+
+    return(
+      <header>
+           <nav className="navbar bg-dark text-white">
+             <Link to="/" className="navbar-brand text-white">VieLyf</Link>      
+               <Link to="/nutritionalBlog" className="text-white">Nutritional Blog</Link>
+               <Link to="/catalogueNutriologist" className="text-white">Nutritionist Catalogue</Link>
+             <div>
+               <Link to="/signup" className="navbar-brand text-white">Sign up</Link>
+               <Link to="/login" className="navbar-brand text-white">Log in</Link>
+             </div>
+           </nav>
+         </header>
+    );
   }
+}
 }
 
 export default Header;

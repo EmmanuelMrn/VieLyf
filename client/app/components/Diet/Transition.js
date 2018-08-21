@@ -215,7 +215,7 @@ return(
          <div  className="col m-2" id="cardSpace">
            <div
              className="image-flip"
-             ontouchstart="this.classList.toggle('hover');"
+             onTouchStart="this.classList.toggle('hover');"
            >
              <div className="mainflip">
                <div className="frontside" >

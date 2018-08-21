@@ -577,6 +577,7 @@ module.exports = app => {
       });
     });
   });
+});
 
   app.get("/api/account/removedate", (req, res, next) => {
     Agenda.findOneAndDelete({ _id: req.query.token }, function(err) {
@@ -624,4 +625,4 @@ module.exports = app => {
       }
     );
   });
-};
+}
