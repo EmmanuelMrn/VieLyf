@@ -189,7 +189,7 @@ app.get('/api/accounts/GetMyClients',(req,res,next)=>{
     if(err)
     return res.send(err);
     else
-    return res.send(doc);
+    return res.json(doc);
     });
   });
   

@@ -215,7 +215,7 @@ var ctxL = document.getElementById("lineChart").getContext('2d');
 var myLineChart = new Chart(ctxL, {
     type: 'line',
     data: {
-        labels: [(this.state.items[0].date).toString().slice(0,-14), (this.state.items[1].date).toString().slice(0,-14),(this.state.items[2].date).toString().slice(0,-14),(this.state.items[3].date).toString().slice(0,-14),(this.state.items[4].date).toString().slice(0,-14)],
+        labels: [(this.state.items[4].date).toString().slice(0,-14), (this.state.items[3].date).toString().slice(0,-14),(this.state.items[2].date).toString().slice(0,-14),(this.state.items[1].date).toString().slice(0,-14),(this.state.items[0].date).toString().slice(0,-14)],
         datasets: [
             {
                 label: "Weight",
@@ -337,7 +337,12 @@ var myLineChart = new Chart(ctxL, {
 }
 
     render() {
-        
+        if(this.state.items.length==0)
+        {
+            return(<p>No Analysis </p>);
+        }
+        else
+        {
         return (
         <Container>
             
@@ -351,6 +356,7 @@ var myLineChart = new Chart(ctxL, {
           <button onClick={this.onChart2}>Segunda</button>
         </Container>
         );
+    }
     }
 
 };

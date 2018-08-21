@@ -182,6 +182,18 @@ class VistaCliente extends Component {
   }
 
   componentDidMount() {
+    console.log(localStorage.getItem('clientID'));
+    fetch("/api/account/getuserbyid?token=5b5f3bbe15c2a80434feb939",//+localStorage.getItem('clientID'),
+  {method:'GET'})
+  .then(res => res.json())
+  .then(json=>{
+    console.log(json)
+    this.setState({
+      Name:json[0].FirstName,
+      Age:json[0].Phone,
+
+    })
+  })
     console.log(localStorage.getItem('AssignedNutriologist'))
     console.log("Hello");
     console.log(localStorage.getItem("Rol"));
@@ -393,6 +405,7 @@ class VistaCliente extends Component {
 
 
   render() {
+    console.log(this.state.Name)
     const {
       isLoading,
       token,
@@ -438,7 +451,7 @@ class VistaCliente extends Component {
                 />
               </div>
               <div className="col-md-3">
-                <p>Name:</p>
+                <p>Name : </p>
                 <p>Phone: </p>
                 <p>Email: </p>
               </div>
@@ -568,7 +581,7 @@ class VistaCliente extends Component {
                 />
               </div>
               <div className="col-md-3">
-                <p>Name: </p>
+                <p>Name: {this.state.Name}</p>
                 <p>Age: </p>
                 <p>Height: </p>
                 <p>Weight: </p>
