@@ -87,12 +87,14 @@ class VistaCliente extends Component {
     this.toggleModal = this.toggleModal.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
+
   handleClick() {
     this.setState(prevState => ({
       isToggleOn: !prevState.isToggleOn
     }));
     console.log(isToggleOn);
   }
+
   removeEvent(items, item) {
     this.setState({ items: items });
   }
@@ -101,6 +103,7 @@ class VistaCliente extends Component {
     this.setState({ showModal: false, selected: [], items: items });
     this._closeModal();
   }
+
   editEvent(items, item) {
     this.setState({ showModal: false, selected: [], items: items });
     this._closeModal();
@@ -113,6 +116,7 @@ class VistaCliente extends Component {
   _openModal() {
     this.setState({ showModal: true });
   }
+
   _closeModal(e) {
     if (e) {
       e.stopPropagation();
@@ -133,16 +137,19 @@ class VistaCliente extends Component {
       return this._openModal();
     }
   }
+
   handleCellSelection(item, openModal) {
     if (this.state.selected && this.state.selected[0] === item) {
       return this._openModal();
     }
     this.setState({ selected: [item] });
   }
+
   zoomIn() {
     var num = this.state.cellHeight + 15;
     this.setState({ cellHeight: num });
   }
+
   zoomOut() {
     var num = this.state.cellHeight - 15;
     this.setState({ cellHeight: num });
@@ -162,6 +169,7 @@ class VistaCliente extends Component {
       }
     );
   }
+
   aceptar() {
     const target = event.target;
     const value = target.value;
@@ -172,8 +180,25 @@ class VistaCliente extends Component {
     });
     console.log(name);
   }
+
   componentDidMount() {
     console.log(localStorage.getItem('ClientInfo'))
+    console.log(localStorage.getItem('clientID'));
+    fetch("/api/account/getuserbyid?token=5b5f3bbe15c2a80434feb939",//+localStorage.getItem('clientID'),
+  {method:'GET'})
+  .then(res => res.json())
+  .then(json=>{
+    console.log(json)
+    this.setState({
+      Name:json[0].FirstName,
+      Age:json[0].Phone,
+
+    })
+  })
+    console.log(localStorage.getItem('AssignedNutriologist'))
+    console.log("Hello");
+    console.log(localStorage.getItem("Rol"));
+    console.log("=============");
     if (localStorage.getItem("Rol") == "Nutriologo") {
       console.log("true nutriologo");
       fetch(
@@ -218,39 +243,6 @@ class VistaCliente extends Component {
     this.setState({ startDate: startDate });
   }
 
-  onEditProfile() {
-    const {
-      signUpEmail,
-      signUpFirstName,
-      signUpLastName,
-      signUpPassword
-    } = this.state;
-    fetch(
-      "/api/account/editprofile?token=" +
-        signUpEmail +
-        "&token2=" +
-        signUpFirstName +
-        "&token3=" +
-        signUpLastName +
-        "&token4=" +
-        signUpPassword +
-        ""
-    )
-      .then(res => res.json())
-      .then(json => {
-        if (json.success) {
-          this.setState({
-            token,
-            isLoading: false
-          });
-        } else {
-          this.setState({
-            isLoading: false
-          });
-        }
-      });
-  }
-
   logout() {
     this.setState({
       isLoading: true
@@ -285,7 +277,7 @@ class VistaCliente extends Component {
     window.location = "/";
     alertify.warning("Closed session");
   }
-  
+
   agendaModal() {
     console.log("============");
     console.log("Abrir modal");
@@ -376,7 +368,7 @@ class VistaCliente extends Component {
         		<div class="col-md-8">
         			<br />
         			<ul class="list-group list-primary">
-                        <a class="list-group-item">First Name: {user.FirstName}</a>
+                <a class="list-group-item">First Name: {user.FirstName}</a>
         				<a class="list-group-item">Last Name: {user.LastName}</a>
         				<a class="list-group-item">Phone: {user.Phone}</a>
         				<a class="list-group-item">Email: {user.Email}</a>
@@ -414,6 +406,7 @@ class VistaCliente extends Component {
 
 
   render() {
+    console.log(this.state.Name)
     const {
       isLoading,
       token,
@@ -427,7 +420,7 @@ class VistaCliente extends Component {
     if (localStorage.getItem("Rol") == "Nutriologo") {
       return (
         <div>
-          <h1>Cuenta Nutriólogo </h1>
+          <h1>Nutritionist Account</h1>
           <div className="row">
             <div className="col-md-3">
               <div className="btn-group-vertical">
@@ -459,7 +452,7 @@ class VistaCliente extends Component {
                 />
               </div>
               <div className="col-md-3">
-                <p>Name:</p>
+                <p>Name : </p>
                 <p>Phone: </p>
                 <p>Email: </p>
               </div>
@@ -532,9 +525,7 @@ class VistaCliente extends Component {
                           name=""
                           className="btn btn-dark"
                           onClick={function aceptar() {
-                            fetch(
-                              "/api/account/deleteagenda?token=" + client._id
-                            );
+                            fetch("/api/account/deleteagenda?token=" + client._id);
                           }}
                         >
                           Deny
@@ -551,25 +542,25 @@ class VistaCliente extends Component {
     } else if (localStorage.getItem("Rol") == "Cliente") {
       return (
         <div>
-          <h1>Cuenta Cliente</h1>
+          <h1>Client Account</h1>
           <div className="row">
             <div className="col-md-3">
               <div className="btn-group-vertical">
                 <Link to="/charts" className="btn btn-dark">
-                  Análisis Corporal
+                  Corporal Analysis
                 </Link>
                 <Link to="/diet" className="btn btn-dark">
-                  Calendario de Dieta
+                  Diet Calendar
                 </Link>
                 <button type="button" className="btn btn-dark">
-                  Progreso
+                  Progress
                 </button>
                 <button
                   type="button"
                   className="btn btn-dark"
                   onClick={this.agendaModal}
                 >
-                  Agendar Cita
+                  Make a diet
                 </button>
                 <button
                   type="button"
@@ -591,7 +582,7 @@ class VistaCliente extends Component {
                 />
               </div>
               <div className="col-md-3">
-                <p>Name: </p>
+                <p>Name: {this.state.Name}</p>
                 <p>Age: </p>
                 <p>Height: </p>
                 <p>Weight: </p>

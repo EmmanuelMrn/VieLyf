@@ -7,7 +7,6 @@ import {
   getFromStorage,
   setInStorage,
 } from '../../utils/storage';
-// import { link } from 'fs';
 
 require('moment/locale/en-gb.js');
     var colors= {
@@ -29,11 +28,120 @@ class Header extends Component {
       isActive: false,
       items:[],
       notify:[], 
+      token: "",
+      Name: "",
+      Customers: [] 
     };
 
+    this.inputsearch = this.inputsearch.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleClick2 = this.handleClick2.bind(this);
     this.logout = this.logout.bind(this);
+    this.onEditProfile = this.onEditProfile.bind(this);
     this.updatethings = this.updatethings.bind(this);
 
+  }
+
+  handleClick(e) {
+    e.preventDefault();
+    this.inputsearch();
+  }
+
+  handleClick2(e) {
+    e.preventDefault();
+    this.inputsearchNutritionist();
+  }
+
+  ActionLink() {
+    return (
+      <button
+        className="btn btn-primary"
+        type="button"
+        onClick={this.handleClick}
+      >
+        <i className="fa fa-search" />
+      </button>
+    );
+  }
+
+  ActionLink2() {
+    return (
+      <button
+        className="btn btn-primary"
+        type="button"
+        onClick={this.handleClick2}
+      >
+        <i className="fa fa-search" />
+      </button>
+    );
+  }
+
+  inputsearch() {
+    console.log("search name " + this.state.Name);
+    fetch("/api/account/searchClient?token=" + this.state.Name)
+      .then(res => res.json())
+      .then(json => {
+        if (json.success) {
+          this.setState({
+            Customers: json.doc.map(function(item) {
+              return item;
+            }),
+            isLoading: false
+          });
+        } else {
+          this.setState({
+            isLoading: false
+          });
+        }
+
+        console.log(this.state.Customers);
+        console.log(this.state.Customers.length);
+        setInStorage("searchresults", { token: json.doc });
+        window.location = "/ResultadoBusqueda";
+      });
+  }
+
+  inputsearchNutritionist() {
+    fetch("/api/account/searchNutritionist?token=" + this.state.Name)
+      .then(res => res.json())
+      .then(json => {
+        if (json.success) {
+          this.setState({
+            Customers: json.doc.map(function(item) {
+              return item;
+            }),
+            isLoading: false
+          });
+        } else {
+          this.setState({
+            isLoading: false
+          });
+        }
+
+        console.log(this.state.Customers);
+        console.log(this.state.Customers.length);
+        setInStorage("searchresults", { token: json.doc });
+        window.location = "/ResultadoBusqueda";
+      });
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  componentDidMount() {
+    if (localStorage.hasOwnProperty("the_main_app")) {
+      this.setState({ isActive: true }, function() {});
+    }
+
+    this.interval = setInterval(() => this.updatethings(), 2000);
   }
 
   componentDidMount() {
@@ -81,6 +189,42 @@ class Header extends Component {
       });
   }
 
+  onEditProfile() {
+    this.toggleModal();
+    console.log(this.state.signUpEmail);
+    const {
+      signUpEmail,
+      signUpFirstName,
+      signUpLastName,
+      signUpPassword
+    } = this.state;
+    fetch(
+      "/api/account/editprofile?token=" +
+        signUpEmail +
+        "&token2=" +
+        signUpFirstName +
+        "&token3=" +
+        signUpLastName +
+        "&token4=" +
+        signUpPassword +
+        ""
+    )
+      .then(res => res.json())
+      .then(json => {
+        if (json.success) {
+          this.setState({
+            token,
+            isLoading: false
+          });
+        } else {
+          this.setState({
+            isLoading: false
+          });
+        }
+      });
+      alertify.success("Edited profile");
+  }
+
   logout() {
     this.setState({
       isLoading: true,
@@ -122,25 +266,6 @@ class Header extends Component {
       isActive,
     } = this.state;
 
-    function update() {
-      this.updatethings;
-    }
-
-    function alerta() {
-      if (localStorage.getItem('Role')=="Nutriologist") {
-        return (
-          <li className="nav-item dropdown no-arrow mx-1">
-            <a className="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i className="fa fa-bell fa-fw"></i>
-              <span className="badge badge-danger"></span>
-            </a>
-            <div className="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-            </div>
-          </li>
-        )
-      }
-    }
-
     if (isActive && localStorage.getItem('Rol')=="Cliente") {
       return (
         <header>
@@ -157,26 +282,34 @@ class Header extends Component {
                   }
                     } ><i style={{color:'#0676f8'}} className="fa fa-bell"></i></a>
               <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-                <div className="input-group">
-                  <input style={{border: '1px solid #fff'}} type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2"/>
-                  <div className="input-group-append">
-                    <button className="btn" type="button">
-                      <i className="fa fa-search"></i>
-                    </button>
-                  </div>
-                </div>
-              </form>
-              <ul className="navbar-nav ml-auto ml-md-0">
-                {alerta()}
-                <li className="nav-item dropdown no-arrow">
-                  <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  name="Name"
+                  placeholder="Name"
+                  aria-label="Search"
+                  aria-describedby="basic-addon2"
+                  value={this.state.Name}
+                  onChange={this.handleInputChange}
+                />
+
+                <div className="input-group-append">{this.ActionLink2()}</div>
+              </div>
+            </form>
+
+              <div className="navbar-nav ml-auto ml-md-0">
+                <div class="dropdown">
+                  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i className="fa fa-user-circle fa-fw"></i>
                   </a>
-                  <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                    <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout}>Logout</a>       
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="#">Edit profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Log out</a>
                   </div>
-                </li>
-              </ul>
+                </div>
+              </div>
               </nav>
            <div className="sidebar">
                   <h2>Notifications</h2>
@@ -261,17 +394,22 @@ class Header extends Component {
                         }
                     } ><i style={{color:'#0676f8'}} className="fa fa-bell"></i></a>
               <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-                <div className="input-group">
-                  <input type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2"/>
-                  <div className="input-group-append">
-                    <button className="btn btn-primary" type="button">
-                      <i className="fa fa-search"></i>
-                    </button>
-                  </div>
-                </div>
-              </form>
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  name="Name"
+                  placeholder="Name"
+                  aria-label="Search"
+                  aria-describedby="basic-addon2"
+                  value={this.state.Name}
+                  onChange={this.handleInputChange}
+                />
+
+                <div className="input-group-append">{this.ActionLink()}</div>
+              </div>
+            </form>
               <ul className="navbar-nav ml-auto ml-md-0">
-                {alerta()}
                 <li className="nav-item dropdown no-arrow">
                   <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i className="fa fa-user-circle fa-fw"></i>
@@ -326,6 +464,11 @@ class Header extends Component {
                           </div>
                           )
                     })}
+                    {/* <div className="notibox"> */}
+                      {/* Wash the Car */}
+                      {/* <div style={{marginRight: '30px'}} className="cancel">✓</div> */}
+                      {/* <div className="cancel">✕</div> */}
+                    {/* </div> */}
                     </div>
                </div>
               <div id="wrapper">
