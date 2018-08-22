@@ -420,7 +420,7 @@ class VistaCliente extends Component {
     if (localStorage.getItem("Rol") == "Nutriologo") {
       return (
         <div>
-          <h1>Cuenta Nutriólogo </h1>
+          <h1>Nutritionist Account</h1>
           <div className="row">
             <div className="col-md-3">
               <div className="btn-group-vertical">
@@ -542,25 +542,25 @@ class VistaCliente extends Component {
     } else if (localStorage.getItem("Rol") == "Cliente") {
       return (
         <div>
-          <h1>Cuenta Cliente</h1>
+          <h1>Client Account</h1>
           <div className="row">
             <div className="col-md-3">
               <div className="btn-group-vertical">
                 <Link to="/charts" className="btn btn-dark">
-                  Análisis Corporal
+                  Corporal Analysis
                 </Link>
                 <Link to="/diet" className="btn btn-dark">
-                  Calendario de Dieta
+                  Diet Calendar
                 </Link>
                 <button type="button" className="btn btn-dark">
-                  Progreso
+                  Progress
                 </button>
                 <button
                   type="button"
                   className="btn btn-dark"
                   onClick={this.agendaModal}
                 >
-                  Agendar Cita
+                  Make a diet
                 </button>
                 <button
                   type="button"
