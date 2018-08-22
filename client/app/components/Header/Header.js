@@ -6,7 +6,6 @@ import {
   getFromStorage,
   setInStorage,
 } from '../../utils/storage';
-// import { link } from 'fs';
 
 class Header extends Component {
   constructor() {
@@ -19,6 +18,7 @@ class Header extends Component {
     };
 
     this.logout = this.logout.bind(this);
+    this.onEditProfile = this.onEditProfile.bind(this);
     this.updatethings = this.updatethings.bind(this);
 
   }
@@ -45,6 +45,42 @@ class Header extends Component {
           items : json1,
         });
       });
+  }
+
+  onEditProfile() {
+    this.toggleModal();
+    console.log(this.state.signUpEmail);
+    const {
+      signUpEmail,
+      signUpFirstName,
+      signUpLastName,
+      signUpPassword
+    } = this.state;
+    fetch(
+      "/api/account/editprofile?token=" +
+        signUpEmail +
+        "&token2=" +
+        signUpFirstName +
+        "&token3=" +
+        signUpLastName +
+        "&token4=" +
+        signUpPassword +
+        ""
+    )
+      .then(res => res.json())
+      .then(json => {
+        if (json.success) {
+          this.setState({
+            token,
+            isLoading: false
+          });
+        } else {
+          this.setState({
+            isLoading: false
+          });
+        }
+      });
+      alertify.success("Edited profile");
   }
 
   logout() {
@@ -87,25 +123,6 @@ class Header extends Component {
       isActive,
     } = this.state;
 
-    function update() {
-      this.updatethings;
-    }
-
-    function alerta() {
-      if (localStorage.getItem('Role')=="Nutriologist") {
-        return (
-          <li className="nav-item dropdown no-arrow mx-1">
-            <a className="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i className="fa fa-bell fa-fw"></i>
-              <span className="badge badge-danger"></span>
-            </a>
-            <div className="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-            </div>
-          </li>
-        )
-      }
-    }
-
     if (isActive && localStorage.getItem('Rol')=="Cliente") {
       return (
         <header>
@@ -138,19 +155,20 @@ class Header extends Component {
                   </div>
                 </div>
               </form>
-              <ul className="navbar-nav ml-auto ml-md-0">
-                {alerta()}
-                <li className="nav-item dropdown no-arrow">
-                  <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <div className="navbar-nav ml-auto ml-md-0">
+                <div class="dropdown">
+                  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i className="fa fa-user-circle fa-fw"></i>
                   </a>
-                  <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                    <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout} >Logout</a>       
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="#">Edit profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Log out</a>
                   </div>
-                </li>
-              </ul>
+                </div>
+              </div>
               </nav>
-           <div class="sidebar">
+           <div className="sidebar">
                   <h2>Notifications</h2>
                   <div className="news_inner">
                   { this.state.items.map(function(client, aceptar, negar, handleClick, isToggleOn){
@@ -175,7 +193,7 @@ class Header extends Component {
                                 });
                               
                             }}>Denegar</button>
-                            <div class="cancel" onClick={
+                            <div className="cancel" onClick={
                       function(e) {
                         $(".cancel").click(function () {
                           console.log("toggling visibility");
@@ -244,7 +262,6 @@ class Header extends Component {
                 </div>
               </form>
               <ul className="navbar-nav ml-auto ml-md-0">
-                {alerta()}
                 <li className="nav-item dropdown no-arrow">
                   <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i className="fa fa-user-circle fa-fw"></i>
@@ -256,7 +273,7 @@ class Header extends Component {
               </ul>
             </nav>
               
-            <div class="sidebar">
+            <div className="sidebar">
                   <h2>Notifications</h2>
                   <div className="news_inner">
                   { this.state.items.map(function(client,  aceptar, negar, handleClick, isToggleOn){
@@ -273,19 +290,19 @@ class Header extends Component {
                             <a><h4>{client.name}</h4></a>
                             <a><h6>{"Para: "+dia+ " de " + monthMinusOneName + " del " + anio}</h6></a>
                             <a><h6>{"Con una duracion de "+moment.duration(diferencia, "hours").humanize()}</h6></a>
-                            <div style={{marginRight: '30px'}} class="cancel" onClick={function aceptar() {
+                            <div style={{marginRight: '30px'}} className="cancel" onClick={function aceptar() {
                               fetch("/api/account/editagenda?token="+client._id)
                             }}>✓</div>
-                            <div class="cancel" onClick={function aceptar() {
+                            <div className="cancel" onClick={function aceptar() {
                               fetch('/api/account/deleteagenda?token='+client._id);
                             }}>✕</div>                           
                         </div>
                         )
                     })}
-                    {/* <div class="notibox"> */}
+                    {/* <div className="notibox"> */}
                       {/* Wash the Car */}
-                      {/* <div style={{marginRight: '30px'}} class="cancel">✓</div> */}
-                      {/* <div class="cancel">✕</div> */}
+                      {/* <div style={{marginRight: '30px'}} className="cancel">✓</div> */}
+                      {/* <div className="cancel">✕</div> */}
                     {/* </div> */}
                     </div>
                </div>
