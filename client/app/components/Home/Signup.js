@@ -39,6 +39,7 @@ class Signup extends Component {
       profLastName:'',
       profMotherLastName:'',
       profTitle:'',
+      profUsername:'',
       profEmail:'',
       profPassword:'',
       License :'',
@@ -96,6 +97,7 @@ class Signup extends Component {
       profLastName,
       profMotherLastName,
       profTitle,
+      profUsername,
       License
 
     } = this.state;
@@ -136,6 +138,7 @@ class Signup extends Component {
             profLastName: json.response.docs[0].paterno,
             profMotherLastName:json.response.docs[0].materno,
             profTitle: json.response.docs[0].titulo,
+            profUsername: json.response.docs[0].userName,
           });}
           else{
             //console.log(json.response.docs[0].nombre);
@@ -161,11 +164,13 @@ class Signup extends Component {
       profEmail,
       profPassword,
       profPhone,
+      profUsername,
     } = this.state;
     console.log(profFirstName,
       profLastName,
       profEmail,
-      profPassword);
+      profPassword,
+      profUsername);
     this.setState({
      isLoading:true
     });
@@ -181,7 +186,8 @@ class Signup extends Component {
         Email: profEmail,
         Password: profPassword,
         Phone:profPhone,
-        Role:'Nutritionist'
+        Role:'Nutritionist',
+        UserName: profUsername
       }),
   })
       .then(res => res.json())
@@ -195,7 +201,8 @@ class Signup extends Component {
             profLastName:'',
             profEmail:'',
             profPassword:'',
-            profPhone:''
+            profPhone:'',
+            profUsername:''
           });
           swal(
             'Welcome to VieLyf Nutritionist!',
@@ -225,6 +232,7 @@ class Signup extends Component {
       profEmail:'',
       profLastName:'',
       profMotherLastName:'',
+      profUsername: '',
       profPassword:'',
       profTitle:'',
       profPhone:'',
@@ -308,6 +316,7 @@ class Signup extends Component {
       profLastName,
       profMotherLastName,
       profTitle,
+      profUsername,
       profEmail,
       profPassword,
       profPhone,
@@ -428,6 +437,7 @@ class Signup extends Component {
           <input type="text" name ="profLastName" placeholder="Last name" value ={profLastName} onChange={this.handleInputChange}readOnly/><br />
           <input type="text" name = "profMotherLastName" placeholder="Last name 2" value ={profMotherLastName} onChange={this.handleInputChange}readOnly/><br />
           <input type="text" name = "profTitle" placeholder="Title" value ={profTitle} onChange={this.handleInputChange} readOnly/><br />
+          <input type="text" name = "profUsername" placeholder="Username" value = {profUsername} onChange={this.handleInputChange}/><br />
           <input type="text" name = "profPhone" placeholder="Phone" value = {profPhone} onChange={this.handleInputChange}/><br />
           <input type="email" name = "profEmail" placeholder="Email" value = {profEmail} onChange={this.handleInputChange}/><br />
           <input type="password" name= "profPassword" placeholder="Password" value = {profPassword}onChange={this.handleInputChange}/><br />
