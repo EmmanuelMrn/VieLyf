@@ -102,8 +102,7 @@ class Login extends Component {
         localStorage.setItem("email", json.Email);
         if (json.success) {
           setInStorage('the_main_app', { token: json.token });
-          setInStorage("El_token", {token:json.token} );
-
+          // setInStorage("El_token", {token:json.token} );
           this.setState({
             loginError: json.message,
             isLoading: false,
@@ -118,23 +117,33 @@ class Login extends Component {
                 window.location = "/vistanutriologo";
                 localStorage.setItem("Rol", "Nutriologo");
               } else {
+                console.log('Login Email')
+                console.log(loginEmail)
                 fetch('/api/account/getuseremail?token='+loginEmail)
                 .then(res => res.json())
                 .then(json2 => {
+                  console.log('user email')
+                  console.log(json2[0]._id)
                   fetch('/api/accounts/getuser?token='+json2[0]._id)
                   .then(res => res.json())
                   .then(json3 => {
+                    console.log('getuser')
+                    console.log(json3.doc.Nutritionist_id)
                     fetch('/api/account/getuserbyid?token='+json3.doc.Nutritionist_id)
                     .then(res => res.json())
                     .then(json4 => {
+                      console.log('user by id')
+                    console.log(json4[0].Email)
                     localStorage.setItem('AssignedNutriologist', json4[0].Email)
                     localStorage.setItem('clientID', json2[0]._id);
                   
+                    }).then( ()=> {
+                      localStorage.setItem('Rol', 'Cliente');  
+                      window.location=('/vistacliente');
                     })
                   })       
                 })
-                localStorage.setItem('Rol', 'Cliente');  
-                window.location=('/vistacliente');
+                
               }
             });
         } else {

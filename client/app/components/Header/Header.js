@@ -2,11 +2,23 @@ import React, { Component } from 'react';
 import 'whatwg-fetch';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+// import 'moment/locale/fr';
 import {
   getFromStorage,
   setInStorage,
 } from '../../utils/storage';
 // import { link } from 'fs';
+
+require('moment/locale/en-gb.js');
+    var colors= {
+      'color-1':"rgba(102, 195, 131 , 1)" ,
+      "color-2":"rgba(242, 177, 52, 1)" ,
+      "color-3":"rgba(235, 85, 59, 1)" ,
+      "color-4":"rgba(70, 159, 213, 1)",
+      "color-5":"rgba(170, 59, 123, 1)",
+      "color-6":"rgb(160, 163, 167)",
+    }
+
 
 class Header extends Component {
   constructor() {
@@ -25,6 +37,8 @@ class Header extends Component {
   }
 
   componentDidMount() {
+    console.log('Header')
+    console.log(localStorage.getItem('AssignedNutriologist'))
     this.updatethings();
     if (localStorage.hasOwnProperty('the_main_app')) {
       this.setState({isActive: true}, 
@@ -37,7 +51,6 @@ class Header extends Component {
           localStorage.setItem('Client_ID', userdata[0]._id);  
           localStorage.setItem('ClientFirst', userdata[0].FirstName);  
       });
-      console.log(localStorage.getItem("Client_ID"))
     }
     // this.updatethings();
     this.interval = setInterval(()=> this.updatethings(),1000)
@@ -54,7 +67,7 @@ class Header extends Component {
         this.setState({
           items : json1,
         }, function() {
-          console.log(this.state.items)
+          
         });
       });
     fetch('/api/account/getnotifications?token='+localStorage.getItem('Client_ID'), {method:'GET'})
@@ -63,7 +76,7 @@ class Header extends Component {
         this.setState({
           notify : json2
         }, function() {
-          console.log(this.state.items)
+          
         });
       });
   }
@@ -99,6 +112,7 @@ class Header extends Component {
     localStorage.removeItem('email');
     localStorage.removeItem('Auth');
     localStorage.removeItem('Rol');
+    localStorage.removeItem('AssignedNutriologist');
     window.location=('/login')
   }
   
@@ -138,20 +152,13 @@ class Header extends Component {
               $("#wrapper").toggleClass("toggled")
               } }><i className="fa fa-bars" ></i></a>
               <a style={{color:'#0676f8'}} className="toggle" onClick={
-                      function(e) {
-                            $(".sidebar").toggleClass('active');
-                        
-                        }
-                        // $(".cancel").click(function () {
-                        //   console.log("toggling visibility");
-                        //     $(this).parent().toggleClass('gone');
-                        
-                        // });
-                      
+                function(e) {
+                  $(".sidebar").toggleClass('active');
+                  }
                     } ><i style={{color:'#0676f8'}} className="fa fa-bell"></i></a>
               <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
                 <div className="input-group">
-                  <input type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2"/>
+                  <input style={{border: '1px solid #fff'}} type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2"/>
                   <div className="input-group-append">
                     <button className="btn" type="button">
                       <i className="fa fa-search"></i>
@@ -166,12 +173,12 @@ class Header extends Component {
                     <i className="fa fa-user-circle fa-fw"></i>
                   </a>
                   <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                    <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout} >Logout</a>       
+                    <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout}>Logout</a>       
                   </div>
                 </li>
               </ul>
               </nav>
-           <div class="sidebar">
+           <div className="sidebar">
                   <h2>Notifications</h2>
                   <div className="news_inner">
                   { this.state.items.map(function(client, aceptar, negar, handleClick, isToggleOn){
@@ -195,7 +202,7 @@ class Header extends Component {
                                 });
                               
                             }}>Denegar</button>
-                            <div class="cancel" onClick={
+                            <div className="cancel" onClick={
                       function(e) {
                         $(".cancel").click(function () {
                           console.log("toggling visibility");
@@ -276,7 +283,7 @@ class Header extends Component {
               </ul>
             </nav>
               
-            <div class="sidebar">
+            <div className="sidebar">
                   <h2>Notifications</h2>
                   <div className="news_inner">
                   { this.state.items.map(function(client){
@@ -286,45 +293,39 @@ class Header extends Component {
                     var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
                     var diferencia = new Date(client.startDateTime).getHours() - new Date(client.endDateTime).getHours();
                     console.log(moment.duration(diferencia, "hours").humanize())
-                      return( 
+                      return(
                         <div style={{color: '#fff'}} key={client._id} className="news_item notibox">
+                            <a><h6 style={{fontSize: ".9rem", textAlign: 'center'}}>{"From "+ monthMinusOneName +", "+ datetime.getDay() + " at "+ datetime.getHours() +":"+ datetime.getMinutes()}</h6></a>
                             <a><h4>{client.name}</h4></a>
                             <a><h6>{"Para el "+dia+ " de " + monthMinusOneName + " del " + anio}</h6></a>
                             <a><h6>{"Con una duracion de "+moment.duration(diferencia, "hours").humanize()}</h6></a>
-                            <div style={{marginRight: '30px'}} class="cancel" onClick={function aceptar() {
+                            <div style={{marginRight: '30px'}} className="cancel" onClick={function aceptar() {
                               fetch("/api/account/editagenda?token="+client._id)
                             }}>✓</div>
-                            <div class="cancel" onClick={function aceptar() {
+                            <div className="cancel" onClick={function aceptar() {
                               fetch('/api/account/deleteagenda?token='+client._id);
                             }}>✕</div>                           
                         </div>
                         )
-                  
-                    
-                    })}
+                  })}
                     { this.state.notify.map(function(client){
                       
-                      var datetime = new Date(client.date).getDay();
+                      var datetime = new Date(client.date)
                       var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
                         return( 
                           <div style={{color: '#fff', backgroundColor:"#66c383"}} key={client._id} className="news_item notibox">
+                              <a><h6 style={{fontSize: ".9rem", textAlign: 'center'}}>{"From "+ monthMinusOneName +", "+ datetime.getDay() + " at "+ datetime.getHours() +":"+ datetime.getMinutes()}</h6></a>
                               <a><h5>{client.title}</h5></a>
                               <a><h6>{client.text}</h6></a>
-                              <a><h6>{"From "+ datetime + " de " + monthMinusOneName}</h6></a>
-                              <div style={{marginRight: '30px'}} class="cancel" onClick={function aceptar() {
+                              <div style={{marginRight: '30px'}} className="cancel" onClick={function aceptar() {
                                 fetch("/api/account/editagenda?token="+client._id)
                               }}>✓</div>
-                              <div class="cancel" onClick={function aceptar() {
+                              <div className="cancel" onClick={function aceptar() {
                                 fetch('/api/account/deleteagenda?token='+client._id);
                               }}>✕</div>                           
                           </div>
                           )
                     })}
-                    {/* <div class="notibox"> */}
-                      {/* Wash the Car */}
-                      {/* <div style={{marginRight: '30px'}} class="cancel">✓</div> */}
-                      {/* <div class="cancel">✕</div> */}
-                    {/* </div> */}
                     </div>
                </div>
               <div id="wrapper">
