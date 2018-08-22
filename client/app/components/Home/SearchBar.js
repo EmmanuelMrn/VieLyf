@@ -1,17 +1,20 @@
-import React, { Component } from "react";
-import "whatwg-fetch";
-import { Link } from "react-router-dom";
-import { getFromStorage, setInStorage } from "../../utils/storage";
+import React, { Component } from 'react';
+import 'whatwg-fetch';
+import { Link } from 'react-router-dom';
+import {
+  getFromStorage,
+  setInStorage,
+} from '../../utils/storage';
 
 class SearchBar extends Component {
   constructor() {
     super();
 
     this.state = {
-      isLoading: true,
-      token: "",
-      Name: "",
-      Customers: []
+        isLoading: true,
+        token: "",
+         Name: "",
+        Customers: []
     };
 
     this.inputsearch = this.inputsearch.bind(this);
@@ -22,8 +25,9 @@ class SearchBar extends Component {
   handleClick(e) {
     e.preventDefault();
     this.inputsearch();
-  }
 
+  }
+  
   ActionLink() {
     return (
       <button type="button" onClick={this.handleClick}>
@@ -69,7 +73,11 @@ class SearchBar extends Component {
     var Customers = Array.from(this.state.Customers);
     var that = this;
 
-    const { isLoading, token, Name } = this.state;
+    const {
+      isLoading,
+      token,
+      Name
+    } = this.state;
 
     return (
       <div>
@@ -94,3 +102,4 @@ class SearchBar extends Component {
 }
 
 export default SearchBar;
+

@@ -145,6 +145,7 @@ class VistaNutriologo extends Component {
     localStorage.removeItem("Auth");
     localStorage.removeItem("Rol");
     window.location = "/login";
+    alertify.warning("Closed session");
   }
 
   aceptar() {

@@ -13,16 +13,17 @@ import Signup from "./components/Home/Signup";
 import Agenda from "./components/Agenda/Agenda";
 import NotFound from "./components/App/NotFound";
 import Transition from "./components/Diet/Transition";
-import NutritionalBlog from "./components/Home/NutritionalBlog";
+import NutritionalBlog from "./components/Home/nutritionalBlog";
 import VistaCliente from "./components/VistaCliente/VistaCliente";
 import VistaNutriologo from "./components/VistaNutriologo/VistaNutriologo";
 import VistaPrincipal from "./components/VistaPrincipal/VistaPrincipal";
-
+import CorporalAnalysis from "./components/CorporalAnalysis/CorporalAnalysis";
 import CatalogueNutriologist from "./components/Home/CatalogueNutriologist";
 import DisponibilitySchedule from "./components/Home/DisponibilitySchedule";
 import ResultadoBusqueda from "./components/Home/ResultadoBusqueda";
 import SearchBar from "./components/Home/SearchBar";
-import Profile from "./components/Profile/Profile";
+import Profile from './components/Profile/Profile';
+import AgendaClient from './components/Agenda/AgendaClient';
 import "./styles/styles.scss";
 
 render(
@@ -32,12 +33,14 @@ render(
         <Route exact path="/" component={Home} />
         <Route path="/login" component={Login} />
         <Route path="/diet" component={Diet} />
+        <Route path="/corporalanalysis" component={CorporalAnalysis}/>
         <Route path="/signup" component={Signup} />
         <Route path="/agenda" component={Agenda} />
+        <Route path="/agendaclient" component={AgendaClient} />
         <Route path="/charts" component={Charts} />
         <Route path="/transition" component={Transition} />
         <Route path="/vistacliente" component={VistaCliente} />
-
+        <Route path="/corporalanalysis" component={CorporalAnalysis} />        
         <Route path="/vistaprincipal" component={VistaPrincipal} />
 
         <Route path="/nutritionalBlog" component={NutritionalBlog} />
@@ -53,6 +56,7 @@ render(
         <Route path="/ResultadoBusqueda" component={ResultadoBusqueda} />
         <Route path="/SearchBar" component={SearchBar} />
         <Route path="/profile" component={Profile} />
+
         <Route component={NotFound} />
       </Switch>
     </App>
