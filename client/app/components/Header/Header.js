@@ -14,13 +14,121 @@ class Header extends Component {
     this.state = {
       isLoading: true,
       isActive: false,
-      items:[], 
+      items:[],
+      token: "",
+      Name: "",
+      Customers: [] 
     };
 
+    this.inputsearch = this.inputsearch.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleClick2 = this.handleClick2.bind(this);
     this.logout = this.logout.bind(this);
     this.onEditProfile = this.onEditProfile.bind(this);
     this.updatethings = this.updatethings.bind(this);
 
+  }
+
+  handleClick(e) {
+    e.preventDefault();
+    this.inputsearch();
+  }
+
+  handleClick2(e) {
+    e.preventDefault();
+    this.inputsearchNutritionist();
+  }
+
+  ActionLink() {
+    return (
+      <button
+        className="btn btn-primary"
+        type="button"
+        onClick={this.handleClick}
+      >
+        <i className="fa fa-search" />
+      </button>
+    );
+  }
+
+  ActionLink2() {
+    return (
+      <button
+        className="btn btn-primary"
+        type="button"
+        onClick={this.handleClick2}
+      >
+        <i className="fa fa-search" />
+      </button>
+    );
+  }
+
+  inputsearch() {
+    console.log("search name " + this.state.Name);
+    fetch("/api/account/searchClient?token=" + this.state.Name)
+      .then(res => res.json())
+      .then(json => {
+        if (json.success) {
+          this.setState({
+            Customers: json.doc.map(function(item) {
+              return item;
+            }),
+            isLoading: false
+          });
+        } else {
+          this.setState({
+            isLoading: false
+          });
+        }
+
+        console.log(this.state.Customers);
+        console.log(this.state.Customers.length);
+        setInStorage("searchresults", { token: json.doc });
+        window.location = "/ResultadoBusqueda";
+      });
+  }
+
+  inputsearchNutritionist() {
+    fetch("/api/account/searchNutritionist?token=" + this.state.Name)
+      .then(res => res.json())
+      .then(json => {
+        if (json.success) {
+          this.setState({
+            Customers: json.doc.map(function(item) {
+              return item;
+            }),
+            isLoading: false
+          });
+        } else {
+          this.setState({
+            isLoading: false
+          });
+        }
+
+        console.log(this.state.Customers);
+        console.log(this.state.Customers.length);
+        setInStorage("searchresults", { token: json.doc });
+        window.location = "/ResultadoBusqueda";
+      });
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  componentDidMount() {
+    if (localStorage.hasOwnProperty("the_main_app")) {
+      this.setState({ isActive: true }, function() {});
+    }
+
+    this.interval = setInterval(() => this.updatethings(), 2000);
   }
 
   componentDidMount() {
@@ -146,15 +254,22 @@ class Header extends Component {
                       
                     } ><i style={{color:'#0676f8'}} className="fa fa-bell"></i></a>
               <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-                <div className="input-group">
-                  <input type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2"/>
-                  <div className="input-group-append">
-                    <button className="btn" type="button">
-                      <i className="fa fa-search"></i>
-                    </button>
-                  </div>
-                </div>
-              </form>
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  name="Name"
+                  placeholder="Name"
+                  aria-label="Search"
+                  aria-describedby="basic-addon2"
+                  value={this.state.Name}
+                  onChange={this.handleInputChange}
+                />
+
+                <div className="input-group-append">{this.ActionLink2()}</div>
+              </div>
+            </form>
+
               <div className="navbar-nav ml-auto ml-md-0">
                 <div class="dropdown">
                   <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -252,15 +367,21 @@ class Header extends Component {
                         }
                     } ><i style={{color:'#0676f8'}} className="fa fa-bell"></i></a>
               <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-                <div className="input-group">
-                  <input type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2"/>
-                  <div className="input-group-append">
-                    <button className="btn btn-primary" type="button">
-                      <i className="fa fa-search"></i>
-                    </button>
-                  </div>
-                </div>
-              </form>
+              <div className="input-group">
+                <input
+                  type="text"
+                  className="form-control"
+                  name="Name"
+                  placeholder="Name"
+                  aria-label="Search"
+                  aria-describedby="basic-addon2"
+                  value={this.state.Name}
+                  onChange={this.handleInputChange}
+                />
+
+                <div className="input-group-append">{this.ActionLink()}</div>
+              </div>
+            </form>
               <ul className="navbar-nav ml-auto ml-md-0">
                 <li className="nav-item dropdown no-arrow">
                   <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
