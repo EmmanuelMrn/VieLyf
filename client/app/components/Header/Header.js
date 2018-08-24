@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
+import moment, { min } from 'moment';
 // import 'moment/locale/fr';
 import {
   getFromStorage,
@@ -120,21 +120,6 @@ class Header extends Component {
       this.updatethings;
     }
 
-    function alerta() {
-      if (localStorage.getItem('Role')=="Nutriologist") {
-        return (
-          <li className="nav-item dropdown no-arrow mx-1">
-            <a className="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i className="fa fa-bell fa-fw"></i>
-              <span className="badge badge-danger"></span>
-            </a>
-            <div className="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
-            </div>
-          </li>
-        )
-      }
-    }
-
     if (isActive && localStorage.getItem('Rol')=="Cliente") {
       return (
         <header>
@@ -145,11 +130,6 @@ class Header extends Component {
               e.preventDefault();
               $("#wrapper").toggleClass("toggled")
               } }><i className="fa fa-bars" ></i></a>
-              <a style={{color:'#0676f8'}} className="toggle" onClick={
-                function(e) {
-                  $(".sidebar").toggleClass('active');
-                  }
-                    } ><i style={{color:'#0676f8'}} className="fa fa-bell"></i></a>
               <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
                 <div className="input-group">
                   <input style={{border: '1px solid #fff'}} type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2"/>
@@ -160,10 +140,15 @@ class Header extends Component {
                   </div>
                 </div>
               </form>
+              <a style={{color:'#0676f8'}} className="toggle" onClick={
+                function(e) {
+                  $(".sidebar").toggleClass('active');
+                  }
+                    } ><i style={{color:'#0676f8'}} className="fa fa-bell"></i></a>
               <ul className="navbar-nav ml-auto ml-md-0">
-                {alerta()}
+                
                 <li className="nav-item dropdown no-arrow">
-                  <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <a style={{color:'#0676f8'}} className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i className="fa fa-user-circle fa-fw"></i>
                   </a>
                   <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
@@ -176,7 +161,7 @@ class Header extends Component {
                   <h2>Notifications</h2>
                   <div className="news_inner">
                   { this.state.items.map(function(client, aceptar, negar, handleClick, isToggleOn){
-                    var dia = new Date(client.startDateTime).getDay();
+                    var dia = new Date(client.startDateTime).getDate();
                     var anio = new Date(client.startDateTime).getFullYear();
                     var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
                     var diferencia = new Date(client.startDateTime).getHours() - new Date(client.endDateTime).getHours();
@@ -212,17 +197,13 @@ class Header extends Component {
                       var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
                         return( 
                           <div style={{color: '#fff', backgroundColor:"#66c383"}} key={client._id} className="news_item notibox">
-                              <a><h6 style={{fontSize: ".9rem", textAlign: 'center'}}>{monthMinusOneName +", "+ datetime.getDay() + " at "+ datetime.getHours() +":"+ datetime.getMinutes()}</h6></a>
+                              <a><h6 style={{fontSize: ".9rem", textAlign: 'center'}}>{monthMinusOneName +", "+ datetime.getDate() + " at "+ datetime.getHours() +":"+ datetime.getMinutes()}</h6></a>
                               <a><h5>{client.title}</h5></a>
                               <a><h6>{client.text}</h6></a>
                               <div style={{marginRight: '30px'}} className="cancel" onClick={function aceptar() {
-                                console.log(client._id)
-                                console.log(client)
                                 fetch('/api/account/removenotification?token='+client._id)
-
                                 .then(res => res.json())
                                 .then(json => {
-                                  console.log(json)
                                 })
 
                               }}>✓</div>
@@ -276,11 +257,6 @@ class Header extends Component {
               e.preventDefault();
               $("#wrapper").toggleClass("toggled")
               } }><i className="fa fa-bars" ></i></a>
-              <a style={{color:'#0676f8'}} className="btn" onClick={
-                      function(e) {
-                            $(".sidebar").toggleClass('active');
-                        }
-                    } ><i style={{color:'#0676f8'}} className="fa fa-bell"></i></a>
               <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
                 <div className="input-group">
                   <input style={{border: '1px solid #fff'}} type="text" className="form-control" placeholder="Search" aria-label="Search" aria-describedby="basic-addon2"/>
@@ -291,9 +267,14 @@ class Header extends Component {
                   </div>
                 </div>
               </form>
+              <a style={{color:'#0676f8'}} className="btn" onClick={
+                      function(e) {
+                            $(".sidebar").toggleClass('active');
+                        }
+                    } ><i style={{color:'#0676f8'}} className="fa fa-bell"></i></a>
               <ul className="navbar-nav ml-auto ml-md-0">
                 <li className="nav-item dropdown no-arrow">
-                  <a className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <a style={{color:'#0676f8'}} className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i className="fa fa-user-circle fa-fw"></i>
                   </a>
                   <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
@@ -308,17 +289,22 @@ class Header extends Component {
                   <div className="news_inner">
                   { this.state.items.map(function(client){
                     var datetime = new Date(client.requestDate)
-                    var dia = new Date(client.startDateTime).getDay();
-                    var anio = new Date(client.startDateTime).getFullYear();
-                    var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
+                    var dia = new Date(client.startDateTime).getDate();
+                    var hour = new Date(client.startDateTime);
+                    var minutes = new Date(client.startDateTime).getMinutes();
+                    if (minutes.toString().length <= 1) {
+                      minutes = '0'+ minutes.toString();
+                    } 
+                    var day =  moment().subtract(new Date(client.requestDate).getDay()).startOf("day").format('dddd')
+                    var daydate =  moment().subtract(new Date(client.requestDate).getDay()).startOf("day").format('dddd')
+                    var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth()).startOf("month").format('MMMM');
                     var diferencia = new Date(client.startDateTime).getHours() - new Date(client.endDateTime).getHours();
-                    console.log(moment.duration(diferencia, "hours").humanize())
                       return(
                         <div style={{color: '#fff'}} key={client._id} className="news_item notibox">
-                            <a><h6 style={{fontSize: ".9rem", textAlign: 'center'}}>{monthMinusOneName +", "+ datetime.getDay() + " at "+ datetime.getHours() +":"+ datetime.getMinutes()}</h6></a>
+                            <a><h6 style={{fontSize: ".9rem", textAlign: 'center'}}>{ day+ ", " +monthMinusOneName +", "+ datetime.getDate() + " at "+ datetime.getHours() +":"+ datetime.getMinutes()}</h6></a>
                             <a><h4>{client.name}</h4></a>
-                            <a><h6>{"Para el "+dia+ " de " + monthMinusOneName + " del " + anio}</h6></a>
-                            <a><h6>{"Con una duracion de "+moment.duration(diferencia, "hours").humanize()}</h6></a>
+                            <a><h6>{"Requested for " + daydate + ", " + monthMinusOneName + ", " + dia + ", at " + hour.getHours() + ":" + minutes + " from " + client.createdBy + " with a duration of "+moment.duration(diferencia, "hours").humanize()}</h6></a>
+                            <a><h6>{}</h6></a>
                             <div style={{marginRight: '30px'}} className="cancel" onClick={function aceptar() {
                               fetch("/api/account/editagenda?token="+client._id)
                               .then((res => json())
@@ -329,7 +315,7 @@ class Header extends Component {
                                     "Content-Type": "application/json"
                                   },
                                   body: JSON.stringify({
-                                    text: "Your appointment for "+ new Date(client.startDateTime).getDay() + " of " + monthMinusOneName + " at " + new Date(client.startDateTime).getHours() + new Date(client.startDateTime).getMinutes() +" have accepted",
+                                    text: "Your appointment for "+ new Date(client.startDateTime).getDate() + " of " + monthMinusOneName + " at " + new Date(client.startDateTime).getHours() + ":" + minutes +" have been accepted",
                                     ref: "/agenda",
                                     date: new Date(),
                                     from: localStorage.getItem('clientID'),
@@ -347,7 +333,7 @@ class Header extends Component {
                                   "Content-Type": "application/json"
                                 },
                                 body: JSON.stringify({
-                                  text: "Your appointment for "+ new Date(client.startDateTime).getDay() + " of " + monthMinusOneName + " at " + new Date(client.startDateTime).getHours() + new Date(client.startDateTime).getMinutes() +" have been rejected",
+                                  text: "Your appointment for "+ new Date(client.startDateTime).getDate() + " of " + monthMinusOneName + " at " + new Date(client.startDateTime).getHours() + new Date(client.startDateTime).getMinutes() +" have been rejected",
                                   ref: "/agenda",
                                   date: new Date(),
                                   from: localStorage.getItem('clientID'),
@@ -355,7 +341,7 @@ class Header extends Component {
                                   title: "Your nutriologist says",
                                 })
                               })
-                            }}>✕</div>                           
+                            }}>✕</div>
                         </div>
                         )
                   })}
@@ -365,7 +351,7 @@ class Header extends Component {
                       var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
                         return( 
                           <div style={{color: '#fff', backgroundColor:"#66c383"}} key={client._id} className="news_item notibox">
-                              <a><h6 style={{fontSize: ".9rem", textAlign: 'center'}}>{monthMinusOneName +", "+ datetime.getDay() + " at "+ datetime.getHours() +":"+ datetime.getMinutes()}</h6></a>
+                              <a><h6 style={{fontSize: ".9rem", textAlign: 'center'}}>{monthMinusOneName +", "+ datetime.getDate() + " at "+ datetime.getHours() +":"+ datetime.getMinutes()}</h6></a>
                               <a><h5>{client.title}</h5></a>
                               <a><h6>{client.text}</h6></a>
                               <div style={{marginRight: '30px'}} className="cancel" onClick={function aceptar() {
