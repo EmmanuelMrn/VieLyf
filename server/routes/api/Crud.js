@@ -28,7 +28,7 @@ module.exports = (app) => {
       });
     }
     var Datetime = new Date();
-    const NewNotification = new Notification
+    const NewNotification = new Notification()
 
     NewNotification.text = text;
     NewNotification.ref = ref;
@@ -64,7 +64,7 @@ module.exports = (app) => {
   });
 
   app.get("/api/account/removenotification", (req, res, next)=> {
-    Notification.findOneAndRemove({ to:req.query.token}, (err, doc)  => {
+    Notification.findOneAndRemove({ _id:req.query.token}, (err, doc)  => {
       if (err) {
         return res.send ({
           success: false,
@@ -558,6 +558,7 @@ module.exports = (app) => {
       pending,
       createdByID,
       createdBy,
+      requestDate,
     }   = body;
                     
       if (!name) {
@@ -576,6 +577,7 @@ module.exports = (app) => {
       newDate.pending=pending;
       newDate.createdBy=createdBy;
       newDate.createdByID=createdByID;
+      newDate.requestDate;
       newDate.save((err, user) => {
         if (err) {
           return res.send ({

@@ -27,8 +27,11 @@ const AgendaSchema = new mongoose.Schema({
   },
   createdByID: {
     type: String,
+  },
+  requestDate: {
+    type: Date,
+    default: new Date()
   }
-  
 });
 
 module.exports = mongoose.model('Agenda', AgendaSchema);

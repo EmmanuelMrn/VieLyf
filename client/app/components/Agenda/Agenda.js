@@ -192,12 +192,10 @@ _closeModal(e){
     e.stopPropagation();
     e.preventDefault();
   }
-  console.log('test');
     this.setState({showModal:false})
 }
 
 handleItemChange(items , item){
-  console.log('testfqefqefq');
   this.setState({items:items})
 }
 
@@ -213,8 +211,6 @@ removeEvent(items , item){
     this.setState({ items:items});
   } else if (localStorage.getItem('Rol') == 'Cliente' && item.createdByID == localStorage.getItem('Client_ID')) {
     fetch('/api/account/removedate?token='+item._id, {method:'GET'})
-    console.log(item.createdByID)
-    console.log(localStorage.getItem('Client_ID'))
     if ( item.createdByID = localStorage.getItem('Client_ID')) {
       console.log("Equals")
     } 
@@ -272,11 +268,9 @@ addNewEvent (items , newItems){
       }),
     }).then(res => res.json())
       .then(json => {
-        console.log('json', json);
+        
         if (json.success) {
-          console.log('Logrado');
         } else {
-          console.log('No logrado');
         }
       });
   } else {

@@ -175,7 +175,6 @@ class VistaCliente extends Component {
   componentDidMount() {
     console.log(localStorage.getItem('ClientInfo'))
     if (localStorage.getItem("Rol") == "Nutriologo") {
-      console.log("true nutriologo");
       fetch(
         "/api/account/agendaarrayaproved?token=" + localStorage.getItem("Auth"),
         { method: "GET" }
@@ -186,13 +185,10 @@ class VistaCliente extends Component {
             items: json1
           });
         });
-    } else {
-      console.log(this.state.isActive);
     }
     const obj = getFromStorage("the_main_app");
     if (obj && obj.token) {
       const { token } = obj;
-      console.log(token);
       fetch("/api/account/verify?token=" + token)
         .then(res => res.json())
         .then(json => {
