@@ -53,9 +53,9 @@ class Login extends Component {
               .then(res => res.json())
               .then(isnutriologit => {
                 if(isnutriologit.success){
-                  window.location=('/vistanutriologo');
+                  window.location=('/vistaprincipal');
                 } else {
-                  window.location=('/vistacliente');
+                  window.location=('/vistaprincipal');
                 }
               });
             } else {
@@ -97,7 +97,7 @@ class Login extends Component {
           setInStorage("El_token", {token:json.token} );
           this.setState({
             loginError: json.message,
-            isLoading: false,
+            isLoading: false, 
             loginPassword: "",
             token: json.token
           });
@@ -106,7 +106,7 @@ class Login extends Component {
             .then(json1 => {
               if (json1.success) {
                 localStorage.setItem("Auth", loginEmail);
-                window.location = "/vistanutriologo";
+                window.location = "/vistaprincipal";
                 localStorage.setItem("Rol", "Nutriologo");
               } else {
                 fetch('/api/account/getuseremail?token='+loginEmail)
@@ -120,12 +120,13 @@ class Login extends Component {
                     .then(json4 => {
                     localStorage.setItem('AssignedNutriologist', json4[0].Email)
                     localStorage.setItem('clientID', json2[0]._id);
-                  
+                    }).then(() => {
+                      localStorage.setItem('Rol', 'Cliente');  
+                      window.location=('/vistaprincipal');
                     })
                   })       
                 })
-                localStorage.setItem('Rol', 'Cliente');  
-                window.location=('/vistacliente');
+                
               }
             });
         } else {

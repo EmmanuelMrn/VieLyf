@@ -325,7 +325,7 @@ class Header extends Component {
                 <div id="sidebar-wrapper">
                   <ul className="sidebar-nav">
                       <li className="sidebar-brand">
-                          <a href="/vistacliente">
+                          <a href="/vistaprincipal">
                               Profile
                           </a>
                       </li>
@@ -431,7 +431,7 @@ class Header extends Component {
                 <div id="sidebar-wrapper">
                   <ul className="sidebar-nav">
                       <li className="sidebar-brand">
-                          <a href="/vistanutriologo">
+                          <a href="/vistaprincipal">
                                 Profile
                           </a>
                       </li>
