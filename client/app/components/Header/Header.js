@@ -278,7 +278,7 @@ class Header extends Component {
                     <i className="fa fa-user-circle fa-fw"></i>
                   </a>
                   <div style={{}} className="dropdown-menu mydropdown" aria-labelledby="userDropdown">
-                    <a className="dropdown-item mydropdown-item " href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout} >Logout</a>       
+                    <a className="dropdown-item mydropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout} >Logout</a>       
                   </div>
                 </li>
               </ul>
