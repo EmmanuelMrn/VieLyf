@@ -277,8 +277,8 @@ class Header extends Component {
                   <a style={{color:'#0676f8'}} className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i className="fa fa-user-circle fa-fw"></i>
                   </a>
-                  <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                    <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout} >Logout</a>       
+                  <div style={{}} className="dropdown-menu mydropdown" aria-labelledby="userDropdown">
+                    <a className="dropdown-item mydropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout} >Logout</a>       
                   </div>
                 </li>
               </ul>
