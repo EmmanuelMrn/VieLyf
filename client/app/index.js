@@ -14,8 +14,6 @@ import Agenda from "./components/Agenda/Agenda";
 import NotFound from "./components/App/NotFound";
 import Transition from "./components/Diet/Transition";
 import NutritionalBlog from "./components/Home/nutritionalBlog";
-import VistaCliente from "./components/VistaCliente/VistaCliente";
-import VistaNutriologo from "./components/VistaNutriologo/VistaNutriologo";
 import VistaPrincipal from "./components/VistaPrincipal/VistaPrincipal";
 import CorporalAnalysis from "./components/CorporalAnalysis/CorporalAnalysis";
 import CatalogueNutriologist from "./components/Home/CatalogueNutriologist";
@@ -39,12 +37,10 @@ render(
         <Route path="/agendaclient" component={AgendaClient} />
         <Route path="/charts" component={Charts} />
         <Route path="/transition" component={Transition} />
-        <Route path="/vistacliente" component={VistaCliente} />
         <Route path="/corporalanalysis" component={CorporalAnalysis} />        
         <Route path="/vistaprincipal" component={VistaPrincipal} />
 
         <Route path="/nutritionalBlog" component={NutritionalBlog} />
-        <Route path="/vistanutriologo" component={VistaNutriologo} />
         <Route
           path="/catalogueNutriologist"
           component={CatalogueNutriologist}

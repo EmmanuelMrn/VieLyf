@@ -136,7 +136,7 @@ class ResultadoBusqueda extends Component {
           );
         })}
 
-        <Link to="/VistaCliente" className="btn btn-dark">
+        <Link to="/vistaprincipal" className="btn btn-dark">
           Regresar{" "}
         </Link>
       </div>
