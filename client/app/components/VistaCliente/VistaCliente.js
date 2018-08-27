@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "whatwg-fetch";
+import { Link } from "react-router-dom";
 import moment from "moment";
-import { getFromStorage, setInStorage } from "../../utils/storage";
 import {
   ReactAgenda,
   ReactAgendaCtrl,
@@ -12,15 +12,10 @@ import {
   Modal
 } from "react-agenda";
 
-import {
-  BrowserRouter as Router,
-  Route,
-  Link,
-  Redirect,
-  withRouter
-} from "react-router-dom";
+import { getFromStorage, setInStorage } from "../../utils/storage";
 
 var now = new Date();
+
 require("moment/locale/es.js");
 var colors = {
   "color-1": "rgba(102, 195, 131 , 1)",
@@ -42,7 +37,7 @@ const customStyles = {
   }
 };
 
-class VistaPrincipal extends Component {
+class VistaCliente extends Component {
   constructor(props) {
     super(props);
 
@@ -71,9 +66,7 @@ class VistaPrincipal extends Component {
       rowsPerHour: 4,
       numberOfDays: 4,
       Relation: "",
-      startDate: new Date(),
-      UserProfile:[],
-       goProfile:"Loading"
+      startDate: new Date()
     };
     this.handleRangeSelection = this.handleRangeSelection.bind(this);
     this.handleItemEdit = this.handleItemEdit.bind(this);
@@ -191,9 +184,6 @@ class VistaPrincipal extends Component {
   componentDidMount() {
     console.log(localStorage.getItem('ClientInfo'))
     console.log(localStorage.getItem('clientID'));
-    var UserNameRequest=(window.location.pathname).slice(9);
-    console.log(UserNameRequest)
-    this.UserProfile(UserNameRequest);
     fetch("/api/account/getuserbyid?token=5b5f3bbe15c2a80434feb939",//+localStorage.getItem('clientID'),
   {method:'GET'})
   .then(res => res.json())
@@ -210,7 +200,6 @@ class VistaPrincipal extends Component {
     console.log(localStorage.getItem("Rol"));
     console.log("=============");
     if (localStorage.getItem("Rol") == "Nutriologo") {
-      console.log("true nutriologo");
       fetch(
         "/api/account/agendaarrayaproved?token=" + localStorage.getItem("Auth"),
         { method: "GET" }
@@ -221,13 +210,10 @@ class VistaPrincipal extends Component {
             items: json1
           });
         });
-    } else {
-      console.log(this.state.isActive);
     }
     const obj = getFromStorage("the_main_app");
     if (obj && obj.token) {
       const { token } = obj;
-      console.log(token);
       fetch("/api/account/verify?token=" + token)
         .then(res => res.json())
         .then(json => {
@@ -358,106 +344,64 @@ class VistaPrincipal extends Component {
       alertify.success("Edited profile");
   }
 
-  UserProfile(UserNameRequest){
-    fetch('/api/account/getUserByUserName?PathName='+UserNameRequest)
-   .then(res => res.json())
-   .then (json=> {
-       if (json.doc == null){
-           console.log("nulo")
-           this.setState({
-             goProfile:"NotFound"
-           });
-       }else{
-         this.setState({
-             UserProfile:json.doc,
-             goProfile:"Found"
-           });
-       }
-       
-   });
- }
- 
- ChangeProfile(){
-     if(this.state.goProfile=="NotFound"){
-        return (
-            <div>
-               <h1>Sorry User Not Found :(</h1>
+  Profile(){
+    var user = this.state.UserProfile
+    return(
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-4">
+        		<div class="col-md-6" align="center">
+                <br />
+                    <img height='120px' src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg"/>
+        		</div>
+        		<div class="col-md-6">
+                    <p class="text-center"><strong>{user.FirstName} {user.LastName}</strong></p>
+	        		<p class="text-center"><em>UserName: {user.Email}</em></p>
+        		</div>
+
+        		<div class="col-md-8">
+        			<br />
+        			<ul class="list-group list-primary">
+                <a class="list-group-item">First Name: {user.FirstName}</a>
+        				<a class="list-group-item">Last Name: {user.LastName}</a>
+        				<a class="list-group-item">Phone: {user.Phone}</a>
+        				<a class="list-group-item">Email: {user.Email}</a>
+        				<a class="list-group-item">Role: {user.Role}</a>
+    				</ul>
+    			</div>   
             </div>
-               
-        ) 
-     }else if(this.state.goProfile=="Found"){
-         return (
-             <div>
-                 {this.Profile()}
-             </div>   
-         )
-     }else if(this.state.goProfile=="Loading"){
-         return (
-             <div>
-                <h1>Loading...</h1>
-             </div>   
-         )
-     }    
- }
- 
- Profile(){
-     var user = this.state.UserProfile
-     return(
- 
-     <div className="container">
-         <div className="row">
- 
-             <div className="col-4">
-             <div className="col-md-6" align="center">
-                 <br />
-                     <img height='120px' src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg"/>
-             </div>
-             <div className="col-md-6">
-                     <p className="text-center"><strong>{user.FirstName} {user.LastName}</strong></p>
-               <p className="text-center"><em>UserName: {user.Email}</em></p>
-             </div>
- 
-             <div className="col-md-8">
-               <br />
-               <ul className="list-group list-primary">
-                         <a className="list-group-item">First Name: {user.FirstName}</a>
-                 <a className="list-group-item">Last Name: {user.LastName}</a>
-                 <a className="list-group-item">Phone: {user.Phone}</a>
-                 <a className="list-group-item">Email: {user.Email}</a>
-                 <a className="list-group-item">Role: {user.Role}</a>
-             </ul>
-           </div>   
-             </div>
- 
-             
-             <div className="col-8">
-                 <br />
-                 <div className="col-md-12" align="center">
-                     <h3 align="center">Profile usando el .js<p><small>Profile's Content</small></p></h3>
-                 </div>
-                 <br />
-                 <div className="card text-center">
-                     <div className="card-header">
-                         Featured
-                     </div>
-                     <div className="card-body">
-                         <h5 className="card-title">Content</h5>
-                         <p className="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                         <a href="#" className="btn btn-primary">Go somewhere</a>
-                     </div>
-                     <div className="card-footer text-muted">
-                         2 days ago
-                     </div>
-                 </div>
-             </div>
-             </div>           
-     </div>
-     )
- }
+
+            
+            <div class="col-8">
+                <br />
+                <div class="col-md-12" align="center">
+                    <h3 align="center">Profile <p><small>Profile's Content</small></p></h3>
+                </div>
+                <br />
+                <div class="card text-center">
+                    <div class="card-header">
+                        Featured
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Content</h5>
+                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                    <div class="card-footer text-muted">
+                        2 days ago
+                    </div>
+                </div>
+            </div>
+            </div>           
+    </div>
+    
+    )
+}
+
 
   render() {
-    const prueba = this.state.goProfile
-    console.log(prueba)
     console.log(this.state.Name)
     const {
       isLoading,
@@ -726,4 +670,4 @@ class VistaPrincipal extends Component {
   }
 }
 
-export default VistaPrincipal;
+export default VistaCliente;

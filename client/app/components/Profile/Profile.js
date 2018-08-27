@@ -51,8 +51,8 @@ UserProfile(UserNameRequest){
       }
       
   });
-  
 }
+
 ChangeProfile(){
     if(this.state.goProfile=="NotFound"){
        return (
@@ -73,10 +73,9 @@ ChangeProfile(){
                <h1>Loading...</h1>
             </div>   
         )
-    }
-         
-    
+    }    
 }
+
 Profile(){
     var user = this.state.UserProfile
     return(
@@ -129,7 +128,7 @@ Profile(){
             </div>
             </div>           
     </div>
-    
+
     )
 }
 

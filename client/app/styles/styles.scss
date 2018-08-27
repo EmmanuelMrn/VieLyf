@@ -61,9 +61,9 @@ section {
   border-color: #ffffff;
 }
 
-section {
-  padding: 60px 0;
-}
+// section {
+//   padding: 60px 0;
+// }
 
 section .section-title {
   text-align: center;
@@ -301,9 +301,9 @@ section .section-title {
 //   border-color: #084e63;
 // }
 
-section {
-  padding: 60px 0;
-}
+// section {
+//   padding: 60px 0;
+// }
 
 section .section-title {
   text-align: center;
@@ -1536,3 +1536,53 @@ h2 {
   min-height: 250px;
 }
 
+.dropbtn {
+  background-color: #3498DB;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #2980B9;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+// .dropdown a:hover {background-color: #ddd;}
+
+.show {display: block;}
+
+.mydropdown {
+  margin-left: -110px;
+  background-color: #0676f8;
+  text-align: center;
+  margin-top: 11px;
+ }
+
+ .mydropdown-item {
+   color: #fff;
+   font-size: 1.2rem;
+ }

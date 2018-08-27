@@ -70,6 +70,12 @@ class Login extends Component {
         isLoading: false,
       });
     }
+    fetch('/api/account/getuseremail?token='+localStorage.getItem('email'), {method:'GET'})
+        .then(res => res.json())
+        .then(userdata => {
+          localStorage.setItem('Client_ID', userdata[0]._id);  
+          localStorage.setItem('ClientFirst', userdata[0].FirstName);  
+      });
   }
 
   onLogin() {
@@ -109,15 +115,23 @@ class Login extends Component {
                 window.location = "/vistaprincipal";
                 localStorage.setItem("Rol", "Nutriologo");
               } else {
+                console.log('Login Email')
+                console.log(loginEmail)
                 fetch('/api/account/getuseremail?token='+loginEmail)
                 .then(res => res.json())
                 .then(json2 => {
+                  console.log('user email')
+                  console.log(json2[0]._id)
                   fetch('/api/accounts/getuser?token='+json2[0]._id)
                   .then(res => res.json())
                   .then(json3 => {
+                    console.log('getuser')
+                    console.log(json3.doc.Nutritionist_id)
                     fetch('/api/account/getuserbyid?token='+json3.doc.Nutritionist_id)
                     .then(res => res.json())
                     .then(json4 => {
+                      console.log('user by id')
+                    console.log(json4[0].Email)
                     localStorage.setItem('AssignedNutriologist', json4[0].Email)
                     localStorage.setItem('clientID', json2[0]._id);
                     }).then(() => {
