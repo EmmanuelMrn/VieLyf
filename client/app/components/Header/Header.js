@@ -7,7 +7,6 @@ import {
   getFromStorage,
   setInStorage,
 } from '../../utils/storage';
-// import { link } from 'fs';
 
 require('moment/locale/en-gb.js');
     var colors= {
@@ -29,11 +28,120 @@ class Header extends Component {
       isActive: false,
       items:[],
       notify:[], 
+      token: "",
+      Name: "",
+      Customers: [] 
     };
 
+    this.inputsearch = this.inputsearch.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.handleClick2 = this.handleClick2.bind(this);
     this.logout = this.logout.bind(this);
+    this.onEditProfile = this.onEditProfile.bind(this);
     this.updatethings = this.updatethings.bind(this);
 
+  }
+
+  handleClick(e) {
+    e.preventDefault();
+    this.inputsearch();
+  }
+
+  handleClick2(e) {
+    e.preventDefault();
+    this.inputsearchNutritionist();
+  }
+
+  ActionLink() {
+    return (
+      <button
+        className="btn btn-primary"
+        type="button"
+        onClick={this.handleClick}
+      >
+        <i className="fa fa-search" />
+      </button>
+    );
+  }
+
+  ActionLink2() {
+    return (
+      <button
+        className="btn btn-primary"
+        type="button"
+        onClick={this.handleClick2}
+      >
+        <i className="fa fa-search" />
+      </button>
+    );
+  }
+
+  inputsearch() {
+    console.log("search name " + this.state.Name);
+    fetch("/api/account/searchClient?token=" + this.state.Name)
+      .then(res => res.json())
+      .then(json => {
+        if (json.success) {
+          this.setState({
+            Customers: json.doc.map(function(item) {
+              return item;
+            }),
+            isLoading: false
+          });
+        } else {
+          this.setState({
+            isLoading: false
+          });
+        }
+
+        console.log(this.state.Customers);
+        console.log(this.state.Customers.length);
+        setInStorage("searchresults", { token: json.doc });
+        window.location = "/ResultadoBusqueda";
+      });
+  }
+
+  inputsearchNutritionist() {
+    fetch("/api/account/searchNutritionist?token=" + this.state.Name)
+      .then(res => res.json())
+      .then(json => {
+        if (json.success) {
+          this.setState({
+            Customers: json.doc.map(function(item) {
+              return item;
+            }),
+            isLoading: false
+          });
+        } else {
+          this.setState({
+            isLoading: false
+          });
+        }
+
+        console.log(this.state.Customers);
+        console.log(this.state.Customers.length);
+        setInStorage("searchresults", { token: json.doc });
+        window.location = "/ResultadoBusqueda";
+      });
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  componentDidMount() {
+    if (localStorage.hasOwnProperty("the_main_app")) {
+      this.setState({ isActive: true }, function() {});
+    }
+
+    this.interval = setInterval(() => this.updatethings(), 2000);
   }
 
   componentDidMount() {
@@ -72,6 +180,42 @@ class Header extends Component {
           
         });
       });
+  }
+
+  onEditProfile() {
+    this.toggleModal();
+    console.log(this.state.signUpEmail);
+    const {
+      signUpEmail,
+      signUpFirstName,
+      signUpLastName,
+      signUpPassword
+    } = this.state;
+    fetch(
+      "/api/account/editprofile?token=" +
+        signUpEmail +
+        "&token2=" +
+        signUpFirstName +
+        "&token3=" +
+        signUpLastName +
+        "&token4=" +
+        signUpPassword +
+        ""
+    )
+      .then(res => res.json())
+      .then(json => {
+        if (json.success) {
+          this.setState({
+            token,
+            isLoading: false
+          });
+        } else {
+          this.setState({
+            isLoading: false
+          });
+        }
+      });
+      alertify.success("Edited profile");
   }
 
   logout() {
@@ -116,10 +260,6 @@ class Header extends Component {
       isActive,
     } = this.state;
 
-    function update() {
-      this.updatethings;
-    }
-
     if (isActive && localStorage.getItem('Rol')=="Cliente") {
       return (
         <header>
@@ -151,11 +291,13 @@ class Header extends Component {
                   <a style={{color:'#0676f8'}} className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i className="fa fa-user-circle fa-fw"></i>
                   </a>
-                  <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                    <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout}>Logout</a>       
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="#">Edit profile</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Log out</a>
                   </div>
-                </li>
-              </ul>
+                </div>
+              </div>
               </nav>
            <div className="sidebar">
                   <h2>Notifications</h2>
@@ -365,6 +507,11 @@ class Header extends Component {
                           </div>
                           )
                     })}
+                    {/* <div className="notibox"> */}
+                      {/* Wash the Car */}
+                      {/* <div style={{marginRight: '30px'}} className="cancel">✓</div> */}
+                      {/* <div className="cancel">✕</div> */}
+                    {/* </div> */}
                     </div>
                </div>
               <div id="wrapper">
