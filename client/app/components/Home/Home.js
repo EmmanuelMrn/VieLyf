@@ -22,7 +22,9 @@ class Home extends Component {
     return(
       <div>
         <div className="img-bg">
-          <a className="btn btn-success btn-lg" id="BtnHome"href="/signup">Get Started</a>
+          <div>
+            <a className="btn btn-success btn-lg" id="BtnHome"href="/signup">Get Started</a>
+          </div>  
         </div>
         <div>
         <form>
@@ -125,13 +127,13 @@ class Home extends Component {
 
             <div className="img-bg3">
             <div className="container TitleBlog-containers">
-              <h3 style={{color: "rgba(232, 246, 247, 0.863)"}} >Healthy Blog</h3>
+              <h3 style={{color: "rgba(232, 246, 247, 0.863)"}}>Healthy Blog</h3>
               <hr width= "50%"/>
             </div>
             <div className="container">
               <div className="col-md-8 offset-md-2">
                 <font color="White" size="4">
-                  <p align="justify" >
+                  <p align="justify">
                     Encuentra las noticias mas relevantes para tu nuevo estilo de vida mas saludable
                     mira tendencias y recomendaciones a diario 
                   </p>

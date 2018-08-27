@@ -1,24 +1,100 @@
 const User = require('../../models/User');
 const UserSession = require('../../models/UserSchema');
 const Agenda = require('../../models/Agenda');
+const Notification = require('../../models/Notifications');
 module.exports = (app) => {
+
+  app.post("/api/account/createnotification", (req, res, next) => {
+    const {body} = req;
+    const {
+      text,
+      ref,
+      date,
+      from,
+      to,
+      title,
+    }   = body;
+              
+    if (!text) {
+      return res.send({
+        success: false,
+        message: 'Error in the text'
+      });
+    }
+    if (!text) {
+      return res.send({
+        success: false,
+        message: 'Error in the remitent'
+      });
+    }
+    var Datetime = new Date();
+    const NewNotification = new Notification
+
+    NewNotification.text = text;
+    NewNotification.ref = ref;
+    NewNotification.date = Datetime;
+    NewNotification.from = from;
+    NewNotification.to = to,
+    NewNotification.title = title;
+    NewNotification.save((err) => {
+      if (err) {
+        return res.send ({
+          success: false,
+          message: 'Error'
+        })
+      }
+      return res.send({
+        success: true,
+          message: 'logrado'
+      });
+    });
+  });
+
+  app.get("/api/account/getnotifications", (req, res, next)=> {
+    Notification.find({ to:req.query.token}, (err, doc)  => {
+      if (err) {
+        return res.send ({
+          success: false,
+          message: "Error"
+        })
+      } else {
+        return res.send(doc);
+      }
+    });
+  });
+
+  app.get("/api/account/removenotification", (req, res, next)=> {
+    Notification.findOneAndRemove({ to:req.query.token}, (err, doc)  => {
+      if (err) {
+        return res.send ({
+          success: false,
+          message: "Error"
+        })
+      } else {
+        return res.send ({
+          success: true,
+          message: "Notifications deleted"
+        })
+      }
+    });
+  });
 
   app.get("/api/account/agendaarray", (req, res, next)=> {
     const {query} = req;
     const {token} = query;
 
-    Agenda.find({ Nutriologist_id:token, pending:false}, (err, doc)  => {
+    Agenda.find({ Nutriologist_id: token, pending: false }, (err, doc) => {
       console.log(doc);
       return res.send(doc);
-      });
+    });
   });
 
-  app.get("/api/account/agendaarrayaproved", (req, res, next)=> {
-      const {query} = req;
-      const {token} = query;
-
-      Agenda.find({ Nutriologist_id:token, pending:true}, (err, doc)  => {
-          console.log(doc);
+  app.get("/api/account/agendaarrayaproved", (req, res, next) => {
+    const { query } = req;
+    const { token } = query;
+    
+    Agenda.find({ Nutriologist_id:token, pending:true}, (err, doc)  => {
+          // console.log(doc);
           return res.send(doc);
           });
   });
@@ -26,8 +102,16 @@ module.exports = (app) => {
   app.get("/api/account/deleteagenda", (req, res) => {
     const {query} = req;
     const { token } = query;;
-    Agenda.findOneAndDelete({_id:token});
-    res.json({status: 'Task deleted'});
+    Agenda.findOneAndDelete({_id:token}, 
+      (err) => {
+        if (err) {
+          res.send(err)
+        } else {
+          res.send("Appointment deleted"
+          )
+        }
+      });
+    // res.json({status: 'Task deleted'});
   });
 
   app.get("/api/account/editagenda", (req, res, next) => {
@@ -42,7 +126,7 @@ module.exports = (app) => {
           pending: false
         }
       },
-      (err) => {
+      err => {
         if (err) {
           status = "Error: server error";
         } else {
@@ -53,19 +137,18 @@ module.exports = (app) => {
 
     res.json({ status: status });
   });
-  
-  app.delete('/api/account/deleteaccount', (req, res) => {
-      const { body } = req;
-      const { Email } = body;
-    
-      User.findOneAndRemove({Email: Email} , (err) => {
-        if (err) {
-          return res.send("Error" + err);
-        } else  {
-          return res.send('Delete: '+ req.body.Email);
-        }
-      });
-      
+
+  app.delete("/api/account/deleteaccount", (req, res) => {
+    const { body } = req;
+    const { Email } = body;
+
+    User.findOneAndRemove({ Email: Email }, err => {
+      if (err) {
+        return res.send("Error" + err);
+      } else {
+        return res.send("Delete: " + req.body.Email);
+      }
+    });
   });
 
   app.get("/api/account/editprofile", (req, res, next) => {
@@ -105,7 +188,7 @@ module.exports = (app) => {
       Password,
       UserName,
       Role,
-      Phone,
+      Phone
     } = body;
     let { Email } = body;
 
@@ -160,10 +243,10 @@ module.exports = (app) => {
         newUser.Email = Email;
         newUser.Password = newUser.generateHash(Password);
         newUser.UserName = UserName;
-        newUser.isDeleted = false,
-        newUser.Role = Role,
-        newUser.Phone = Phone,
-        newUser.Description = "",
+        (newUser.isDeleted = false),
+          (newUser.Role = Role),
+          (newUser.Phone = Phone),
+          (newUser.Description = ""),
           newUser.save((err, user) => {
             if (err) {
               return res.send({
@@ -214,6 +297,56 @@ module.exports = (app) => {
       }
     );
   });
+  app.get("/api/account/searchNutritionist", (req, res, next) => {
+    const { query } = req;
+    const { token } = query;
+
+    User.find(
+      {
+        Role: "Nutritionist",
+        FirstName: { $regex: ".*" + token + ".*", $options: "i" }
+      },
+      (err, doc) => {
+        if (err) {
+          console.log(err);
+          return res.send({
+            success: false,
+            message: "Error: Server error"
+          });
+        } else {
+          res.send({
+            success: true,
+            doc
+          });
+        }
+      }
+    );
+  });
+  app.get("/api/account/searchClient", (req, res, next) => {
+    const { query } = req;
+    const { token } = query;
+
+    User.find(
+      {
+        Role: "Client",
+        FirstName: { $regex: ".*" + token + ".*", $options: "i" }
+      },
+      (err, doc) => {
+        if (err) {
+          console.log(err);
+          return res.send({
+            success: false,
+            message: "Error: Server error"
+          });
+        } else {
+          res.send({
+            success: true,
+            doc
+          });
+        }
+      }
+    );
+  });
 
   app.get("/api/account/searchNutritionist", (req, res, next) => {
     const { query } = req;
@@ -238,40 +371,6 @@ module.exports = (app) => {
             doc
           });
           //return res.json(doc);
-        }
-      }
-    );
-  });
-
-  app.get("/api/account/verify", (req, res, next) => {
-    // Obtener el token
-    const { query } = req;
-    const { token } = query;
-
-    UserSession.find(
-      {
-        _id: token,
-        isDeleted: false
-      },
-      (err, sessions) => {
-        if (err) {
-          console.log(err);
-          return res.send({
-            success: false,
-            message: "Error: Server error"
-          });
-        }
-        if (sessions.length != 1) {
-          return res.send({
-            success: false,
-            message: "Error: Invalid"
-          });
-        } else {
-          // DO ACTION
-          return res.send({
-            success: true,
-            message: "Good"
-          });
         }
       }
     );
@@ -442,63 +541,64 @@ module.exports = (app) => {
       }
     );
   });
-            
+
   app.post("/api/account/assign", (req, res, next) => {
     // Crearmos la petición
     const { body } = req;
     // el prmer token será el ID del cliente y el token 2 el ID del nutriólogo
     const { token1, token2 } = body;
     // Verificamos que los token 1 y 2 si estén
-      if (!token1) {
-          return res.send({
-              success: false,
-              message: "Error en el Token 1"
-          });
-      }
-      if (!token2) {
-          return res.send({
-              success: false,
-              message: "Error en el token 2"
-          });
-      }
-    // Buscamos a primer usuario
-      User.find({
-                  _id: token1
-                },
-          (err, users) => {
-              // Si hay error nos manda mensaje noificándonos.
-              if (err) {
-                  return res.send({
-                      success: false,
-                      message: "El ususario no existe"
-                  });
-              }
-      // si no hay error se crea un nuevo documento
-      // este nuevo documento contendrá la relación entre los dos usuarios.
-              
-      const newCounters = Counters();
-      // asignamos las constantes para rellenar los campos del documento
-      newCounters.Client_id = token1;
-      newCounters.Nutriologist_id = token2;
-      // newcounters.diet = token3
-      newCounters.save((err, user) => {
-          if (err) {
-              return res.send({
-                  success: false,
-                  message: "Error"
-              });
-          }
-          return res.send({
-              success: true,
-              message: "logrado"
-          });
+    if (!token1) {
+      return res.send({
+        success: false,
+        message: "Error en el Token 1"
       });
+    }
+    if (!token2) {
+      return res.send({
+        success: false,
+        message: "Error en el token 2"
+      });
+    }
+    // Buscamos a primer usuario
+    User.find(
+      {
+        _id: token1
+      },
+      (err, users) => {
+        // Si hay error nos manda mensaje noificándonos.
+        if (err) {
+          return res.send({
+            success: false,
+            message: "El ususario no existe"
+          });
+        }
+        // si no hay error se crea un nuevo documento
+        // este nuevo documento contendrá la relación entre los dos usuarios.
+
+        const newCounters = Counters();
+        // asignamos las constantes para rellenar los campos del documento
+        newCounters.Client_id = token1;
+        newCounters.Nutriologist_id = token2;
+        // newcounters.diet = token3
+        newCounters.save((err, user) => {
+          if (err) {
+            return res.send({
+              success: false,
+              message: "Error"
+            });
           }
-      );
+          return res.send({
+            success: true,
+            message: "logrado"
+          });
+        });
+      }
+    );
   });
 
   app.post("/api/account/createdate", (req, res, next) => {
-    const {body} = req;
+    const { body } = req;
     const {
       name,
       startDateTime,
@@ -506,15 +606,32 @@ module.exports = (app) => {
       classes,
       Nutriologist_id,
       pending,
+      createdByID,
+      createdBy,
     }   = body;
                     
       if (!name) {
+      return res.send({
+        success: false,
+        message: "Error en el nombre"
+      });
+    }
+
+    const newDate = new Agenda();
+    newDate.name = name;
+    (newDate.startDateTime = startDateTime),
+      (newDate.endDateTime = endDateTime),
+      (newDate.classes = classes);
+    newDate.Nutriologist_id = Nutriologist_id;
+    newDate.pending = pending;
+    newDate.save((err, user) => {
+      if (err) {
         return res.send({
           success: false,
-          message: 'Error en el nombre'
+          message: "Error"
         });
       }
-                    
+              
     const newDate = new Agenda();
       newDate.name = name;
       newDate.startDateTime = startDateTime,
@@ -522,6 +639,8 @@ module.exports = (app) => {
       newDate.classes = classes;
       newDate.Nutriologist_id = Nutriologist_id;
       newDate.pending=pending;
+      newDate.createdBy=createdBy;
+      newDate.createdByID=createdByID;
       newDate.save((err, user) => {
         if (err) {
           return res.send ({
@@ -532,54 +651,55 @@ module.exports = (app) => {
         return res.send({
           success: true,
             message: 'logrado'
-        });
       });
+    });
   });
+});
 
   app.get("/api/account/removedate", (req, res, next) => {
-    Agenda.findOneAndDelete({_id: req.query.token}, function(err) {
-      if (err)
-        res.send({success: false, message: 'Error: '+err});
-      res.json({ success: true, message: 'Date deleted!' })
+    Agenda.findOneAndDelete({ _id: req.query.token }, function(err) {
+      if (err) res.send({ success: false, message: "Error: " + err });
+      res.json({ success: true, message: "Date deleted!" });
     });
   });
 
-  app.get('/api/accounts/GetUserFromUserSession',(req,res,next)=>{
-    UserSession.findOne({_id:req.query.token }, (err, doc)  => {
-      if(err)
-        return res.send(err);
-      else
-        return res.send(doc);
+  app.get("/api/accounts/GetUserFromUserSession", (req, res, next) => {
+    UserSession.findOne({ _id: req.query.token }, (err, doc) => {
+      if (err) return res.send(err);
+      else return res.send(doc);
     });
   });
 
-  app.get('/api/accounts/IsNutritionist', (req, res, next) => {
-    const {query} = req;
-    const {token} = query;
-            
-    User.find({
+  app.get("/api/accounts/IsNutritionist", (req, res, next) => {
+    const { query } = req;
+    const { token } = query;
+
+    User.find(
+      {
         _id: token,
-        Role: 'Nutritionist'
-    }, (err, sessions) => {
-          if (err) {
-            console.log(err);
-            return res.send({
-                success: false,
-                message: 'Error: Server error'
-            });
-          }
-          if (sessions.length != 1) {
-            return res.send({
-              success: false,
-              message: 'Error: Invalid'
-            });
-          } else {
-            // DO ACTION
-            return res.send({
-              success: true,
-              message: 'Good'
-            });
-          }
-        });
+        Role: "Nutritionist"
+      },
+      (err, sessions) => {
+        if (err) {
+          console.log(err);
+          return res.send({
+            success: false,
+            message: "Error: Server error"
+          });
+        }
+        if (sessions.length != 1) {
+          return res.send({
+            success: false,
+            message: "Error: Invalid"
+          });
+        } else {
+          // DO ACTION
+          return res.send({
+            success: true,
+            message: "Good"
+          });
+        }
+      }
+    );
   });
-};
+}

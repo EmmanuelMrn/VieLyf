@@ -21,6 +21,12 @@ const AgendaSchema = new mongoose.Schema({
   pending: {
     type: Boolean,
     default: true,
+  },
+  createdBy: {
+    type: String,
+  },
+  createdByID: {
+    type: String,
   }
   
 });

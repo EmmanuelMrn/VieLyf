@@ -60,12 +60,22 @@ if (isDev) {
   });
 }
 
-app.listen(port, 'localhost', (err) => {
+
+var cors = require('cors');
+
+app.use(cors())
+
+app.get('/products/:id', function (req, res, next) {
+  res.json({msg: 'This is CORS-enabled for all origins!'})
+})
+
+app.listen(port, '0.0.0.0', (err) => {
+//app.listen(port, 'localhost', (err) => {
   if (err) {
     console.log(err);
   }
 
-  console.info('>>> 🌎 Open http://0.0.0.0:%s/ in your browser.', port);
+  console.info('>>> 🌎 Open localhost:%s/ in your browser.', port);
 });
 
 module.exports = app;
