@@ -2,16 +2,16 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { ReactAgenda , ReactAgendaCtrl, guid , getUnique , getLast , getFirst , Modal } from 'react-agenda';
-import 'moment/locale/es';
+import 'moment/locale/en-gb';
 
 import {
   getFromStorage,
 } from '../../utils/storage';
-import { METHODS } from 'http';
+
 
 var now = new Date();
 
-require('moment/locale/es.js');
+// require('moment/locale/en-gb');
     var colors= {
       'color-1':"rgba(102, 195, 131 , 1)" ,
       "color-2":"rgba(242, 177, 52, 1)" ,
@@ -55,6 +55,7 @@ export default class Agenda extends Component {
   }
 
   componentDidMount(){
+    localStorage.getItem('AssignedNutriologist')
     this.updateAgenda();
     fetch('/api/account/getuseremail?token='+localStorage.getItem('email'), {method:'GET'})
         .then(res => res.json())
@@ -65,7 +66,6 @@ export default class Agenda extends Component {
     // if (localStorage.getItem('Rol') == "Nutriologo") {
       this.interval = setInterval(()=> this.updateAgenda(),1000)  
     // }
-    console.log(this.state.items)
   }
 
 updateAgenda() {
@@ -192,12 +192,10 @@ _closeModal(e){
     e.stopPropagation();
     e.preventDefault();
   }
-  console.log('test');
     this.setState({showModal:false})
 }
 
 handleItemChange(items , item){
-  console.log('testfqefqefq');
   this.setState({items:items})
 }
 
@@ -213,8 +211,6 @@ removeEvent(items , item){
     this.setState({ items:items});
   } else if (localStorage.getItem('Rol') == 'Cliente' && item.createdByID == localStorage.getItem('Client_ID')) {
     fetch('/api/account/removedate?token='+item._id, {method:'GET'})
-    console.log(item.createdByID)
-    console.log(localStorage.getItem('Client_ID'))
     if ( item.createdByID = localStorage.getItem('Client_ID')) {
       console.log("Equals")
     } 
@@ -272,11 +268,9 @@ addNewEvent (items , newItems){
       }),
     }).then(res => res.json())
       .then(json => {
-        console.log('json', json);
+        
         if (json.success) {
-          console.log('Logrado');
         } else {
-          console.log('No logrado');
         }
       });
   } else {
