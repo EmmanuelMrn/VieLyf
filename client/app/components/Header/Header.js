@@ -116,8 +116,14 @@ class Header extends Component {
       isActive,
     } = this.state;
 
-    function update() {
-      this.updatethings;
+    function Cathalog() {
+      if (localStorage.hasOwnProperty('AssignedNutriologist')){
+        return (
+          <li>
+            <Link to="/catalogueNutriologist" onClick={ $('#menu-toggle').click() }>Nutriologist Catalogue</Link>
+          </li>
+        )
+      } 
     }
 
     if (isActive && localStorage.getItem('Rol')=="Cliente") {
@@ -232,9 +238,7 @@ class Header extends Component {
                     <li>
                       <Link id="nutri" to="/nutritionalblog" onClick={ $('#menu-toggle').click() }>Nutrirional Blog</Link>
                     </li>
-                    <li>
-                      <Link to="/catalogueNutriologist" onClick={ $('#menu-toggle').click() }>Nutriologist Catalogue</Link>
-                    </li>
+                    {Cathalog}
                     <li>
                       <Link to="/charts" onClick={ $('#menu-toggle').click() }>Charts</Link>
                     </li>
