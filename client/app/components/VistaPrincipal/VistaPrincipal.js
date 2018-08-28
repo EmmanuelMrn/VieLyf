@@ -129,7 +129,6 @@ class VistaPrincipal extends Component {
       e.stopPropagation();
       e.preventDefault();
     }
-    console.log("test");
     this.setState({ showModal: false });
   }
 
@@ -172,7 +171,6 @@ class VistaPrincipal extends Component {
         [name]: value
       },
       function() {
-        console.log(name + value);
       }
     );
   }
@@ -185,20 +183,17 @@ class VistaPrincipal extends Component {
     this.setState({
       [name]: value
     });
-    console.log(name);
   }
 
   componentDidMount() {
     console.log(localStorage.getItem('ClientInfo'))
     console.log(localStorage.getItem('clientID'));
     var UserNameRequest=(window.location.pathname).slice(9);
-    console.log(UserNameRequest)
     this.UserProfile(UserNameRequest);
     fetch("/api/account/getuserbyid?token=5b5f3bbe15c2a80434feb939",//+localStorage.getItem('clientID'),
   {method:'GET'})
   .then(res => res.json())
   .then(json=>{
-    console.log(json)
     this.setState({
       Name:json[0].FirstName,
       Age:json[0].Phone,
@@ -206,9 +201,7 @@ class VistaPrincipal extends Component {
     })
   })
     console.log(localStorage.getItem('AssignedNutriologist'))
-    console.log("Hello");
     console.log(localStorage.getItem("Rol"));
-    console.log("=============");
     if (localStorage.getItem("Rol") == "Nutriologo") {
       console.log("true nutriologo");
       fetch(
@@ -289,11 +282,7 @@ class VistaPrincipal extends Component {
   }
 
   agendaModal() {
-    console.log("============");
-    console.log("Abrir modal");
-    console.log("============");
     this.setState({ showModal: true });
-    console.log();
   }
 
   handleItemSize(items, item) {
@@ -301,7 +290,6 @@ class VistaPrincipal extends Component {
   }
 
   handleItemChange(items, item) {
-    console.log("testfqefqefq");
     this.setState({ items: items });
   }
 
@@ -363,7 +351,6 @@ class VistaPrincipal extends Component {
    .then(res => res.json())
    .then (json=> {
        if (json.doc == null){
-           console.log("nulo")
            this.setState({
              goProfile:"NotFound"
            });
@@ -456,9 +443,8 @@ class VistaPrincipal extends Component {
  }
 
   render() {
-    const prueba = this.state.goProfile
-    console.log(prueba)
-    console.log(this.state.Name)
+    const prueba = this.state.goProfile;
+    console.log(this.state.Name);
     const {
       isLoading,
       token,
@@ -512,9 +498,7 @@ class VistaPrincipal extends Component {
 
             <div className="col-md-3 right_sidebar_area">
               <aside className="right_widget r_news_widget">
-                <div className="r_w_title">
-                  <h3>Last news</h3>
-                </div>
+                
                 <div className="news_inner">
                   {ClientsData.map(function(
                     client,
@@ -612,7 +596,7 @@ class VistaPrincipal extends Component {
                   className="btn btn-dark"
                   onClick={this.agendaModal}
                 >
-                  Make a diet
+                  Make a date
                 </button>
                 <button
                   type="button"
