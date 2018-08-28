@@ -1494,7 +1494,7 @@ h2 {
 
 #cardstyle {
   width: 18rem;
-  margin-left: 10000px;
+  // margin-left: 10000px;
 }
 
 .modal{
@@ -1534,6 +1534,21 @@ h2 {
   width: 296px;
   height: 250px;
   min-height: 250px;
+}
+
+
+.nutritionistCard{
+  background-image:url('https://cdn2.howtostartanllc.com/images/business-ideas/business-idea-images/Nutritionist-Business.jpg');
+    height: 100%;
+}
+
+.Heads{
+  text-align: left;
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+}
+.formato{
+  text-align: center;
 }
 
 .dropbtn {

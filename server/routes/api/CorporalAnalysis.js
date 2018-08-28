@@ -236,9 +236,6 @@ module.exports=(app) => {
      const {query}=req;
      const {chart}=query;
    //  return res.send
-   
-
-
    // BodyAnalysis.find({$and:[{date:chart },{id:"5b5f3bbe15c2a80434feb939"}]}
    BodyAnalysis.find({id:chart }).sort({'date':-1}).limit(5).exec((err, doc)  => {
      console.log(doc); 
@@ -250,5 +247,30 @@ module.exports=(app) => {
     });
  
  });
+
+ app.get('/api/account/unregisteredgraphs',(req,res,next)=>
+{
+    const {query}=req;
+    const {id}=query;
+    console.log(req);
+
+    BodyAnalysis.findOne({_id:id},(err,doc) =>
+    {
+        if(err)
+        {
+            console.log(err);
+            return res.send({
+                succes:false,
+                message:"Error:server error"
+            });
+        }
+        else
+        {   console.log(doc);
+            return res.json(doc);
+        }
+    });
+
+    
+})
  
 }
