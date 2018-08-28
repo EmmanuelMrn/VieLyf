@@ -49,22 +49,9 @@ class Login extends Component {
             this.setState({
               token,
               isLoading: false
-            });
-            if (localStorage.hasOwnProperty('email')) {
-              fetch('/api/account/isnutriologist?token='+localStorage.getItem('email'))
-              .then(res => res.json())
-              .then(isnutriologit => {
-                if(isnutriologit.success){
-                  window.location=('/vistanutriologo');
-                } else {
-                  window.location=('/vistacliente');
-                }
-              });
-            } else {
-              this.setState({
-                isLoading: false,
-              });
-            }  
+            }.then(() => {
+              window.location=('/vistaprincipal')
+            }));
           }
       });
     } else {
@@ -127,23 +114,28 @@ class Login extends Component {
                   fetch('/api/accounts/getuser?token='+json2[0]._id)
                   .then(res => res.json())
                   .then(json3 => {
-                    console.log('getuser')
-                    console.log(json3.doc.Nutritionist_id)
-                    fetch('/api/account/getuserbyid?token='+json3.doc.Nutritionist_id)
-                    .then(res => res.json())
-                    .then(json4 => {
+                    if (json3.doc) {
+                      console.log('getuser')
+                      console.log(json3.doc.Nutritionist_id)
+                      fetch('/api/account/getuserbyid?token='+json3.doc.Nutritionist_id)
+                      .then(res => res.json())
+                      .then(json4 => {
                       console.log('user by id')
-                    console.log(json4[0].Email)
-                    localStorage.setItem('AssignedNutriologist', json4[0].Email)
-                    localStorage.setItem('clientID', json2[0]._id);
-                  
-                    }).then( ()=> {
+                      console.log(json4[0].Email)
+                      localStorage.setItem('AssignedNutriologist', json4[0].Email)
+                      localStorage.setItem('clientID', json2[0]._id);
+                    
+                      }).then( ()=> {
+                        localStorage.setItem('Rol', 'Cliente');  
+                        window.location=('/vistaprincipal');
+                      })
+                    } else {
+                      console.log('yei')
                       localStorage.setItem('Rol', 'Cliente');  
-                      window.location=('/vistacliente');
-                    })
+                      window.location=('/vistaprincipal');
+                    }
                   })       
                 })
-                
               }
             });
         } else {
@@ -245,11 +237,6 @@ class Login extends Component {
         <h2 className="text-center" style={{color: 'red'}}>{loginError}</h2>
       )
     }
-
-    // if (!token) {
-    //   return (
-    //   );
-    // }
 
     return (
       <div>

@@ -7,6 +7,7 @@ import {
   getFromStorage,
   setInStorage,
 } from '../../utils/storage';
+import { func } from 'prop-types';
 // import { link } from 'fs';
 
 require('moment/locale/en-gb.js');
@@ -28,7 +29,8 @@ class Header extends Component {
       isLoading: true,
       isActive: false,
       items:[],
-      notify:[], 
+      notify:[],
+      Nutriologist:''
     };
 
     this.logout = this.logout.bind(this);
@@ -37,14 +39,20 @@ class Header extends Component {
   }
 
   componentDidMount() {
-    console.log(localStorage.getItem('clientID'))
-    console.log('Header')
-    console.log(localStorage.getItem('AssignedNutriologist'))
+    
     this.updatethings();
     if (localStorage.hasOwnProperty('the_main_app')) {
       this.setState({isActive: true}, 
       )
     }
+    fetch('/api/account/getuseremail?token=' + localStorage.getItem('AssignedNutriologist'), { method: 'GET' })
+    .then(res => res.json()).then(nutri => {
+      this.setState({
+        Nutriologist: nutri[0].UserName
+      }, function() {
+        console.log("Tu nutriologo: "+this.state.Nutriologist)
+      })
+    })
     // this.updatethings();
     this.interval = setInterval(()=> this.updatethings(),1000)
   }
@@ -114,16 +122,23 @@ class Header extends Component {
     const {
       isLoading,
       isActive,
+      Nutriologist,
     } = this.state;
+    console.log(Nutriologist)
 
-    function Cathalog() {
-      if (localStorage.hasOwnProperty('AssignedNutriologist')){
-        return (
-          <li>
-            <Link to="/catalogueNutriologist" onClick={ $('#menu-toggle').click() }>Nutriologist Catalogue</Link>
-          </li>
-        )
-      } 
+    let Catalogue
+    if (!localStorage.hasOwnProperty('AssignedNutriologist')) {
+      Catalogue = (
+        <li>
+          <Link to="/catalogueNutriologist" onClick={ $('#menu-toggle').click() }>Nutriologist Catalogue</Link>
+        </li>
+      )
+    } else {
+      Catalogue = (
+        <li>
+          <Link to={"/profile/"+Nutriologist} onClick={ $('#menu-toggle').click() }>My nutriologist</Link>
+        </li>
+      )
     }
 
     if (isActive && localStorage.getItem('Rol')=="Cliente") {
@@ -157,8 +172,8 @@ class Header extends Component {
                   <a style={{color:'#0676f8'}} className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i className="fa fa-user-circle fa-fw"></i>
                   </a>
-                  <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                    <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout}>Logout</a>       
+                  <div className="dropdown-menu mydropdown" aria-labelledby="userDropdown">
+                    <a className="dropdown-item mydropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout} >Logout</a>       
                   </div>
                 </li>
               </ul>
@@ -227,7 +242,7 @@ class Header extends Component {
                 <div id="sidebar-wrapper">
                   <ul className="sidebar-nav">
                       <li className="sidebar-brand">
-                          <a href="/vistacliente">
+                          <a href="/vistaprincipal">
                               Profile
                           </a>
                       </li>
@@ -238,7 +253,7 @@ class Header extends Component {
                     <li>
                       <Link id="nutri" to="/nutritionalblog" onClick={ $('#menu-toggle').click() }>Nutrirional Blog</Link>
                     </li>
-                    {Cathalog}
+                    {Catalogue}
                     <li>
                       <Link to="/charts" onClick={ $('#menu-toggle').click() }>Charts</Link>
                     </li>
@@ -281,8 +296,8 @@ class Header extends Component {
                   <a style={{color:'#0676f8'}} className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i className="fa fa-user-circle fa-fw"></i>
                   </a>
-                  <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                    <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout} >Logout</a>       
+                  <div style={{}} className="dropdown-menu mydropdown" aria-labelledby="userDropdown">
+                    <a className="dropdown-item mydropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout} >Logout</a>       
                   </div>
                 </li>
               </ul>
@@ -303,23 +318,42 @@ class Header extends Component {
                     var daydate =  moment().subtract(new Date(client.requestDate).getDay()).startOf("day").format('dddd')
                     var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth()).startOf("month").format('MMMM');
                     var diferencia = new Date(client.startDateTime).getHours() - new Date(client.endDateTime).getHours();
-                      return(
-                        <div style={{color: '#fff'}} key={client._id} className="news_item notibox">
-                            <a><h6 style={{fontSize: ".9rem", textAlign: 'center'}}>{ day+ ", " +monthMinusOneName +", "+ datetime.getDate() + " at "+ datetime.getHours() +":"+ datetime.getMinutes()}</h6></a>
-                            <a><h4>{client.name}</h4></a>
-                            <a><h6>{"Requested for " + daydate + ", " + monthMinusOneName + ", " + dia + ", at " + hour.getHours() + ":" + minutes + " from " + client.createdBy + " with a duration of "+moment.duration(diferencia, "hours").humanize()}</h6></a>
-                            <a><h6>{}</h6></a>
-                            <div style={{marginRight: '30px'}} className="cancel" onClick={function aceptar() {
-                              fetch("/api/account/editagenda?token="+client._id)
-                              .then((res => json())
-                              .then(
+                      if (new Date(client.startDateTime) - new Date() >= 0) {
+                        return(
+                          <div style={{color: '#fff'}} key={client._id} className="news_item notibox">
+                              <a><h6 style={{fontSize: ".9rem", textAlign: 'center'}}>{ day+ ", " +monthMinusOneName +", "+ datetime.getDate() + " at "+ datetime.getHours() +":"+ datetime.getMinutes()}</h6></a>
+                              <a><h4>{client.name}</h4></a>
+                              <a><h6>{"Requested for " + daydate + ", " + monthMinusOneName + ", " + dia + ", at " + hour.getHours() + ":" + minutes + " from " + client.createdBy + " with a duration of "+moment.duration(diferencia, "hours").humanize()}</h6></a>
+                              <a><h6>{}</h6></a>
+                              <div style={{marginRight: '30px'}} className="cancel" onClick={function aceptar() {
+                                fetch("/api/account/editagenda?token="+client._id)
+                                .then((res => json())
+                                .then(
+                                  fetch("/api/account/createnotification", {
+                                    method: "POST",
+                                    headers: {
+                                      "Content-Type": "application/json"
+                                    },
+                                    body: JSON.stringify({
+                                      text: "Your appointment for "+ new Date(client.startDateTime).getDate() + " of " + monthMinusOneName + " at " + new Date(client.startDateTime).getHours() + ":" + minutes +" have been accepted",
+                                      ref: "/agenda",
+                                      date: new Date(),
+                                      from: localStorage.getItem('clientID'),
+                                      to: client.createdByID,
+                                      title: "Your nutriologist says",
+                                    })
+                                  })
+                                ))
+                              }}>✓</div>
+                              <div className="cancel" onClick={function aceptar() {
+                                fetch('/api/account/deleteagenda?token='+client._id);
                                 fetch("/api/account/createnotification", {
                                   method: "POST",
                                   headers: {
                                     "Content-Type": "application/json"
                                   },
                                   body: JSON.stringify({
-                                    text: "Your appointment for "+ new Date(client.startDateTime).getDate() + " of " + monthMinusOneName + " at " + new Date(client.startDateTime).getHours() + ":" + minutes +" have been accepted",
+                                    text: "Your appointment for "+ new Date(client.startDateTime).getDate() + " of " + monthMinusOneName + " at " + new Date(client.startDateTime).getHours() + new Date(client.startDateTime).getMinutes() +" have been rejected",
                                     ref: "/agenda",
                                     date: new Date(),
                                     from: localStorage.getItem('clientID'),
@@ -327,27 +361,26 @@ class Header extends Component {
                                     title: "Your nutriologist says",
                                   })
                                 })
-                              ))
-                            }}>✓</div>
-                            <div className="cancel" onClick={function aceptar() {
-                              fetch('/api/account/deleteagenda?token='+client._id);
-                              fetch("/api/account/createnotification", {
-                                method: "POST",
-                                headers: {
-                                  "Content-Type": "application/json"
-                                },
-                                body: JSON.stringify({
-                                  text: "Your appointment for "+ new Date(client.startDateTime).getDate() + " of " + monthMinusOneName + " at " + new Date(client.startDateTime).getHours() + new Date(client.startDateTime).getMinutes() +" have been rejected",
-                                  ref: "/agenda",
-                                  date: new Date(),
-                                  from: localStorage.getItem('clientID'),
-                                  to: client.createdByID,
-                                  title: "Your nutriologist says",
-                                })
-                              })
-                            }}>✕</div>
-                        </div>
-                        )
+                              }}>✕</div>
+                          </div>
+                          )
+                      } else {
+                        fetch('/api/account/deleteagenda?token='+client._id);
+                        fetch("/api/account/createnotification", {
+                          method: "POST",
+                          headers: {
+                            "Content-Type": "application/json"
+                          },
+                          body: JSON.stringify({
+                            text: "Your appointment for "+ new Date(client.startDateTime).getDate() + " of " + monthMinusOneName + " at " + new Date(client.startDateTime).getHours() + ":" + minutes +" have been not accepted (REQUEST NEVER ATTENDED)",
+                            ref: "/agenda",
+                            date: new Date(),
+                            from: localStorage.getItem('clientID'),
+                            to: client.createdByID,
+                            title: "Your nutriologist says",
+                          })
+                        })
+                         }
                   })}
                     { this.state.notify.map(function(client){
                       
@@ -375,7 +408,7 @@ class Header extends Component {
                 <div id="sidebar-wrapper">
                   <ul className="sidebar-nav">
                       <li className="sidebar-brand">
-                          <a href="/vistanutriologo">
+                          <a href="/vistaprincipal">
                                 Profile
                           </a>
                       </li>
