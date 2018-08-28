@@ -33,7 +33,9 @@ class Header extends Component {
 
     this.logout = this.logout.bind(this);
     this.updatethings = this.updatethings.bind(this);
-
+    this.onEditProfile = this.onEditProfile.bind(this);
+    this.onDelete = this.onDelete.bind(this);
+    this.toggleModal = this.toggleModal.bind(this);
   }
 
   componentDidMount() {
@@ -74,6 +76,55 @@ class Header extends Component {
       });
   }
 
+  toggleModal() {
+    this.setState({
+      isActive: !this.state.isActive
+    });
+  }
+
+  onDelete() {
+    const { signUpEmail } = this.state;
+    fetch("/api/account/deleteaccount?token=" + signUpEmail + "");
+    this.toggleModal();
+    alertify.error("Your account was deleted");
+  }
+
+  onEditProfile() {
+    this.toggleModal();
+    console.log(this.state.signUpEmail);
+    const {
+      signUpEmail,
+      signUpFirstName,
+      signUpLastName,
+      signUpPassword
+    } = this.state;
+    fetch(
+      "/api/account/editprofile?token=" +
+        signUpEmail +
+        "&token2=" +
+        signUpFirstName +
+        "&token3=" +
+        signUpLastName +
+        "&token4=" +
+        signUpPassword +
+        ""
+    )
+      .then(res => res.json())
+      .then(json => {
+        if (json.success) {
+          this.setState({
+            token,
+            isLoading: false
+          });
+        } else {
+          this.setState({
+            isLoading: false
+          });
+        }
+      });
+      alertify.success("Edited profile");
+  }
+
   logout() {
     this.setState({
       isLoading: true,
@@ -107,7 +158,8 @@ class Header extends Component {
     localStorage.removeItem('Rol');
     localStorage.removeItem('clientID');
     localStorage.removeItem('AssignedNutriologist');
-    window.location=('/login')
+    window.location=('/login');
+    alertify.warning("Closed session");
   }
   
   render() {
@@ -145,17 +197,17 @@ class Header extends Component {
                   $(".sidebar").toggleClass('active');
                   }
                     } ><i style={{color:'#0676f8'}} className="fa fa-bell"></i></a>
-              <ul className="navbar-nav ml-auto ml-md-0">
-                
-                <li className="nav-item dropdown no-arrow">
-                  <a style={{color:'#0676f8'}} className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i className="fa fa-user-circle fa-fw"></i>
-                  </a>
-                  <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                    <a className="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout}>Logout</a>       
-                  </div>
-                </li>
-              </ul>
+                    <ul className="navbar-nav ml-auto ml-md-0">
+                    <li className="nav-item dropdown no-arrow">
+                      <a style={{color:'#0676f8'}} className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i className="fa fa-user-circle fa-fw"></i>
+                      </a>
+                      <div style={{}} className="dropdown-menu mydropdown" aria-labelledby="userDropdown">
+                      <a className="dropdown-item mydropdown-item" href="#" data-toggle="modal" data-target="#editProfileModal" onClick={this.onEditProfile} >Edit profile</a>
+                        <a className="dropdown-item mydropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout} >Logout</a>       
+                      </div>
+                    </li>
+                  </ul>
               </nav>
            <div className="sidebar">
                   <h2>Notifications</h2>
@@ -180,7 +232,7 @@ class Header extends Component {
                                     $(this).parent().toggleClass('gone');
                                 });
                               
-                            }}>Denegar</button>
+                            }}>Deny</button>
                             <div className="cancel" onClick={
                       function(e) {
                         $(".cancel").click(function () {
@@ -227,19 +279,19 @@ class Header extends Component {
                       </li>
                       <ul style={{ listStyleType: "none", padding: 0 }}>
                     <li>
-                      <Link to="/agenda" onClick={ $('#menu-toggle').click() }>Diary</Link>
+                      <Link id="chart" to="/charts" onClick={ $('#menu-toggle').click() }>Corporal Analysis</Link>
+                    </li>
+                    <li>
+                      <Link to="/agenda" onClick={ $('#menu-toggle').click() }>Diet Calendar</Link>
+                    </li>
+                    <li>
+                      <Link id="" to="" onClick={ $('#menu-toggle').click() }>Progress</Link>
                     </li>
                     <li>
                       <Link id="nutri" to="/nutritionalblog" onClick={ $('#menu-toggle').click() }>Nutrirional Blog</Link>
                     </li>
                     <li>
                       <Link to="/catalogueNutriologist" onClick={ $('#menu-toggle').click() }>Nutriologist Catalogue</Link>
-                    </li>
-                    <li>
-                      <Link to="/charts" onClick={ $('#menu-toggle').click() }>Charts</Link>
-                    </li>
-                    <li>
-                      <Link to="/diet" onClick={ $('#menu-toggle').click() }>Diet</Link>
                     </li>
                     </ul>
                   </ul>
@@ -383,13 +435,7 @@ class Header extends Component {
                       <Link to="/agenda" onClick={ $('#menu-toggle').click() }>Diary</Link>
                     </li>
                     <li>
-                      <Link id="nutri" to="/nutritionalblog" onClick={ $('#menu-toggle').click() }>Nutrirional Blog</Link>
-                    </li>
-                    <li>
-                      <Link to="/catalogueNutriologist" onClick={ $('#menu-toggle').click() }>Nutriologist Catalogue</Link>
-                    </li>
-                    <li>
-                      <Link to="/charts" onClick={ $('#menu-toggle').click() }>Charts</Link>
+                      <Link id="" to="" onClick={ $('#menu-toggle').click() }>Calendar</Link>
                     </li>
                     </ul>
                   </ul>
