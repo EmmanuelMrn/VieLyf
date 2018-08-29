@@ -101,8 +101,17 @@ class Login extends Component {
             .then(json1 => {
               if (json1.success) {
                 localStorage.setItem("Auth", loginEmail);
-                window.location = "/vistanutriologo";
-                localStorage.setItem("Rol", "Nutriologo");
+                fetch('/api/account/getuseremail?token='+loginEmail)
+                .then(res => res.json())
+                .then(json2 => {
+                  localStorage.setItem('Client_id', json2[0]._id);
+                  localStorage.setItem('ClientLast', json2[0].LastName);
+                  localStorage.setItem('ClientFirst', json2[0].FirstName);
+                }).then(() => {
+                  localStorage.setItem("Rol", "Nutriologo");
+                  window.location = "/vistanutriologo";
+                  
+                })
               } else {
                 console.log('Login Email')
                 console.log(loginEmail)
@@ -111,10 +120,13 @@ class Login extends Component {
                 .then(json2 => {
                   console.log('user email')
                   console.log(json2[0]._id)
+                  localStorage.setItem('ClientLast', json2[0].LastName)
+                  localStorage.setItem('ClientFirst', json2[0].FirstName)
+                  localStorage.setItem('Client_id', json2[0]._id)
                   fetch('/api/accounts/getuser?token='+json2[0]._id)
                   .then(res => res.json())
                   .then(json3 => {
-                    if (json3.doc) {
+                    if (json3.doc != null) {
                       console.log('getuser')
                       console.log(json3.doc.Nutritionist_id)
                       fetch('/api/account/getuserbyid?token='+json3.doc.Nutritionist_id)

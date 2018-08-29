@@ -49,8 +49,6 @@ class Header extends Component {
     .then(res => res.json()).then(nutri => {
       this.setState({
         Nutriologist: nutri[0].UserName
-      }, function() {
-        console.log("Tu nutriologo: "+this.state.Nutriologist)
       })
     })
     // this.updatethings();
@@ -71,7 +69,7 @@ class Header extends Component {
           
         });
       });
-    fetch('/api/account/getnotifications?token='+localStorage.getItem('clientID'), {method:'GET'})
+    fetch('/api/account/getnotifications?token=' + localStorage.getItem("Client_id"), {method:'GET'})
       .then(res => res.json())
       .then(json2 => {
         this.setState({
@@ -115,6 +113,9 @@ class Header extends Component {
     localStorage.removeItem('Rol');
     localStorage.removeItem('clientID');
     localStorage.removeItem('AssignedNutriologist');
+    localStorage.removeItem('ClientLast', json2[0].LastName)
+    localStorage.removeItem('ClientFirst', json2[0].FirstName)
+    localStorage.removeItem('Client_id', json2[0]._id)
     window.location=('/login')
   }
   
@@ -124,7 +125,6 @@ class Header extends Component {
       isActive,
       Nutriologist,
     } = this.state;
-    console.log(Nutriologist)
 
     let Catalogue
     if (!localStorage.hasOwnProperty('AssignedNutriologist')) {
@@ -134,7 +134,7 @@ class Header extends Component {
         </li>
       )
     } else {
-      Catalogue = (
+      Catalogue = ( 
         <li>
           <Link to={"/profile/"+Nutriologist} onClick={ $('#menu-toggle').click() }>My nutriologist</Link>
         </li>
@@ -164,7 +164,7 @@ class Header extends Component {
               <a style={{color:'#0676f8'}} className="toggle" onClick={
                 function(e) {
                   $(".sidebar").toggleClass('active');
-                  }
+                }
                     } ><i style={{color:'#0676f8'}} className="fa fa-bell"></i></a>
               <ul className="navbar-nav ml-auto ml-md-0">
                 
@@ -223,10 +223,6 @@ class Header extends Component {
                               <a><h6>{client.text}</h6></a>
                               <div style={{marginRight: '30px'}} className="cancel" onClick={function aceptar() {
                                 fetch('/api/account/removenotification?token='+client._id)
-                                .then(res => res.json())
-                                .then(json => {
-                                })
-
                               }}>✓</div>
                               <div className="cancel" onClick={function aceptar() {
                                 fetch('/api/account/removenotification?token='+client._id).then(() => {
