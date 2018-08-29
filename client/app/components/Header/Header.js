@@ -2,23 +2,13 @@ import React, { Component } from 'react';
 import 'whatwg-fetch';
 import { Link } from 'react-router-dom';
 import moment, { min } from 'moment';
-// import 'moment/locale/fr';
+import Modal from 'react-modal';
 import {
   getFromStorage,
   setInStorage,
 } from '../../utils/storage';
-// import { link } from 'fs';
 
 require('moment/locale/en-gb.js');
-    var colors= {
-      'color-1':"rgba(102, 195, 131 , 1)" ,
-      "color-2":"rgba(242, 177, 52, 1)" ,
-      "color-3":"rgba(235, 85, 59, 1)" ,
-      "color-4":"rgba(70, 159, 213, 1)",
-      "color-5":"rgba(170, 59, 123, 1)",
-      "color-6":"rgb(160, 163, 167)",
-    }
-
 
 class Header extends Component {
   constructor() {
@@ -27,8 +17,15 @@ class Header extends Component {
     this.state = {
       isLoading: true,
       isActive: false,
+      isActiveModal: false,
+      showModal: false,
       items:[],
-      notify:[], 
+      notify:[],
+      signUpEmail: "",
+      signUpPassword: "",
+      signUpFirstName: "",
+      signUpLastName: "",
+      isToggleOn: true 
     };
 
     this.logout = this.logout.bind(this);
@@ -36,6 +33,7 @@ class Header extends Component {
     this.onEditProfile = this.onEditProfile.bind(this);
     this.onDelete = this.onDelete.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
 
   componentDidMount() {
@@ -76,9 +74,23 @@ class Header extends Component {
       });
   }
 
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState(
+      {
+        [name]: value
+      },
+      function() {
+      }
+    );
+  }
+
   toggleModal() {
     this.setState({
-      isActive: !this.state.isActive
+      isActiveModal: !this.state.isActive
     });
   }
 
@@ -203,7 +215,7 @@ class Header extends Component {
                         <i className="fa fa-user-circle fa-fw"></i>
                       </a>
                       <div style={{}} className="dropdown-menu mydropdown" aria-labelledby="userDropdown">
-                      <a className="dropdown-item mydropdown-item" href="#" data-toggle="modal" data-target="#editProfileModal" onClick={this.onEditProfile} >Edit profile</a>
+                        <a className="dropdown-item mydropdown-item" href="#" data-toggle="modal" data-target="#editProfileModal" onClick={this.onEditProfile} >Edit profile</a>
                         <a className="dropdown-item mydropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout} >Logout</a>       
                       </div>
                     </li>
@@ -330,6 +342,7 @@ class Header extends Component {
                     <i className="fa fa-user-circle fa-fw"></i>
                   </a>
                   <div style={{}} className="dropdown-menu mydropdown" aria-labelledby="userDropdown">
+                    <a className="dropdown-item mydropdown-item" href="#" data-toggle="modal" data-target="#editProfileModal" onClick={this.onEditProfile} >Edit profile</a>
                     <a className="dropdown-item mydropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout} >Logout</a>       
                   </div>
                 </li>

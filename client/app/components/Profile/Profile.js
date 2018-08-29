@@ -77,7 +77,7 @@ ChangeProfile(){
 }
 
 Profile(){
-    var user = this.state.UserProfile
+    var user = this.state.UserProfile;
     return(
 
     <div class="container">
@@ -134,7 +134,7 @@ Profile(){
 
 
 render(){
-    const prueba = this.state.goProfile
+    const prueba = this.state.goProfile;
     console.log(prueba)
     return(
         <div>
