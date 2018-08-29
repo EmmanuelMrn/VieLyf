@@ -22,6 +22,7 @@ import ResultadoBusqueda from "./components/Home/ResultadoBusqueda";
 import SearchBar from "./components/Home/SearchBar";
 import Profile from './components/Profile/Profile';
 import AgendaClient from './components/Agenda/AgendaClient';
+import UnregisteredAnalysis from './components/UnregisteredAnalysis/UnregisteredAnalysis';
 import "./styles/styles.scss";
 
 render(
@@ -52,7 +53,7 @@ render(
         <Route path="/ResultadoBusqueda" component={ResultadoBusqueda} />
         <Route path="/SearchBar" component={SearchBar} />
         <Route path="/profile" component={Profile} />
-
+        <Route path="/hiddenAnalysis" component={UnregisteredAnalysis}/>
         <Route component={NotFound} />
       </Switch>
     </App>
