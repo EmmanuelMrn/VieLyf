@@ -111,7 +111,16 @@ GetMyClientsUser(ClientsId,CurrentUserId){
   fetch('/api/accounts/GetMyClientsUser?Clients='+ClientsId, {method:'GET'})
   .then(res => res.json())
   .then (Registered=> {
-  
+    if (Registered.err){
+      fetch('/api/account/GetClientsUnregistered/'+CurrentUserId, {method:'GET'})
+      .then(res => res.json())
+      .then (Unregistered=> {
+          this.setState({
+            clientsData:Unregistered
+          });
+      });
+    }
+  else{
       fetch('/api/account/GetClientsUnregistered/'+CurrentUserId, {method:'GET'})
       .then(res => res.json())
       .then (Unregistered=> {
@@ -119,8 +128,9 @@ GetMyClientsUser(ClientsId,CurrentUserId){
             clientsData:Registered.concat(Unregistered)
           });
       });
+    }
   });
-  
+
 }
 onAdd() {
   fetch("/api/account/addClient", {
@@ -207,7 +217,7 @@ return(
                             onChange={this.handleInputChange}
                              />
                           </div>
-                          <input type="submit"/>  
+                            
                         </form>
                       </ModalBody>
                       <ModalFooter>

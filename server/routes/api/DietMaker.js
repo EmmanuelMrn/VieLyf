@@ -168,7 +168,7 @@ app.get('/api/accounts/GetMyClients',(req,res,next)=>{
         User.find({"$or":[{"_id":ArrClients}] }, (err, doc)  => {
 
         if(err)
-        return res.send(err);
+        return res.send({err,message:"nel prro"});
         else
         return res.send(doc);
         });

@@ -1,5 +1,5 @@
 import React, { Component,Children } from 'react';
-import Modal from 'react-modal';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter,Card,CardTitle,CardText } from 'reactstrap';
 const customStyles = {
   content : {
     top                   : '50%',
@@ -87,7 +87,7 @@ render()
             // the values are now in nutritionis and the names of the fields
             //  are the same ast the ones in the JSON
           <div key={nutritionist._id} className="nutritionist">
-            <div className="card" id="cardstyle" >  
+            <div className="card"  >  
               <div className="card-body">
            
                    <h5 className="card-title"> {nutritionist.FirstName}</h5>
