@@ -116,7 +116,7 @@ render()
                         <p>
                           <img
                             className=" img-fluid"
-                            src="http://s3-eu-west-1.amazonaws.com/cinemania-cdn/wp-content/uploads/2017/03/23172037/Vision_Forest-660x374.jpg"
+                            src="http://ekta.surveysindia.com/wp-content/uploads/2015/10/Doctor-Placeholder.jpg"
                             alt="card image"
                           />
                         </p>

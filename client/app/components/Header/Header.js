@@ -65,8 +65,6 @@ class Header extends Component {
       .then(json1 => {
         this.setState({
           items : json1,
-        }, function() {
-          console.log(this.state.items)
         });
       });
     fetch('/api/account/getnotifications?token=' + localStorage.getItem("Client_id"), {method:'GET'})
@@ -115,8 +113,9 @@ class Header extends Component {
     localStorage.removeItem('AssignedNutriologist');
     localStorage.removeItem('ClientLast', json2[0].LastName)
     localStorage.removeItem('ClientFirst', json2[0].FirstName)
-    localStorage.removeItem('Client_id', json2[0]._id)
-    window.location=('/login')
+    localStorage.removeItem('Client_id', json2[0]._id).then(
+      window.location=('/logim')
+    )
   }
   
   render() {
@@ -382,6 +381,23 @@ class Header extends Component {
                       
                       var datetime = new Date(client.date)
                       var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
+                      if (client.ref == '/transition') {
+                        return (
+                          <div style={{color: '#fff', backgroundColor:"#ff00e3"}} key={client._id} className="news_item notibox">
+                              <a><h6 style={{fontSize: ".9rem", textAlign: 'center'}}>{monthMinusOneName +", "+ datetime.getDate() + " at "+ datetime.getHours() +":"+ datetime.getMinutes()}</h6></a>
+                              <a><h5>{client.title}</h5></a>
+                              <a><h6>{client.text}</h6></a>
+                              <div style={{marginRight: '30px'}} className="cancel" onClick={function aceptar() {
+                                fetch('/api/account/removenotification?token='+client._id)
+                              }}>✓</div>
+                              <div className="cancel" onClick={function aceptar() {
+                                fetch('/api/account/removenotification?token='+client._id).then(() => {
+                                  window.location=(client.ref)
+                                })
+                              }}>↱</div>                           
+                          </div>
+                        )
+                      } else {
                         return( 
                           <div style={{color: '#fff', backgroundColor:"#66c383"}} key={client._id} className="news_item notibox">
                               <a><h6 style={{fontSize: ".9rem", textAlign: 'center'}}>{monthMinusOneName +", "+ datetime.getDate() + " at "+ datetime.getHours() +":"+ datetime.getMinutes()}</h6></a>
@@ -397,6 +413,7 @@ class Header extends Component {
                               }}>↱</div>                           
                           </div>
                           )
+                      }
                     })}
                     </div>
                </div>
