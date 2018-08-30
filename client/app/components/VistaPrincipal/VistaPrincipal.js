@@ -69,6 +69,8 @@ class VistaPrincipal extends Component {
   */
 
   componentDidMount() {
+    console.log(localStorage.getItem("Auth"));
+    console.log(localStorage.getItem("Client_id"));
     console.log(localStorage.getItem('ClientInfo'))
     console.log(localStorage.getItem('clientID'));
     var UserNameRequest=(window.location.pathname).slice(9);
@@ -103,7 +105,6 @@ class VistaPrincipal extends Component {
     const obj = getFromStorage("the_main_app");
     if (obj && obj.token) {
       const { token } = obj;
-      console.log(token);
       fetch("/api/account/verify?token=" + token)
         .then(res => res.json())
         .then(json => {

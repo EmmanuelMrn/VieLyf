@@ -19,8 +19,7 @@ class NutritionalBlog extends Component {
         />
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" />
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" />
-
-        <section className="banner-section" />
+        <section className="image-section" />
         <div className="col-lg-12 col-md-12 col-sm-12 post-title-block">
           <h1 className="text-center">Nutritional Blog</h1>
           <ul className="list-inline text-center">
