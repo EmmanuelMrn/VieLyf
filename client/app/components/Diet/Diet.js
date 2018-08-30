@@ -514,7 +514,7 @@ class Diet extends Component {
             alt="Imagen3"
           />
         </div>
-        <Link to="/vistanutriologo" className="btn btn-dark">
+        <Link to="/vistaprincipal" className="btn btn-dark">
           Página principal
         </Link>
       </div>

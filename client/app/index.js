@@ -14,8 +14,6 @@ import Agenda from "./components/Agenda/Agenda";
 import NotFound from "./components/App/NotFound";
 import Transition from "./components/Diet/Transition";
 import NutritionalBlog from "./components/Home/nutritionalBlog";
-import VistaCliente from "./components/VistaCliente/VistaCliente";
-import VistaNutriologo from "./components/VistaNutriologo/VistaNutriologo";
 import VistaPrincipal from "./components/VistaPrincipal/VistaPrincipal";
 import CorporalAnalysis from "./components/CorporalAnalysis/CorporalAnalysis";
 import CatalogueNutriologist from "./components/Home/CatalogueNutriologist";
@@ -24,6 +22,7 @@ import ResultadoBusqueda from "./components/Home/ResultadoBusqueda";
 import SearchBar from "./components/Home/SearchBar";
 import Profile from './components/Profile/Profile';
 import AgendaClient from './components/Agenda/AgendaClient';
+import UnregisteredAnalysis from './components/UnregisteredAnalysis/UnregisteredAnalysis';
 import "./styles/styles.scss";
 
 render(
@@ -39,12 +38,10 @@ render(
         <Route path="/agendaclient" component={AgendaClient} />
         <Route path="/charts" component={Charts} />
         <Route path="/transition" component={Transition} />
-        <Route path="/vistacliente" component={VistaCliente} />
         <Route path="/corporalanalysis" component={CorporalAnalysis} />        
         <Route path="/vistaprincipal" component={VistaPrincipal} />
 
         <Route path="/nutritionalBlog" component={NutritionalBlog} />
-        <Route path="/vistanutriologo" component={VistaNutriologo} />
         <Route
           path="/catalogueNutriologist"
           component={CatalogueNutriologist}
@@ -56,7 +53,7 @@ render(
         <Route path="/ResultadoBusqueda" component={ResultadoBusqueda} />
         <Route path="/SearchBar" component={SearchBar} />
         <Route path="/profile" component={Profile} />
-
+        <Route path="/hiddenAnalysis" component={UnregisteredAnalysis}/>
         <Route component={NotFound} />
       </Switch>
     </App>
