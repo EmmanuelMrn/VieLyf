@@ -66,7 +66,7 @@ class Header extends Component {
         this.setState({
           items : json1,
         }, function() {
-          
+          console.log(this.state.items)
         });
       });
     fetch('/api/account/getnotifications?token=' + localStorage.getItem("Client_id"), {method:'GET'})
