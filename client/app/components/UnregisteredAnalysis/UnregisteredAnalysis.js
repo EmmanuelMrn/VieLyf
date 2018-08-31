@@ -118,7 +118,7 @@ class UnregisteredAnalysis extends Component
               <div className="row">
                <div className="col-md-5 ">
                <h4 className="Heads">General Information </h4> 
-               <table id="t01">
+               <table  className="table-striped table-dark" style={{borderRadius:"15px"}}>
                     <tr>                 
                        
                             <th> Weight </th>
@@ -126,41 +126,41 @@ class UnregisteredAnalysis extends Component
                             <th> Age    </th>
                     </tr>        
                     <tr>
-                    <th>{this.state.Information.Weight} </th> 
-                    <th>{this.state.Information.Height} </th>
-                    <th>{this.state.Information.Age} </th> 
+                    <th className= "thfiller thlowerleft">{this.state.Information.Weight} </th> 
+                    <th className= "thfiller ">{this.state.Information.Height} </th>
+                    <th className= "thfiller thlowerright">{this.state.Information.Age} </th> 
                     </tr>    
                </table>   
                     <h4 className="Heads">Corporal Composition</h4>  
-                <table id="t01"> 
+                <table className="table-striped table-dark" style={{borderRadius:"15px"}}> 
                     <tr>
                     <th> Fat Free Body Mass</th>
                         <th> Fat Free body Mass Body Fat</th>
                         <th> Lean Soft tisssue</th>
                     </tr>
                     <tr>
-                            <th> {this.state.Information.FatFreeBodyMass} </th>
-                            <th>{this.state.Information.FFBMBodyFat} </th>
-                            <th>{this.state.Information.LeanSoftTissue} </th>
+                            <th className= "thfiller thlowerleft" >{this.state.Information.FatFreeBodyMass} </th>
+                            <th className= "thfiller">{this.state.Information.FFBMBodyFat} </th>
+                            <th className= "thfiller thlowerright">{this.state.Information.LeanSoftTissue} </th>
                     </tr>  
                     </table>    
                         
                         <h4>Lean Lean Soft Tissue</h4>
-                    <table id="t01">
+                    <table className="table-striped table-dark" style={{borderRadius:"15px"}}>
 
                         <tr> 
                             <th> Lean Soft Tissue Body Fat</th>
                             <th> Lean Soft Tissue Mineral </th>
                         </tr>
                         <tr>
-                        <th>{this.state.Information.LSTBodyFat} </th>
-                        <th>{this.state.Information.LSTMineral} </th>
+                        <th className= "thfiller thlowerleft">{this.state.Information.LSTBodyFat} </th>
+                        <th className= "thfiller thlowerright">{this.state.Information.LSTMineral} </th>
                         </tr>
 
                         
                     </table>    
                     <h4 >Total Body Water</h4>
-                        <table id="t01">
+                        <table className="table-striped table-dark" style={{borderRadius:"15px"}}>
                             <tr>
                             
                                 <th> Total Body Water Protein</th>
@@ -168,9 +168,9 @@ class UnregisteredAnalysis extends Component
                                 <th> Total Body Water Body Fat</th>
                             </tr>
                             <tr>
-                                    <th>{this.state.Information.TBWProtein} </th>
-                                    <th>{this.state.Information.TBWMineral} </th>
-                                    <th>{this.state.Information.TBWBodyFat} </th>
+                                    <th className= "thfiller thlowerleft">{this.state.Information.TBWProtein} </th>
+                                    <th className= "thfiller">{this.state.Information.TBWMineral} </th>
+                                    <th className= "thfiller thlowerright">{this.state.Information.TBWBodyFat} </th>
                             </tr>
 
                              
@@ -184,7 +184,7 @@ class UnregisteredAnalysis extends Component
                <div className="col-5 offset-7">
 
                <h4 className="Heads"> Weight control Evaluation </h4>
-               <table id="t01">
+               <table className="table-striped table-dark" style={{borderRadius:"15px"}}>
                    <tr>
                     <th> Weight</th>
                     <th> Body Mass Index  </th>
@@ -192,14 +192,14 @@ class UnregisteredAnalysis extends Component
                     <th> Fat Free Mas </th>
                    </tr>
                    <tr>
-                   <th>{this.state.Information.Weight} </th>
-                    <th>{this.state.Information.BodyMassIndex} </th>
-                    <th>{this.state.Information.BodyFat} </th>
-                    <th>{this.state.Information.FatFreeMass} </th>
+                    <th className="thfiller thlowerleft">{this.state.Information.Weight} </th>
+                    <th className= "thfiller" >{this.state.Information.BodyMassIndex} </th>
+                    <th className= "thfiller" >{this.state.Information.BodyFat} </th>
+                    <th className= "thfiller thlowerright">{this.state.Information.FatFreeMass} </th>
                    </tr> 
                </table>
                    <h4 className="Heads"> Energy Expenditure</h4>
-               <table id="t01">
+               <table className="table-striped table-dark" style={{borderRadius:"15px"}}>
                <tr>
                     <th> Hip Waist Index</th>
                     <th> Total Energy Expenditure  </th>
@@ -207,10 +207,10 @@ class UnregisteredAnalysis extends Component
                     <th> Body Type </th>
               </tr> 
               <tr>
-              <th>{this.state.Information.HipWaistIndex} </th>
-               <th>{this.state.Information.TotalEnergyExpenditure} </th>
-               <th>{this.state.Information.EquivalentBiologicalAge} </th>
-               <th>{this.state.Information.BodyType} </th>
+               <th className= "thfiller thlowerleft">{this.state.Information.HipWaistIndex} </th>
+               <th className= "thfiller">{this.state.Information.TotalEnergyExpenditure} </th>
+               <th className= "thfiller">{this.state.Information.EquivalentBiologicalAge} </th>
+               <th className= "thfiller thlowerright">{this.state.Information.BodyType} </th>
              </tr>  
              </table>   
              <br /><br /> <br />
