@@ -274,13 +274,10 @@ class Header extends Component {
     localStorage.removeItem('Rol');
     localStorage.removeItem('clientID');
     localStorage.removeItem('AssignedNutriologist');
-    /*
-    localStorage.removeItem('ClientLast', json2[0].LastName)
-    localStorage.removeItem('ClientFirst', json2[0].FirstName)
-    localStorage.removeItem('Client_id', json2[0]._id).then(
-      window.location=('/login')
-    )
-    */
+    
+    localStorage.removeItem('ClientLast');
+    localStorage.removeItem('ClientFirst');
+    localStorage.removeItem('Client_id');
     window.location=('/login');
     alertify.warning("Closed session");
   }
@@ -450,6 +447,7 @@ class Header extends Component {
                       Progress
                     </Link>
                   </li>
+                  {Catalogue}
                   <li>
                     <Link
                       id="nutri"
@@ -457,15 +455,6 @@ class Header extends Component {
                       onClick={$("#menu-toggle").click()}
                     >
                       Nutrirional Blog
-                    </Link>
-                  {Catalogue}
-                  </li>
-                  <li>
-                    <Link
-                      to="/catalogueNutriologist"
-                      onClick={$("#menu-toggle").click()}
-                    >
-                      Nutriologist Catalogue
                     </Link>
                   </li>
                 </ul>
