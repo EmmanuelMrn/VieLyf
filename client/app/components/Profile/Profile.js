@@ -51,8 +51,8 @@ UserProfile(UserNameRequest){
       }
       
   });
-  
 }
+
 ChangeProfile(){
     if(this.state.goProfile=="NotFound"){
        return (
@@ -73,12 +73,11 @@ ChangeProfile(){
                <h1>Loading...</h1>
             </div>   
         )
-    }
-         
-    
+    }    
 }
+
 Profile(){
-    var user = this.state.UserProfile
+    var user = this.state.UserProfile;
     return(
 
     <div class="container">
@@ -110,7 +109,7 @@ Profile(){
             <div class="col-8">
                 <br />
                 <div class="col-md-12" align="center">
-                    <h3 align="center">Profile <p><small>Profile's Content</small></p></h3>
+                    <h3 align="center">Profile usando el .js<p><small>Profile's Content</small></p></h3>
                 </div>
                 <br />
                 <div class="card text-center">
@@ -129,13 +128,13 @@ Profile(){
             </div>
             </div>           
     </div>
-    
+
     )
 }
 
 
 render(){
-    const prueba = this.state.goProfile
+    const prueba = this.state.goProfile;
     console.log(prueba)
     return(
         <div>
