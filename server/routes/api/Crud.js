@@ -1,10 +1,87 @@
-const User = require("../../models/User");
-const UserSession = require("../../models/UserSchema");
-const Agenda = require("../../models/Agenda");
-module.exports = app => {
-  app.get("/api/account/agendaarray", (req, res, next) => {
-    const { query } = req;
-    const { token } = query;
+const User = require('../../models/User');
+const UserSession = require('../../models/UserSchema');
+const Agenda = require('../../models/Agenda');
+const Notification = require('../../models/Notifications');
+module.exports = (app) => {
+
+  app.post("/api/account/createnotification", (req, res, next) => {
+    const {body} = req;
+    const {
+      text,
+      ref,
+      date,
+      from,
+      to,
+      title,
+    }   = body;
+              
+    if (!text) {
+      return res.send({
+        success: false,
+        message: 'Error in the text'
+      });
+    }
+    if (!text) {
+      return res.send({
+        success: false,
+        message: 'Error in the remitent'
+      });
+    }
+    var Datetime = new Date();
+    const NewNotification = new Notification()
+
+    NewNotification.text = text;
+    NewNotification.ref = ref;
+    NewNotification.date = Datetime;
+    NewNotification.from = from;
+    NewNotification.to = to,
+    NewNotification.title = title;
+    NewNotification.save((err) => {
+      if (err) {
+        return res.send ({
+          success: false,
+          message: 'Error'
+        })
+      }
+      return res.send({
+        success: true,
+          message: 'logrado'
+      });
+    });
+  });
+
+  app.get("/api/account/getnotifications", (req, res, next)=> {
+    Notification.find({ to:req.query.token}, (err, doc)  => {
+      if (err) {
+        return res.send ({
+          success: false,
+          message: "Error"
+        })
+      } else {
+        return res.send(doc);
+      }
+    });
+  });
+
+  app.get("/api/account/removenotification", (req, res, next)=> {
+    Notification.findOneAndRemove({ _id:req.query.token}, (err, doc)  => {
+      if (err) {
+        return res.send ({
+          success: false,
+          message: "Error"
+        })
+      } else {
+        return res.send ({
+          success: true,
+          message: "Notifications deleted"
+        })
+      }
+    });
+  });
+
+  app.get("/api/account/agendaarray", (req, res, next)=> {
+    const {query} = req;
+    const {token} = query;
 
     Agenda.find({ Nutriologist_id: token, pending: false }, (err, doc) => {
       console.log(doc);
@@ -531,6 +608,7 @@ module.exports = app => {
       pending,
       createdByID,
       createdBy,
+      requestDate,
     }   = body;
                     
       if (!name) {
@@ -564,6 +642,7 @@ module.exports = app => {
       newDate.pending=pending;
       newDate.createdBy=createdBy;
       newDate.createdByID=createdByID;
+      newDate.requestDate;
       newDate.save((err, user) => {
         if (err) {
           return res.send ({

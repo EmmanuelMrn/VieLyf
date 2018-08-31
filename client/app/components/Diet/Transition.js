@@ -108,15 +108,23 @@ GetMyClients(CurrentUserId){
 }
 
 GetMyClientsUser(ClientsId,CurrentUserId){
+  console.log(this.state.currentUserId)
   fetch('/api/accounts/GetMyClientsUser?Clients='+ClientsId, {method:'GET'})
   .then(res => res.json())
   .then (Registered=> {
-    if (Registered.data == null){
+    console.log('entramos')
+    console.log(Registered)
+    if (Registered.err){
       fetch('/api/account/GetClientsUnregistered/'+CurrentUserId, {method:'GET'})
       .then(res => res.json())
       .then (Unregistered=> {
+        console.log('seguimos')
+        console.log(Unregistered)
           this.setState({
             clientsData:Unregistered
+          }, function() {
+            console.log('alternativa')
+            console.log(this.state.clientsData)
           });
       });
     }
@@ -126,6 +134,9 @@ GetMyClientsUser(ClientsId,CurrentUserId){
       .then (Unregistered=> {
           this.setState({
             clientsData:Registered.concat(Unregistered)
+          }, function() {
+            console.log('salimos')
+            console.log(this.state.clientsData)
           });
       });
     }
@@ -243,7 +254,7 @@ return(
                    <div className="card-body text-center">
                        <img
                          className=" img-fluid mt-5"
-                         src="https://i.pinimg.com/originals/2b/be/83/2bbe83c41babaf761466774be9e52a13.png"
+                         src="http://getdrawings.com/img/user-silhouette-icon-2.png"
                          alt="card image"
                        />
                        <br />

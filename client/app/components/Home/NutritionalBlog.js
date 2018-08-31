@@ -19,8 +19,7 @@ class NutritionalBlog extends Component {
         />
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" />
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" />
-
-        <section className="banner-section" />
+        <section className="image-section" />
         <div className="col-lg-12 col-md-12 col-sm-12 post-title-block">
           <h1 className="text-center">Nutritional Blog</h1>
           <ul className="list-inline text-center">
@@ -103,7 +102,7 @@ class NutritionalBlog extends Component {
             <div className="col-xs-12 col-sm-6 col-md-4">
               <div
                 className="image-flip"
-                ontouchstart="this.classList.toggle('hover');"
+                onTouchStart="this.classList.toggle('hover');"
               >
                 <div className="mainflip">
                   <div className="frontside">
@@ -121,7 +120,7 @@ class NutritionalBlog extends Component {
 
                           Web developer and Product Owner for Vielyf proyect
                         </p>
-                        <a href="#" class="btn btn-primary btn-sm">
+                        <a href="#" className="btn btn-primary btn-sm">
                           <i className="fa fa-plus" />
 
                         </a>
@@ -185,7 +184,7 @@ class NutritionalBlog extends Component {
             </div>
 
 
-            <div class="col-xs-12 col-sm-6 col-md-4">
+            <div className="col-xs-12 col-sm-6 col-md-4">
               <div
                 className="image-flip"
                 ontouchstart="this.classList.toggle('hover');"
@@ -354,7 +353,7 @@ class NutritionalBlog extends Component {
             <div className="col-xs-12 col-sm-6 col-md-4">
               <div
                 className="image-flip"
-                ontouchstart="this.classList.toggle('hover');"
+                onTouchStart="this.classList.toggle('hover');"
               >
                 <div className="mainflip">
                   <div className="frontside">
@@ -461,7 +460,7 @@ class NutritionalBlog extends Component {
                           <br /> Senior Student at UABC
                         </p>
                         <a href="#" className="btn btn-primary btn-sm">
-                          <i class="fa fa-plus" />
+                          <i className="fa fa-plus" />
 
                         </a>
                       </div>

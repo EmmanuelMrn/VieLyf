@@ -47,22 +47,9 @@ class Login extends Component {
             this.setState({
               token,
               isLoading: false
-            });
-            if (localStorage.hasOwnProperty('email')) {
-              fetch('/api/account/isnutriologist?token='+localStorage.getItem('email'))
-              .then(res => res.json())
-              .then(isnutriologit => {
-                if(isnutriologit.success){
-                  window.location=('/vistanutriologo');
-                } else {
-                  window.location=('/vistacliente');
-                }
-              });
-            } else {
-              this.setState({
-                isLoading: false,
-              });
-            }  
+            }.then(() => {
+              window.location=('/vistaprincipal')
+            }));
           }
       });
     } else {
@@ -70,6 +57,12 @@ class Login extends Component {
         isLoading: false,
       });
     }
+    fetch('/api/account/getuseremail?token='+localStorage.getItem('email'), {method:'GET'})
+        .then(res => res.json())
+        .then(userdata => {
+          localStorage.setItem('Client_ID', userdata[0]._id);  
+          localStorage.setItem('ClientFirst', userdata[0].FirstName);  
+      });
   }
 
   onLogin() {
@@ -97,7 +90,7 @@ class Login extends Component {
           setInStorage("El_token", {token:json.token} );
           this.setState({
             loginError: json.message,
-            isLoading: false,
+            isLoading: false, 
             loginPassword: "",
             token: json.token
           });
@@ -106,26 +99,53 @@ class Login extends Component {
             .then(json1 => {
               if (json1.success) {
                 localStorage.setItem("Auth", loginEmail);
-                window.location = "/vistanutriologo";
-                localStorage.setItem("Rol", "Nutriologo");
-              } else {
                 fetch('/api/account/getuseremail?token='+loginEmail)
                 .then(res => res.json())
                 .then(json2 => {
+                  localStorage.setItem('Client_id', json2[0]._id);
+                  localStorage.setItem('ClientLast', json2[0].LastName);
+                  localStorage.setItem('ClientFirst', json2[0].FirstName);
+                }).then(() => {
+                  localStorage.setItem("Rol", "Nutriologo");
+                  window.location = "/vistaprincipal";
+                  
+                })
+              } else {
+                console.log('Login Email')
+                console.log(loginEmail)
+                fetch('/api/account/getuseremail?token='+loginEmail)
+                .then(res => res.json())
+                .then(json2 => {
+                  console.log('user email')
+                  console.log(json2[0]._id)
+                  localStorage.setItem('ClientLast', json2[0].LastName)
+                  localStorage.setItem('ClientFirst', json2[0].FirstName)
+                  localStorage.setItem('Client_id', json2[0]._id)
                   fetch('/api/accounts/getuser?token='+json2[0]._id)
                   .then(res => res.json())
                   .then(json3 => {
-                    fetch('/api/account/getuserbyid?token='+json3.doc.Nutritionist_id)
-                    .then(res => res.json())
-                    .then(json4 => {
-                    localStorage.setItem('AssignedNutriologist', json4[0].Email)
-                    localStorage.setItem('clientID', json2[0]._id);
-                  
-                    })
+                    if (json3.doc != null) {
+                      console.log('getuser')
+                      console.log(json3.doc.Nutritionist_id)
+                      fetch('/api/account/getuserbyid?token='+json3.doc.Nutritionist_id)
+                      .then(res => res.json())
+                      .then(json4 => {
+                      console.log('user by id');
+                      console.log(json4[0].Email)
+                      localStorage.setItem('AssignedNutriologist', json4[0].Email)
+                      localStorage.setItem('clientID', json2[0]._id);
+                    
+                      }).then( ()=> {
+                        localStorage.setItem('Rol', 'Cliente');  
+                        window.location=('/vistaprincipal');
+                      })
+                    } else {
+                      console.log('yei')
+                      localStorage.setItem('Rol', 'Cliente');  
+                      window.location=('/vistaprincipal');
+                    }
                   })       
                 })
-                localStorage.setItem('Rol', 'Cliente');  
-                window.location=('/vistacliente');
               }
             });
         } else {
@@ -163,11 +183,6 @@ class Login extends Component {
         <h2 className="text-center" style={{color: 'red'}}>{loginError}</h2>
       )
     }
-
-    // if (!token) {
-    //   return (
-    //   );
-    // }
 
     return (
       <div>
