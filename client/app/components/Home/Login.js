@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import "whatwg-fetch";
-import { Link } from "react-router-dom";
+
 var vista = "";
-import swal from 'sweetalert2';
+
 import { getFromStorage, setInStorage } from "../../utils/storage";
 
 class Login extends Component {
