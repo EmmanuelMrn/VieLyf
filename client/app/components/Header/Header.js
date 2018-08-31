@@ -165,8 +165,6 @@ class Header extends Component {
       .then(json1 => {
         this.setState({
           items : json1,
-        }, function() {
-          console.log(this.state.items)
         });
       });
     fetch('/api/account/getnotifications?token=' + localStorage.getItem("Client_id"), {method:'GET'})
@@ -276,9 +274,13 @@ class Header extends Component {
     localStorage.removeItem('Rol');
     localStorage.removeItem('clientID');
     localStorage.removeItem('AssignedNutriologist');
-    //localStorage.removeItem('ClientLast', json2[0].LastName);
-    //localStorage.removeItem('ClientFirst', json2[0].FirstName);
-    //localStorage.removeItem('Client_id', json2[0]._id);
+    /*
+    localStorage.removeItem('ClientLast', json2[0].LastName)
+    localStorage.removeItem('ClientFirst', json2[0].FirstName)
+    localStorage.removeItem('Client_id', json2[0]._id).then(
+      window.location=('/login')
+    )
+    */
     window.location=('/login');
     alertify.warning("Closed session");
   }

@@ -102,7 +102,7 @@ class NutritionalBlog extends Component {
             <div className="col-xs-12 col-sm-6 col-md-4">
               <div
                 className="image-flip"
-                ontouchstart="this.classList.toggle('hover');"
+                onTouchStart="this.classList.toggle('hover');"
               >
                 <div className="mainflip">
                   <div className="frontside">
@@ -120,7 +120,7 @@ class NutritionalBlog extends Component {
 
                           Web developer and Product Owner for Vielyf proyect
                         </p>
-                        <a href="#" class="btn btn-primary btn-sm">
+                        <a href="#" className="btn btn-primary btn-sm">
                           <i className="fa fa-plus" />
 
                         </a>
@@ -184,7 +184,7 @@ class NutritionalBlog extends Component {
             </div>
 
 
-            <div class="col-xs-12 col-sm-6 col-md-4">
+            <div className="col-xs-12 col-sm-6 col-md-4">
               <div
                 className="image-flip"
                 ontouchstart="this.classList.toggle('hover');"
@@ -353,7 +353,7 @@ class NutritionalBlog extends Component {
             <div className="col-xs-12 col-sm-6 col-md-4">
               <div
                 className="image-flip"
-                ontouchstart="this.classList.toggle('hover');"
+                onTouchStart="this.classList.toggle('hover');"
               >
                 <div className="mainflip">
                   <div className="frontside">
@@ -460,7 +460,7 @@ class NutritionalBlog extends Component {
                           <br /> Senior Student at UABC
                         </p>
                         <a href="#" className="btn btn-primary btn-sm">
-                          <i class="fa fa-plus" />
+                          <i className="fa fa-plus" />
 
                         </a>
                       </div>
