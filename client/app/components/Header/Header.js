@@ -203,7 +203,7 @@ class Header extends Component {
   onDelete() {
     const { signUpEmail } = this.state;
     fetch("/api/account/deleteaccount?token=" + signUpEmail + "");
-    this.toggleModal();
+    this.toggleModal(); 
     alertify.error("Your account was deleted");
   }
 
@@ -276,10 +276,10 @@ class Header extends Component {
     localStorage.removeItem('Rol');
     localStorage.removeItem('clientID');
     localStorage.removeItem('AssignedNutriologist');
-    localStorage.removeItem('ClientLast', json2[0].LastName)
-    localStorage.removeItem('ClientFirst', json2[0].FirstName)
-    localStorage.removeItem('Client_id', json2[0]._id)
-    window.location=('/login')
+    //localStorage.removeItem('ClientLast', json2[0].LastName);
+    //localStorage.removeItem('ClientFirst', json2[0].FirstName);
+    //localStorage.removeItem('Client_id', json2[0]._id);
+    window.location=('/login');
     alertify.warning("Closed session");
   }
 
@@ -289,7 +289,7 @@ class Header extends Component {
       isActive,
       Nutriologist,
     } = this.state;
-    let Catalogue
+    let Catalogue;
     if (!localStorage.hasOwnProperty('AssignedNutriologist')) {
       Catalogue = (
         <li>
@@ -350,7 +350,7 @@ class Header extends Component {
                   >
                     Edit profile
                   </a>
-                    <a className="dropdown-item mydropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout} >Logout</a>       
+                    <a className="dropdown-item mydropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout}>Logout</a>       
                   </div>
                 </li>
               </ul>
@@ -394,43 +394,6 @@ class Header extends Component {
                   </div>
                 );
               })}
-              {this.state.notify.map(function(client) {
-                var datetime = new Date(client.date);
-                var monthMinusOneName = moment()
-                  .subtract(new Date(client.startDateTime).getMonth(), "month")
-                  .startOf("month")
-                  .format("MMMM");
-                return (
-                  <div
-                    style={{ color: "#fff", backgroundColor: "#66c383" }}
-                    key={client._id}
-                    className="news_item notibox"
-                  >
-                    <a>
-                      <h6 style={{ fontSize: ".9rem", textAlign: "center" }}>
-                        {monthMinusOneName +
-                          ", " +
-                          datetime.getDate() +
-                          " at " +
-                          datetime.getHours() +
-                          ":" +
-                          datetime.getMinutes()}
-                      </h6>
-                    </a>
-                    <a>
-                      <h5>{client.title}</h5>
-                    </a>
-                    <a>
-                      <h6>{client.text}</h6>
-                    </a>
-                    <div
-                      style={{ marginRight: "30px" }}
-                      className="cancel"
-                      onClick={function aceptar() {
-                        fetch(
-                          "/api/account/removenotification?token=" + client._id
-                        )
-                    })}
                     { this.state.notify.map(function(client){
                       var datetime = new Date(client.date)
                       var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
@@ -451,7 +414,7 @@ class Header extends Component {
                           )
                     })}
                     </div>
-               </div>
+                  </div>
               <div id="wrapper">
                 <div id="sidebar-wrapper">
                   <ul className="sidebar-nav">
@@ -460,7 +423,7 @@ class Header extends Component {
                               Profile
                           </a>
                       </li>
-                      <ul style={{ listStyleType: "none", padding: 0 }}>
+                  <ul style={{ listStyleType: "none", padding: 0 }}>
                   <li>
                     <Link
                       id="chart"
@@ -471,8 +434,13 @@ class Header extends Component {
                     </Link>
                   </li>
                   <li>
+                    <Link to="/diet" onClick={$("#menu-toggle").click()}>
+                      Diet
+                    </Link>
+                  </li>
+                  <li>
                     <Link to="/agenda" onClick={$("#menu-toggle").click()}>
-                      Diet Calendar
+                      Calendar
                     </Link>
                   </li>
                   <li>
@@ -497,32 +465,24 @@ class Header extends Component {
                     >
                       Nutriologist Catalogue
                     </Link>
-                    </ul>
-                  </ul>
-                </div>
-              </div>  
-            </header>
+                  </li>
+                </ul>
+              </ul>
+            </div>
+          </div>  
+        </header>
       )
     } else if (isActive && localStorage.getItem('Rol')=="Nutriologo") {
       return (
         <header>
           <nav className="navbar navbar-expand navbar-dark bg-dark static-top">
-            <a className="navbar-brand mr-1" href="/">
-              VieLyf
-            </a>
-            <a
-              href="#menu-toggle"
-              style={{ transition: "" }}
-              className="btn"
-              id="menu-toggle"
-              onClick={function(e) {
-                e.preventDefault();
-                $("#wrapper").toggleClass("toggled");
-              }}
-            >
-              <i className="fa fa-bars" />
-            </a>
-            <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+            <a className="navbar-brand mr-1" href="/">VieLyf</a>
+            <a href="#menu-toggle" style={{transition: ''}} className="btn" id="menu-toggle" 
+            onClick={ function(e) {
+              e.preventDefault();
+              $("#wrapper").toggleClass("toggled")
+              } }><i className="fa fa-bars" ></i></a>
+              <form className="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
               <div className="input-group">
                 <input
                   style={{ border: "1px solid #fff" }}
@@ -537,44 +497,26 @@ class Header extends Component {
                 <div className="input-group-append">{this.ActionLink()}</div>
               </div>
             </form>
-            <a
-              style={{ color: "#0676f8" }}
-              className="btn"
-              onClick={function(e) {
-                $(".sidebar").toggleClass("active");
-              }}
-            >
-              <i style={{ color: "#0676f8" }} className="fa fa-bell" />
-            </a>
-            <ul className="navbar-nav ml-auto ml-md-0">
-              <li className="nav-item dropdown no-arrow">
-                <a
-                  style={{ color: "#0676f8" }}
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  id="userDropdown"
-                  role="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                >
-                  <i className="fa fa-user-circle fa-fw" />
-                </a>
-                <div
-                  style={{}}
-                  className="dropdown-menu mydropdown"
-                  aria-labelledby="userDropdown"
-                >
-                  <a
-                    className="dropdown-item mydropdown-item"
-                    href="#"
-                    data-toggle="modal"
-                    data-target="#editProfileModal"
-                    onClick={this.onEditProfile}
-                  >
-                    Edit profile
+              <a style={{color:'#0676f8'}} className="btn" onClick={
+                      function(e) {
+                            $(".sidebar").toggleClass('active');
+                        }
+                    } ><i style={{color:'#0676f8'}} className="fa fa-bell"></i></a>
+              <ul className="navbar-nav ml-auto ml-md-0">
+                <li className="nav-item dropdown no-arrow">
+                  <a style={{color:'#0676f8'}} className="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i className="fa fa-user-circle fa-fw"></i>
                   </a>
                   <div style={{}} className="dropdown-menu mydropdown" aria-labelledby="userDropdown">
+                    <a
+                      className="dropdown-item mydropdown-item"
+                      href="#"
+                      data-toggle="modal"
+                      data-target="#editProfileModal"
+                      onClick={this.onEditProfile}
+                    >
+                      Edit profile
+                    </a>
                     <a className="dropdown-item mydropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout} >Logout</a>       
                   </div>
                 </li>
@@ -664,6 +606,23 @@ class Header extends Component {
                       
                       var datetime = new Date(client.date)
                       var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
+                      if (client.ref == '/transition') {
+                        return (
+                          <div style={{color: '#fff', backgroundColor:"#ff00e3"}} key={client._id} className="news_item notibox">
+                              <a><h6 style={{fontSize: ".9rem", textAlign: 'center'}}>{monthMinusOneName +", "+ datetime.getDate() + " at "+ datetime.getHours() +":"+ datetime.getMinutes()}</h6></a>
+                              <a><h5>{client.title}</h5></a>
+                              <a><h6>{client.text}</h6></a>
+                              <div style={{marginRight: '30px'}} className="cancel" onClick={function aceptar() {
+                                fetch('/api/account/removenotification?token='+client._id)
+                              }}>✓</div>
+                              <div className="cancel" onClick={function aceptar() {
+                                fetch('/api/account/removenotification?token='+client._id).then(() => {
+                                  window.location=(client.ref)
+                                })
+                              }}>↱</div>                           
+                          </div>
+                        )
+                      } else {
                         return( 
                           <div style={{color: '#fff', backgroundColor:"#66c383"}} key={client._id} className="news_item notibox">
                               <a><h6 style={{fontSize: ".9rem", textAlign: 'center'}}>{monthMinusOneName +", "+ datetime.getDate() + " at "+ datetime.getHours() +":"+ datetime.getMinutes()}</h6></a>
@@ -679,129 +638,38 @@ class Header extends Component {
                               }}>↱</div>                           
                           </div>
                           )
-                        );
-                      }}
-                    >
-                      ✓
+                      }
+                    })}
                     </div>
-                    <div
-                      className="cancel"
-                      onClick={function aceptar() {
-                        fetch("/api/account/deleteagenda?token=" + client._id);
-                        fetch("/api/account/createnotification", {
-                          method: "POST",
-                          headers: {
-                            "Content-Type": "application/json"
-                          },
-                          body: JSON.stringify({
-                            text:
-                              "Your appointment for " +
-                              new Date(client.startDateTime).getDate() +
-                              " of " +
-                              monthMinusOneName +
-                              " at " +
-                              new Date(client.startDateTime).getHours() +
-                              new Date(client.startDateTime).getMinutes() +
-                              " have been rejected",
-                            ref: "/agenda",
-                            date: new Date(),
-                            from: localStorage.getItem("clientID"),
-                            to: client.createdByID,
-                            title: "Your nutriologist says"
-                          })
-                        });
-                      }}
-                    >
-                      ✕
-                    </div>
-                  </div>
-                );
-              })}
-              {this.state.notify.map(function(client) {
-                var datetime = new Date(client.date);
-                var monthMinusOneName = moment()
-                  .subtract(new Date(client.startDateTime).getMonth(), "month")
-                  .startOf("month")
-                  .format("MMMM");
-                return (
-                  <div
-                    style={{ color: "#fff", backgroundColor: "#66c383" }}
-                    key={client._id}
-                    className="news_item notibox"
-                  >
-                    <a>
-                      <h6 style={{ fontSize: ".9rem", textAlign: "center" }}>
-                        {monthMinusOneName +
-                          ", " +
-                          datetime.getDate() +
-                          " at " +
-                          datetime.getHours() +
-                          ":" +
-                          datetime.getMinutes()}
-                      </h6>
-                    </a>
-                    <a>
-                      <h5>{client.title}</h5>
-                    </a>
-                    <a>
-                      <h6>{client.text}</h6>
-                    </a>
-                    <div
-                      style={{ marginRight: "30px" }}
-                      className="cancel"
-                      onClick={function aceptar() {
-                        fetch(
-                          "/api/account/removenotification?token=" + client._id
-                        );
-                      }}
-                    >
-                      ✓
-                    </div>
-                    <div
-                      className="cancel"
-                      onClick={function aceptar() {
-                        fetch(
-                          "/api/account/removenotification?token=" + client._id
-                        ).then(() => {
-                          window.location = client.ref;
-                        });
-                      }}
-                    >
-                      ↱
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-          <div id="wrapper">
-            <div id="sidebar-wrapper">
-              <ul className="sidebar-nav">
-                <li className="sidebar-brand">
-                  <a href="/vistaprincipal">Profile</a>
-                </li>
-                <ul style={{ listStyleType: "none", padding: 0 }}>
-                  <li>
-                    <Link to="/transition" onClick={$("#menu-toggle").click()}>
-                      Clients
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/agenda" onClick={$("#menu-toggle").click()}>
-                      Diary
-                    </Link>
-                  </li>
-                  <li>
-                    <Link id="" to="" onClick={$("#menu-toggle").click()}>
-                      Calendar
-                    </Link>
-                  </li>
-                </ul>
-              </ul>
-            </div>
-          </div>
-        </header>
-      );
+               </div>
+               <div id="wrapper">
+               <div id="sidebar-wrapper">
+                 <ul className="sidebar-nav">
+                   <li className="sidebar-brand">
+                     <a href="/vistaprincipal">Profile</a>
+                   </li>
+                   <ul style={{ listStyleType: "none", padding: 0 }}>
+                     <li>
+                       <Link to="/transition" onClick={$("#menu-toggle").click()}>
+                         Clients
+                       </Link>
+                     </li>
+                     <li>
+                       <Link to="/agenda" onClick={$("#menu-toggle").click()}>
+                         Diary
+                       </Link>
+                     </li>
+                     <li>
+                       <Link id="" to="" onClick={$("#menu-toggle").click()}>
+                         Calendar
+                       </Link>
+                     </li>
+                   </ul>
+                 </ul>
+               </div>
+             </div> 
+            </header>
+      )
     } else {
       return (
         <header>

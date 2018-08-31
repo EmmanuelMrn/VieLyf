@@ -107,7 +107,7 @@ class Login extends Component {
                   localStorage.setItem('ClientFirst', json2[0].FirstName);
                 }).then(() => {
                   localStorage.setItem("Rol", "Nutriologo");
-                  window.location = "/vistanutriologo";
+                  window.location = "/vistaprincipal";
                   
                 })
               } else {
