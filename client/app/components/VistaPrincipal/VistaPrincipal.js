@@ -156,10 +156,6 @@ class VistaPrincipal extends Component {
   }
 
   componentDidMount() {
-    console.log("============="); 
-    console.log(localStorage.getItem("Auth"));
-    console.log(localStorage.getItem("Client_id"));
-    console.log("=============");
     const obj = getFromStorage("the_main_app");
     if (obj && obj.token) {
       const { token } = obj;

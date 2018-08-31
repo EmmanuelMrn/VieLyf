@@ -111,11 +111,10 @@ class Header extends Component {
     localStorage.removeItem('Rol');
     localStorage.removeItem('clientID');
     localStorage.removeItem('AssignedNutriologist');
-    localStorage.removeItem('ClientLast', json2[0].LastName)
-    localStorage.removeItem('ClientFirst', json2[0].FirstName)
-    localStorage.removeItem('Client_id', json2[0]._id).then(
-      window.location=('/logim')
-    )
+    localStorage.removeItem('ClientLast')
+    localStorage.removeItem('ClientFirst')
+    localStorage.removeItem('Client_id')
+      window.location=('/login')
   }
   
   render() {
@@ -383,12 +382,70 @@ class Header extends Component {
                       var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
                       if (client.ref == '/transition') {
                         return (
-                          <div style={{color: '#fff', backgroundColor:"#ff00e3"}} key={client._id} className="news_item notibox">
+                          <div style={{color: '#fff', backgroundColor:"#9e098e"}} key={client._id} className="news_item notibox">
                               <a><h6 style={{fontSize: ".9rem", textAlign: 'center'}}>{monthMinusOneName +", "+ datetime.getDate() + " at "+ datetime.getHours() +":"+ datetime.getMinutes()}</h6></a>
                               <a><h5>{client.title}</h5></a>
                               <a><h6>{client.text}</h6></a>
                               <div style={{marginRight: '30px'}} className="cancel" onClick={function aceptar() {
                                 fetch('/api/account/removenotification?token='+client._id)
+                                fetch('/api/account/relationup', {
+                                  method: 'POST',
+                                  headers: {
+                                    'Content-Type': 'application/json'
+                                  },
+                                  body: JSON.stringify({
+                                    "Client_id": client.from,
+	                                  "Nutritionist_id": localStorage.getItem('')
+                                  })
+                                }).then(res => res.json())
+                                .then(json => {
+                                  if (json.success) {
+                                    fetch("/api/account/createnotification", {
+                                      method: "POST",
+                                      headers: {
+                                        "Content-Type": "application/json"
+                                      },
+                                      body: JSON.stringify({
+                                        text: "you have been accepted as a client! Start making a new appointment!",
+                                        ref: "/agenda",
+                                        date: new Date(),
+                                        from: localStorage.getItem('clientID'),
+                                        to: client.from,
+                                        title: "Congratulations!",
+                                      })
+                                    }).then(
+                                      fetch("/api/account/createnotification", {
+                                        method: "POST",
+                                        headers: {
+                                          "Content-Type": "application/json"
+                                        },
+                                        body: JSON.stringify({
+                                          text: "Your appointment for "+ new Date(client.startDateTime).getDate() + " of " + monthMinusOneName + " at " + new Date(client.startDateTime).getHours() + ":" + minutes +" have been not accepted (REQUEST NEVER ATTENDED)",
+                                          ref: "/agenda",
+                                          date: new Date(),
+                                          from: '',
+                                          to: localStorage.getItem('clientID'),
+                                          title: "Your nutriologist says",
+                                        })
+                                      })
+                                    )
+                                  } else {
+                                    fetch("/api/account/createnotification", {
+                                      method: "POST",
+                                      headers: {
+                                        "Content-Type": "application/json"
+                                      },
+                                      body: JSON.stringify({
+                                        text: "We cant create this relation, sorry!",
+                                        ref: "#",
+                                        date: new Date(),
+                                        from: client.from,
+                                        to: localStorage.getItem('clientID'),
+                                        title: "Uups!",
+                                      })
+                                    })
+                                  }
+                                })
                               }}>✓</div>
                               <div className="cancel" onClick={function aceptar() {
                                 fetch('/api/account/removenotification?token='+client._id).then(() => {
