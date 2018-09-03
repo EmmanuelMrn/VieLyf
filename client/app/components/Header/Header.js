@@ -39,7 +39,8 @@ class Header extends Component {
   }
 
   componentDidMount() {
-    
+    console.log(localStorage.hasOwnProperty('AssignedNutriologist'))
+    console.log(localStorage.getItem('AssignedNutriologist'))
     this.updatethings();
     if (localStorage.hasOwnProperty('the_main_app')) {
       this.setState({isActive: true}, 
@@ -123,6 +124,12 @@ class Header extends Component {
       isActive,
       Nutriologist,
     } = this.state;
+    let user; 
+    if (localStorage.hasOwnProperty('ClientLast')) {
+      user = localStorage.getItem('ClientFirst') + " " + localStorage.getItem('ClientLast');
+    } else {
+      user = "Usuario"
+    }
 
     let Catalogue
     if (!localStorage.hasOwnProperty('AssignedNutriologist')) {
@@ -159,6 +166,7 @@ class Header extends Component {
                   </div>
                 </div>
               </form>
+              <a><h6 style={{color: '#fff', marginRight: '5px', marginTop:'6px'}}>{user}</h6></a>
               <a style={{color:'#0676f8'}} className="toggle" onClick={
                 function(e) {
                   $(".sidebar").toggleClass('active');
@@ -214,21 +222,41 @@ class Header extends Component {
                     { this.state.notify.map(function(client){
                       var datetime = new Date(client.date)
                       var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
-                        return( 
-                          <div style={{color: '#fff', backgroundColor:"#66c383"}} key={client._id} className="news_item notibox">
-                              <a><h6 style={{fontSize: ".9rem", textAlign: 'center'}}>{monthMinusOneName +", "+ datetime.getDate() + " at "+ datetime.getHours() +":"+ datetime.getMinutes()}</h6></a>
-                              <a><h5>{client.title}</h5></a>
-                              <a><h6>{client.text}</h6></a>
-                              <div style={{marginRight: '30px'}} className="cancel" onClick={function aceptar() {
-                                fetch('/api/account/removenotification?token='+client._id)
-                              }}>✓</div>
-                              <div className="cancel" onClick={function aceptar() {
-                                fetch('/api/account/removenotification?token='+client._id).then(() => {
-                                  window.location=(client.ref)
-                                })
-                              }}>↱</div>                           
-                          </div>
-                          )
+                        if (client.text == "you have been accepted as a client! Start making a new appointment!") {
+                          return( 
+                            <div style={{color: '#fff', backgroundColor:"#66c383"}} key={client._id} className="news_item notibox">
+                                <a><h6 style={{fontSize: ".9rem", textAlign: 'center'}}>{monthMinusOneName +", "+ datetime.getDate() + " at "+ datetime.getHours() +":"+ datetime.getMinutes()}</h6></a>
+                                <a><h5>{client.title}</h5></a>
+                                <a><h6>{client.text}</h6></a>
+                                <div style={{marginRight: '30px'}} className="cancel" onClick={function aceptar() {
+                                  localStorage.setItem('AssignedNutriologist', client.from)
+                                  fetch('/api/account/removenotification?token='+client._id)
+                                }}>✓</div>
+                                <div className="cancel" onClick={function aceptar() {
+                                  localStorage.setItem('AssignedNutriologist', client.from)
+                                  fetch('/api/account/removenotification?token='+client._id).then(() => {
+                                    window.location=(client.ref)
+                                  })
+                                }}>↱</div>                           
+                            </div>
+                            )
+                        } else {
+                          return( 
+                            <div style={{color: '#fff', backgroundColor:"#66c383"}} key={client._id} className="news_item notibox">
+                                <a><h6 style={{fontSize: ".9rem", textAlign: 'center'}}>{monthMinusOneName +", "+ datetime.getDate() + " at "+ datetime.getHours() +":"+ datetime.getMinutes()}</h6></a>
+                                <a><h5>{client.title}</h5></a>
+                                <a><h6>{client.text}</h6></a>
+                                <div style={{marginRight: '30px'}} className="cancel" onClick={function aceptar() {
+                                  fetch('/api/account/removenotification?token='+client._id)
+                                }}>✓</div>
+                                <div className="cancel" onClick={function aceptar() {
+                                  fetch('/api/account/removenotification?token='+client._id).then(() => {
+                                    window.location=(client.ref)
+                                  })
+                                }}>↱</div>                           
+                            </div>
+                            )
+                        }
                     })}
                     </div>
                </div>
@@ -395,7 +423,7 @@ class Header extends Component {
                                   },
                                   body: JSON.stringify({
                                     "Client_id": client.from,
-	                                  "Nutritionist_id": localStorage.getItem('')
+	                                  "Nutritionist_id": localStorage.getItem('Client_id')
                                   })
                                 }).then(res => res.json())
                                 .then(json => {
@@ -409,7 +437,7 @@ class Header extends Component {
                                         text: "you have been accepted as a client! Start making a new appointment!",
                                         ref: "/agenda",
                                         date: new Date(),
-                                        from: localStorage.getItem('clientID'),
+                                        from: localStorage.getItem('email'),
                                         to: client.from,
                                         title: "Congratulations!",
                                       })
