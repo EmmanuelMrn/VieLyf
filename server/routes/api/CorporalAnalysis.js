@@ -26,7 +26,8 @@ module.exports=(app) => {
         FatFreeMass,
         TotalEnergyExpenditure,
         EquivalentBiologicalAge,
-        BodyType
+        BodyType,
+        NotRegistered
 
         }= body;
        
@@ -259,10 +260,7 @@ module.exports=(app) => {
         if(err)
         {
             console.log(err);
-            return res.send({
-                succes:false,
-                message:"Error:server error"
-            });
+            return res.json(null)
         }
         else
         {   console.log(doc);
