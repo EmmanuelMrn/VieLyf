@@ -128,7 +128,7 @@ render()
                       </div>
                     </div>
                   </div>
-                  <div className="backside">
+                  <div style={{minWidth: '348px'}} className="backside">
                     <div className="card">
                       <div className="card-body text-center mt-4">
                         <h4 className="card-title">About me.</h4>
