@@ -39,8 +39,6 @@ class Header extends Component {
   }
 
   componentDidMount() {
-    console.log(localStorage.hasOwnProperty('AssignedNutriologist'))
-    console.log(localStorage.getItem('AssignedNutriologist'))
     this.updatethings();
     if (localStorage.hasOwnProperty('the_main_app')) {
       this.setState({isActive: true}, 
@@ -468,7 +466,7 @@ class Header extends Component {
                                         ref: "#",
                                         date: new Date(),
                                         from: client.from,
-                                        to: localStorage.getItem('clientID'),
+                                        to: localStorage.getItem('Client_id'),
                                         title: "Uups!",
                                       })
                                     })
