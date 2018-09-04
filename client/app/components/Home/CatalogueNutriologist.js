@@ -77,6 +77,7 @@ class CatalogueNutriologist extends Component {
  
 render()
 {
+   
   //This is used to convert the Nutritionist constant from a JSON to an Array
   var Nutritionists = Array.from(this.state.Nutritionists);
   //console.log(this.toggleModal);
@@ -168,26 +169,29 @@ render()
                             </a>
                           </li>
                         </ul>
-                       <button style={{borderRadius: '5rem'}} className="btn btn-dark" onClick={
-                         function() {
-                           if (localStorage.hasOwnProperty('email')) {
-                            fetch("/api/account/createnotification", {
-                              method: "POST",
-                              headers: {
-                                "Content-Type": "application/json"
-                              },
-                              body: JSON.stringify({
-                                text: localStorage.getItem('ClientFirst') + " " + localStorage.getItem('ClientLast') + " will be happy to have you as Nutricionist.",
-                                ref: "/transition",
-                                date: new Date(),
-                                from: localStorage.getItem('Client_id'),
-                                to: nutritionist._id,
-                                title: localStorage.getItem('ClientFirst') + " wants to work with you!",
+                          
+                        <button style={{borderRadius: '5rem'}} className="btn btn-dark" onClick={
+                          function() {
+                            if (!localStorage.hasOwnProperty('AssignedNutriologist')) {
+                              fetch("/api/account/createnotification", {
+                                method: "POST",
+                                headers: {
+                                  "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({
+                                  text: localStorage.getItem('ClientFirst') + " " + localStorage.getItem('ClientLast') + " will be happy to have you as Nutricionist.",
+                                  ref: "/transition",
+                                  date: new Date(),
+                                  from: localStorage.getItem('Client_id'),
+                                  to: nutritionist._id,
+                                  title: localStorage.getItem('ClientFirst') + " wants to work with you!",
+                                })
                               })
-                            })
-                           } 
-                         }
-                       }>I want you!</button>
+
+                            }
+                            
+                          }
+                        }>I want you!</button>
                       </div>
                     </div>
                   </div>

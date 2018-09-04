@@ -69,39 +69,39 @@ class VistaPrincipal extends Component {
   */
 
   componentDidMount() {
-    console.log(localStorage.getItem("Auth"));
-    console.log(localStorage.getItem("Client_id"));
-    console.log(localStorage.getItem('ClientInfo'))
-    console.log(localStorage.getItem('clientID'));
-    var UserNameRequest=(window.location.pathname).slice(9);
-    this.UserProfile(UserNameRequest);
-    fetch("/api/account/getuserbyid?token=5b5f3bbe15c2a80434feb939",//+localStorage.getItem('clientID'),
-  {method:'GET'})
-  .then(res => res.json())
-  .then(json=>{
-    this.setState({
-      Name:json[0].FirstName,
-      Age:json[0].Phone,
+  //   console.log(localStorage.getItem("Auth"));
+  //   console.log(localStorage.getItem("Client_id"));
+  //   console.log(localStorage.getItem('ClientInfo'))
+  //   console.log(localStorage.getItem('clientID'));
+  //   var UserNameRequest=(window.location.pathname).slice(9);
+  //   this.UserProfile(UserNameRequest);
+  //   fetch("/api/account/getuserbyid?token=5b5f3bbe15c2a80434feb939",//+localStorage.getItem('clientID'),
+  // {method:'GET'})
+  // .then(res => res.json())
+  // .then(json=>{
+  //   this.setState({
+  //     Name:json[0].FirstName,
+  //     Age:json[0].Phone,
 
-    })
-  })
-    console.log(localStorage.getItem('AssignedNutriologist'))
-    console.log(localStorage.getItem("Rol"));
-    if (localStorage.getItem("Rol") == "Nutriologo") {
-      console.log("true nutriologo");
-      fetch(
-        "/api/account/agendaarrayaproved?token=" + localStorage.getItem("Auth"),
-        { method: "GET" }
-      )
-        .then(res => res.json())
-        .then(json1 => {
-          this.setState({
-            items: json1
-          });
-        });
-    } else {
-      console.log(this.state.isActive);
-    }
+  //   })
+  // })
+  //   console.log(localStorage.getItem('AssignedNutriologist'))
+  //   console.log(localStorage.getItem("Rol"));
+  //   if (localStorage.getItem("Rol") == "Nutriologo") {
+  //     console.log("true nutriologo");
+  //     fetch(
+  //       "/api/account/agendaarrayaproved?token=" + localStorage.getItem("Auth"),
+  //       { method: "GET" }
+  //     )
+  //       .then(res => res.json())
+  //       .then(json1 => {
+  //         this.setState({
+  //           items: json1
+  //         });
+  //       });
+  //   } else {
+  //     console.log(this.state.isActive);
+  //   }
     const obj = getFromStorage("the_main_app");
     if (obj && obj.token) {
       const { token } = obj;
