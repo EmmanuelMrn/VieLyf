@@ -8,7 +8,6 @@ module.exports = (app) => {
   app.post("/api/account/createemail", (req, res, next) => {
     const { body } = req;
     const {
-        from,
         to,
         subject,
         tittle,
@@ -17,12 +16,7 @@ module.exports = (app) => {
         text3
     } = body
 
-    if (!from) {
-      return res.send({
-        success: false,
-        message: "Problem with the sender"
-      })
-    }
+    
     if (!to) {
       return res.send({
         success: false,
@@ -92,6 +86,31 @@ module.exports = (app) => {
         message: 'Error in the remitent'
       });
     }
+
+    var nodemailer = require('nodemailer');
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'vielyf@gmail.com',
+        pass: 'bootcamp2018'
+      }
+    });
+    
+    var mailOptions = {
+      from: 'vielyf@gmail.com',
+      to: to,
+      subject: tittle,
+      // text: 'That was easy!',
+      html: '<h1>' + tittle + '</h1><h3>' + text + '</h3><p> your date it' + "'" + 's for ' + Datetime + '</p><p>go to VieLyf.com</p>',
+      // attachments: [{ Embedded image: <img src="cid:unique@kreata.ee"/>
+      //     filename: 'image.png',
+      //     path: 'https://markmanson.net/wp-content/uploads/2016/07/happiness-cover.jpg',
+      //     cid: 'unique@kreata.ee' //same cid value as in the html img src 
+      // }]
+    };
+    
+    
+
     var Datetime = new Date();
     const NewNotification = new Notification()
 
@@ -108,10 +127,25 @@ module.exports = (app) => {
           message: 'Error'
         })
       }
-      return res.send({
-        success: true,
-          message: 'logrado'
+      transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+          console.log(error);
+          res.send ({
+            success: false,
+            message: 'Email not sent'
+          })
+        } else {
+          console.log('Email sent: ' + info.response);
+          res.send({
+            success: true,
+            message: "made it, and Email sent"
+          })
+        }
       });
+      // return res.send({
+      //   success: true,
+      //     message: 'logrado'
+      // });
     });
   });
 
