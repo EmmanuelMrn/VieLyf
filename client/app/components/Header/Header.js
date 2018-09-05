@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import "whatwg-fetch";
 import { Link } from "react-router-dom";
 import moment, { min } from "moment";
-import Modal from "react-modal";
-import { func } from 'prop-types';
 import { getFromStorage, setInStorage } from "../../utils/storage";
-
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
+import swal from 'sweetalert2';
 
 require("moment/locale/en-gb.js");
 
@@ -19,10 +18,6 @@ class Header extends Component {
       items:[],
       notify:[],
       Nutriologist:'',
-      isActiveModal: false,
-      showModal: false,
-      items: [],
-      notify: [],
       token: "",
       Name: "",
       Customers: [],
@@ -30,7 +25,8 @@ class Header extends Component {
       signUpPassword: "",
       signUpFirstName: "",
       signUpLastName: "",
-      isToggleOn: true
+      signUpPhone: "",
+      modal: false
     };
 
     this.inputsearch = this.inputsearch.bind(this);
@@ -41,7 +37,8 @@ class Header extends Component {
     this.updatethings = this.updatethings.bind(this);
     this.onEditProfile = this.onEditProfile.bind(this);
     this.onDelete = this.onDelete.bind(this);
-    this.toggleModal = this.toggleModal.bind(this);
+    this.toggle = this.toggle.bind(this);
+    this.handleClickSubmmit = this.handleClickSubmmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
@@ -77,7 +74,6 @@ class Header extends Component {
     );
   }
   inputsearch() {
-    console.log("search name " + this.state.Name);
     fetch("/api/account/searchClient?token=" + this.state.Name)
       .then(res => res.json())
       .then(json => {
@@ -124,14 +120,27 @@ class Header extends Component {
         window.location = "/ResultadoBusqueda";
       });
   }
+
+  toggle() {
+    this.setState({
+      modal: !this.state.modal
+    });
+  }
+  
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
     const name = target.name;
-
+  
     this.setState({
       [name]: value
     });
+  }
+  
+  handleClickSubmmit(e) {
+    e.preventDefault();
+    this.onEditProfile();
+    this.toggle();
   }
 
   componentDidMount() {
@@ -180,40 +189,38 @@ class Header extends Component {
       });
   }
 
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-
-    this.setState(
-      {
-        [name]: value
-      },
-      function() {}
-    );
-  }
-
-  toggleModal() {
-    this.setState({
-      isActiveModal: !this.state.isActive
-    });
-  }
-
   onDelete() {
-    const { signUpEmail } = this.state;
-    fetch("/api/account/deleteaccount?token=" + signUpEmail + "");
-    this.toggleModal(); 
+    var emailDelete = getFromStorage("email");
+    fetch("/api/account/deleteaccount?token=" + emailDelete + "");
     alertify.error("Your account was deleted");
   }
 
+  confirmDelete(){
+    swal({
+      title: 'Are you sure you want to delete your account?',
+      text: "You won't be able to revert this!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.value) {
+        alertify.warning("Account deleted");
+        setTimeout(function(){
+          window.location=('/');
+        }, 1200); 
+      }
+    })
+  }
+
   onEditProfile() {
-    this.toggleModal();
-    console.log(this.state.signUpEmail);
     const {
       signUpEmail,
       signUpFirstName,
       signUpLastName,
-      signUpPassword
+      signUpPassword,
+      signUpPhone
     } = this.state;
     fetch(
       "/api/account/editprofile?token=" +
@@ -224,6 +231,8 @@ class Header extends Component {
         signUpLastName +
         "&token4=" +
         signUpPassword +
+        "&token5=" +
+        signUpPhone +
         ""
     )
       .then(res => res.json())
@@ -233,13 +242,13 @@ class Header extends Component {
             token,
             isLoading: false
           });
+          alertify.success("Edited profile");
         } else {
           this.setState({
             isLoading: false
           });
         }
-      });
-    alertify.success("Edited profile");
+      }); 
   }
 
   logout() {
@@ -275,17 +284,15 @@ class Header extends Component {
     localStorage.removeItem('Rol');
     localStorage.removeItem('clientID');
     localStorage.removeItem('AssignedNutriologist');
-    
     localStorage.removeItem('ClientLast');
     localStorage.removeItem('ClientFirst');
     localStorage.removeItem('Client_id');
-    window.location=('/login');
     alertify.warning("Closed session");
+    window.location=('/login');
   }
 
   render() {
     const {
-      isLoading,
       isActive,
       Nutriologist,
     } = this.state;
@@ -336,7 +343,7 @@ class Header extends Component {
                 <div className="input-group-append">{this.ActionLink2()}</div>
               </div>
             </form>
-              <a><h6 style={{color: '#fff', marginRight: '5px', marginTop:'6px'}}>{user}</h6></a>
+              <a href="/vistaprincipal"><h6 style={{color: '#fff', marginRight: '5px', marginTop:'6px'}}>{user}</h6></a>
               <a style={{color:'#0676f8'}} className="toggle" onClick={
                 function(e) {
                   $(".sidebar").toggleClass('active');
@@ -349,24 +356,67 @@ class Header extends Component {
                     <i className="fa fa-user-circle fa-fw"></i>
                   </a>
                   <div className="dropdown-menu mydropdown" aria-labelledby="userDropdown">
-                    <a
-                    className="dropdown-item mydropdown-item"
-                    href="#"
-                    data-toggle="modal"
-                    data-target="#editProfileModal"
-                    onClick={this.onEditProfile}
-                  >
-                    Edit profile
-                  </a>
-                    <a className="dropdown-item mydropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout}>Logout</a>       
+                    <a className="dropdown-item mydropdown-item" href="" data-toggle="modal" onClick={this.toggle}>
+                      Edit profile
+                    </a>
+                    <a className="dropdown-item mydropdown-item" href="" data-toggle="modal" onClick={this.logout} >Logout</a>      
                   </div>
                 </li>
               </ul>
               </nav>
+
+              <Modal isOpen={this.state.modal} toggle={this.toggle}>
+              <ModalHeader toggle={this.toggle}>Edit profile</ModalHeader>
+              <ModalBody>
+                <form>
+                <div className="form-group">
+                    <label for="InputFirstName">First Name</label>
+                    <input type="text" className="form-control" 
+                    placeholder="Enter first name"
+                    name="signUpFirstName"
+                    value={this.state.signUpFirstName}
+                    onChange={this.handleInputChange}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label for="InputLastName">Last Name</label>
+                    <input type="text" className="form-control"  
+                    placeholder="Enter last name"
+                    name="signUpLastName"
+                    value={this.state.signUpLastName}
+                    onChange={this.handleInputChange}/>
+                  </div>
+                  <div className="form-group">
+                    <label for="InputPhone">Phone</label>
+                    <input type="number" className="form-control"  
+                    placeholder="+1 (555)555-5555"
+                    name="signUpPhone"
+                    value={this.state.signUpPhone}
+                    onChange={this.handleInputChange}/>
+                    <small id="phoneHelp" className="form-text text-muted">We'll never share your phone with anyone else.</small>
+                  </div>
+                  <div className="form-group">
+                    <label for="InputPassword">Password</label>
+                    <input type="password" className="form-control"  
+                    placeholder="Enter password"
+                    name="signUpPassword"
+                    value={this.state.signUpPassword}
+                    onChange={this.handleInputChange}
+                    />
+                  </div>
+                </form>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" onClick={this.handleClickSubmmit}>Submmit</Button>{' '}
+                <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+              </ModalFooter>
+                <Button color="btn btn-danger" onClick={this.confirmDelete}>Delete account</Button>
+              </Modal>
+
            <div className="sidebar">
                   <h2>Notifications</h2>
                   <div className="news_inner">
-                  { this.state.items.map(function(client, aceptar, negar, handleClick, isToggleOn){
+                  { this.state.items.map(function(client){
                     var dia = new Date(client.startDateTime).getDate();
                     var anio = new Date(client.startDateTime).getFullYear();
                     var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
@@ -378,7 +428,7 @@ class Header extends Component {
                             <a><h6>{"Con una duracion de "+moment.duration(diferencia, "hours").humanize()}</h6></a>
                             <button type="button" id='hide' name="" className="btn btn-dark" onClick={function aceptar() {
                               fetch("/api/account/editagenda?token="+client._id)
-                            }}>Aceptar</button>
+                            }}>Accept</button>
                             <button type="button" name="" className="btn btn-dark" onClick={function aceptar() {
                               fetch('/api/account/deleteagenda?token='+client._id)
                                 $(".cancel").click(function () {
@@ -386,7 +436,7 @@ class Header extends Component {
                                     $(this).parent().toggleClass('gone');
                                 });
                               
-                            }}>Denegar</button>
+                            }}>Deny</button>
                             <div className="cancel" onClick={
                       function(e) {
                         $(".cancel").click(function () {
@@ -517,6 +567,7 @@ class Header extends Component {
                 <div className="input-group-append">{this.ActionLink()}</div>
               </div>
             </form>
+              <a href="/vistaprincipal"><h6 style={{color: '#fff', marginRight: '5px', marginTop:'6px'}}>{user}</h6></a>
               <a style={{color:'#0676f8'}} className="btn" onClick={
                       function(e) {
                             $(".sidebar").toggleClass('active');
@@ -528,21 +579,63 @@ class Header extends Component {
                     <i className="fa fa-user-circle fa-fw"></i>
                   </a>
                   <div style={{}} className="dropdown-menu mydropdown" aria-labelledby="userDropdown">
-                    <a
-                      className="dropdown-item mydropdown-item"
-                      href="#"
-                      data-toggle="modal"
-                      data-target="#editProfileModal"
-                      onClick={this.onEditProfile}
-                    >
+                    <a className="dropdown-item mydropdown-item" href="" data-toggle="modal" onClick={this.toggle}>
                       Edit profile
                     </a>
-                    <a className="dropdown-item mydropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout} >Logout</a>       
+                    <a className="dropdown-item mydropdown-item" href="" data-toggle="modal" onClick={this.logout} >Logout</a>       
                   </div>
                 </li>
               </ul>
             </nav>
-              
+            
+            <Modal isOpen={this.state.modal} toggle={this.toggle}>
+            <ModalHeader toggle={this.toggle}>Edit profile</ModalHeader>
+            <ModalBody>
+              <form>
+              <div className="form-group">
+                  <label for="InputFirstName">First Name</label>
+                  <input type="text" className="form-control" 
+                  placeholder="Enter first name"
+                  name="signUpFirstName"
+                  value={this.state.signUpFirstName}
+                  onChange={this.handleInputChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label for="InputLastName">Last Name</label>
+                  <input type="text" className="form-control"  
+                  placeholder="Enter last name"
+                  name="signUpLastName"
+                  value={this.state.signUpLastName}
+                  onChange={this.handleInputChange}/>
+                </div>
+                <div className="form-group">
+                  <label for="InputPhone">Phone</label>
+                  <input type="number" className="form-control"  
+                  placeholder="+1 (555)555-5555"
+                  name="signUpPhone"
+                  value={this.state.signUpPhone}
+                  onChange={this.handleInputChange}/>
+                  <small id="phoneHelp" className="form-text text-muted">We'll never share your phone with anyone else.</small>
+                </div>
+                <div className="form-group">
+                  <label for="InputPassword">Password</label>
+                  <input type="password" className="form-control"  
+                  placeholder="Enter password"
+                  name="signUpPassword"
+                  value={this.state.signUpPassword}
+                  onChange={this.handleInputChange}
+                  />
+                </div>
+              </form>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="primary" onClick={this.handleClickSubmmit}>Submmit</Button>{' '}
+              <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+            </ModalFooter>
+              <Button color="btn btn-danger" onClick={this.confirmDelete}>Delete account</Button>
+            </Modal>
+        
             <div className="sidebar">
                   <h2>Notifications</h2>
                   <div className="news_inner">

@@ -12,6 +12,7 @@ class Login extends Component {
     this.state = {
       isLoading: true,
       token: "",
+      _id: "",
       signUpError: "",
       loginError: "",
       loginEmail: "",
@@ -108,16 +109,12 @@ class Login extends Component {
                 }).then(() => {
                   localStorage.setItem("Rol", "Nutriologo");
                   window.location = "/vistaprincipal";
-                  
+                  alertify.success("Welcome!");
                 })
               } else {
-                console.log('Login Email')
-                console.log(loginEmail)
                 fetch('/api/account/getuseremail?token='+loginEmail)
                 .then(res => res.json())
                 .then(json2 => {
-                  console.log('user email')
-                  console.log(json2[0]._id)
                   localStorage.setItem('ClientLast', json2[0].LastName)
                   localStorage.setItem('ClientFirst', json2[0].FirstName)
                   localStorage.setItem('Client_id', json2[0]._id)
@@ -125,29 +122,26 @@ class Login extends Component {
                   .then(res => res.json())
                   .then(json3 => {
                     if (json3.doc != null) {
-                      console.log('getuser')
-                      console.log(json3.doc.Nutritionist_id)
                       fetch('/api/account/getuserbyid?token='+json3.doc.Nutritionist_id)
                       .then(res => res.json())
                       .then(json4 => {
-                      console.log('user by id');
-                      console.log(json4[0].Email)
                       localStorage.setItem('AssignedNutriologist', json4[0].Email)
                       localStorage.setItem('clientID', json2[0]._id);
                     
                       }).then( ()=> {
                         localStorage.setItem('Rol', 'Cliente');  
                         window.location=('/vistaprincipal');
+                        alertify.success("Welcome!");
                       })
                     } else {
-                      console.log('yei')
                       localStorage.setItem('Rol', 'Cliente');  
                       window.location=('/vistaprincipal');
+                      alertify.success("Welcome!");
                     }
                   })       
                 })
               }
-            });
+            });      
         } else {
           this.setState({
             loginError: json.message,
@@ -155,7 +149,6 @@ class Login extends Component {
           });
         }
       });
-      alertify.success("Welcome!");
     this.setState({
       loginEmail: "",
       loginPassword: ""
