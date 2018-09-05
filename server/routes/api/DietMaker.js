@@ -148,7 +148,7 @@ app.get('/api/accounts/GetDiet',(req,res,next)=>{
         if(err)
         return res.send(err);
         else
-        return res.send(doc);
+        return res.send({doc, message:"Found"});
         });
     });
 app.get('/api/accounts/GetMyClients',(req,res,next)=>{
@@ -225,15 +225,17 @@ app.post('/api/account/addClient',(req,res)=>{
             success:true,
             message:'Added'
             });
+            
         }
     });
+
   });
   app.get('/api/account/GetClientsUnregistered/:id',(req,res)=>{
     ClientUnregistered.find({Nutritionist_id:req.params.id }, (err, data)  => {
     if(err)
     return res.send(err);
     else
-    return res.send(data);
+    return res.send({data,message:'Found'});
     });
   });
 }

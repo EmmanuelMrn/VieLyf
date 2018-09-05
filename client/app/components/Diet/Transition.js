@@ -116,7 +116,7 @@ GetMyClientsUser(ClientsId,CurrentUserId){
       .then(res => res.json())
       .then (Unregistered=> {
           this.setState({
-            clientsData:Unregistered
+            clientsData:Unregistered.data
           });
       });
     }
@@ -125,7 +125,7 @@ GetMyClientsUser(ClientsId,CurrentUserId){
       .then(res => res.json())
       .then (Unregistered=> {
           this.setState({
-            clientsData:Registered.concat(Unregistered)
+            clientsData:Registered.concat(Unregistered.data)
           });
       });
     }
