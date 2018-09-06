@@ -156,14 +156,9 @@ class VistaPrincipal extends Component {
   }
 
   componentDidMount() {
-    console.log(this.state.isActive);
-    console.log(localStorage.getItem("AssignedNutriologist"));
-    console.log("=============");
-    console.log(localStorage.getItem("Rol"));
     const obj = getFromStorage("the_main_app");
     if (obj && obj.token) {
       const { token } = obj;
-      console.log(token);
       fetch("/api/account/verify?token=" + token)
         .then(res => res.json())
         .then(json => {

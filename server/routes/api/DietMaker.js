@@ -2,6 +2,7 @@ const User = require('../../models/User');
 const Diet = require('../../models/Diet');
 const ClientUnregistered = require('../../models/ClientUnregistered');
 const PatientRequest = require('../../models/PatientRequest');
+
 module.exports=(app) => {
 
 app.put('/api/accounts/ModifyStatus',(req,res,next) =>
@@ -168,7 +169,7 @@ app.get('/api/accounts/GetMyClients',(req,res,next)=>{
         User.find({"$or":[{"_id":ArrClients}] }, (err, doc)  => {
 
         if(err)
-        return res.send(err);
+        return res.send({err,message:"nel prro"});
         else
         return res.send(doc);
         });
@@ -205,35 +206,36 @@ app.get('/api/accounts/GetMyClients',(req,res,next)=>{
         doc
       });
     });
-});
-app.post('/api/account/addClient',(req,res)=>{
+    });
+    app.post('/api/account/addClient',(req,res)=>{
 
-    const newClientUnregistered = new ClientUnregistered();
-    newClientUnregistered.FirstName= req.body.FirstName;
-    newClientUnregistered.LastName=req.body.LastName;
-    newClientUnregistered.Email=req.body.Email;
-    newClientUnregistered.Phone=req.body.Phone;
-    newClientUnregistered.Nutritionist_id=req.body.Nutritionist_id;
-    newClientUnregistered.save((err)=>{
-        if(err){
-            return  res.send({
-            success:false,
-            message:'Error'
-            });
-        }else{
-            return  res.send({
-            success:true,
-            message:'Added'
-            });
-        }
+        const newClientUnregistered = new ClientUnregistered();
+        newClientUnregistered.FirstName= req.body.FirstName;
+        newClientUnregistered.LastName=req.body.LastName;
+        newClientUnregistered.Email=req.body.Email;
+        newClientUnregistered.Phone=req.body.Phone;
+        newClientUnregistered.Nutritionist_id=req.body.Nutritionist_id;
+        newClientUnregistered.save((err)=>{
+            if(err){
+                return  res.send({
+                success:false,
+                message:'Error'
+                });
+            }else{
+                return  res.send({
+                success:true,
+                message:'Added'
+                });
+            }
+        });
     });
-  });
-  app.get('/api/account/GetClientsUnregistered/:id',(req,res)=>{
-    ClientUnregistered.find({Nutritionist_id:req.params.id }, (err, data)  => {
-    if(err)
-    return res.send(err);
-    else
-    return res.send(data);
+    app.get('/api/account/GetClientsUnregistered/:id',(req,res)=>{
+        ClientUnregistered.find({Nutritionist_id:req.params.id }, (err, data)  => {
+        if(err)
+        return res.send(err);
+        else
+        return res.send(data);
+        });
     });
-  });
+    
 }

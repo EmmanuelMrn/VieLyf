@@ -41,6 +41,7 @@ class VistaNutriologo extends Component {
   }
 
   componentDidMount() {
+    console.log(localStorage.getItem('Client_id'))
     fetch(
       "/api/account/agendaarrayaproved?token=" + localStorage.getItem("Auth"),
       { method: "GET" }

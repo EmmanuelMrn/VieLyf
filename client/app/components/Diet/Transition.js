@@ -38,7 +38,6 @@ componentDidMount() {
     const obj = getFromStorage('the_main_app');
 
       fetch('/api/accounts/GetUserFromUserSession?token='+ obj.token)
-    //const obj = getFromStorage('El_token');
         .then(res => res.json())
         .then(json => {
           this.setState({
@@ -66,6 +65,8 @@ handleInputChange(event) {
 handleClickSubmmit(e) {
   e.preventDefault();
   this.onAdd();
+  this.toggle();
+  
   
 }
 
@@ -106,19 +107,40 @@ GetMyClients(CurrentUserId){
 }
 
 GetMyClientsUser(ClientsId,CurrentUserId){
+  console.log(this.state.currentUserId)
   fetch('/api/accounts/GetMyClientsUser?Clients='+ClientsId, {method:'GET'})
   .then(res => res.json())
   .then (Registered=> {
-  
+    console.log('entramos')
+    console.log(Registered)
+    if (Registered.err){
+      fetch('/api/account/GetClientsUnregistered/'+CurrentUserId, {method:'GET'})
+      .then(res => res.json())
+      .then (Unregistered=> {
+        console.log('seguimos')
+        console.log(Unregistered)
+          this.setState({
+            clientsData:Unregistered
+          }, function() {
+            console.log('alternativa')
+            console.log(this.state.clientsData)
+          });
+      });
+    }
+  else{
       fetch('/api/account/GetClientsUnregistered/'+CurrentUserId, {method:'GET'})
       .then(res => res.json())
       .then (Unregistered=> {
           this.setState({
             clientsData:Registered.concat(Unregistered)
+          }, function() {
+            console.log('salimos')
+            console.log(this.state.clientsData)
           });
       });
+    }
   });
-  
+
 }
 onAdd() {
   fetch("/api/account/addClient", {
@@ -134,6 +156,13 @@ onAdd() {
       Phone: this.state.Phone,
     })
   })
+  this.GetMyClients(this.state.currentUserId);
+  this.setState({
+      FirstName: "",
+      LastName: "",
+      Email: "",
+      Phone: 0,
+  })
 }
 render(){
   var ClientsData = Array.from(this.state.clientsData);
@@ -148,7 +177,7 @@ return(
     <div  className="card card text-white " id="newClient">
             <div className="card-header" >New Clients</div>
                 <div>
-                  <button className="btn btn-secondary"  id="buttonSize">
+                  <button className="btn btn-secondary"  id="buttonSize" onClick={this.toggle}>
                 <img
                          className=" img-fluid"
                          src="https://www.australshippingagency.com/wp-content/themes/wpmetro/images/icon_social.png"
@@ -158,7 +187,7 @@ return(
                        />
                       </button>
                     <Modal isOpen={this.state.modal} toggle={this.toggle} >
-                      <ModalHeader toggle={this.toggle}>Nuevos Clientes</ModalHeader>
+                      <ModalHeader toggle={this.toggle}>New Clients</ModalHeader>
                       <ModalBody>
                         <form>
                         <div className="form-group">
@@ -180,7 +209,7 @@ return(
                           </div>
                           <div className="form-group">
                             <label for="InputEmail">Email address</label>
-                            <input type="email" className="form-control"  aria-describedby="emailHelp" 
+                            <input type="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" className="form-control"  aria-describedby="emailHelp" 
                             placeholder="Enter email"
                             name="Email"
                             value={this.state.Email}
@@ -198,10 +227,11 @@ return(
                             onChange={this.handleInputChange}
                              />
                           </div>
+                            
                         </form>
                       </ModalBody>
                       <ModalFooter>
-                        <Button color="primary" onClick={this.handleClickSubmmit} onClick={this.toggle}>Submmit</Button>{' '}
+                        <Button color="primary" onClick={this.handleClickSubmmit} >Submmit</Button>{' '}
                         <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                     </ModalFooter>
                   </Modal>
@@ -215,7 +245,7 @@ return(
          <div  className="col m-2" id="cardSpace">
            <div
              className="image-flip"
-             onTouchStart="this.classList.toggle('hover');"
+             ontouchstart="this.classList.toggle('hover');"                                 
            >
              <div className="mainflip">
                <div className="frontside" >
@@ -223,7 +253,7 @@ return(
                    <div className="card-body text-center">
                        <img
                          className=" img-fluid mt-5"
-                         src="https://i.pinimg.com/originals/2b/be/83/2bbe83c41babaf761466774be9e52a13.png"
+                         src="http://getdrawings.com/img/user-silhouette-icon-2.png"
                          alt="card image"
                        />
                        <br />
