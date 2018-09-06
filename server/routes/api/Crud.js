@@ -4,6 +4,8 @@ const Agenda = require('../../models/Agenda');
 const Notification = require('../../models/Notifications');
 module.exports = (app) => {
 
+  app.post("/api/account/create")
+
   app.post("/api/account/createnotification", (req, res, next) => {
     const {body} = req;
     const {
