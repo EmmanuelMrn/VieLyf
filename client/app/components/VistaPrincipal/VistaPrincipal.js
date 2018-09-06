@@ -110,13 +110,11 @@ class VistaPrincipal extends Component {
              </div>
              <div className="col-md-6" align="center">
                <p className="text-center"><strong>{nutriFirst} {nutriLast}</strong></p>
-               <p className="text-center"><em>UserName: {nutriUser}</em></p>
              </div>
  
              <div className="col-md-8" align="center">
                <ul className="list-group list-primary">
-                 <a className="list-group-item">First Name: {nutriFirst}</a>
-                 <a className="list-group-item">Last Name: {nutriLast}</a>
+               <a className="list-group-item">UserName: {clientUser}</a>
                  <a className="list-group-item">Email: {nutriEmail}</a>
                  <a className="list-group-item">Phone: {nutriPhone}</a>
              </ul>
@@ -136,11 +134,11 @@ class VistaPrincipal extends Component {
                      </div>
                      <div className="card-body">
                          <h5 className="card-title">Content</h5>
-                         <p className="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                         <p className="card-text">Information or modules for the profile</p>
                          <a href="#" className="btn btn-primary">Go somewhere</a>
                      </div>
                      <div className="card-footer text-muted">
-                         2 days ago
+                         
                      </div>
                  </div>
              </div>
@@ -166,14 +164,12 @@ class VistaPrincipal extends Component {
               <img height='120px' src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg"/>
           </div>
           <div className="col-md-6" align="center">
-            <p className="text-center"><strong>{clientFirst} {clientLast}</strong></p>
-            <p className="text-center"><em>UserName: {clientUser}</em></p>
+            <p className="text-center"><strong>{clientFirst} {clientLast}</strong></p>  
           </div>
 
           <div className="col-md-8" align="center">
             <ul className="list-group list-primary">
-              <a className="list-group-item">First Name: {clientFirst}</a>
-              <a className="list-group-item">Last Name: {clientLast}</a>
+              <a className="list-group-item">UserName: {clientUser}</a>
               <a className="list-group-item">Email: {clientEmail}</a>
               <a className="list-group-item">Phone: {clientPhone}</a>
           </ul>
@@ -193,13 +189,13 @@ class VistaPrincipal extends Component {
                       Featured
                   </div>
                   <div className="card-body">
-                      <h5 className="card-title">Content</h5>
-                      <p className="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                      <a href="#" className="btn btn-primary">Go somewhere</a>
-                  </div>
-                  <div className="card-footer text-muted">
-                      2 days ago
-                  </div>
+                         <h5 className="card-title">Content</h5>
+                         <p className="card-text">Information or modules for the profile</p>
+                         <a href="#" className="btn btn-primary">Go somewhere</a>
+                     </div>
+                     <div className="card-footer text-muted">
+                         
+                     </div>
               </div>
           </div>
           </div>           
