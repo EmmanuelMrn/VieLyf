@@ -106,6 +106,9 @@ class Login extends Component {
                   localStorage.setItem('Client_id', json2[0]._id);
                   localStorage.setItem('ClientLast', json2[0].LastName);
                   localStorage.setItem('ClientFirst', json2[0].FirstName);
+                  localStorage.setItem('ClientEmail', json2[0].Email);
+                  localStorage.setItem('ClientPhone', json2[0].Phone);
+                  localStorage.setItem('ClientUsername', json2[0].UserName);
                 }).then(() => {
                   localStorage.setItem('Rol', 'Nutriologo');
                   window.location = "/vistaprincipal";
@@ -115,9 +118,12 @@ class Login extends Component {
                 fetch('/api/account/getuseremail?token='+loginEmail)
                 .then(res => res.json())
                 .then(json2 => {
-                  localStorage.setItem('ClientLast', json2[0].LastName)
-                  localStorage.setItem('ClientFirst', json2[0].FirstName)
-                  localStorage.setItem('Client_id', json2[0]._id)
+                  localStorage.setItem('ClientLast', json2[0].LastName);
+                  localStorage.setItem('ClientFirst', json2[0].FirstName);
+                  localStorage.setItem('Client_id', json2[0]._id);
+                  localStorage.setItem('ClientEmail', json2[0].Email);
+                  localStorage.setItem('ClientPhone', json2[0].Phone);
+                  localStorage.setItem('ClientUsername', json2[0].UserName);
                   fetch('/api/accounts/getuser?token='+json2[0]._id)
                   .then(res => res.json())
                   .then(json3 => {

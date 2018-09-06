@@ -92,28 +92,31 @@ class VistaPrincipal extends Component {
   }
  
   ProfileNutritionist(){
-     var user = this.state.UserProfile;
+    var nutriId = localStorage.getItem('Client_id');
+    var nutriFirst = localStorage.getItem('ClientFirst');
+    var nutriLast = localStorage.getItem('ClientLast');
+    var nutriUser = localStorage.getItem('ClientUsername');
+    var nutriEmail = localStorage.getItem('ClientEmail');
+    var nutriPhone = localStorage.getItem('ClientPhone');
+
      return(
      <div className="container">
          <div className="row">
          
-             <div className="col-4">
+             <div className="col-4" align="center">
              <div className="col-md-6" align="center">
                  <br />
-                     <img height='120px' src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg"/>
+                  <img height='120px' src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg"/>
              </div>
-             <div className="col-md-6">
-                     <p className="text-center"><strong>{user.FirstName} {user.LastName}</strong></p>
-               <p className="text-center"><em>UserName: {user.Email}</em></p>
+             <div className="col-md-6" align="center">
+               <p className="text-center"><strong>{nutriFirst} {nutriLast}</strong></p>
              </div>
  
-             <div className="col-md-8">
-               <br />
+             <div className="col-md-8" align="center">
                <ul className="list-group list-primary">
-                 <a className="list-group-item">First Name: {user.FirstName}</a>
-                 <a className="list-group-item">Last Name: {user.LastName}</a>
-                 <a className="list-group-item">Phone: {user.Phone}</a>
-                 <a className="list-group-item">Email: {user.Email}</a>
+               <a className="list-group-item">UserName: {clientUser}</a>
+                 <a className="list-group-item">Email: {nutriEmail}</a>
+                 <a className="list-group-item">Phone: {nutriPhone}</a>
              </ul>
            </div>   
              </div>
@@ -131,11 +134,11 @@ class VistaPrincipal extends Component {
                      </div>
                      <div className="card-body">
                          <h5 className="card-title">Content</h5>
-                         <p className="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                         <p className="card-text">Information or modules for the profile</p>
                          <a href="#" className="btn btn-primary">Go somewhere</a>
                      </div>
                      <div className="card-footer text-muted">
-                         2 days ago
+                         
                      </div>
                  </div>
              </div>
@@ -145,28 +148,30 @@ class VistaPrincipal extends Component {
   }
 
   ProfileClient(){
-  var user = this.state.UserProfile;
+  var clientId = localStorage.getItem('Client_id');
+  var clientFirst = localStorage.getItem('ClientFirst');
+  var clientLast = localStorage.getItem('ClientLast');
+  var clientUser = localStorage.getItem('ClientUsername');
+  var clientEmail = localStorage.getItem('ClientEmail');
+  var clientPhone = localStorage.getItem('ClientPhone');
   return(
   <div className="container">
       <div className="row">
       
-          <div className="col-4">
+          <div className="col-4" align="center">
           <div className="col-md-6" align="center">
               <br />
-                  <img height='120px' src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg"/>
+              <img height='120px' src="https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg"/>
           </div>
-          <div className="col-md-6">
-                  <p className="text-center"><strong>{user.FirstName} {user.LastName}</strong></p>
-            <p className="text-center"><em>UserName: {user.Email}</em></p>
+          <div className="col-md-6" align="center">
+            <p className="text-center"><strong>{clientFirst} {clientLast}</strong></p>  
           </div>
 
-          <div className="col-md-8">
-            <br />
+          <div className="col-md-8" align="center">
             <ul className="list-group list-primary">
-              <a className="list-group-item">First Name: {user.FirstName}</a>
-              <a className="list-group-item">Last Name: {user.LastName}</a>
-              <a className="list-group-item">Phone: {user.Phone}</a>
-              <a className="list-group-item">Email: {user.Email}</a>
+              <a className="list-group-item">UserName: {clientUser}</a>
+              <a className="list-group-item">Email: {clientEmail}</a>
+              <a className="list-group-item">Phone: {clientPhone}</a>
           </ul>
         </div>   
           </div>
@@ -184,13 +189,13 @@ class VistaPrincipal extends Component {
                       Featured
                   </div>
                   <div className="card-body">
-                      <h5 className="card-title">Content</h5>
-                      <p className="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                      <a href="#" className="btn btn-primary">Go somewhere</a>
-                  </div>
-                  <div className="card-footer text-muted">
-                      2 days ago
-                  </div>
+                         <h5 className="card-title">Content</h5>
+                         <p className="card-text">Information or modules for the profile</p>
+                         <a href="#" className="btn btn-primary">Go somewhere</a>
+                     </div>
+                     <div className="card-footer text-muted">
+                         
+                     </div>
               </div>
           </div>
           </div>           

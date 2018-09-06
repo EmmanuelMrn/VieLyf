@@ -19,12 +19,10 @@ class NutritionalBlog extends Component {
         />
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" />
         <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" />
-
-        <section className="banner-section" />
+        <section className="image-section" />
         <div className="col-lg-12 col-md-12 col-sm-12 post-title-block">
           <h1 className="text-center">Nutritional Blog</h1>
           <ul className="list-inline text-center">
-
             <li>A startup from MindHub</li>
           </ul>
         </div>
@@ -45,7 +43,6 @@ class NutritionalBlog extends Component {
                     </p>
 
                     <a href="#" className="btn-card">
-
                       See more
                     </a>
                   </div>
@@ -57,7 +54,6 @@ class NutritionalBlog extends Component {
                     <img src="https://picsum.photos/380/230" alt="" />
                   </div>
                   <div className="card-desc">
-
                     <h3>This is the first step for a change</h3>
                     <p>
                       Whatever your goal is, to lose weight or to live a
@@ -66,7 +62,6 @@ class NutritionalBlog extends Component {
                     </p>
                     <a href="#" className="btn-card">
                       See more
-
                     </a>
                   </div>
                 </div>
@@ -77,7 +72,6 @@ class NutritionalBlog extends Component {
                     <img src="https://placeimg.com/380/230/tech" alt="" />
                   </div>
                   <div className="card-desc">
-
                     <h3>The molecules of Food and Nutrition</h3>
                     <p>
                       Nutrition specialist Dr. Dena Herman introduced UCLA
@@ -88,7 +82,6 @@ class NutritionalBlog extends Component {
                     </p>
                     <a href="#" className="btn-card">
                       See more
-
                     </a>
                   </div>
                 </div>
@@ -112,24 +105,21 @@ class NutritionalBlog extends Component {
                         <p>
                           <img
                             className=" img-fluid"
-                            src="https://endimages.s3.amazonaws.com/cache/d6/5b/d65b000590e2eadf48d8265a8c01ac8f.jpg"
+                            src="https://scontent.ftij2-1.fna.fbcdn.net/v/t1.0-9/10998656_821813194551945_1542440717543188630_n.jpg?_nc_cat=0&oh=4808e55acf7d06471f4209eb4f81f51b&oe=5C2D4480"
                             alt="card image"
                           />
                         </p>
                         <h4 className="card-title">Carlo</h4>
                         <p className="card-text">
-
                           Web developer and Product Owner for Vielyf proyect
                         </p>
                         <a href="#" className="btn btn-primary btn-sm">
                           <i className="fa fa-plus" />
-
                         </a>
                       </div>
                     </div>
                   </div>
                   <div className="backside">
-
                     <div className="card">
                       <div className="card-body text-center mt-4">
                         <h4 className="card-title">ArkusNexus Bootcamp</h4>
@@ -173,7 +163,6 @@ class NutritionalBlog extends Component {
                               href="#"
                             >
                               <i className="fa fa-google" />
-
                             </a>
                           </li>
                         </ul>
@@ -183,7 +172,6 @@ class NutritionalBlog extends Component {
                 </div>
               </div>
             </div>
-
 
             <div className="col-xs-12 col-sm-6 col-md-4">
               <div
@@ -197,8 +185,7 @@ class NutritionalBlog extends Component {
                         <p>
                           <img
                             className=" img-fluid"
-
-                            src="https://static1.squarespace.com/static/583c906ebe659429d1106265/t/5935941859cc687293cd3f6b/1496683572683/"
+                            src="https://scontent.ftij2-1.fna.fbcdn.net/v/t1.0-9/12031998_1218771214815712_3735154835373139899_n.jpg?_nc_cat=0&oh=794c8812864908c6c02444429690f7ee&oe=5C2486D6"
                             alt="card image"
                           />
                         </p>
@@ -209,7 +196,6 @@ class NutritionalBlog extends Component {
                         </p>
                         <a href="#" className="btn btn-primary btn-sm">
                           <i className="fa fa-plus" />
-
                         </a>
                       </div>
                     </div>
@@ -268,7 +254,6 @@ class NutritionalBlog extends Component {
               </div>
             </div>
 
-
             <div className="col-xs-12 col-sm-6 col-md-4">
               <div
                 className="image-flip"
@@ -281,8 +266,7 @@ class NutritionalBlog extends Component {
                         <p>
                           <img
                             className=" img-fluid"
-
-                            src="http://s3-eu-west-1.amazonaws.com/cinemania-cdn/wp-content/uploads/2017/03/23172037/Vision_Forest-660x374.jpg"
+                            src="https://scontent.ftij2-1.fna.fbcdn.net/v/t1.0-9/37917075_1737065893013338_1270368016676159488_n.jpg?_nc_cat=0&oh=e4a9d8c4695c47f852bbd6cd7b5b72ec&oe=5C396B0A"
                             alt="card image"
                           />
                         </p>
@@ -350,7 +334,6 @@ class NutritionalBlog extends Component {
               </div>
             </div>
 
-
             <div className="col-xs-12 col-sm-6 col-md-4">
               <div
                 className="image-flip"
@@ -363,8 +346,7 @@ class NutritionalBlog extends Component {
                         <p>
                           <img
                             className=" img-fluid"
-
-                            src="https://i.ytimg.com/vi/d7fpqFRmusA/maxresdefault.jpg"
+                            src="https://scontent.ftij2-1.fna.fbcdn.net/v/t1.0-9/29468164_870058146512141_4184294016075956224_n.jpg?_nc_cat=0&oh=71313b8c0966c0b4e4dc665cb076f3f0&oe=5BF2F01B"
                             alt="card image"
                           />
                         </p>
@@ -376,7 +358,6 @@ class NutritionalBlog extends Component {
                         </p>
                         <a href="#" className="btn btn-primary btn-sm">
                           <i className="fa fa-plus" />
-
                         </a>
                       </div>
                     </div>
@@ -425,7 +406,6 @@ class NutritionalBlog extends Component {
                               href="#"
                             >
                               <i className="fa fa-google" />
-
                             </a>
                           </li>
                         </ul>
@@ -435,7 +415,6 @@ class NutritionalBlog extends Component {
                 </div>
               </div>
             </div>
-
 
             <div className="col-xs-12 col-sm-6 col-md-4">
               <div
@@ -449,8 +428,7 @@ class NutritionalBlog extends Component {
                         <p>
                           <img
                             className=" img-fluid"
-
-                            src="http://img.europapress.es/fotoweb/fotonoticia_20150217131003_800.jpg"
+                            src="https://scontent.ftij2-1.fna.fbcdn.net/v/t1.0-9/19702144_2306833616209064_4915097229413991557_n.jpg?_nc_cat=0&oh=21f08309e6dfae604e2b66867a9645d2&oe=5C307F6A"
                             alt="card image"
                           />
                         </p>
@@ -462,7 +440,6 @@ class NutritionalBlog extends Component {
                         </p>
                         <a href="#" className="btn btn-primary btn-sm">
                           <i className="fa fa-plus" />
-
                         </a>
                       </div>
                     </div>
@@ -511,7 +488,6 @@ class NutritionalBlog extends Component {
                               href="#"
                             >
                               <i className="fa fa-google" />
-
                             </a>
                           </li>
                         </ul>
