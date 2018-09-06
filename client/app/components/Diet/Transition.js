@@ -208,13 +208,8 @@ render(){
             </div>
             </div>
         </div>         
-          )
-        })}
-        
-        </div>
-      </div>
-    )
-  }
+      )
+    }
 }
 
 export default Transition;
