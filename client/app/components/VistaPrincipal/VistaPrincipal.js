@@ -49,7 +49,7 @@ class VistaPrincipal extends Component {
   }
 
   componentDidMount() {
-    const obj = getFromStorage("the_main_app");
+    const obj = getFromStorage('the_main_app');
     if (obj && obj.token) {
       const { token } = obj;
       fetch("/api/account/verify?token=" + token)
@@ -110,11 +110,10 @@ class VistaPrincipal extends Component {
              <div className="col-md-8">
                <br />
                <ul className="list-group list-primary">
-                         <a className="list-group-item">First Name: {user.FirstName}</a>
+                 <a className="list-group-item">First Name: {user.FirstName}</a>
                  <a className="list-group-item">Last Name: {user.LastName}</a>
                  <a className="list-group-item">Phone: {user.Phone}</a>
                  <a className="list-group-item">Email: {user.Email}</a>
-                 <a className="list-group-item">Role: {user.Role}</a>
              </ul>
            </div>   
              </div>
@@ -164,11 +163,10 @@ class VistaPrincipal extends Component {
           <div className="col-md-8">
             <br />
             <ul className="list-group list-primary">
-                      <a className="list-group-item">First Name: {user.FirstName}</a>
+              <a className="list-group-item">First Name: {user.FirstName}</a>
               <a className="list-group-item">Last Name: {user.LastName}</a>
               <a className="list-group-item">Phone: {user.Phone}</a>
               <a className="list-group-item">Email: {user.Email}</a>
-              <a className="list-group-item">Role: {user.Role}</a>
           </ul>
         </div>   
           </div>
@@ -211,13 +209,13 @@ class VistaPrincipal extends Component {
       Name
     } = this.state;
     var ClientsData = Array.from(this.state.items);
-    if (localStorage.getItem("Rol") == "Nutriologo") {
+    if (localStorage.getItem('Rol') == "Nutriologo") {
       return (
         <div>
             {this.ProfileNutritionist()}
         </div>
       );
-    } else if (localStorage.getItem("Rol") == "Cliente") {
+    } else if (localStorage.getItem('Rol') == "Cliente") {
       return (
         <div>
             {this.ProfileClient()}               

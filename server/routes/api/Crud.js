@@ -140,18 +140,18 @@ module.exports = (app) => {
 
   app.delete("/api/account/deleteaccount", (req, res) => {
     const { body } = req;
-    const { Email } = body;
+    const { emailDelete } = body;
 
-    User.findOneAndRemove({ Email: Email }, err => {
+    User.findOneAndRemove({ email: emailDelete }, err => {
       if (err) {
         return res.send("Error" + err);
       } else {
-        return res.send("Delete: " + req.body.Email);
+        return res.send("Delete: " + req.body.emailDelete);
       }
     });
   });
 
-  app.get("/api/account/editprofile", (req, res, next) => {
+  app.get("/api/account/editprofile", (req, res) => {
     var status = "success";
     const { query } = req;
     const { token, token2, token3, token4, token5 } = query;

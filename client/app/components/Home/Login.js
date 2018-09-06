@@ -38,7 +38,7 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    const obj = getFromStorage("the_main_app");
+    const obj = getFromStorage('the_main_app');
     if (obj && obj.token) {
       const { token } = obj;
       fetch("/api/account/verify?token=" + token)
@@ -85,10 +85,10 @@ class Login extends Component {
     })
       .then(res => res.json())
       .then(json => {
-        localStorage.setItem("email", json.Email);
+        localStorage.setItem('email', json.Email);
         if (json.success) {
           setInStorage('the_main_app', { token: json.token });
-          setInStorage("El_token", {token:json.token} );
+          setInStorage('El_token', {token:json.token} );
           this.setState({
             loginError: json.message,
             isLoading: false, 
@@ -99,7 +99,7 @@ class Login extends Component {
             .then(res => res.json())
             .then(json1 => {
               if (json1.success) {
-                localStorage.setItem("Auth", loginEmail);
+                localStorage.setItem('Auth', loginEmail);
                 fetch('/api/account/getuseremail?token='+loginEmail)
                 .then(res => res.json())
                 .then(json2 => {
@@ -107,7 +107,7 @@ class Login extends Component {
                   localStorage.setItem('ClientLast', json2[0].LastName);
                   localStorage.setItem('ClientFirst', json2[0].FirstName);
                 }).then(() => {
-                  localStorage.setItem("Rol", "Nutriologo");
+                  localStorage.setItem('Rol', 'Nutriologo');
                   window.location = "/vistaprincipal";
                   alertify.success("Welcome!");
                 })
@@ -179,7 +179,7 @@ class Login extends Component {
 
     return (
       <div>
-        <section className="login-block">
+        <section className="login-block" style={{padding: '90px'}}>
           <div className="container container2">
             <div className="row">
               <div className="col-md-4 login-sec">
@@ -194,10 +194,6 @@ class Login extends Component {
                     <input type="password" name="loginPassword" value={loginPassword} onChange={this.handleInputChange} className="form-control" placeholder=""/>                    
                   </div>
                   <div className="form-check">
-                      {/* <label className="form-check-label">
-                        <input type="checkbox" className="form-check-input"/>
-                        <small>Remember Me</small>
-                      </label> */}
                     <button type="button" className="btn btn-login float-center" onClick={this.onLogin}>
                       Log in
                     </button>
@@ -217,7 +213,7 @@ class Login extends Component {
                       <div className="carousel-caption d-none d-md-block">
                         <div className="banner-text">
                             <h2>Solutions for health</h2>
-                            <h5 style={{color: '#e5c885', backgroundColor: '#fff'}}>In Vielyf we have the determination to create the best software for you and your needs.</h5>
+                            <h5 style={{color: '#e5c885', backgroundColor: 'rgb(255,255,255,.3)'}}>In Vielyf we have the determination to create the best software for you and your needs.</h5>
                         </div>	
                       </div>
                     </div>
@@ -227,7 +223,7 @@ class Login extends Component {
                       <div className="carousel-caption d-none d-md-block">
                         <div className="banner-text">
                             <h2>Solutions for life</h2>
-                            <h5 style={{color: '#9e6d4a', backgroundColor: '#fff'}}>And Yes, it is posible, and No, it isn't easy.</h5>
+                            <h5 style={{color: '#9e6d4a', backgroundColor: 'rgb(255,255,255,.3)'}}>And Yes, it is posible, and No, it isn't easy.</h5>
                         </div>	
                       </div>
                     </div>
@@ -236,7 +232,7 @@ class Login extends Component {
                       <div className="carousel-caption d-none d-md-block">
                         <div className="banner-text">
                             <h2>Solutions for you</h2>
-                            <h5 style={{color: '#95b3cf', backgroundColor: '#fff'}}>We offer you the best technologies for the best life quality.</h5>
+                            <h5 style={{color: '#95b3cf', backgroundColor: 'rgb(255,255,255,.3)'}}>We offer you the best technologies for the best life quality.</h5>
                         </div>	
                       </div>
                     </div>

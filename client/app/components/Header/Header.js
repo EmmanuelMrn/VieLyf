@@ -144,12 +144,11 @@ class Header extends Component {
   }
 
   componentDidMount() {
-    console.log(localStorage.getItem("clientID"));
-    console.log("Header");
-    console.log(localStorage.getItem("AssignedNutriologist"));
-    console.log(localStorage.hasOwnProperty('AssignedNutriologist'));
+    console.log(localStorage.getItem('the_main_app'));
+    console.log("Login email = " + localStorage.getItem('email'));
+    console.log(localStorage.getItem('Auth'));
     this.updatethings();
-    if (localStorage.hasOwnProperty("the_main_app")) {
+    if (localStorage.hasOwnProperty('the_main_app')) {
       this.setState({ isActive: true });
     }
     fetch('/api/account/getuseremail?token=' + localStorage.getItem('AssignedNutriologist'), { method: 'GET' })
@@ -158,7 +157,7 @@ class Header extends Component {
         Nutriologist: nutri[0].UserName
       })
     })
-    // this.updatethings();
+    this.updatethings();
     this.interval = setInterval(() => this.updatethings(), 1000);
   }
 
@@ -168,7 +167,7 @@ class Header extends Component {
 
   updatethings() {
     fetch(
-      "/api/account/agendaarrayaproved?token=" + localStorage.getItem("Auth"),
+      "/api/account/agendaarrayaproved?token=" + localStorage.getItem('Auth'),
       { method: "GET" }
     )
       .then(res => res.json())
@@ -177,7 +176,7 @@ class Header extends Component {
           items : json1,
         });
       });
-    fetch('/api/account/getnotifications?token=' + localStorage.getItem("Client_id"), {method:'GET'})
+    fetch('/api/account/getnotifications?token=' + localStorage.getItem('Client_id'), {method:'GET'})
       .then(res => res.json())
       .then(json2 => {
         this.setState(
@@ -190,28 +189,26 @@ class Header extends Component {
   }
 
   onDelete() {
-    var emailDelete = getFromStorage("email");
+    var emailDelete = localStorage.getItem('email');
     fetch("/api/account/deleteaccount?token=" + emailDelete + "");
-    alertify.error("Your account was deleted");
   }
 
   confirmDelete(){
-    swal({
-      title: 'Are you sure you want to delete your account?',
-      text: "You won't be able to revert this!",
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
-    }).then((result) => {
-      if (result.value) {
-        alertify.warning("Account deleted");
-        setTimeout(function(){
+    alertify.confirm("Are you sure you want to delete your account?",
+    function(){
+      alertify.success('Your account was deleted');
+      
+      setTimeout(function(){
+          {this.onDelete}
+        
+          setTimeout(function(){
           window.location=('/');
-        }, 1200); 
-      }
-    })
+          }, 1200);
+        }, 500);    
+    },
+    function(){
+      alertify.error('Cancel');
+    });
   }
 
   onEditProfile() {
@@ -222,9 +219,10 @@ class Header extends Component {
       signUpPassword,
       signUpPhone
     } = this.state;
+    var emailID = localStorage.getItem('email');
     fetch(
       "/api/account/editprofile?token=" +
-        signUpEmail +
+        emailID +
         "&token2=" +
         signUpFirstName +
         "&token3=" +
@@ -255,7 +253,7 @@ class Header extends Component {
     this.setState({
       isLoading: true
     });
-    const obj = getFromStorage("the_main_app");
+    const obj = getFromStorage('the_main_app');
     if (obj && obj.token) {
       const { token } = obj;
       // Verify token
@@ -318,7 +316,7 @@ class Header extends Component {
       )
     }
 
-    if (isActive && localStorage.getItem("Rol") == "Cliente") {
+    if (isActive && localStorage.getItem('Rol') == "Cliente") {
       return (
         <header>
           <nav className="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -846,13 +844,13 @@ class Header extends Component {
         <header>
           <nav className="navbar bg-dark text-white">
             <Link to="/" className="navbar-brand text-white">
-              VieLyf
+                VieLyf
             </Link>
             <Link to="/nutritionalBlog" className="text-white">
-              Nutritional Blog
+                Nutritional Blog
             </Link>
             <Link to="/catalogueNutriologist" className="text-white">
-              Nutritionist Catalogue
+                Nutritionist Catalogue
             </Link>
             <div>
               <Link to="/signup" className="navbar-brand text-white">
