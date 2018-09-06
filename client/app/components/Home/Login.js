@@ -165,7 +165,7 @@ class Login extends Component {
     } = this.state;
 
     let userMessage
-    if (!loginError) {
+    if (!loginError || loginError == 'Valid sign in') {
       userMessage = (
         <span>
           <h2 className="text-center" style={{color: '#00c851'}}>Welcome Back!</h2>

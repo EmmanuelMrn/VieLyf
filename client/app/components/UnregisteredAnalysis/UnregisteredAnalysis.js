@@ -23,96 +23,42 @@ class UnregisteredAnalysis extends Component
         super();
         this.state={
             Information:[],
-            goAnalysis:"Loading"
+            goAnalysis:"Loading",
+            gotInf:0
 
         };
-        this.onChart = this.onChart.bind(this);
+      
     }
     componentDidMount()
     {
         var AnalysisId=(window.location.pathname).slice(16);
         console.log(AnalysisId);
-        this.setState({
-            Information:AnalysisId
-        });
+        this.AnalysisId=AnalysisId;
+        
         fetch('/api/account/unregisteredgraphs?id='+AnalysisId,{method:'GET'})
         .then(res => res.json())
         .then(json =>{
-            console.log("json",json.Age);
-
+            console.log("json",json);
+            
            this.setState({
-               Information :json
+               Information :json,
+               gotInf:1
         });
            console.log("datos",this.state.Information.Weight);
             
         })
     }
-    onChart(){  
-        
-        var ctx = document.getElementById("myChart").getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                },
-                {
-                label: 'Niggas',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }
-            ]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero:true
-                        }
-                    }]
-                }
-            }
-        });
-        }
+    
 
     render()
     {
-        
+        console.log("para ver si imprimen " + this.state.gotInf,this.state.Information);
+        if( this.state.Information==null && this.state.gotInf==1)
+        {   
+            window.location=('/notfound');
+            
+           //console.log("No deberia quedarse");
+        }
         return(
             <div className="container">
               <div className="row">

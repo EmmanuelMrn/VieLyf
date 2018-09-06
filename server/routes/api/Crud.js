@@ -2,9 +2,66 @@ const User = require('../../models/User');
 const UserSession = require('../../models/UserSchema');
 const Agenda = require('../../models/Agenda');
 const Notification = require('../../models/Notifications');
+
 module.exports = (app) => {
 
-  app.post("/api/account/create")
+  app.post("/api/account/createemail", (req, res, next) => {
+    const { body } = req;
+    const {
+        to,
+        subject,
+        tittle,
+        text1,
+        text2,
+        text3
+    } = body
+
+    
+    if (!to) {
+      return res.send({
+        success: false,
+        message: "Problem with the destinatary"
+      })
+    }
+
+    var nodemailer = require('nodemailer');
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'vielyf@gmail.com',
+        pass: 'bootcamp2018'
+      }
+    });
+    
+    var mailOptions = {
+      from: 'vielyf@gmail.com',
+      to: to,
+      subject: subject,
+      // text: 'That was easy!',
+      html: '<h1>' + tittle + '</h1><h3>' + text1 + '</h3><p>' + text2 + '</p><p>' + text3 + '</p>',
+      // attachments: [{ <img src="cid:unique@kreata.ee"/>
+      //     filename: 'image.png',
+      //     path: 'https://markmanson.net/wp-content/uploads/2016/07/happiness-cover.jpg',
+      //     cid: 'unique@kreata.ee' //same cid value as in the html img src 
+      // }]
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+        res.send ({
+          success: false,
+          message: 'Email not sent'
+        })
+      } else {
+        console.log('Email sent: ' + info.response);
+        res.send({
+          success: true,
+          message: "Email sent"
+        })
+      }
+    });
+  })
 
   app.post("/api/account/createnotification", (req, res, next) => {
     const {body} = req;
@@ -15,6 +72,7 @@ module.exports = (app) => {
       from,
       to,
       title,
+      createdByEmail,
     }   = body;
               
     if (!text) {
@@ -29,15 +87,17 @@ module.exports = (app) => {
         message: 'Error in the remitent'
       });
     }
+
     var Datetime = new Date();
-    const NewNotification = new Notification()
+    const NewNotification = new Notification();
 
     NewNotification.text = text;
     NewNotification.ref = ref;
     NewNotification.date = Datetime;
     NewNotification.from = from;
-    NewNotification.to = to,
+    NewNotification.to = to;
     NewNotification.title = title;
+    NewNotification.createdByEmail = createdByEmail;
     NewNotification.save((err) => {
       if (err) {
         return res.send ({
@@ -223,6 +283,28 @@ module.exports = (app) => {
         message: "Please, write a Password"
       });
     }
+    var nodemailer = require('nodemailer');
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'vielyf@gmail.com',
+        pass: 'bootcamp2018'
+      }
+    });
+    
+    var mailOptions = {
+      from: 'vielyf@gmail.com',
+      to: Email,
+      subject: 'Yeah! thanks for join us!',
+      html: 'Embedded image: <img src="cid:unique@kreata.ee"/><h1>Here we belive in change.</h1><h3> we are going to help you, ' + FirstName + '</h3><p>Now you can go to VieLyf and start usign your new profile</p>',
+      attachments: [{
+          filename: 'image.png',
+          path: 'https://drive.google.com/uc?id=1oQ2lXrunjs6SFdmE7GPtr_FRP49KinEI',
+          cid: 'unique@kreata.ee' //same cid value as in the html img src 
+      }]
+    };
+    
+    
     /*if (!Phone) {
                 return res.send({
                 success: false,
@@ -255,9 +337,20 @@ module.exports = (app) => {
                 message: "Error"
               });
             }
-            return res.send({
-              success: true,
-              message: "Welcome!"
+            transporter.sendMail(mailOptions, function(error, info){
+              if (error) {
+                console.log(error);
+                res.send ({
+                  success: false,
+                  message: 'Email not sent'
+                })
+              } else {
+                console.log('Email sent: ' + info.response);
+                res.send({
+                  success: true,
+                  message: "Welcome! and Email sent"
+                })
+              }
             });
           });
       });
@@ -575,6 +668,7 @@ module.exports = (app) => {
       createdByID,
       createdBy,
       requestDate,
+      createdByEmail,
     }   = body;
                     
       if (!name) {
@@ -585,21 +679,6 @@ module.exports = (app) => {
     }
 
     const newDate = new Agenda();
-    newDate.name = name;
-    (newDate.startDateTime = startDateTime),
-      (newDate.endDateTime = endDateTime),
-      (newDate.classes = classes);
-    newDate.Nutriologist_id = Nutriologist_id;
-    newDate.pending = pending;
-    newDate.save((err, user) => {
-      if (err) {
-        return res.send({
-          success: false,
-          message: "Error"
-        });
-      }
-              
-    const newDate = new Agenda();
       newDate.name = name;
       newDate.startDateTime = startDateTime,
       newDate.endDateTime = endDateTime,
@@ -609,6 +688,7 @@ module.exports = (app) => {
       newDate.createdBy=createdBy;
       newDate.createdByID=createdByID;
       newDate.requestDate;
+      newDate.createdByEmail = createdByEmail
       newDate.save((err, user) => {
         if (err) {
           return res.send ({
@@ -620,7 +700,7 @@ module.exports = (app) => {
           success: true,
             message: 'logrado'
       });
-    });
+    
   });
 });
 
