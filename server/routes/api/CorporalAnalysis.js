@@ -250,19 +250,19 @@ module.exports=(app) => {
  
  });
 
-//  app.get('/api/account/checkUnregistered', (req,res,next)=>
-// {
-//     const {query}=req;
-//     const {id}=query;
-//     BodyAnalysis.find({id:id}).sort({'date':-1}).limit(1).exec((err,doc)=>{
-//         console.log(doc);
-//         console.log("El id: ",id);
-//         if(err)
-//         return res.json(null);
-//         else
-//         return res.json(doc);
-//     })
-// })
+ app.get('/api/account/checkUnregisteredAnalysis', (req,res,next)=>
+{
+    const {query}=req;
+    const {id}=query;
+    BodyAnalysis.find({id:id}).sort({'date':-1}).limit(1).exec((err,doc)=>{
+        console.log(doc);
+        console.log("El id: ",id);
+        if(err)
+        return res.json(null);
+        else
+        return res.json(doc);
+    })
+})
 
 app.get('/api/account/checkUnregistered', (req,res,next)=>
 {
