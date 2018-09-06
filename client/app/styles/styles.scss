@@ -1548,6 +1548,41 @@ h2 {
   min-height: 250px;
 }
 
+#inputSize{
+  width:50px;
+}
+
+.containerchido {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-gap: 10px;
+  background-color: #2196F3;
+  padding: 10px;
+}
+
+#marginDiet{
+  margin-bottom: 5px;
+}
+
+.scrollspy-example {
+  position: relative;
+  height: 350px;
+  margin-top: .5rem;
+  overflow: auto;
+}
+
+.InputsDiet{
+  padding-right: 0%
+}
+.btn-label{
+  padding-top: .9rem;
+  padding-bottom: .9rem;
+}
+
+.MarginLines{
+  margin-bottom: .5rem;
+  margin-top: .4rem;
+}
 
 .nutritionistCard{
   background-image:url('https://cdn2.howtostartanllc.com/images/business-ideas/business-idea-images/Nutritionist-Business.jpg');

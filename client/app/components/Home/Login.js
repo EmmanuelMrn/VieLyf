@@ -86,8 +86,7 @@ class Login extends Component {
       .then(json => {
         localStorage.setItem("email", json.Email);
         if (json.success) {
-          setInStorage('the_main_app', { token: json.token });
-          setInStorage("El_token", {token:json.token} );
+          setInStorage("the_main_app", { token: json.token });
           this.setState({
             loginError: json.message,
             isLoading: false, 

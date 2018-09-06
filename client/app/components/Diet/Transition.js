@@ -112,19 +112,12 @@ GetMyClientsUser(ClientsId,CurrentUserId){
   fetch('/api/accounts/GetMyClientsUser?Clients='+ClientsId, {method:'GET'})
   .then(res => res.json())
   .then (Registered=> {
-    console.log('entramos')
-    console.log(Registered)
     if (Registered.err){
       fetch('/api/account/GetClientsUnregistered/'+CurrentUserId, {method:'GET'})
       .then(res => res.json())
       .then (Unregistered=> {
-        console.log('seguimos')
-        console.log(Unregistered)
           this.setState({
-            clientsData:Unregistered
-          }, function() {
-            console.log('alternativa')
-            console.log(this.state.clientsData)
+            clientsData:Unregistered.data
           });
       });
     }
@@ -133,10 +126,7 @@ GetMyClientsUser(ClientsId,CurrentUserId){
       .then(res => res.json())
       .then (Unregistered=> {
           this.setState({
-            clientsData:Registered.concat(Unregistered)
-          }, function() {
-            console.log('salimos')
-            console.log(this.state.clientsData)
+            clientsData:Registered.concat(Unregistered.data)
           });
       });
     }
@@ -210,7 +200,8 @@ return(
                           </div>
                           <div className="form-group">
                             <label for="InputEmail">Email address</label>
-                            <input type="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" className="form-control"  aria-describedby="emailHelp" 
+                            <input type="email" require pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" className="form-control"  aria-describedby="emailHelp" 
+                            required
                             placeholder="Enter email"
                             name="Email"
                             value={this.state.Email}
