@@ -36,11 +36,8 @@ class Transition extends Component {
 
 componentDidMount() {
 
-<<<<<<< HEAD
     const obj = getFromStorage('the_main_app');
 
-=======
->>>>>>> Notification
       fetch('/api/accounts/GetUserFromUserSession?token='+ obj.token)
         .then(res => res.json())
         .then(json => {
