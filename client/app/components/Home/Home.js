@@ -19,13 +19,21 @@ class Home extends Component {
     const {
 
     } = this.state;
+
+    let Button;
+    if (localStorage.hasOwnProperty('the_main_app')) {
+      Button = <div className="img-bg">
+                 <a className="btn btn-success btn-lg" id="BtnHome"href="/vistaprincipal">Get Started</a>
+               </div>
+    } else {
+      Button = <div className="img-bg">
+                 <a className="btn btn-success btn-lg" id="BtnHome"href="/signup">Get Started</a>
+               </div> 
+    }
+
     return(
       <div>
-        <div className="img-bg">
-          <div>
-            <a className="btn btn-success btn-lg" id="BtnHome"href="/signup">Get Started</a>
-          </div>  
-        </div>
+        {Button}
         <div>
         <form>
         <div>

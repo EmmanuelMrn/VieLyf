@@ -20,6 +20,9 @@ const NotificationsSchema = new mongoose.Schema({
   title: {
       type: String,
       default: "Message from VieLyf"
+  },
+  createdByEmail: {
+    type: String,
   }
 });
 

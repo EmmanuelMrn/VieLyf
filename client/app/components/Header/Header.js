@@ -135,10 +135,6 @@ class Header extends Component {
   }
 
   componentDidMount() {
-    console.log(localStorage.getItem("clientID"));
-    console.log("Header");
-    console.log(localStorage.getItem("AssignedNutriologist"));
-    console.log(localStorage.hasOwnProperty('AssignedNutriologist'));
     this.updatethings();
     if (localStorage.hasOwnProperty("the_main_app")) {
       this.setState({ isActive: true });
@@ -311,7 +307,7 @@ class Header extends Component {
       )
     }
 
-    if (isActive && localStorage.getItem("Rol") == "Cliente") {
+    if (isActive && localStorage.getItem('Rol')=="Cliente") {
       return (
         <header>
           <nav className="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -567,23 +563,35 @@ class Header extends Component {
                               <a><h6>{}</h6></a>
                               <div style={{marginRight: '30px'}} className="cancel" onClick={function aceptar() {
                                 fetch("/api/account/editagenda?token="+client._id)
-                                .then((res => json())
-                                .then(
-                                  fetch("/api/account/createnotification", {
-                                    method: "POST",
+                                fetch("/api/account/createnotification", {
+                                  method: "POST",
+                                  headers: {
+                                    "Content-Type": "application/json"
+                                  },
+                                  body: JSON.stringify({
+                                    text: "Your appointment for "+ new Date(client.startDateTime).getDate() + " of " + monthMinusOneName + " at " + new Date(client.startDateTime).getHours() + ":" + minutes +" have been accepted",
+                                    ref: "/agenda",
+                                    date: new Date(),
+                                    from: localStorage.getItem('clientID'),
+                                    to: client.createdByID,
+                                    title: "Your nutriologist says",
+                                  })
+                                }).then(() => {
+                                  fetch('/api/account/createemail', {
+                                    method: 'POST',
                                     headers: {
-                                      "Content-Type": "application/json"
+                                      'Content-Type': 'application/json'
                                     },
                                     body: JSON.stringify({
-                                      text: "Your appointment for "+ new Date(client.startDateTime).getDate() + " of " + monthMinusOneName + " at " + new Date(client.startDateTime).getHours() + ":" + minutes +" have been accepted",
-                                      ref: "/agenda",
-                                      date: new Date(),
-                                      from: localStorage.getItem('clientID'),
-                                      to: client.createdByID,
-                                      title: "Your nutriologist says",
-                                    })
+                                      to : client.createdByEmail,
+                                      subject : 'Appointment request',
+                                      tittle : "Your appointment for "+ new Date(client.startDateTime).getDate() + " of " + monthMinusOneName + " at " + new Date(client.startDateTime).getHours() + ":" + minutes +" have been accepted",
+                                      text1 : 'Go to<a href="localhost:8080/"> Vielyf </a>to see your appointments',
+                                      text2 : "Thanks for use our site!",
+                                      text3 : "VieLyf 2018",
+                                    }),
                                   })
-                                ))
+                                })
                               }}>✓</div>
                               <div className="cancel" onClick={function aceptar() {
                                 fetch('/api/account/deleteagenda?token='+client._id);
@@ -600,6 +608,20 @@ class Header extends Component {
                                     to: client.createdByID,
                                     title: "Your nutriologist says",
                                   })
+                                })
+                                fetch('/api/account/createemail', {
+                                  method: 'POST',
+                                  headers: {
+                                    'Content-Type': 'application/json'
+                                  },
+                                  body: JSON.stringify({
+                                    to : client.createdByEmail,
+                                    subject : 'Appointment request',
+                                    tittle : "Your appointment for "+ new Date(client.startDateTime).getDate() + " of " + monthMinusOneName + " at " + new Date(client.startDateTime).getHours() + new Date(client.startDateTime).getMinutes() +" have been declined",
+                                    text1 : 'you can try to making the appointment in another date!',
+                                    text2 : "Thanks for use our site!",
+                                    text3 : "VieLyf 2018",
+                                  }),
                                 })
                               }}>✕</div>
                           </div>
@@ -620,6 +642,20 @@ class Header extends Component {
                             title: "Your nutriologist says",
                           })
                         })
+                        fetch('/api/account/createemail', {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify({
+                            to : client.createdByEmail,
+                            subject : 'Appointment request',
+                            tittle : "Your appointment for "+ new Date(client.startDateTime).getDate() + " of " + monthMinusOneName + " at " + new Date(client.startDateTime).getHours() + new Date(client.startDateTime).getMinutes() +" have been declined",
+                            text1 : 'you can try to making the appointment in another date!',
+                            text2 : "Thanks for use our site!",
+                            text3 : "VieLyf 2018",
+                          }),
+                        })
                          }
                   })}
                     { this.state.notify.map(function(client){
@@ -632,7 +668,7 @@ class Header extends Component {
                               <a><h6 style={{fontSize: ".9rem", textAlign: 'center'}}>{monthMinusOneName +", "+ datetime.getDate() + " at "+ datetime.getHours() +":"+ datetime.getMinutes()}</h6></a>
                               <a><h5>{client.title}</h5></a>
                               <a><h6>{client.text}</h6></a>
-                              <div style={{marginRight: '30px'}} className="cancel" onClick={function aceptar() {
+                              <div style={{marginRight: '60px'}} className="cancel" onClick={function aceptar() {
                                 fetch('/api/account/removenotification?token='+client._id)
                                 fetch('/api/account/relationup', {
                                   method: 'POST',
@@ -660,19 +696,19 @@ class Header extends Component {
                                         title: "Congratulations!",
                                       })
                                     }).then(
-                                      fetch("/api/account/createnotification", {
-                                        method: "POST",
+                                      fetch('/api/account/createemail', {
+                                        method: 'POST',
                                         headers: {
-                                          "Content-Type": "application/json"
+                                          'Content-Type': 'application/json'
                                         },
                                         body: JSON.stringify({
-                                          text: "Your appointment for "+ new Date(client.startDateTime).getDate() + " of " + monthMinusOneName + " at " + new Date(client.startDateTime).getHours() + ":" + minutes +" have been not accepted (REQUEST NEVER ATTENDED)",
-                                          ref: "/agenda",
-                                          date: new Date(),
-                                          from: '',
-                                          to: localStorage.getItem('clientID'),
-                                          title: "Your nutriologist says",
-                                        })
+                                          to : client.createdByEmail,
+                                          subject : 'Now you have a nutritionist!',
+                                          tittle : 'Congratulations from VieLyf! now you have a assigned nutritionist!',
+                                          text1 : 'Start making a new appointment!',
+                                          text2 : "Thanks for use our site!",
+                                          text3 : "VieLyf 2018",
+                                        }),
                                       })
                                     )
                                   } else {
@@ -686,13 +722,59 @@ class Header extends Component {
                                         ref: "#",
                                         date: new Date(),
                                         from: client.from,
-                                        to: localStorage.getItem('clientID'),
+                                        to: localStorage.getItem('Client_id'),
                                         title: "Uups!",
                                       })
+                                    })
+                                    fetch('/api/account/createemail', {
+                                      method: 'POST',
+                                      headers: {
+                                        'Content-Type': 'application/json'
+                                      },
+                                      body: JSON.stringify({
+                                        to : client.createdByEmail,
+                                        subject : 'About your petition...',
+                                        tittle : "Sorry, the nutricionist that you request can't have you as a client.",
+                                        text1 : "you can always make a request to another nutricionist, don't give up!",
+                                        text2 : "Thanks for use our site!",
+                                        text3 : "VieLyf 2018",
+                                      }),
                                     })
                                   }
                                 })
                               }}>✓</div>
+                              <div style={{marginRight: '30px'}} className="cancel" onClick={function aceptar() {
+                                fetch('/api/account/removenotification?token='+client._id)
+                                fetch("/api/account/createnotification", {
+                                  method: "POST",
+                                  headers: {
+                                    "Content-Type": "application/json"
+                                  },
+                                  body: JSON.stringify({
+                                    text: "Sorry, the nutritionist that you request can't have you as a client.",
+                                    ref: "#",
+                                    date: new Date(),
+                                    from: localStorage.getItem('email'),
+                                    to: client.from,
+                                    title: "Congratulations!",
+                                  })
+                                }).then(
+                                  fetch('/api/account/createemail', {
+                                    method: 'POST',
+                                    headers: {
+                                      'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                      to : client.createdByEmail,
+                                      subject : 'About your petition...',
+                                      tittle : "Sorry, the nutritionist that you request can't have you as a client.",
+                                      text1 : "you can always make a request to another nutritionist, don't give up!",
+                                      text2 : "Thanks for use our site!",
+                                      text3 : "VieLyf 2018",
+                                    }),
+                                  })
+                                )
+                              }}>✕</div>
                               <div className="cancel" onClick={function aceptar() {
                                 fetch('/api/account/removenotification?token='+client._id).then(() => {
                                   window.location=(client.ref)
