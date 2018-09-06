@@ -248,7 +248,7 @@ addNewEvent (items , newItems){
         } else {
           console.log('No logrado');
         }
-      });
+      });  
   } else if (localStorage.getItem('Rol') == 'Cliente') {
       fetch('/api/account/createdate', {
       method: 'POST',
@@ -264,14 +264,35 @@ addNewEvent (items , newItems){
         classes: newItems.classes,
         pending: true,
         createdBy: localStorage.getItem('ClientFirst'),
-        createdByID: localStorage.getItem('Client_ID')
+        createdByID: localStorage.getItem('Client_ID'),
+        createdByEmail: localStorage.getItem('email')
       }),
     }).then(res => res.json())
       .then(json => {
-        
         if (json.success) {
-        } else {
-        }
+          fetch('/api/account/createemail', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              to : localStorage.getItem('AssignedNutriologist'),
+              subject : "Someone wants to create a new appointment",
+              tittle : localStorage.getItem('ClientFirst') + " " + localStorage.getItem('ClientLast') + " wants to create a new appointment",
+              text1 : 'Go to<a href="localhost:8080/"> Vielyf </a>to accept o decline the appointment',
+              text2 : "Remeber, always try to respond fast to the appointments",
+              text3 : "VieLyf 2018",
+            }),
+          }).then(res => res.json())
+            .then(json => {
+              console.log('json', json);
+              if (json.success) {
+                console.log('Logrado');
+              } else {
+                console.log('No logrado');
+              }
+            });
+        } 
       });
   } else {
     console.log('Error creando')

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import 'whatwg-fetch';
-import Modal from 'react-modal';
 import swal from 'sweetalert2';
-
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
 
 import {
   getFromStorage,
@@ -34,6 +33,7 @@ class Signup extends Component {
       signUpFirstName: '',
       signUpUserName: '',
       isActive: false,
+      isActive2: false,
       signUpLastName: '',
       profFirstName:'',
       profLastName:'',
@@ -48,6 +48,7 @@ class Signup extends Component {
     this.onSignUp = this.onSignUp.bind(this);
     this.onProfSignUp = this.onProfSignUp.bind(this);
     this.toggleModal = this.toggleModal.bind(this);
+    this.toggleModal2 = this.toggleModal2.bind(this);
     this.verify = this.verify.bind(this);
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -89,9 +90,7 @@ class Signup extends Component {
     }
   }
 
-  verify()
-  {
-
+  verify(){
     const{
       profFirstName,
       profLastName,
@@ -130,7 +129,8 @@ class Signup extends Component {
           console.log("algo bien!", json.response.numFound);
 
           if(json.response.numFound)
-          {this.setState({
+          {
+            this.setState({
             
             signUpError:json.message,
             isLoading:false,
@@ -141,13 +141,9 @@ class Signup extends Component {
             profUsername: json.response.docs[0].userName,
           });}
           else{
-            //console.log(json.response.docs[0].nombre);
             this.setState({
-              //signUpError:json.message,
               isLoading:false
             });
-            
-            
           }
    
       });}
@@ -240,6 +236,18 @@ class Signup extends Component {
     })
   }
 
+  toggleModal2() {
+    this.setState({
+      isActive2:!this.state.isActive2,
+      signUpPhone:'',
+      signUpEmail: '',
+      signUpPassword: '',
+      signUpFirstName: '',
+      signUpUserName: '',
+      signUpLastName: ''
+    })
+  }
+
   onSignUp() {
     // Grab state
     const {
@@ -299,8 +307,6 @@ class Signup extends Component {
       );
   }
 
-  
-
   render() {
     const {
       isLoading,
@@ -344,48 +350,25 @@ class Signup extends Component {
       return (
           
 <div>
-        <section className="login-block" style={{padding: '100px'}}>
+        <section className="login-block" style={{padding: '90px'}}>
           <div className="container container2">
             <div className="row">
               <div className="col-md-4 login-sec">
                 {userMessage}
-                <form className="login-form">
-                  <div className="form-group">    
-                    <label htmlFor="exampleInputEmail1" className="text-uppercase">First Name</label>
-                    <input type="text" name="signUpFirstName" value={signUpFirstName} onChange={this.handleInputChange} className="form-control" placeholder=""/>
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="exampleInputEmail1" className="text-uppercase">Last Name</label>
-                    <input type="text" name="signUpLastName" value={signUpLastName} onChange={this.handleInputChange} className="form-control" placeholder=""/>
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="exampleInputEmail1" className="text-uppercase">User Name</label>
-                    <input type="text" name="signUpUserName" value={signUpUserName} onChange={this.handleInputChange} className="form-control" placeholder=""/>
-                  </div>
-                  <div className="form-group">
-
-                    <label htmlFor="exampleInputPassword1" className="text-uppercase">Email</label>
-                    <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" name="signUpEmail" value={signUpEmail} onChange={this.handleInputChange} className="form-control" placeholder=""/>                    
-                  </div>  
-                  {/* pattern="" */}
-                  <div className="form-group">
-                    <label htmlFor="exampleInputPassword1" className="text-uppercase">Password</label>
-                    <input type="password" name="signUpPassword" value={signUpPassword} onChange={this.handleInputChange} className="form-control" placeholder=""/>                    
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="exampleInputPassword1" className="text-uppercase">Phone</label>
-                    <input type="number" name="signUpPhone" value={signUpPhone} onChange={this.handleInputChange} className="form-control" placeholder=""/>                    
-                  </div>
-                  <label className="form-check-label">
-                      <input type="checkbox" className="form-check-input" value="Nutriologo" checked={false} onChange={this.toggleModal}/>
-                      <small>I'm Nutriologist</small>
-                  </label>
-                  <div className="form-check">
-
-                    <button type="button" className="btn btn-login float-left" onClick={this.onSignUp}>
-                      Create account
-                    </button>
-
+                <form>
+                  <div className="container">
+                    <div className="row">
+                      <div className="col-md-6">
+                        <button type="button" className="btn btn-outline-success" onClick={this.toggleModal2}>
+                          I'm Client
+                        </button>
+                      </div>
+                      <div className="col-md-6">
+                        <button type="button" className="btn btn-outline-success" onClick={this.toggleModal}>
+                          I'm Nutriologist
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </form>
               </div>
@@ -402,7 +385,7 @@ class Signup extends Component {
                       <div className="carousel-caption d-none d-md-block">
                         <div className="banner-text" style={{top: '-600px', width: '90%'}}>
                             <h2>Welcome to your new life</h2>
-                            <h4 style={{color: 'rgb(187, 54, 143)', backgroundColor: '#fff'}}>Take care of your body, it's the only place you have to live in.</h4>
+                            <h4 style={{color: 'rgb(187, 54, 143)', backgroundColor: 'rgb(255,255,255,.3)'}}>Take care of your body, it's the only place you have to live in.</h4>
                         </div>	
                       </div>
                     </div>
@@ -411,7 +394,7 @@ class Signup extends Component {
                       <div className="carousel-caption d-none d-md-block">
                         <div className="banner-text" style={{top: '-600px', width: '90%'}}>
                             <h2>Work for the happiest version of yourself</h2>
-                            <h3 style={{color: 'rgb(237, 208, 194)', backgroundColor: '#fff'}}>Remeber: Dreams and dedictaion are a powerful combination.</h3>
+                            <h3 style={{color: 'rgb(237, 208, 194)', backgroundColor: 'rgb(255,255,255,.3)'}}>Remeber: Dreams and dedictaion are a powerful combination.</h3>
                         </div>	
                       </div>
                     </div>
@@ -419,8 +402,8 @@ class Signup extends Component {
                     <img className="d-block img-fluid" width="1100px" height="500px" src="/assets/img/img7.jpg" alt="First slide"/>
                       <div className="carousel-caption d-none d-md-block">
                         <div className="banner-text" style={{top: '-600px', width: '90%'}}>
-                            <h2>Enjoy eating well</h2>
-                            <h3 style={{color: 'rgb(227, 58, 22)', backgroundColor: '#fff'}}>And enjoy the change in your lifestyle.</h3>
+                            <h2>Enjoy eating well and enjoy the change in your lifestyle</h2>
+                            <h3 style={{color: 'rgb(227, 58, 22)', backgroundColor: 'rgb(255,255,255,.3)'}}>And enjoy the change in your lifestyle.</h3>
                         </div>	
                       </div>
                     </div>
@@ -430,20 +413,158 @@ class Signup extends Component {
             </div>
           </div>
         </section> 
+          
+          <Modal isOpen={this.state.isActive} toggle={this.toggleModal}>
+            <ModalHeader toggle={this.toggleModal}>Nutritionist form</ModalHeader>
+            <ModalBody>
+              <form>
+                <div className="form-group">
+                  <label for="InputLicense">Verify</label>
+                  <input type="text" className="form-control" 
+                  placeholder="Enter your Professional license"
+                  name="License"
+                  value={License}
+                  onChange={this.handleInputChange}
+                  />
+                  <button className="btn btn-login float-right" onClick={() => this.verify()}>Verify</button>
+                </div>
+                <div className="form-group">
+                  <label for="InputFirstName">First Name</label>
+                  <input type="text" className="form-control"  
+                  placeholder="Name"
+                  name="profFirstName"
+                  value={profFirstName}
+                  onChange={this.handleInputChange}readOnly/>
+                </div>
+                <div className="form-group">
+                  <label for="InputLastName">Last Name</label>
+                  <input type="text" className="form-control"  
+                  placeholder="Last name"
+                  name="profLastName"
+                  value={profLastName}
+                  onChange={this.handleInputChange}readOnly/>
+                </div>
+                <div className="form-group">
+                  <label for="InputMotherLastName">Last Name 2</label>
+                  <input type="text" className="form-control"  
+                  placeholder="Last name 2"
+                  name="profMotherLastName"
+                  value={profMotherLastName}
+                  onChange={this.handleInputChange}readOnly
+                  />
+                </div>
+                <div className="form-group">
+                  <label for="InputTitle">Title</label>
+                  <input type="text" className="form-control" 
+                  placeholder="Enter title"
+                  name="profTitle"
+                  value={profTitle}
+                  onChange={this.handleInputChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label for="InputUserName">Username</label>
+                  <input type="text" className="form-control"  
+                  placeholder="Enter username"
+                  name="profUsername"
+                  value={profUsername}
+                  onChange={this.handleInputChange}/>
+                </div>
+                <div className="form-group">
+                  <label for="InputPhone">Phone</label>
+                  <input type="number" className="form-control"  
+                  placeholder="+1 (555)555-5555"
+                  name="profPhone"
+                  value={profPhone}
+                  onChange={this.handleInputChange}/>
+                  <small id="phoneHelp" className="form-text text-muted">We'll never share your phone with anyone else.</small>
+                </div>
+                <div className="form-group">
+                  <label for="InputEmail">Email address</label>
+                  <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" className="form-control"  aria-describedby="emailHelp" 
+                  placeholder="Enter email"
+                  name="profEmail"
+                  value={profEmail}
+                  onChange={this.handleInputChange}/>
+               </div>
+                <div className="form-group">
+                  <label for="InputPassword">Password</label>
+                  <input type="password" className="form-control"  
+                  placeholder="Enter password"
+                  name="profPassword"
+                  value={profPassword}
+                  onChange={this.handleInputChange}
+                  />
+                </div>
+              </form>
+            </ModalBody>
+            <ModalFooter>
+              <Button className="btn btn-login float-left" onClick={this.onProfSignUp}>Create account as nutritionist</Button>{' '}
+              <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
+            </ModalFooter>
+            </Modal>
 
-          <Modal isOpen={this.state.isActive} onRequestClose={this.toggleModal}style ={customStyles}>
-          <input type="text" name ="License" placeholder="Professional license" value ={License} onChange={this.handleInputChange}/> <button onClick={() => this.verify()}>Verify</button><br />
-          <input type="text" name = "profFirstName" placeholder="Name" value ={profFirstName} onChange={this.handleInputChange}readOnly/><br />
-          <input type="text" name ="profLastName" placeholder="Last name" value ={profLastName} onChange={this.handleInputChange}readOnly/><br />
-          <input type="text" name = "profMotherLastName" placeholder="Last name 2" value ={profMotherLastName} onChange={this.handleInputChange}readOnly/><br />
-          <input type="text" name = "profTitle" placeholder="Title" value ={profTitle} onChange={this.handleInputChange} readOnly/><br />
-          <input type="text" name = "profUsername" placeholder="Username" value = {profUsername} onChange={this.handleInputChange}/><br />
-          <input type="text" name = "profPhone" placeholder="Phone" value = {profPhone} onChange={this.handleInputChange}/><br />
-          <input type="email" name = "profEmail" placeholder="Email" value = {profEmail} onChange={this.handleInputChange}/><br />
-          <input type="password" name= "profPassword" placeholder="Password" value = {profPassword}onChange={this.handleInputChange}/><br />
-          <button onClick={this.toggleModal}>Cancel</button>
-          <button onClick={this.onProfSignUp}>Create account as nutritionist</button>
-          </Modal>
+            <Modal isOpen={this.state.isActive2} toggle={this.toggleModal2}>
+            <ModalHeader toggle={this.toggleModal2}>Client form</ModalHeader>
+            <ModalBody>
+              <form>
+                <div className="form-group">
+                  <label for="InputFirstName2">First Name</label>
+                  <input type="text" className="form-control"  
+                  placeholder="Enter first name"
+                  name="signUpFirstName"
+                  value={signUpFirstName}
+                  onChange={this.handleInputChange}/>
+                </div>
+                <div className="form-group">
+                  <label for="InputLastName2">Last Name</label>
+                  <input type="text" className="form-control"  
+                  placeholder="Enter last name"
+                  name="signUpLastName"
+                  value={signUpLastName}
+                  onChange={this.handleInputChange}/>
+                </div>
+                <div className="form-group">
+                  <label for="InputUserName2">Username</label>
+                  <input type="text" className="form-control"  
+                  placeholder="Enter username"
+                  name="signUpUserName"
+                  value={signUpUserName}
+                  onChange={this.handleInputChange}/>
+                </div>
+                <div className="form-group">
+                  <label for="InputPhone2">Phone</label>
+                  <input type="number" className="form-control"  
+                  placeholder="+1 (555)555-5555"
+                  name="signUpPhone"
+                  value={signUpPhone}
+                  onChange={this.handleInputChange}/>
+                  <small id="phoneHelp" className="form-text text-muted">We'll never share your phone with anyone else.</small>
+                </div>
+                <div className="form-group">
+                  <label for="InputEmail2">Email address</label>
+                  <input type="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" className="form-control"  aria-describedby="emailHelp" 
+                  placeholder="Enter email"
+                  name="signUpEmail"
+                  value={signUpEmail}
+                  onChange={this.handleInputChange}/>
+               </div>
+                <div className="form-group">
+                  <label for="InputPassword2">Password</label>
+                  <input type="password" className="form-control"  
+                  placeholder="Enter password"
+                  name="signUpPassword"
+                  value={signUpPassword}
+                  onChange={this.handleInputChange}
+                  />
+                </div>
+              </form>
+            </ModalBody>
+            <ModalFooter>
+              <Button className="btn btn-login float-left" onClick={this.onSignUp}>Create account as client</Button>{' '}
+              <Button color="secondary" onClick={this.toggleModal2}>Cancel</Button>
+            </ModalFooter>
+            </Modal>
       </div>           
       );
     }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-import Dropdown from 'react-dropdown';
+
+import swal from 'sweetalert2';
 //import 'react-dropdown/style.css'
 import Datetime from 'react-datetime';
 import 'whatwg-fetch';
@@ -42,12 +43,13 @@ class CorporalAnalysis extends Component {
       TotalEnergyExpenditure:'',
       BasalEnergyExpenditure:'',
       EquivalentBiologicalAge:'',
-      BodyType:''
-
+      BodyType:'',
+      searchid:''
     };
     this.onTextBoxChange = this.onTextBoxChange.bind(this);
     this.handleDate = this.handleDate.bind(this);
     this.onUpdateCorpA= this.onUpdateCorpA.bind(this);
+    this.onSearchBodyAnalysis = this.onSearchBodyAnalysis.bind(this);
 }
 handleDate(date){
   this.setState({date});
@@ -95,6 +97,9 @@ onUpdateCorpA()
       isLoading:true
      });
      console.log(HipWaistIndex)
+     
+
+    
     fetch('api/accounts/AnalysisFill', 
   { method: 'POST',
     headers:{
@@ -148,9 +153,13 @@ onUpdateCorpA()
           TBWBodyFat:'',
           date:'',
           TotalEnergyExpenditure:'',
-      BasalEnergyExpenditure:'',
-      EquivalentBiologicalAge:'',
-      BodyType:''
+          BasalEnergyExpenditure:'',
+          EquivalentBiologicalAge:'',
+          BodyType:'',
+          HipWaistIndex:'',
+          FatFreeMass:'',
+          BodyFat:'',
+          BodyMassIndex:''
         });
       
       }
@@ -161,7 +170,83 @@ onUpdateCorpA()
         });
       }
     });
+    console.log(this.state.id);
+    fetch('api/account/checkUnregistered?id='+this.state.id,
+    {
+      method:'GET',
+      headers:{'Content-Type': 'application/json'}
 
+    })
+    .then(res => res.json())
+    .then(json =>
+    { 
+      console.log(json);
+       if(json)
+       {
+            this.setState(
+              {
+              id: json._id
+            }) 
+        }
+        else
+        {
+          this.setState({
+            id:null
+          })
+        }
+         console.log(this.state.searchid)
+   })
+   .then(this.onSearchBodyAnalysis(this.state.id))
+   
+}
+onSearchBodyAnalysis(id)
+{
+  fetch('api/account/checkUnregisteredAnalysis?id='+id,
+  {
+   method:'GET',
+   headers:{'Content-Type': 'application/json'}
+
+ })
+ 
+ .then(res => res.json())
+ .then(jsonAnalysis =>{
+   console.log(id)
+   console.log(jsonAnalysis[0]._id)
+   if(jsonAnalysis)
+      {
+           this.setState(
+             {
+             id: jsonAnalysis[0]._id
+           }) 
+       }
+       else
+       {
+         this.setState({
+           id:null
+         })
+       }
+ })
+ .then( doc =>{
+  console.log(this.state.id)
+if(this.state.id) {  
+       swal({
+         type: 'success',
+         title: 'Success',
+         text: 'The Corporal Analysis has been registered successfully',
+         footer: '<a > Copy this link and send it to your client http://localhost:8080/hiddenAnalysis/'+this.state.id+'</a>'
+       })
+}
+ else
+ {
+   swal({
+     type: 'success',
+     title: 'Success',
+     text: 'The Corporal Analysis has been registered successfully',
+    // footer: '<a href>http://localhost:8080/hiddenAnalysis/'+this.state.searchid+'</a>'
+   })
+
+ }
+});
 
 }
 componentDidMount()
@@ -287,12 +372,6 @@ componentDidMount()
       </div>
       </div>
          );
-       // }   
-        
-        
-        //  return(
-        //   <p>Que pex</p>
-        // );
         }
         }
     

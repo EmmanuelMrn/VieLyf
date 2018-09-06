@@ -2,9 +2,66 @@ const User = require('../../models/User');
 const UserSession = require('../../models/UserSchema');
 const Agenda = require('../../models/Agenda');
 const Notification = require('../../models/Notifications');
+
 module.exports = (app) => {
 
-  app.post("/api/account/create")
+  app.post("/api/account/createemail", (req, res, next) => {
+    const { body } = req;
+    const {
+        to,
+        subject,
+        tittle,
+        text1,
+        text2,
+        text3
+    } = body
+
+    
+    if (!to) {
+      return res.send({
+        success: false,
+        message: "Problem with the destinatary"
+      })
+    }
+
+    var nodemailer = require('nodemailer');
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'vielyf@gmail.com',
+        pass: 'bootcamp2018'
+      }
+    });
+    
+    var mailOptions = {
+      from: 'vielyf@gmail.com',
+      to: to,
+      subject: subject,
+      // text: 'That was easy!',
+      html: '<h1>' + tittle + '</h1><h3>' + text1 + '</h3><p>' + text2 + '</p><p>' + text3 + '</p>',
+      // attachments: [{ <img src="cid:unique@kreata.ee"/>
+      //     filename: 'image.png',
+      //     path: 'https://markmanson.net/wp-content/uploads/2016/07/happiness-cover.jpg',
+      //     cid: 'unique@kreata.ee' //same cid value as in the html img src 
+      // }]
+    };
+    
+    transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+        res.send ({
+          success: false,
+          message: 'Email not sent'
+        })
+      } else {
+        console.log('Email sent: ' + info.response);
+        res.send({
+          success: true,
+          message: "Email sent"
+        })
+      }
+    });
+  })
 
   app.post("/api/account/createnotification", (req, res, next) => {
     const {body} = req;
@@ -15,6 +72,7 @@ module.exports = (app) => {
       from,
       to,
       title,
+      createdByEmail,
     }   = body;
               
     if (!text) {
@@ -29,15 +87,17 @@ module.exports = (app) => {
         message: 'Error in the remitent'
       });
     }
+
     var Datetime = new Date();
-    const NewNotification = new Notification()
+    const NewNotification = new Notification();
 
     NewNotification.text = text;
     NewNotification.ref = ref;
     NewNotification.date = Datetime;
     NewNotification.from = from;
-    NewNotification.to = to,
+    NewNotification.to = to;
     NewNotification.title = title;
+    NewNotification.createdByEmail = createdByEmail;
     NewNotification.save((err) => {
       if (err) {
         return res.send ({
@@ -86,7 +146,6 @@ module.exports = (app) => {
     const {token} = query;
 
     Agenda.find({ Nutriologist_id: token, pending: false }, (err, doc) => {
-      console.log(doc);
       return res.send(doc);
     });
   });
@@ -96,7 +155,6 @@ module.exports = (app) => {
     const { token } = query;
     
     Agenda.find({ Nutriologist_id:token, pending:true}, (err, doc)  => {
-          // console.log(doc);
           return res.send(doc);
           });
   });
@@ -142,22 +200,22 @@ module.exports = (app) => {
 
   app.delete("/api/account/deleteaccount", (req, res) => {
     const { body } = req;
-    const { Email } = body;
+    const { emailDelete } = body;
 
-    User.findOneAndRemove({ Email: Email }, err => {
+    User.findOneAndRemove({ email: emailDelete }, err => {
       if (err) {
         return res.send("Error" + err);
       } else {
-        return res.send("Delete: " + req.body.Email);
+        return res.send("Delete: " + req.body.emailDelete);
       }
     });
   });
 
-  app.get("/api/account/editprofile", (req, res, next) => {
+  app.get("/api/account/editprofile", (req, res) => {
     var status = "success";
     const { query } = req;
-    const { token, token2, token3, token4 } = query;
-    console.log(token, token2, token3, token4);
+    const { token, token2, token3, token4, token5 } = query;
+    console.log(token, token2, token3, token4, token5);
     const newUser = new User();
     User.findOneAndUpdate(
       {
@@ -167,7 +225,8 @@ module.exports = (app) => {
         $set: {
           FirstName: token2,
           LastName: token3,
-          Password: newUser.generateHash(token4)
+          Password: newUser.generateHash(token4),
+          Phone: token5
         }
       },
       (err, sessions) => {
@@ -224,6 +283,28 @@ module.exports = (app) => {
         message: "Please, write a Password"
       });
     }
+    var nodemailer = require('nodemailer');
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'vielyf@gmail.com',
+        pass: 'bootcamp2018'
+      }
+    });
+    
+    var mailOptions = {
+      from: 'vielyf@gmail.com',
+      to: Email,
+      subject: 'Yeah! thanks for join us!',
+      html: 'Embedded image: <img src="cid:unique@kreata.ee"/><h1>Here we belive in change.</h1><h3> we are going to help you, ' + FirstName + '</h3><p>Now you can go to VieLyf and start usign your new profile</p>',
+      attachments: [{
+          filename: 'image.png',
+          path: 'https://drive.google.com/uc?id=1oQ2lXrunjs6SFdmE7GPtr_FRP49KinEI',
+          cid: 'unique@kreata.ee' //same cid value as in the html img src 
+      }]
+    };
+    
+    
     /*if (!Phone) {
                 return res.send({
                 success: false,
@@ -256,9 +337,20 @@ module.exports = (app) => {
                 message: "Error"
               });
             }
-            return res.send({
-              success: true,
-              message: "Welcome!"
+            transporter.sendMail(mailOptions, function(error, info){
+              if (error) {
+                console.log(error);
+                res.send ({
+                  success: false,
+                  message: 'Email not sent'
+                })
+              } else {
+                console.log('Email sent: ' + info.response);
+                res.send({
+                  success: true,
+                  message: "Welcome! and Email sent"
+                })
+              }
             });
           });
       });
@@ -285,7 +377,6 @@ module.exports = (app) => {
       },
       (err, doc) => {
         if (err) {
-          console.log(err);
           return res.send({
             success: false,
             message: "Error: Server error"
@@ -310,7 +401,6 @@ module.exports = (app) => {
       },
       (err, doc) => {
         if (err) {
-          console.log(err);
           return res.send({
             success: false,
             message: "Error: Server error"
@@ -335,7 +425,6 @@ module.exports = (app) => {
       },
       (err, doc) => {
         if (err) {
-          console.log(err);
           return res.send({
             success: false,
             message: "Error: Server error"
@@ -345,34 +434,6 @@ module.exports = (app) => {
             success: true,
             doc
           });
-        }
-      }
-    );
-  });
-
-  app.get("/api/account/searchNutritionist", (req, res, next) => {
-    const { query } = req;
-    const { token } = query;
-
-    User.find(
-      {
-        Role: "Nutritionist",
-        //FirstName: { $regex: ".*" + token + ".*" }
-        FirstName: { $regex: ".*" + token + ".*", $options: "i" }
-      },
-      (err, doc) => {
-        if (err) {
-          console.log(err);
-          return res.send({
-            success: false,
-            message: "Error: Server error"
-          });
-        } else {
-          res.send({
-            success: true,
-            doc
-          });
-          //return res.json(doc);
         }
       }
     );
@@ -427,7 +488,6 @@ module.exports = (app) => {
         userSession.userId = user._id;
         userSession.save((err, doc) => {
           if (err) {
-            console.log(err);
             return res.send({
               success: false,
               message: "Error: server error"
@@ -456,7 +516,6 @@ module.exports = (app) => {
       },
       (err, sessions) => {
         if (err) {
-          console.log(err);
           return res.send({
             success: false,
             message: "Error: Server error"
@@ -497,7 +556,6 @@ module.exports = (app) => {
       null,
       (err, sessions) => {
         if (err) {
-          console.log(err);
           return res.send({
             success: false,
             message: "Error: Server error"
@@ -522,7 +580,6 @@ module.exports = (app) => {
       },
       (err, sessions) => {
         if (err) {
-          console.log(err);
           return res.send({
             success: false,
             message: "Error: Server error"
@@ -611,6 +668,7 @@ module.exports = (app) => {
       createdByID,
       createdBy,
       requestDate,
+      createdByEmail,
     }   = body;
                     
       if (!name) {
@@ -621,21 +679,6 @@ module.exports = (app) => {
     }
 
     const newDate = new Agenda();
-    newDate.name = name;
-    (newDate.startDateTime = startDateTime),
-      (newDate.endDateTime = endDateTime),
-      (newDate.classes = classes);
-    newDate.Nutriologist_id = Nutriologist_id;
-    newDate.pending = pending;
-    newDate.save((err, user) => {
-      if (err) {
-        return res.send({
-          success: false,
-          message: "Error"
-        });
-      }
-              
-    const newDate = new Agenda();
       newDate.name = name;
       newDate.startDateTime = startDateTime,
       newDate.endDateTime = endDateTime,
@@ -645,6 +688,7 @@ module.exports = (app) => {
       newDate.createdBy=createdBy;
       newDate.createdByID=createdByID;
       newDate.requestDate;
+      newDate.createdByEmail = createdByEmail
       newDate.save((err, user) => {
         if (err) {
           return res.send ({
@@ -656,7 +700,7 @@ module.exports = (app) => {
           success: true,
             message: 'logrado'
       });
-    });
+    
   });
 });
 
@@ -685,7 +729,6 @@ module.exports = (app) => {
       },
       (err, sessions) => {
         if (err) {
-          console.log(err);
           return res.send({
             success: false,
             message: "Error: Server error"

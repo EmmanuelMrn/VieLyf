@@ -28,6 +28,9 @@ const AgendaSchema = new mongoose.Schema({
   createdByID: {
     type: String,
   },
+  createdByEmail: {
+    type: String,
+  },
   requestDate: {
     type: Date,
     default: new Date()

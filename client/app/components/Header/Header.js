@@ -2,10 +2,9 @@ import React, { Component } from "react";
 import "whatwg-fetch";
 import { Link } from "react-router-dom";
 import moment, { min } from "moment";
-import Modal from "react-modal";
-import { func } from 'prop-types';
 import { getFromStorage, setInStorage } from "../../utils/storage";
-
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter} from 'reactstrap';
+import swal from 'sweetalert2';
 
 require("moment/locale/en-gb.js");
 
@@ -19,10 +18,6 @@ class Header extends Component {
       items:[],
       notify:[],
       Nutriologist:'',
-      isActiveModal: false,
-      showModal: false,
-      items: [],
-      notify: [],
       token: "",
       Name: "",
       Customers: [],
@@ -30,7 +25,8 @@ class Header extends Component {
       signUpPassword: "",
       signUpFirstName: "",
       signUpLastName: "",
-      isToggleOn: true
+      signUpPhone: "",
+      modal: false
     };
 
     this.inputsearch = this.inputsearch.bind(this);
@@ -41,7 +37,8 @@ class Header extends Component {
     this.updatethings = this.updatethings.bind(this);
     this.onEditProfile = this.onEditProfile.bind(this);
     this.onDelete = this.onDelete.bind(this);
-    this.toggleModal = this.toggleModal.bind(this);
+    this.toggle = this.toggle.bind(this);
+    this.handleClickSubmmit = this.handleClickSubmmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
 
@@ -77,7 +74,6 @@ class Header extends Component {
     );
   }
   inputsearch() {
-    console.log("search name " + this.state.Name);
     fetch("/api/account/searchClient?token=" + this.state.Name)
       .then(res => res.json())
       .then(json => {
@@ -124,23 +120,35 @@ class Header extends Component {
         window.location = "/ResultadoBusqueda";
       });
   }
+
+  toggle() {
+    this.setState({
+      modal: !this.state.modal
+    });
+  }
+  
   handleInputChange(event) {
     const target = event.target;
     const value = target.value;
     const name = target.name;
-
+  
     this.setState({
       [name]: value
     });
   }
+  
+  handleClickSubmmit(e) {
+    e.preventDefault();
+    this.onEditProfile();
+    this.toggle();
+  }
 
   componentDidMount() {
-    console.log(localStorage.getItem("clientID"));
-    console.log("Header");
-    console.log(localStorage.getItem("AssignedNutriologist"));
-    console.log(localStorage.hasOwnProperty('AssignedNutriologist'));
+    console.log(localStorage.getItem('the_main_app'));
+    console.log("Login email = " + localStorage.getItem('email'));
+    console.log(localStorage.getItem('Auth'));
     this.updatethings();
-    if (localStorage.hasOwnProperty("the_main_app")) {
+    if (localStorage.hasOwnProperty('the_main_app')) {
       this.setState({ isActive: true });
     }
     fetch('/api/account/getuseremail?token=' + localStorage.getItem('AssignedNutriologist'), { method: 'GET' })
@@ -149,7 +157,7 @@ class Header extends Component {
         Nutriologist: nutri[0].UserName
       })
     })
-    // this.updatethings();
+    this.updatethings();
     this.interval = setInterval(() => this.updatethings(), 1000);
   }
 
@@ -159,7 +167,7 @@ class Header extends Component {
 
   updatethings() {
     fetch(
-      "/api/account/agendaarrayaproved?token=" + localStorage.getItem("Auth"),
+      "/api/account/agendaarrayaproved?token=" + localStorage.getItem('Auth'),
       { method: "GET" }
     )
       .then(res => res.json())
@@ -168,7 +176,7 @@ class Header extends Component {
           items : json1,
         });
       });
-    fetch('/api/account/getnotifications?token=' + localStorage.getItem("Client_id"), {method:'GET'})
+    fetch('/api/account/getnotifications?token=' + localStorage.getItem('Client_id'), {method:'GET'})
       .then(res => res.json())
       .then(json2 => {
         this.setState(
@@ -180,50 +188,49 @@ class Header extends Component {
       });
   }
 
-  handleInputChange(event) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-
-    this.setState(
-      {
-        [name]: value
-      },
-      function() {}
-    );
+  onDelete() {
+    var emailDelete = localStorage.getItem('email');
+    fetch("/api/account/deleteaccount?token=" + emailDelete + "");
   }
 
-  toggleModal() {
-    this.setState({
-      isActiveModal: !this.state.isActive
+  confirmDelete(){
+    alertify.confirm("Are you sure you want to delete your account?",
+    function(){
+      alertify.success('Your account was deleted');
+      
+      setTimeout(function(){
+          {this.onDelete}
+        
+          setTimeout(function(){
+          window.location=('/');
+          }, 1200);
+        }, 500);    
+    },
+    function(){
+      alertify.error('Cancel');
     });
   }
 
-  onDelete() {
-    const { signUpEmail } = this.state;
-    fetch("/api/account/deleteaccount?token=" + signUpEmail + "");
-    this.toggleModal(); 
-    alertify.error("Your account was deleted");
-  }
-
   onEditProfile() {
-    this.toggleModal();
-    console.log(this.state.signUpEmail);
     const {
       signUpEmail,
       signUpFirstName,
       signUpLastName,
-      signUpPassword
+      signUpPassword,
+      signUpPhone
     } = this.state;
+    var emailID = localStorage.getItem('email');
     fetch(
       "/api/account/editprofile?token=" +
-        signUpEmail +
+        emailID +
         "&token2=" +
         signUpFirstName +
         "&token3=" +
         signUpLastName +
         "&token4=" +
         signUpPassword +
+        "&token5=" +
+        signUpPhone +
         ""
     )
       .then(res => res.json())
@@ -233,20 +240,20 @@ class Header extends Component {
             token,
             isLoading: false
           });
+          alertify.success("Edited profile");
         } else {
           this.setState({
             isLoading: false
           });
         }
-      });
-    alertify.success("Edited profile");
+      }); 
   }
 
   logout() {
     this.setState({
       isLoading: true
     });
-    const obj = getFromStorage("the_main_app");
+    const obj = getFromStorage('the_main_app');
     if (obj && obj.token) {
       const { token } = obj;
       // Verify token
@@ -275,17 +282,15 @@ class Header extends Component {
     localStorage.removeItem('Rol');
     localStorage.removeItem('clientID');
     localStorage.removeItem('AssignedNutriologist');
-    
     localStorage.removeItem('ClientLast');
     localStorage.removeItem('ClientFirst');
     localStorage.removeItem('Client_id');
-    window.location=('/login');
     alertify.warning("Closed session");
+    window.location=('/login');
   }
 
   render() {
     const {
-      isLoading,
       isActive,
       Nutriologist,
     } = this.state;
@@ -311,7 +316,7 @@ class Header extends Component {
       )
     }
 
-    if (isActive && localStorage.getItem("Rol") == "Cliente") {
+    if (isActive && localStorage.getItem('Rol') == "Cliente") {
       return (
         <header>
           <nav className="navbar navbar-expand navbar-dark bg-dark static-top">
@@ -336,7 +341,7 @@ class Header extends Component {
                 <div className="input-group-append">{this.ActionLink2()}</div>
               </div>
             </form>
-              <a><h6 style={{color: '#fff', marginRight: '5px', marginTop:'6px'}}>{user}</h6></a>
+              <a href="/vistaprincipal"><h6 style={{color: '#fff', marginRight: '5px', marginTop:'6px'}}>{user}</h6></a>
               <a style={{color:'#0676f8'}} className="toggle" onClick={
                 function(e) {
                   $(".sidebar").toggleClass('active');
@@ -349,24 +354,67 @@ class Header extends Component {
                     <i className="fa fa-user-circle fa-fw"></i>
                   </a>
                   <div className="dropdown-menu mydropdown" aria-labelledby="userDropdown">
-                    <a
-                    className="dropdown-item mydropdown-item"
-                    href="#"
-                    data-toggle="modal"
-                    data-target="#editProfileModal"
-                    onClick={this.onEditProfile}
-                  >
-                    Edit profile
-                  </a>
-                    <a className="dropdown-item mydropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout}>Logout</a>       
+                    <a className="dropdown-item mydropdown-item" href="" data-toggle="modal" onClick={this.toggle}>
+                      Edit profile
+                    </a>
+                    <a className="dropdown-item mydropdown-item" href="" data-toggle="modal" onClick={this.logout} >Logout</a>      
                   </div>
                 </li>
               </ul>
               </nav>
+
+              <Modal isOpen={this.state.modal} toggle={this.toggle}>
+              <ModalHeader toggle={this.toggle}>Edit profile</ModalHeader>
+              <ModalBody>
+                <form>
+                <div className="form-group">
+                    <label for="InputFirstName">First Name</label>
+                    <input type="text" className="form-control" 
+                    placeholder="Enter first name"
+                    name="signUpFirstName"
+                    value={this.state.signUpFirstName}
+                    onChange={this.handleInputChange}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label for="InputLastName">Last Name</label>
+                    <input type="text" className="form-control"  
+                    placeholder="Enter last name"
+                    name="signUpLastName"
+                    value={this.state.signUpLastName}
+                    onChange={this.handleInputChange}/>
+                  </div>
+                  <div className="form-group">
+                    <label for="InputPhone">Phone</label>
+                    <input type="number" className="form-control"  
+                    placeholder="+1 (555)555-5555"
+                    name="signUpPhone"
+                    value={this.state.signUpPhone}
+                    onChange={this.handleInputChange}/>
+                    <small id="phoneHelp" className="form-text text-muted">We'll never share your phone with anyone else.</small>
+                  </div>
+                  <div className="form-group">
+                    <label for="InputPassword">Password</label>
+                    <input type="password" className="form-control"  
+                    placeholder="Enter password"
+                    name="signUpPassword"
+                    value={this.state.signUpPassword}
+                    onChange={this.handleInputChange}
+                    />
+                  </div>
+                </form>
+              </ModalBody>
+              <ModalFooter>
+                <Button color="primary" onClick={this.handleClickSubmmit}>Submmit</Button>{' '}
+                <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+              </ModalFooter>
+                <Button color="btn btn-danger" onClick={this.confirmDelete}>Delete account</Button>
+              </Modal>
+
            <div className="sidebar">
                   <h2>Notifications</h2>
                   <div className="news_inner">
-                  { this.state.items.map(function(client, aceptar, negar, handleClick, isToggleOn){
+                  { this.state.items.map(function(client){
                     var dia = new Date(client.startDateTime).getDate();
                     var anio = new Date(client.startDateTime).getFullYear();
                     var monthMinusOneName =  moment().subtract(new Date(client.startDateTime).getMonth(), "month").startOf("month").format('MMMM');
@@ -378,7 +426,7 @@ class Header extends Component {
                             <a><h6>{"Con una duracion de "+moment.duration(diferencia, "hours").humanize()}</h6></a>
                             <button type="button" id='hide' name="" className="btn btn-dark" onClick={function aceptar() {
                               fetch("/api/account/editagenda?token="+client._id)
-                            }}>Aceptar</button>
+                            }}>Accept</button>
                             <button type="button" name="" className="btn btn-dark" onClick={function aceptar() {
                               fetch('/api/account/deleteagenda?token='+client._id)
                                 $(".cancel").click(function () {
@@ -386,7 +434,7 @@ class Header extends Component {
                                     $(this).parent().toggleClass('gone');
                                 });
                               
-                            }}>Denegar</button>
+                            }}>Deny</button>
                             <div className="cancel" onClick={
                       function(e) {
                         $(".cancel").click(function () {
@@ -517,6 +565,7 @@ class Header extends Component {
                 <div className="input-group-append">{this.ActionLink()}</div>
               </div>
             </form>
+              <a href="/vistaprincipal"><h6 style={{color: '#fff', marginRight: '5px', marginTop:'6px'}}>{user}</h6></a>
               <a style={{color:'#0676f8'}} className="btn" onClick={
                       function(e) {
                             $(".sidebar").toggleClass('active');
@@ -528,21 +577,63 @@ class Header extends Component {
                     <i className="fa fa-user-circle fa-fw"></i>
                   </a>
                   <div style={{}} className="dropdown-menu mydropdown" aria-labelledby="userDropdown">
-                    <a
-                      className="dropdown-item mydropdown-item"
-                      href="#"
-                      data-toggle="modal"
-                      data-target="#editProfileModal"
-                      onClick={this.onEditProfile}
-                    >
+                    <a className="dropdown-item mydropdown-item" href="" data-toggle="modal" onClick={this.toggle}>
                       Edit profile
                     </a>
-                    <a className="dropdown-item mydropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onClick={this.logout} >Logout</a>       
+                    <a className="dropdown-item mydropdown-item" href="" data-toggle="modal" onClick={this.logout} >Logout</a>       
                   </div>
                 </li>
               </ul>
             </nav>
-              
+            
+            <Modal isOpen={this.state.modal} toggle={this.toggle}>
+            <ModalHeader toggle={this.toggle}>Edit profile</ModalHeader>
+            <ModalBody>
+              <form>
+              <div className="form-group">
+                  <label for="InputFirstName">First Name</label>
+                  <input type="text" className="form-control" 
+                  placeholder="Enter first name"
+                  name="signUpFirstName"
+                  value={this.state.signUpFirstName}
+                  onChange={this.handleInputChange}
+                  />
+                </div>
+                <div className="form-group">
+                  <label for="InputLastName">Last Name</label>
+                  <input type="text" className="form-control"  
+                  placeholder="Enter last name"
+                  name="signUpLastName"
+                  value={this.state.signUpLastName}
+                  onChange={this.handleInputChange}/>
+                </div>
+                <div className="form-group">
+                  <label for="InputPhone">Phone</label>
+                  <input type="number" className="form-control"  
+                  placeholder="+1 (555)555-5555"
+                  name="signUpPhone"
+                  value={this.state.signUpPhone}
+                  onChange={this.handleInputChange}/>
+                  <small id="phoneHelp" className="form-text text-muted">We'll never share your phone with anyone else.</small>
+                </div>
+                <div className="form-group">
+                  <label for="InputPassword">Password</label>
+                  <input type="password" className="form-control"  
+                  placeholder="Enter password"
+                  name="signUpPassword"
+                  value={this.state.signUpPassword}
+                  onChange={this.handleInputChange}
+                  />
+                </div>
+              </form>
+            </ModalBody>
+            <ModalFooter>
+              <Button color="primary" onClick={this.handleClickSubmmit}>Submmit</Button>{' '}
+              <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+            </ModalFooter>
+              <Button color="btn btn-danger" onClick={this.confirmDelete}>Delete account</Button>
+            </Modal>
+        
             <div className="sidebar">
                   <h2>Notifications</h2>
                   <div className="news_inner">
@@ -567,23 +658,35 @@ class Header extends Component {
                               <a><h6>{}</h6></a>
                               <div style={{marginRight: '30px'}} className="cancel" onClick={function aceptar() {
                                 fetch("/api/account/editagenda?token="+client._id)
-                                .then((res => json())
-                                .then(
-                                  fetch("/api/account/createnotification", {
-                                    method: "POST",
+                                fetch("/api/account/createnotification", {
+                                  method: "POST",
+                                  headers: {
+                                    "Content-Type": "application/json"
+                                  },
+                                  body: JSON.stringify({
+                                    text: "Your appointment for "+ new Date(client.startDateTime).getDate() + " of " + monthMinusOneName + " at " + new Date(client.startDateTime).getHours() + ":" + minutes +" have been accepted",
+                                    ref: "/agenda",
+                                    date: new Date(),
+                                    from: localStorage.getItem('clientID'),
+                                    to: client.createdByID,
+                                    title: "Your nutriologist says",
+                                  })
+                                }).then(() => {
+                                  fetch('/api/account/createemail', {
+                                    method: 'POST',
                                     headers: {
-                                      "Content-Type": "application/json"
+                                      'Content-Type': 'application/json'
                                     },
                                     body: JSON.stringify({
-                                      text: "Your appointment for "+ new Date(client.startDateTime).getDate() + " of " + monthMinusOneName + " at " + new Date(client.startDateTime).getHours() + ":" + minutes +" have been accepted",
-                                      ref: "/agenda",
-                                      date: new Date(),
-                                      from: localStorage.getItem('clientID'),
-                                      to: client.createdByID,
-                                      title: "Your nutriologist says",
-                                    })
+                                      to : client.createdByEmail,
+                                      subject : 'Appointment request',
+                                      tittle : "Your appointment for "+ new Date(client.startDateTime).getDate() + " of " + monthMinusOneName + " at " + new Date(client.startDateTime).getHours() + ":" + minutes +" have been accepted",
+                                      text1 : 'Go to<a href="localhost:8080/"> Vielyf </a>to see your appointments',
+                                      text2 : "Thanks for use our site!",
+                                      text3 : "VieLyf 2018",
+                                    }),
                                   })
-                                ))
+                                })
                               }}>✓</div>
                               <div className="cancel" onClick={function aceptar() {
                                 fetch('/api/account/deleteagenda?token='+client._id);
@@ -600,6 +703,20 @@ class Header extends Component {
                                     to: client.createdByID,
                                     title: "Your nutriologist says",
                                   })
+                                })
+                                fetch('/api/account/createemail', {
+                                  method: 'POST',
+                                  headers: {
+                                    'Content-Type': 'application/json'
+                                  },
+                                  body: JSON.stringify({
+                                    to : client.createdByEmail,
+                                    subject : 'Appointment request',
+                                    tittle : "Your appointment for "+ new Date(client.startDateTime).getDate() + " of " + monthMinusOneName + " at " + new Date(client.startDateTime).getHours() + new Date(client.startDateTime).getMinutes() +" have been declined",
+                                    text1 : 'you can try to making the appointment in another date!',
+                                    text2 : "Thanks for use our site!",
+                                    text3 : "VieLyf 2018",
+                                  }),
                                 })
                               }}>✕</div>
                           </div>
@@ -620,6 +737,20 @@ class Header extends Component {
                             title: "Your nutriologist says",
                           })
                         })
+                        fetch('/api/account/createemail', {
+                          method: 'POST',
+                          headers: {
+                            'Content-Type': 'application/json'
+                          },
+                          body: JSON.stringify({
+                            to : client.createdByEmail,
+                            subject : 'Appointment request',
+                            tittle : "Your appointment for "+ new Date(client.startDateTime).getDate() + " of " + monthMinusOneName + " at " + new Date(client.startDateTime).getHours() + new Date(client.startDateTime).getMinutes() +" have been declined",
+                            text1 : 'you can try to making the appointment in another date!',
+                            text2 : "Thanks for use our site!",
+                            text3 : "VieLyf 2018",
+                          }),
+                        })
                          }
                   })}
                     { this.state.notify.map(function(client){
@@ -632,7 +763,7 @@ class Header extends Component {
                               <a><h6 style={{fontSize: ".9rem", textAlign: 'center'}}>{monthMinusOneName +", "+ datetime.getDate() + " at "+ datetime.getHours() +":"+ datetime.getMinutes()}</h6></a>
                               <a><h5>{client.title}</h5></a>
                               <a><h6>{client.text}</h6></a>
-                              <div style={{marginRight: '30px'}} className="cancel" onClick={function aceptar() {
+                              <div style={{marginRight: '60px'}} className="cancel" onClick={function aceptar() {
                                 fetch('/api/account/removenotification?token='+client._id)
                                 fetch('/api/account/relationup', {
                                   method: 'POST',
@@ -660,19 +791,19 @@ class Header extends Component {
                                         title: "Congratulations!",
                                       })
                                     }).then(
-                                      fetch("/api/account/createnotification", {
-                                        method: "POST",
+                                      fetch('/api/account/createemail', {
+                                        method: 'POST',
                                         headers: {
-                                          "Content-Type": "application/json"
+                                          'Content-Type': 'application/json'
                                         },
                                         body: JSON.stringify({
-                                          text: "Your appointment for "+ new Date(client.startDateTime).getDate() + " of " + monthMinusOneName + " at " + new Date(client.startDateTime).getHours() + ":" + minutes +" have been not accepted (REQUEST NEVER ATTENDED)",
-                                          ref: "/agenda",
-                                          date: new Date(),
-                                          from: '',
-                                          to: localStorage.getItem('clientID'),
-                                          title: "Your nutriologist says",
-                                        })
+                                          to : client.createdByEmail,
+                                          subject : 'Now you have a nutritionist!',
+                                          tittle : 'Congratulations from VieLyf! now you have a assigned nutritionist!',
+                                          text1 : 'Start making a new appointment!',
+                                          text2 : "Thanks for use our site!",
+                                          text3 : "VieLyf 2018",
+                                        }),
                                       })
                                     )
                                   } else {
@@ -686,13 +817,59 @@ class Header extends Component {
                                         ref: "#",
                                         date: new Date(),
                                         from: client.from,
-                                        to: localStorage.getItem('clientID'),
+                                        to: localStorage.getItem('Client_id'),
                                         title: "Uups!",
                                       })
+                                    })
+                                    fetch('/api/account/createemail', {
+                                      method: 'POST',
+                                      headers: {
+                                        'Content-Type': 'application/json'
+                                      },
+                                      body: JSON.stringify({
+                                        to : client.createdByEmail,
+                                        subject : 'About your petition...',
+                                        tittle : "Sorry, the nutricionist that you request can't have you as a client.",
+                                        text1 : "you can always make a request to another nutricionist, don't give up!",
+                                        text2 : "Thanks for use our site!",
+                                        text3 : "VieLyf 2018",
+                                      }),
                                     })
                                   }
                                 })
                               }}>✓</div>
+                              <div style={{marginRight: '30px'}} className="cancel" onClick={function aceptar() {
+                                fetch('/api/account/removenotification?token='+client._id)
+                                fetch("/api/account/createnotification", {
+                                  method: "POST",
+                                  headers: {
+                                    "Content-Type": "application/json"
+                                  },
+                                  body: JSON.stringify({
+                                    text: "Sorry, the nutritionist that you request can't have you as a client.",
+                                    ref: "#",
+                                    date: new Date(),
+                                    from: localStorage.getItem('email'),
+                                    to: client.from,
+                                    title: "Congratulations!",
+                                  })
+                                }).then(
+                                  fetch('/api/account/createemail', {
+                                    method: 'POST',
+                                    headers: {
+                                      'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({
+                                      to : client.createdByEmail,
+                                      subject : 'About your petition...',
+                                      tittle : "Sorry, the nutritionist that you request can't have you as a client.",
+                                      text1 : "you can always make a request to another nutritionist, don't give up!",
+                                      text2 : "Thanks for use our site!",
+                                      text3 : "VieLyf 2018",
+                                    }),
+                                  })
+                                )
+                              }}>✕</div>
                               <div className="cancel" onClick={function aceptar() {
                                 fetch('/api/account/removenotification?token='+client._id).then(() => {
                                   window.location=(client.ref)
@@ -753,13 +930,13 @@ class Header extends Component {
         <header>
           <nav className="navbar bg-dark text-white">
             <Link to="/" className="navbar-brand text-white">
-              VieLyf
+                VieLyf
             </Link>
             <Link to="/nutritionalBlog" className="text-white">
-              Nutritional Blog
+                Nutritional Blog
             </Link>
             <Link to="/catalogueNutriologist" className="text-white">
-              Nutritionist Catalogue
+                Nutritionist Catalogue
             </Link>
             <div>
               <Link to="/signup" className="navbar-brand text-white">
