@@ -205,7 +205,7 @@ class Signup extends Component {
             'Your account has been created!',
             'success'
           );
-          this.toggleModal()
+          
         }
         else{
           this.setState({
@@ -214,11 +214,6 @@ class Signup extends Component {
           });
         }
       });
-      swal(
-        'Welcome to VieLyf, Nutritionist!',
-        'Your account has been created!',
-        'success'
-      );
   }
 
   toggleModal() {
@@ -413,11 +408,10 @@ class Signup extends Component {
             </div>
           </div>
         </section> 
-          
-          <Modal isOpen={this.state.isActive} toggle={this.toggleModal}>
-            <ModalHeader toggle={this.toggleModal}>Nutritionist form</ModalHeader>
+
+            <Modal isOpen={this.state.isActive} onRequestClose={this.toggleModal}>
+            <ModalHeader onRequestClose={this.toggleModal}>Nutritionist form</ModalHeader>
             <ModalBody>
-              <form>
                 <div className="form-group">
                   <label for="InputLicense">Verify</label>
                   <input type="text" className="form-control" 
@@ -496,7 +490,6 @@ class Signup extends Component {
                   onChange={this.handleInputChange}
                   />
                 </div>
-              </form>
             </ModalBody>
             <ModalFooter>
               <Button className="btn btn-login float-left" onClick={this.onProfSignUp}>Create account as nutritionist</Button>{' '}
@@ -504,8 +497,8 @@ class Signup extends Component {
             </ModalFooter>
             </Modal>
 
-            <Modal isOpen={this.state.isActive2} toggle={this.toggleModal2}>
-            <ModalHeader toggle={this.toggleModal2}>Client form</ModalHeader>
+            <Modal isOpen={this.state.isActive2} onRequestClose={this.toggleModal2}>
+            <ModalHeader>Client form</ModalHeader>
             <ModalBody>
               <form>
                 <div className="form-group">
