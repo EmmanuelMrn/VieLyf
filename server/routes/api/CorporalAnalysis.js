@@ -1,6 +1,7 @@
 const User = require('../../models/User');
 //const UserSession = require('../../models/UserSession');
 const BodyAnalysis = require('../../models/BodyAnalysis');
+const ClientUnregistered = require('../../models/ClientUnregistered');
 module.exports=(app) => {
 
  app.post('/api/accounts/AnalysisFill', (req,res,next) =>{
@@ -249,6 +250,34 @@ module.exports=(app) => {
  
  });
 
+//  app.get('/api/account/checkUnregistered', (req,res,next)=>
+// {
+//     const {query}=req;
+//     const {id}=query;
+//     BodyAnalysis.find({id:id}).sort({'date':-1}).limit(1).exec((err,doc)=>{
+//         console.log(doc);
+//         console.log("El id: ",id);
+//         if(err)
+//         return res.json(null);
+//         else
+//         return res.json(doc);
+//     })
+// })
+
+app.get('/api/account/checkUnregistered', (req,res,next)=>
+{
+    const {query}=req;
+    const {id}=query;
+    ClientUnregistered.findOne({_id:id},(err,doc)=>{
+        console.log(doc);
+        console.log("El id: ",id);
+        if(err)
+        return res.json(null);
+        else
+        return res.json(doc);
+    })
+    });
+
  app.get('/api/account/unregisteredgraphs',(req,res,next)=>
 {
     const {query}=req;
@@ -270,5 +299,7 @@ module.exports=(app) => {
 
     
 })
+
+
  
 }

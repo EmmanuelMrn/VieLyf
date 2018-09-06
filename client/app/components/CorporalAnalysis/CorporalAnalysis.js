@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
-import Dropdown from 'react-dropdown';
+
+import swal from 'sweetalert2';
 //import 'react-dropdown/style.css'
 import Datetime from 'react-datetime';
 import 'whatwg-fetch';
@@ -42,8 +43,8 @@ class CorporalAnalysis extends Component {
       TotalEnergyExpenditure:'',
       BasalEnergyExpenditure:'',
       EquivalentBiologicalAge:'',
-      BodyType:''
-
+      BodyType:'',
+      searchid:''
     };
     this.onTextBoxChange = this.onTextBoxChange.bind(this);
     this.handleDate = this.handleDate.bind(this);
@@ -95,6 +96,9 @@ onUpdateCorpA()
       isLoading:true
      });
      console.log(HipWaistIndex)
+     
+
+    
     fetch('api/accounts/AnalysisFill', 
   { method: 'POST',
     headers:{
@@ -148,9 +152,13 @@ onUpdateCorpA()
           TBWBodyFat:'',
           date:'',
           TotalEnergyExpenditure:'',
-      BasalEnergyExpenditure:'',
-      EquivalentBiologicalAge:'',
-      BodyType:''
+          BasalEnergyExpenditure:'',
+          EquivalentBiologicalAge:'',
+          BodyType:'',
+          HipWaistIndex:'',
+          FatFreeMass:'',
+          BodyFat:'',
+          BodyMassIndex:''
         });
       
       }
@@ -161,7 +169,39 @@ onUpdateCorpA()
         });
       }
     });
+    fetch('api/account/checkUnregistered',
+    {
+      method:'GET',
+      headers:{'Content-Type': 'application/json'}
 
+    })
+    .then(res => res.json())
+    .then(json =>
+    { 
+       this.setState(
+         {
+           searchid: json._id
+         })
+   })
+   
+   if(searchid) {  
+          swal({
+            type: 'success',
+            title: 'Success',
+            text: 'The Corporal Analysis has been registered successfully',
+            footer: '<a href>http://localhost:8080/hiddenAnalysis/'+this.state.searchid+'</a>'
+          })
+    }
+    else
+    {
+      swal({
+        type: 'success',
+        title: 'Success',
+        text: 'The Corporal Analysis has been registered successfully',
+       // footer: '<a href>http://localhost:8080/hiddenAnalysis/'+this.state.searchid+'</a>'
+      })
+
+    }
 
 }
 componentDidMount()
@@ -287,12 +327,6 @@ componentDidMount()
       </div>
       </div>
          );
-       // }   
-        
-        
-        //  return(
-        //   <p>Que pex</p>
-        // );
         }
         }
     
