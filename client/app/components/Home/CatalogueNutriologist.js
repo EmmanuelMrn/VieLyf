@@ -1,5 +1,5 @@
 import React, { Component,Children } from 'react';
-import Modal from 'react-modal';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter,Card,CardTitle,CardText } from 'reactstrap';
 const customStyles = {
   content : {
     top                   : '50%',
