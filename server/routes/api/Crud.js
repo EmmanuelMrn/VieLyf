@@ -146,7 +146,6 @@ module.exports = (app) => {
     const {token} = query;
 
     Agenda.find({ Nutriologist_id: token, pending: false }, (err, doc) => {
-      console.log(doc);
       return res.send(doc);
     });
   });
@@ -156,7 +155,6 @@ module.exports = (app) => {
     const { token } = query;
     
     Agenda.find({ Nutriologist_id:token, pending:true}, (err, doc)  => {
-          // console.log(doc);
           return res.send(doc);
           });
   });
@@ -202,22 +200,22 @@ module.exports = (app) => {
 
   app.delete("/api/account/deleteaccount", (req, res) => {
     const { body } = req;
-    const { Email } = body;
+    const { emailDelete } = body;
 
-    User.findOneAndRemove({ Email: Email }, err => {
+    User.findOneAndRemove({ email: emailDelete }, err => {
       if (err) {
         return res.send("Error" + err);
       } else {
-        return res.send("Delete: " + req.body.Email);
+        return res.send("Delete: " + req.body.emailDelete);
       }
     });
   });
 
-  app.get("/api/account/editprofile", (req, res, next) => {
+  app.get("/api/account/editprofile", (req, res) => {
     var status = "success";
     const { query } = req;
-    const { token, token2, token3, token4 } = query;
-    console.log(token, token2, token3, token4);
+    const { token, token2, token3, token4, token5 } = query;
+    console.log(token, token2, token3, token4, token5);
     const newUser = new User();
     User.findOneAndUpdate(
       {
@@ -227,7 +225,8 @@ module.exports = (app) => {
         $set: {
           FirstName: token2,
           LastName: token3,
-          Password: newUser.generateHash(token4)
+          Password: newUser.generateHash(token4),
+          Phone: token5
         }
       },
       (err, sessions) => {
@@ -378,7 +377,6 @@ module.exports = (app) => {
       },
       (err, doc) => {
         if (err) {
-          console.log(err);
           return res.send({
             success: false,
             message: "Error: Server error"
@@ -403,7 +401,6 @@ module.exports = (app) => {
       },
       (err, doc) => {
         if (err) {
-          console.log(err);
           return res.send({
             success: false,
             message: "Error: Server error"
@@ -428,7 +425,6 @@ module.exports = (app) => {
       },
       (err, doc) => {
         if (err) {
-          console.log(err);
           return res.send({
             success: false,
             message: "Error: Server error"
@@ -438,34 +434,6 @@ module.exports = (app) => {
             success: true,
             doc
           });
-        }
-      }
-    );
-  });
-
-  app.get("/api/account/searchNutritionist", (req, res, next) => {
-    const { query } = req;
-    const { token } = query;
-
-    User.find(
-      {
-        Role: "Nutritionist",
-        //FirstName: { $regex: ".*" + token + ".*" }
-        FirstName: { $regex: ".*" + token + ".*", $options: "i" }
-      },
-      (err, doc) => {
-        if (err) {
-          console.log(err);
-          return res.send({
-            success: false,
-            message: "Error: Server error"
-          });
-        } else {
-          res.send({
-            success: true,
-            doc
-          });
-          //return res.json(doc);
         }
       }
     );
@@ -520,7 +488,6 @@ module.exports = (app) => {
         userSession.userId = user._id;
         userSession.save((err, doc) => {
           if (err) {
-            console.log(err);
             return res.send({
               success: false,
               message: "Error: server error"
@@ -549,7 +516,6 @@ module.exports = (app) => {
       },
       (err, sessions) => {
         if (err) {
-          console.log(err);
           return res.send({
             success: false,
             message: "Error: Server error"
@@ -590,7 +556,6 @@ module.exports = (app) => {
       null,
       (err, sessions) => {
         if (err) {
-          console.log(err);
           return res.send({
             success: false,
             message: "Error: Server error"
@@ -615,7 +580,6 @@ module.exports = (app) => {
       },
       (err, sessions) => {
         if (err) {
-          console.log(err);
           return res.send({
             success: false,
             message: "Error: Server error"
@@ -765,7 +729,6 @@ module.exports = (app) => {
       },
       (err, sessions) => {
         if (err) {
-          console.log(err);
           return res.send({
             success: false,
             message: "Error: Server error"

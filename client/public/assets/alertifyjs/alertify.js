@@ -42,7 +42,7 @@
             closeButton:false
         },
         glossary:{
-            title:'AlertifyJS',
+            title:'Confirm delete',
             ok: 'OK',
             cancel: 'Cancel',
             acccpt: 'Accept',
