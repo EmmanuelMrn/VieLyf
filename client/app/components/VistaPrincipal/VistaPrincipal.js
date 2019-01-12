@@ -114,7 +114,7 @@ class VistaPrincipal extends Component {
  
              <div className="col-md-8" align="center">
                <ul className="list-group list-primary">
-               <a className="list-group-item">UserName: {clientUser}</a>
+               <a className="list-group-item">UserName: {nutriUser}</a>
                  <a className="list-group-item">Email: {nutriEmail}</a>
                  <a className="list-group-item">Phone: {nutriPhone}</a>
              </ul>

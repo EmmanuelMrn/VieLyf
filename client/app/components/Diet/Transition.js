@@ -175,41 +175,99 @@ render(){
                         <ModalBody>
                           <form>
                           <div className="form-group">
-                            <label for="InputEmail">Email address</label>
-                            <input type="email" require pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" className="form-control"  aria-describedby="emailHelp" 
-                            required
-                            placeholder="Enter email"
-                            name="Email"
-                            value={this.state.Email}
-                            onChange={this.handleInputChange}/>
-                            <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
-                          </div>
-                          <div className="form-group">
-                            <label for="InputPhone">Phone</label>
-                            <input type="text" className="form-control"  
-                            placeholder="+1 (555)555-5555"
-                            name="Phone"
-                            value={this.state.Phone}
-                            
-                            
-                            onChange={this.handleInputChange}
-                             />
-                          </div>
-                            
-                        </form>
-                      </ModalBody>
-                      <ModalFooter>
-                        <Button color="primary" onClick={this.handleClickSubmmit} >Submmit</Button>{' '}
-                        <Button color="secondary" onClick={this.toggle}>Cancel</Button>
-                    </ModalFooter>
-                  </Modal>
-                </div>   
+                              <label for="InputFirstName">First Name</label>
+                              <input type="text" className="form-control" 
+                              placeholder="Enter First Name"
+                              name="FirstName"
+                              value={this.state.FirstName}
+                              onChange={this.handleInputChange}
+                              />
+                            </div>
+                            <div className="form-group">
+                              <label for="InputLastName">Last Name</label>
+                              <input type="text" className="form-control"  
+                              placeholder="Enter Last Name"
+                              name="LastName"
+                              value={this.state.LastName}
+                              onChange={this.handleInputChange}/>
+                            </div>
+                            <div className="form-group">
+                              <label for="InputEmail">Email address</label>
+                              <input type="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" className="form-control"  aria-describedby="emailHelp" 
+                              placeholder="Enter email"
+                              name="Email"
+                              value={this.state.Email}
+                              onChange={this.handleInputChange}/>
+                              <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
+                            </div>
+                            <div className="form-group">
+                              <label for="InputPhone">Phone</label>
+                              <input type="text" className="form-control"  
+                              placeholder="+1 (555)555-5555"
+                              name="Phone"
+                              value={this.state.Phone}
+                              
+                              
+                              onChange={this.handleInputChange}
+                              />
+                            </div>
+                              
+                          </form>
+                        </ModalBody>
+                        <ModalFooter>
+                          <Button color="primary" onClick={this.handleClickSubmmit} >Submmit</Button>{' '}
+                          <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                      </ModalFooter>
+                    </Modal>
+                  </div>   
+                </div>
+              </div>
+            
+      {ClientsData.map(function(client,index){
+      return(
+        <div key={client._id} className="client">
+          <div  className="col m-2" id="cardSpace">
+            <div
+              className="image-flip"
+              ontouchstart="this.classList.toggle('hover');"                                 
+            >
+              <div className="mainflip">
+                <div className="frontside" >
+                  <div className="card  text-white " id="cardClient" >
+                    <div className="card-body text-center">
+                        <img
+                          className=" img-fluid mt-5"
+                          src="http://getdrawings.com/img/user-silhouette-icon-2.png"
+                          alt="card image"
+                        />
+                        <br />
+                      <h4 className="card-title mt-2">{client.FirstName+' '+ client.LastName}</h4>
+                    </div>
+                  </div>
+                </div>
+                <div className="backside">
+                  <div className="card" id="cardClient">
+                    <div className="card-body text-center mt-4">
+                      <h4 className="card-title">Client Information</h4>
+                      <ul className="list-group list-group-flush">
+                        <li className="list-group-item">Email: {client.Email}</li>
+                        <li className="list-group-item">Phone: {client.Phone}</li>
+                      </ul>
+                      {that.ActionLink(client)} 
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
             </div>
         </div>         
-      )
-    }
+          )
+        })}
+        
+        </div>
+      </div>
+    )
+  }
 }
 
 export default Transition;
